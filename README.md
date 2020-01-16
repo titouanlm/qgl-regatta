@@ -5,4 +5,5 @@ TheBlackPearl consists of four famous pirates Julien N'Diaye, Titouan Le Mao, LÃ
 
 <p align="center">
   <img src="https://en.wikipedia.org/wiki/Black_Pearl#/media/File:Pirate_Flag_of_Jack_Rackham.svg" width="350" title="hover text">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/4/47/Pirate_Flag_of_Jack_Rackham.svg" width="350" alt="accessibility text">
 </p>
