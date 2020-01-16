@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>fr.unice.polytech.si3.qgl</groupId>
-	<artifactId>teamid</artifactId> <!-- CHANGE ME -->
+	<artifactId>theblackpearl</artifactId> <!-- CHANGE ME -->
 	<version>0.1-SNAPSHOT</version> <!-- CHANGE ME -->
 
 	<properties>
@@ -40,7 +40,6 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>${jackson.databind.version}</version>
-			<scope>provided</scope>
 		</dependency>
 
 		<!-- Testing -->
