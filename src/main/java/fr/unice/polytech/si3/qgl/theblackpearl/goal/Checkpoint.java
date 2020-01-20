@@ -1,5 +1,7 @@
 package fr.unice.polytech.si3.qgl.theblackpearl.goal;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.unice.polytech.si3.qgl.theblackpearl.Position;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Shape;
 
@@ -7,7 +9,8 @@ public class Checkpoint {
     private Position position;
     private Shape shape;
 
-    public Checkpoint(Position position, Shape shape) {
+    @JsonCreator
+    public Checkpoint(@JsonProperty("position") Position position, @JsonProperty("shape") Shape shape) {
         this.position = position;
         this.shape = shape;
     }

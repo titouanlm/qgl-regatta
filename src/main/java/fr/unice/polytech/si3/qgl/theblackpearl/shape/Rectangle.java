@@ -1,14 +1,21 @@
 package fr.unice.polytech.si3.qgl.theblackpearl.shape;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
+@JsonTypeName("rectangle")
 public class Rectangle extends Shape {
     private double width;
-    private double length;
+    private double height;
     private double orientation;
 
-    public Rectangle(String type, double width, double length, double orientation) {
+    @JsonCreator
+    public Rectangle(@JsonProperty("type") String type,@JsonProperty("width") double width,
+                     @JsonProperty("height") double height, @JsonProperty("orientation") double orientation) {
         super(type);
         this.width = width;
-        this.length = length;
+        this.height = height;
         this.orientation = orientation;
     }
 
@@ -21,11 +28,11 @@ public class Rectangle extends Shape {
     }
 
     public double getLength() {
-        return length;
+        return height;
     }
 
     public void setLength(double length) {
-        this.length = length;
+        this.height = length;
     }
 
     public double getOrientation() {

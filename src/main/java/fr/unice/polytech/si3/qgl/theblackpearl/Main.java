@@ -3,6 +3,7 @@ package fr.unice.polytech.si3.qgl.theblackpearl;
 public class Main {
     public static void main (String[] args){
         Cockpit c = new Cockpit();
+
         c.initGame("{\n" +
                 "  \"goal\": {\n" +
                 "    \"mode\": \"REGATTA\",\n" +
@@ -69,5 +70,51 @@ public class Main {
                 "  ]\n" +
                 "}");
 
+
+
+
+                // for future tests
+        /*
+                c.nextRound(
+
+                "{" +
+                    "\"ship\": " +
+                        "{" +
+                            "\"type\": \"ship\" ," +
+                            "\"life\": 100 ," +
+                            "\"position\":" +
+                                "{" +
+                                    "\"x\": 10.654, " +
+                                    "\"y\": 3, " +
+                                    "\"orientation\": 2.05 " +
+                                "}," +
+                            "\"name\": \"Les copaings d'abord!\" ," +
+                            "\"deck\": " +
+                                "{ " +
+                                    "\"width\": 2, " +
+                                    "\"length\": 1 " +
+                                "}," +
+                            "\"entities\": " +
+                                "[" +
+                                    "{" +
+                                        "\"x\": 0," +
+                                        "\"y\": 0," +
+                                        "\"type\": \"oar\"" +
+                                    "}," +
+                                    "{" +
+                                        "\"x\": 1," +
+                                        "\"y\": 0," +
+                                        "\"type\": \"oar\"" +
+                                    "}" +
+                                "]" +
+                        "}" + // ship
+                "}"
+                );
+
+         */
+
+
     }
+
+
 }

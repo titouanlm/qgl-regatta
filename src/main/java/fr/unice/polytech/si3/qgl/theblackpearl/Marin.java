@@ -1,12 +1,15 @@
 package fr.unice.polytech.si3.qgl.theblackpearl;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Marin {
     private int x;
     private int y;
     private int id;
     private String name;
-
-    public Marin( int x, int y, int id, String name) {
+    @JsonCreator
+    public Marin(@JsonProperty("x") int x,@JsonProperty("y") int y,@JsonProperty("id") int id,@JsonProperty("name") String name) {
         this.x = x;
         this.y = y;
         this.id = id;

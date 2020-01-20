@@ -1,9 +1,15 @@
 package fr.unice.polytech.si3.qgl.theblackpearl.shape;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
+@JsonTypeName("circle")
 public class Circle extends Shape {
     private double radius;
 
-    public Circle(String type, double radius) {
+    @JsonCreator
+    public Circle(@JsonProperty("type") String type,@JsonProperty("radius") double radius) {
         super(type);
         this.radius = radius;
     }
