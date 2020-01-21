@@ -20,6 +20,11 @@ public class Marin {
         this.contributed = false;
     }
 
+    public void moveSailor(int xAxis, int yAxis){
+        this.x = x + xAxis;
+        this.y = y + yAxis;
+    }
+
     public int getId() {
         return id;
     }

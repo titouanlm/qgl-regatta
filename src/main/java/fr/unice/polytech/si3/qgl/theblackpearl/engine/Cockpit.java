@@ -15,17 +15,18 @@ import fr.unice.polytech.si3.qgl.theblackpearl.ship.Bateau;
 
 public class Cockpit implements ICockpit {
 
+	private static Game parsedGame;
+
 	public void initGame(String game) {
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();
-			Game parsedGame = objectMapper.readValue(game, Game.class);
+			parsedGame = objectMapper.readValue(game, Game.class);
 
 			// Just to see if we have correctly parsed the data from Json file
 			//System.out.println(parsedGame);
 			System.out.println(parsedGame.getbBateau().getType());
 			System.out.println(parsedGame.getbBateau().getLife());
 			System.out.println(parsedGame.getbBateau().getName());
-			System.out.println(Arrays.toString(parsedGame.getbBateau().getEntities().toArray()));
 			// some more tests to do ...
 
 		} catch (JsonProcessingException e) {
@@ -37,13 +38,16 @@ public class Cockpit implements ICockpit {
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();
 			NextRound nextRound = objectMapper.readValue(round, NextRound.class);
-
+			nextRound.doActions(parsedGame);
 			// Just to see if we have correctly parsed the data from Json file
-			System.out.println(nextRound.getbBateau().getType());
-			System.out.println(nextRound.getbBateau().getLife());
-			System.out.println(nextRound.getbBateau().getName());
+			System.out.println(nextRound.getBateau().getType());
+			System.out.println(nextRound.getBateau().getLife());
+			System.out.println(nextRound.getBateau().getName());
 
 
+			System.out.println(nextRound.getBateau().getType());
+			System.out.println(nextRound.getBateau().getLife());
+			System.out.println(nextRound.getBateau().getName());
 			// some more tests to do ...
 
 		} catch (JsonProcessingException e) {

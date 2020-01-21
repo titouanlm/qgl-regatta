@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import fr.unice.polytech.si3.qgl.theblackpearl.Marin;
-import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entitie;
+
 @JsonTypeName("oar")
-public class Rame extends Entitie implements Actions{
+public class Rame extends Entitie{
 
     @JsonCreator
     public Rame(@JsonProperty("type") String type,@JsonProperty("x") int x,@JsonProperty("y") int y) {
