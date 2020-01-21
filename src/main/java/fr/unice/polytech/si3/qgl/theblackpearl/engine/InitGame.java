@@ -11,16 +11,16 @@ import java.util.List;
 
 import java.util.Arrays;
 
-public class Game {
+public class InitGame {
     private Goal goal;
     private int shipCount;
     private Bateau ship;
     private Marin[] sailors;
 
     @JsonCreator
-    Game(@JsonProperty("goal") Goal goal, @JsonProperty("shipCount") int numberOfShips, @JsonProperty("ship") Bateau ship, @JsonProperty("sailors") Marin[] sailors){
+    public InitGame(@JsonProperty("goal") Goal goal, @JsonProperty("shipCount") int shipCount, @JsonProperty("ship") Bateau ship, @JsonProperty("sailors") Marin[] sailors){
         this.goal = goal;
-        this.shipCount  = numberOfShips;
+        this.shipCount  = shipCount;
         this.ship = ship;
         this.sailors = sailors;
     }

@@ -8,7 +8,6 @@ public class Marin {
     private int y;
     private int id;
     private String name;
-    private boolean contributed;
 
     @JsonCreator
     public Marin(@JsonProperty("x") int x,@JsonProperty("y") int y,@JsonProperty("id") int id,@JsonProperty("name") String name) {
@@ -16,12 +15,6 @@ public class Marin {
         this.y = y;
         this.id = id;
         this.name = name;
-        this.contributed = false;
-    }
-
-    public void moveSailor(int xAxis, int yAxis){
-        this.x = x + xAxis;
-        this.y = y + yAxis;
     }
 
     public int getId() {
@@ -56,11 +49,13 @@ public class Marin {
         this.name = name;
     }
 
-    public boolean hasContributed() {
-        return contributed;
-    }
-
-    public void setContributed(boolean hasContributed) {
-        this.contributed = hasContributed;
+    @Override
+    public String toString() {
+        return "Marin{" +
+                "x=" + x +
+                ", y=" + y +
+                ", id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

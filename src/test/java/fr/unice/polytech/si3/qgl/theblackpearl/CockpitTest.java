@@ -8,15 +8,4 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CockpitTest {
 
-    Cockpit cockpit;
-
-    @BeforeEach
-    void setUp() {
-        this.cockpit = new Cockpit();
-    }
-
-    @Test
-    void nextRoundTest() {
-        assertEquals("[]", this.cockpit.nextRound("{}"));
-    }
 }

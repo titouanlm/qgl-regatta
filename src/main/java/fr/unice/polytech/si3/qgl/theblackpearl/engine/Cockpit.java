@@ -1,36 +1,29 @@
 package fr.unice.polytech.si3.qgl.theblackpearl.engine;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import fr.unice.polytech.si3.qgl.regatta.cockpit.ICockpit;
 import fr.unice.polytech.si3.qgl.theblackpearl.Marin;
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.Action;
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.OAR;
-import fr.unice.polytech.si3.qgl.theblackpearl.goal.Goal;
-import fr.unice.polytech.si3.qgl.theblackpearl.goal.RegattaGoal;
-import fr.unice.polytech.si3.qgl.theblackpearl.ship.Bateau;
 
 public class Cockpit implements ICockpit {
-	private Game parsedGame;
+	private InitGame parsedInitGame;
 	private ObjectMapper objectMapper;
+	private List<String> logs;
 
 	public Cockpit(){
 		objectMapper = new ObjectMapper();
+		logs = new ArrayList<>();
 	}
 
 	public void initGame(String game) {
 		try {
-			parsedGame = objectMapper.readValue(game, Game.class);
-
-			// Just to see if we have correctly parsed the data from Json file
-			System.out.println(parsedGame);
-
+			parsedInitGame = objectMapper.readValue(game, InitGame.class);
+			logs.add(parsedInitGame.getBateau().getPosition().toString());
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
@@ -40,16 +33,17 @@ public class Cockpit implements ICockpit {
 
 		//Update Shipe & Visibles Entities
 		try {
-			ObjectMapper objectMapper = new ObjectMapper();
+			objectMapper = new ObjectMapper();
 			NextRound nextRound = objectMapper.readValue(round, NextRound.class);
-			parsedGame.setBateau(nextRound.getBateau());
+			parsedInitGame.setBateau(nextRound.getBateau());
+			logs.add(parsedInitGame.getBateau().getPosition().toString());
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
 
 		//Creation of Actions
 		List<Action> actionsNextRound = new ArrayList<>();
-		for(Marin m : parsedGame.getMarins()){
+		for(Marin m : parsedInitGame.getMarins()){
 			actionsNextRound.add(new OAR(m.getId()));
 		}
 
@@ -72,6 +66,6 @@ public class Cockpit implements ICockpit {
 
 	@Override
 	public List<String> getLogs() {
-		return new ArrayList<>();
+		return logs;
 	}
 }

@@ -112,7 +112,9 @@ public class Main {
                 );
 
         System.out.println(test);
-
+        for(String s : c.getLogs()){
+            System.out.println(s);
+        }
 
     }
 
