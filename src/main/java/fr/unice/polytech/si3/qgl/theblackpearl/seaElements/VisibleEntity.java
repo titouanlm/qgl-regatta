@@ -20,13 +20,13 @@ import fr.unice.polytech.si3.qgl.theblackpearl.ship.Bateau;
 
 // either our ship, our enemies' ship, a reef or the stream of the sea
 
-public abstract class VisibleEntitie {
+public abstract class VisibleEntity {
     protected String type;
     protected Position position;
     protected Shape shape;
 
     @JsonCreator
-    protected VisibleEntitie(@JsonProperty("type") String type, @JsonProperty("position") Position position,@JsonProperty("shape") Shape shape){
+    protected VisibleEntity(@JsonProperty("type") String type, @JsonProperty("position") Position position, @JsonProperty("shape") Shape shape){
         this.type = type;
         this.position = position;
         this.shape = shape;

@@ -1,16 +1,13 @@
 package fr.unice.polytech.si3.qgl.theblackpearl.ship;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entitie;
 import fr.unice.polytech.si3.qgl.theblackpearl.Position;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Shape;
 
 import java.util.List;
 
-
+@JsonTypeName("ship")
 public class Bateau {
 
     private String type;
@@ -25,6 +22,7 @@ public class Bateau {
     public Bateau(@JsonProperty("type") String type, @JsonProperty("life") int life, @JsonProperty("position")  Position position,
                   @JsonProperty("name")  String name, @JsonProperty("deck") Deck deck, @JsonProperty("entities") List<Entitie> entities,
                   @JsonProperty("shape")  Shape shape) {
+
         this.type = type;
         this.life = life;
         this.position = position;

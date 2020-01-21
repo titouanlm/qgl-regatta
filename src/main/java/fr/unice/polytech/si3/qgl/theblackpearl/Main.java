@@ -1,4 +1,6 @@
-package fr.unice.polytech.si3.qgl.theblackpearl.engine;
+package fr.unice.polytech.si3.qgl.theblackpearl;
+
+import fr.unice.polytech.si3.qgl.theblackpearl.engine.Cockpit;
 
 public class Main {
     public static void main (String[] args){
@@ -70,8 +72,10 @@ public class Main {
                 "  ]\n" +
                 "}");
 
+        */
 
-         */
+
+
 
 
 
@@ -111,6 +115,8 @@ public class Main {
                         "\"visibleEntities\": [] " +
                 "}"
                 );
+
+
 
 
 
