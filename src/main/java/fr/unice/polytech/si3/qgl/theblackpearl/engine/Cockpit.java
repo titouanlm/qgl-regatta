@@ -20,7 +20,8 @@ public class Cockpit implements ICockpit {
 			Game parsedGame = objectMapper.readValue(game, Game.class);
 
 			// Just to see if we have correctly parsed the data from Json file
-			System.out.println(parsedGame);
+			System.out.println(parsedGame.getGoal().getMode());
+			System.out.println(parsedGame.getbBateau().getEntities().get(0).getType()); // "oar"
 			System.out.println(parsedGame.getbBateau().getType());
 			System.out.println(parsedGame.getbBateau().getLife());
 			System.out.println(parsedGame.getbBateau().getName());
