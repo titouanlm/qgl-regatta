@@ -1,6 +1,7 @@
 package fr.unice.polytech.si3.qgl.theblackpearl.seaElements;
 
 import com.fasterxml.jackson.annotation.*;
+import fr.unice.polytech.si3.qgl.theblackpearl.Position;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Shape;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.Bateau;
 
@@ -10,21 +11,22 @@ import fr.unice.polytech.si3.qgl.theblackpearl.ship.Bateau;
         property = "type"
 )
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = Bateau.class, name = "ship"),
+        @JsonSubTypes.Type(value = AutreBateau.class, name = "ship"),
         @JsonSubTypes.Type(value = Recif.class, name = "reef"),
-        @JsonSubTypes.Type(value = Recif.class, name = "stream")
+        @JsonSubTypes.Type(value = Courant.class, name = "stream")
 })
 
 
 
 // either our ship, our enemies' ship, a reef or the stream of the sea
 
-public abstract class SeaElement {
+public abstract class VisibleEntitie {
     protected String type;
     protected Position position;
     protected Shape shape;
+
     @JsonCreator
-    protected SeaElement(@JsonProperty("type") String type,@JsonProperty("position") Position position,@JsonProperty("shape") Shape shape){
+    protected VisibleEntitie(@JsonProperty("type") String type, @JsonProperty("position") Position position,@JsonProperty("shape") Shape shape){
         this.type = type;
         this.position = position;
         this.shape = shape;
