@@ -23,14 +23,12 @@ public abstract class Entity {
     private String type;
     private int x;
     private int y;
-    private boolean used;
 
     @JsonCreator
     public Entity(@JsonProperty("type") String type, @JsonProperty("x") int x, @JsonProperty("y") int y) {
         this.type = type;
         this.x = x;
         this.y = y;
-        this.used = false;
     }
 
     public String getType() {
@@ -55,14 +53,6 @@ public abstract class Entity {
 
     public void setY(int y) {
         this.y = y;
-    }
-
-    public boolean isUsed() {
-        return used;
-    }
-
-    public void setUsed(boolean used) {
-        this.used = used;
     }
 
     @Override

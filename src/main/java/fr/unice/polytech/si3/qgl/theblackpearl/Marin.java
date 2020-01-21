@@ -4,16 +4,16 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Marin {
+    private int id;
     private int x;
     private int y;
-    private int id;
     private String name;
 
     @JsonCreator
-    public Marin(@JsonProperty("x") int x,@JsonProperty("y") int y,@JsonProperty("id") int id,@JsonProperty("name") String name) {
+    public Marin(@JsonProperty("id") int id,@JsonProperty("x") int x,@JsonProperty("y") int y,@JsonProperty("name") String name) {
+        this.id = id;
         this.x = x;
         this.y = y;
-        this.id = id;
         this.name = name;
     }
 

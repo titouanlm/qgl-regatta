@@ -1,4 +1,4 @@
-package fr.unice.polytech.si3.qgl.theblackpearl.engine;
+package fr.unice.polytech.si3.qgl.theblackpearl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +9,8 @@ import fr.unice.polytech.si3.qgl.regatta.cockpit.ICockpit;
 import fr.unice.polytech.si3.qgl.theblackpearl.Marin;
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.Action;
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.OAR;
+import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
+import fr.unice.polytech.si3.qgl.theblackpearl.engine.NextRound;
 
 public class Cockpit implements ICockpit {
 	private InitGame parsedInitGame;
@@ -23,7 +25,6 @@ public class Cockpit implements ICockpit {
 	public void initGame(String game) {
 		try {
 			parsedInitGame = objectMapper.readValue(game, InitGame.class);
-			logs.add(parsedInitGame.getBateau().getPosition().toString());
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}

@@ -7,4 +7,7 @@ public class Voile extends Entity{
         this.openned=openned;
     }
 
+    public boolean isOpenned() {
+        return openned;
+    }
 }

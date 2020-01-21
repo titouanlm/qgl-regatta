@@ -6,7 +6,6 @@ import fr.unice.polytech.si3.qgl.theblackpearl.Position;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Shape;
 
 import java.util.Arrays;
-import java.util.List;
 
 @JsonTypeName("ship")
 public class Bateau {

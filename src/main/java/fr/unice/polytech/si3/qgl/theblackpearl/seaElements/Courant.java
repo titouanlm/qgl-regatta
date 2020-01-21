@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import fr.unice.polytech.si3.qgl.theblackpearl.Position;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Shape;
+
 @JsonTypeName("stream")
 public class Courant extends VisibleEntity {
     private double strength;
