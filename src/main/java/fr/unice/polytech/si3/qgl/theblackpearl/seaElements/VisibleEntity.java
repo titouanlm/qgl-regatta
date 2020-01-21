@@ -26,7 +26,7 @@ public abstract class VisibleEntity {
     protected Shape shape;
 
     @JsonCreator
-    protected VisibleEntity(@JsonProperty("type") String type, @JsonProperty("position") Position position, @JsonProperty("shape") Shape shape){
+    VisibleEntity(@JsonProperty("type") String type, @JsonProperty("position") Position position, @JsonProperty("shape") Shape shape){
         this.type = type;
         this.position = position;
         this.shape = shape;

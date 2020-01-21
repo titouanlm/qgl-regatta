@@ -28,4 +28,12 @@ public class Deck {
     public void setLength(int length) {
         this.length = length;
     }
+
+    @Override
+    public String toString() {
+        return "Deck{" +
+                "width=" + width +
+                ", length=" + length +
+                '}';
+    }
 }

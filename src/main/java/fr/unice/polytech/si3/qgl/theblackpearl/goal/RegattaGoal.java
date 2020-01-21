@@ -21,4 +21,11 @@ public class RegattaGoal extends Goal {
     public void setCheckpoints(List<Checkpoint> checkpoints) {
         this.checkpoints = checkpoints;
     }
+
+    @Override
+    public String toString() {
+        return "RegattaGoal{" +
+                "checkpoints=" + checkpoints +
+                '}';
+    }
 }

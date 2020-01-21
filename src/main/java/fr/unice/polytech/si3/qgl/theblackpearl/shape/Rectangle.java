@@ -42,5 +42,15 @@ public class Rectangle extends Shape {
     public void setOrientation(double orientation) {
         this.orientation = orientation;
     }
+
+    @Override
+    public String toString() {
+        return "Rectangle{" +
+                "type=" + this.getType() +
+                "width=" + width +
+                ", height=" + height +
+                ", orientation=" + orientation +
+                '}';
+    }
 }
 

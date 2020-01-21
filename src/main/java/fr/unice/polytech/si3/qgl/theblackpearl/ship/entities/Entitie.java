@@ -10,7 +10,8 @@ import fr.unice.polytech.si3.qgl.theblackpearl.goal.RegattaGoal;
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
         include = JsonTypeInfo.As.PROPERTY,
-        property = "type")
+        property = "type",
+        visible = true)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = Gouvernail.class, name = "rudder"),
         @JsonSubTypes.Type(value = Rame.class, name = "oar"),
@@ -52,4 +53,6 @@ public abstract class Entitie {
     public void setY(int y) {
         this.y = y;
     }
+
+    
 }

@@ -65,4 +65,17 @@ public class Bateau {
     public Shape getShape() {
         return shape;
     }
+
+    @Override
+    public String toString() {
+        return "Bateau{" +
+                "type='" + type + '\'' +
+                ", life=" + life +
+                ", position=" + position +
+                ", name='" + name + '\'' +
+                ", deck=" + deck +
+                ", entities=" + entities +
+                ", shape=" + shape +
+                '}';
+    }
 }

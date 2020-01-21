@@ -26,7 +26,7 @@ public class NextRound {
         this.visibleEntities = visibleEntities;
     }
 
-    public Bateau getbBateau() {
+    public Bateau getBateau() {
         return this.ship;
     }
 }

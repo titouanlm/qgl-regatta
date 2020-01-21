@@ -38,4 +38,13 @@ public class Position {
     public void setOrientation(double orientation) {
         this.orientation = orientation;
     }
+
+    @Override
+    public String toString() {
+        return "Position{" +
+                "x=" + x +
+                ", y=" + y +
+                ", orientation=" + orientation +
+                '}';
+    }
 }

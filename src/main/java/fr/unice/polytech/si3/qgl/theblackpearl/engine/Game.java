@@ -6,11 +6,13 @@ import fr.unice.polytech.si3.qgl.theblackpearl.Marin;
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.Goal;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.Bateau;
 
+import java.util.Arrays;
+
 public class Game {
-    private final Goal goal;
-    private final int shipCount;
-    private final Bateau ship;
-    private final Marin[] sailors;
+    private Goal goal;
+    private int shipCount;
+    private Bateau ship;
+    private Marin[] sailors;
 
     @JsonCreator
     Game(@JsonProperty("goal") Goal goal, @JsonProperty("shipCount") int numberOfShips, @JsonProperty("ship") Bateau ship, @JsonProperty("sailors") Marin[] sailors){
@@ -20,8 +22,25 @@ public class Game {
         this.sailors = sailors;
     }
 
-
-    public Bateau getbBateau() {
+    public Bateau getBateau() {
         return this.ship;
+    }
+
+    public void setBateau(Bateau ship) {
+        this.ship = ship;
+    }
+
+    public Marin[] getMarins() {
+        return sailors;
+    }
+
+    @Override
+    public String toString() {
+        return "Game{" +
+                "goal=" + goal +
+                ", shipCount=" + shipCount +
+                ", ship=" + ship +
+                ", sailors=" + Arrays.toString(sailors) +
+                '}';
     }
 }

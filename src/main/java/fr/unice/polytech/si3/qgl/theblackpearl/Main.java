@@ -5,7 +5,7 @@ import fr.unice.polytech.si3.qgl.theblackpearl.engine.Cockpit;
 public class Main {
     public static void main (String[] args){
         Cockpit c = new Cockpit();
-        /*
+
         c.initGame("{\n" +
                 "  \"goal\": {\n" +
                 "    \"mode\": \"REGATTA\",\n" +
@@ -72,20 +72,14 @@ public class Main {
                 "  ]\n" +
                 "}");
 
-        */
-
-
-
-
-
 
                 // for future test
-                c.nextRound(
+               String test =  c.nextRound(
                 "{" +
                     "\"ship\": " +
                         "{" +
                             "\"type\": \"ship\" ," +
-                            "\"life\": 100 ," +
+                            "\"life\": 100," +
                             "\"position\":" +
                                 "{" +
                                     "\"x\": 10.654, " +
@@ -116,8 +110,7 @@ public class Main {
                 "}"
                 );
 
-
-
+        System.out.println(test);
 
 
     }
