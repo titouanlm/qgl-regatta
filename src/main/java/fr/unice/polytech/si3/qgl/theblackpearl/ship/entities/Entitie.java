@@ -25,7 +25,6 @@ public abstract class Entitie{
     private boolean used;
 
 
-
     @JsonCreator
     public Entitie(@JsonProperty("type") String type,@JsonProperty("x") int x,@JsonProperty("y") int y) {
         this.type = type;
@@ -64,5 +63,10 @@ public abstract class Entitie{
 
     public void setUsed(boolean used) {
         this.used = used;
+    }
+
+    @Override
+    public String toString() {
+        return "x : " + this.x +", y : " + this.y;
     }
 }

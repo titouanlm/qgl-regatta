@@ -14,12 +14,11 @@ public class Rame extends Entitie implements Actions{
     }
 
     public void doAction(Marin marin){
-        if(marin.hasContributed() == false && this.isUsed() == false) {
+        if(!marin.hasContributed() && !this.isUsed()) {
             this.setUsed(true);
         }
         else{
             System.out.println("La rame n'a pas été utilisée");
         }
     }
-
 }
