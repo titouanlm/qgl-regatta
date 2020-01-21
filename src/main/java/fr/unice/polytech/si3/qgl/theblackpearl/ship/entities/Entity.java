@@ -10,7 +10,9 @@ import fr.unice.polytech.si3.qgl.theblackpearl.goal.RegattaGoal;
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
         include = JsonTypeInfo.As.PROPERTY,
-        property = "type")
+        property = "type",
+        visible = true
+)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = Gouvernail.class, name = "rudder"),
         @JsonSubTypes.Type(value = Rame.class, name = "oar"),
@@ -18,7 +20,7 @@ import fr.unice.polytech.si3.qgl.theblackpearl.goal.RegattaGoal;
         @JsonSubTypes.Type(value = Voile.class, name = "sail"),
 })
 
-public abstract class Entitie{
+public abstract class Entity {
     private String type;
     private int x;
     private int y;
@@ -26,7 +28,7 @@ public abstract class Entitie{
 
 
     @JsonCreator
-    public Entitie(@JsonProperty("type") String type,@JsonProperty("x") int x,@JsonProperty("y") int y) {
+    public Entity(@JsonProperty("type") String type, @JsonProperty("x") int x, @JsonProperty("y") int y) {
         this.type = type;
         this.x = x;
         this.y = y;

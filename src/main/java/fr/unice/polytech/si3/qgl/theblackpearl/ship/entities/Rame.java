@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import fr.unice.polytech.si3.qgl.theblackpearl.Marin;
 
 @JsonTypeName("oar")
-public class Rame extends Entitie{
+public class Rame extends Entity{
 
     @JsonCreator
     public Rame(@JsonProperty("type") String type,@JsonProperty("x") int x,@JsonProperty("y") int y) {
@@ -21,4 +21,5 @@ public class Rame extends Entitie{
             System.out.println("La rame n'a pas été utilisée");
         }
     }
+
 }

@@ -6,11 +6,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.unice.polytech.si3.qgl.theblackpearl.Marin;
 import fr.unice.polytech.si3.qgl.theblackpearl.Vent;
 
+import fr.unice.polytech.si3.qgl.theblackpearl.action.OAR;
+import fr.unice.polytech.si3.qgl.theblackpearl.action.actionType;
 import fr.unice.polytech.si3.qgl.theblackpearl.seaElements.VisibleEntity;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.Bateau;
 import fr.unice.polytech.si3.qgl.theblackpearl.action.Action;
-import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entitie;
+import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
+import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Rame;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class NextRound {
@@ -19,7 +23,7 @@ public class NextRound {
     private final Vent wind;
     @JsonIgnore
     private List<VisibleEntity> visibleEntities;
-    private List<Action> actionsToDo;
+    private List<Action> actionsToDo = new ArrayList<>();
     private Action newAction;
 
     @JsonCreator
@@ -34,9 +38,13 @@ public class NextRound {
     }
 
     public void doActions(Game parsedGame){
-        for(Entitie e : parsedGame.getbBateau().getEntities()){
+        for(Entity e : parsedGame.getbBateau().getEntities()){
             for(Marin m : parsedGame.getSailors()){
-                //actionsToDo.add(newAction.doAction(m, (Entitie) e));
+                if(e instanceof Rame){
+                    Rame oar = (Rame) e;
+                    OAR action = new OAR(m.getId(), actionType.OAR.toString(), oar);
+                    actionsToDo.add(action.doAction(m, oar));
+                }
             }
         }
     }

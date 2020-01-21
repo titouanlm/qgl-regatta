@@ -1,7 +1,7 @@
 package fr.unice.polytech.si3.qgl.theblackpearl.action;
 
 import fr.unice.polytech.si3.qgl.theblackpearl.Marin;
-import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entitie;
+import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
 
 public abstract class Action {
 
@@ -15,6 +15,6 @@ public abstract class Action {
         this.action = action;
     }
 
-    public abstract Action doAction(Marin m, Entitie e);
+    public abstract Action doAction(Marin m, Entity e);
 
 }
