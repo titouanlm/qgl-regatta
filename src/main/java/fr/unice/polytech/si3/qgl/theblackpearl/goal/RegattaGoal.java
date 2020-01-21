@@ -2,30 +2,30 @@ package fr.unice.polytech.si3.qgl.theblackpearl.goal;
 
 import com.fasterxml.jackson.annotation.*;
 
-import java.util.List;
+import java.util.Arrays;
 
 @JsonTypeName("REGATTA")
 public class RegattaGoal extends Goal {
-    private List<Checkpoint> checkpoints;
+    private Checkpoint[] checkpoints;
 
     @JsonCreator
-    public RegattaGoal(@JsonProperty("mode") String mode,@JsonProperty("checkpoints") List<Checkpoint> checkpoints) {
+    public RegattaGoal(@JsonProperty("mode") String mode,@JsonProperty("checkpoints") Checkpoint[] checkpoints) {
         super(mode);
         this.checkpoints = checkpoints;
     }
 
-    public List<Checkpoint> getCheckpoints() {
+    public Checkpoint[] getCheckpoints() {
         return checkpoints;
     }
 
-    public void setCheckpoints(List<Checkpoint> checkpoints) {
+    public void setCheckpoints(Checkpoint[] checkpoints) {
         this.checkpoints = checkpoints;
     }
 
     @Override
     public String toString() {
         return "RegattaGoal{" +
-                "checkpoints=" + checkpoints +
+                "checkpoints=" + Arrays.toString(checkpoints) +
                 '}';
     }
 }

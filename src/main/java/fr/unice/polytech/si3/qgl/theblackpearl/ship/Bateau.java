@@ -1,10 +1,11 @@
 package fr.unice.polytech.si3.qgl.theblackpearl.ship;
 
 import com.fasterxml.jackson.annotation.*;
-import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entitie;
+import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
 import fr.unice.polytech.si3.qgl.theblackpearl.Position;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Shape;
 
+import java.util.Arrays;
 import java.util.List;
 
 @JsonTypeName("ship")
@@ -15,12 +16,12 @@ public class Bateau {
     private Position position;
     private String name;
     private Deck deck;
-    private List<Entitie> entities;
+    private Entity[] entities;
     private Shape shape;
 
     @JsonCreator
     public Bateau(@JsonProperty("type") String type, @JsonProperty("life") int life, @JsonProperty("position")  Position position,
-                  @JsonProperty("name")  String name, @JsonProperty("deck") Deck deck, @JsonProperty("entities") List<Entitie> entities,
+                  @JsonProperty("name")  String name, @JsonProperty("deck") Deck deck, @JsonProperty("entities") Entity[] entities,
                   @JsonProperty("shape")  Shape shape) {
 
         this.type = type;
@@ -31,8 +32,6 @@ public class Bateau {
         this.entities = entities;
         this.shape = shape;
     }
-
-
 
     public String getType() {
         return type;
@@ -58,7 +57,7 @@ public class Bateau {
         return deck;
     }
 
-    public List<Entitie> getEntities() {
+    public Entity[] getEntities() {
         return entities;
     }
 
@@ -74,7 +73,7 @@ public class Bateau {
                 ", position=" + position +
                 ", name='" + name + '\'' +
                 ", deck=" + deck +
-                ", entities=" + entities +
+                ", entities=" + Arrays.toString(entities) +
                 ", shape=" + shape +
                 '}';
     }

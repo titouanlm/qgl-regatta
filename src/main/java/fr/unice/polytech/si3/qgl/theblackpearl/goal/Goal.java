@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.*;
         @JsonSubTypes.Type(value = RegattaGoal.class, name = "REGATTA")
 })
 public abstract class Goal {
-    private String mode;
+    protected String mode;
     @JsonCreator
     Goal(@JsonProperty("mode") String mode) {
         this.mode = mode;

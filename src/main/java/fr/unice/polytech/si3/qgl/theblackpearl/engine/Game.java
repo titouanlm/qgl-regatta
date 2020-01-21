@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.unice.polytech.si3.qgl.theblackpearl.Marin;
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.Goal;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.Bateau;
+import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
+
+import java.util.List;
 
 import java.util.Arrays;
 
@@ -43,4 +46,9 @@ public class Game {
                 ", sailors=" + Arrays.toString(sailors) +
                 '}';
     }
+
+    public Marin[] getSailors() {
+        return sailors;
+    }
+
 }

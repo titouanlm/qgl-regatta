@@ -6,5 +6,4 @@ public class OAR extends Action {
         super(sailorId, "OAR");
     }
 
-
 }

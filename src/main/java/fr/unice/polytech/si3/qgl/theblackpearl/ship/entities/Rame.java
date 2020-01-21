@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @JsonTypeName("oar")
-public class Rame extends Entitie {
+public class Rame extends Entity{
 
     @JsonCreator
     public Rame(@JsonProperty("type") String type,@JsonProperty("x") int x,@JsonProperty("y") int y) {
@@ -15,8 +15,10 @@ public class Rame extends Entitie {
     @Override
     public String toString() {
         return "Rame{" +
-                "x=" + this.getX() +
-
+                "type=" + this.getType() + "," +
+                "x=" + this.getX() + "," +
+                "y=" + this.getY() +
                 "}";
     }
+
 }

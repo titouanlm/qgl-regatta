@@ -1,6 +1,7 @@
 package fr.unice.polytech.si3.qgl.theblackpearl.engine;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -29,10 +30,6 @@ public class Cockpit implements ICockpit {
 
 			// Just to see if we have correctly parsed the data from Json file
 			System.out.println(parsedGame);
-			System.out.println(parsedGame.getBateau().getType());
-			System.out.println(parsedGame.getBateau().getLife());
-			System.out.println(parsedGame.getBateau().getName());
-			// some more tests to do ...
 
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
@@ -71,13 +68,6 @@ public class Cockpit implements ICockpit {
 		roundJSON.append("]");
 
 		return roundJSON.toString();
-	}
-
-	@Override
-	public String toString() {
-		return "Cockpit{" +
-				"parsedGame=" + parsedGame +
-				'}';
 	}
 
 	@Override

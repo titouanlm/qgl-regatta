@@ -19,15 +19,18 @@ import fr.unice.polytech.si3.qgl.theblackpearl.goal.RegattaGoal;
         @JsonSubTypes.Type(value = Voile.class, name = "sail"),
 })
 
-public abstract class Entitie {
+public abstract class Entity {
     private String type;
     private int x;
     private int y;
+    private boolean used;
+
     @JsonCreator
-    public Entitie(@JsonProperty("type") String type,@JsonProperty("x") int x,@JsonProperty("y") int y) {
+    public Entity(@JsonProperty("type") String type, @JsonProperty("x") int x, @JsonProperty("y") int y) {
         this.type = type;
         this.x = x;
         this.y = y;
+        this.used = false;
     }
 
     public String getType() {
@@ -54,5 +57,16 @@ public abstract class Entitie {
         this.y = y;
     }
 
-    
+    public boolean isUsed() {
+        return used;
+    }
+
+    public void setUsed(boolean used) {
+        this.used = used;
+    }
+
+    @Override
+    public String toString() {
+        return "x : " + this.x +", y : " + this.y;
+    }
 }
