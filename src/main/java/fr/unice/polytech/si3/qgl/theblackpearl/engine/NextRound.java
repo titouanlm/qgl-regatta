@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreType;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import fr.unice.polytech.si3.qgl.theblackpearl.seaElements.SeaElement;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.Bateau;
 
 public class NextRound {
