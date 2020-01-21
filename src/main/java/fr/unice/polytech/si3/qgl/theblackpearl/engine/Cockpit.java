@@ -1,4 +1,4 @@
-package fr.unice.polytech.si3.qgl.theblackpearl;
+package fr.unice.polytech.si3.qgl.theblackpearl.engine;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +31,20 @@ public class Cockpit implements ICockpit {
 	}
 
 	public String nextRound(String round) {
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			NextRound nextRound = objectMapper.readValue(round, NextRound.class);
+
+			// Just to see if we have correctly parsed the data from Json file
+			System.out.println(nextRound.getbBateau().getType());
+			System.out.println(nextRound.getbBateau().getLife());
+			System.out.println(nextRound.getbBateau().getName());
+			// some more tests to do ...
+
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+
 		return "";
 	}
 
