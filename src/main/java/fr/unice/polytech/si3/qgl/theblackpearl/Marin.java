@@ -36,7 +36,7 @@ public class Marin {
                         deplacementPlusCourt = deplacementMarin;
                     }
                 }
-                else if (nombreDeMarinsManquantsADroite > 0 /*&& Entities.get(i).getY() == largeurBateau*/) {
+                else if (nombreDeMarinsManquantsADroite > 0 && Entities.get(i).getY() == largeurBateau) {
                     if (deplacementMarin < 6 && this.libre && deplacementMarin < deplacementPlusCourt) {
                         entiteRecoitMarin = i;
                         deplacementPlusCourt = deplacementMarin;
