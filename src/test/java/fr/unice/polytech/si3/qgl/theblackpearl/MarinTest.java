@@ -36,9 +36,9 @@ public class MarinTest {
         assertTrue(marin2.getLibre());
         assertTrue(marin3.getLibre());
         assertTrue(marin4.getLibre());
-        assertNull(marin2.planificationMarinAllerRamer(Entities, 0,0));
-        assertNotNull(marin2.planificationMarinAllerRamer(Entities, 1,0));
-        assertNull(marin2.planificationMarinAllerRamer(Entities, 0,0));
-        assertNotNull(marin3.planificationMarinAllerRamer(Entities, 0,1));
+        assertNull(marin2.planificationMarinAllerRamer(Entities, 0,0,2));
+        assertNotNull(marin2.planificationMarinAllerRamer(Entities, 1,0,2));
+        assertNull(marin2.planificationMarinAllerRamer(Entities, 0,0,2));
+        assertNotNull(marin3.planificationMarinAllerRamer(Entities, 0,1,2));
     }
 }
