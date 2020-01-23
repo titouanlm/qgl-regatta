@@ -46,6 +46,10 @@ public class Cockpit implements ICockpit {
 		List<Action> actionsNextRound = new ArrayList<>();
 		for(Marin m : parsedInitGame.getMarins()){
 			actionsNextRound.add(new OAR(m.getId()));
+			// Positionne les marins de part et d'autres du bateau pour avoir la bonne poussée/orientation
+			//m.planificationMarinAllerRamer(liste d'entités, nombre marins manquants à babord, nombre de marins manquants à tribord)
+			//return la rame utilisée donc décrémenter nombre marins manquants à babord ou tribord en fonction de la position de la rame
+			//m.execution()
 		}
 
 		//Creation of actions JSON file
