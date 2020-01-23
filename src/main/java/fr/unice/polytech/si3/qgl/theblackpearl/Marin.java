@@ -2,6 +2,7 @@ package fr.unice.polytech.si3.qgl.theblackpearl;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import fr.unice.polytech.si3.qgl.theblackpearl.actions.MOVING;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Rame;
 
@@ -22,7 +23,7 @@ public class Marin {
         this.name = name;
     }
 
-    public Entity planificationMarinAllerRamer(List<Entity> Entities, int nombreDeMarinsManquantsAGauche, int nombreDeMarinsManquantsADroite, int largeurBateau){
+    public MOVING planificationMarinAllerRamer(List<Entity> Entities, int nombreDeMarinsManquantsAGauche, int nombreDeMarinsManquantsADroite, int largeurBateau){
         int entiteRecoitMarin=-1;
         int deplacementMarin=0;
         int deplacementPlusCourt=6;
@@ -35,7 +36,7 @@ public class Marin {
                         deplacementPlusCourt = deplacementMarin;
                     }
                 }
-                else if (nombreDeMarinsManquantsADroite> 0 && Entities.get(i).getY() == largeurBateau) {
+                else if (nombreDeMarinsManquantsADroite > 0 /*&& Entities.get(i).getY() == largeurBateau*/) {
                     if (deplacementMarin < 6 && this.libre && deplacementMarin < deplacementPlusCourt) {
                         entiteRecoitMarin = i;
                         deplacementPlusCourt = deplacementMarin;
@@ -45,9 +46,8 @@ public class Marin {
         }
         if (entiteRecoitMarin!=-1) {
             this.libre=false;
-            this.setX(Entities.get(entiteRecoitMarin).getX());
-            this.setY(Entities.get(entiteRecoitMarin).getY());
-            return Entities.get(entiteRecoitMarin);}
+            return new MOVING(getId(),"MOVING",Entities.get(entiteRecoitMarin).getX(),Entities.get(entiteRecoitMarin).getY());
+            }
         else
             return null;
     }
@@ -55,6 +55,10 @@ public class Marin {
 
     public boolean getLibre(){
         return libre;
+    }
+
+    public void setLibre(boolean libre){
+        this.libre=libre;
     }
     public int getId() {
         return id;

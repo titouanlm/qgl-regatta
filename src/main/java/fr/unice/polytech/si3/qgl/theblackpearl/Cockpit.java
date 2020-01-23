@@ -1,16 +1,17 @@
 package fr.unice.polytech.si3.qgl.theblackpearl;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.unice.polytech.si3.qgl.regatta.cockpit.ICockpit;
 import fr.unice.polytech.si3.qgl.theblackpearl.Marin;
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.Action;
+import fr.unice.polytech.si3.qgl.theblackpearl.actions.MOVING;
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.OAR;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.NextRound;
+import fr.unice.polytech.si3.qgl.theblackpearl.shape.Rectangle;
 
 public class Cockpit implements ICockpit {
 	private InitGame parsedInitGame;
@@ -42,17 +43,32 @@ public class Cockpit implements ICockpit {
 			e.printStackTrace();
 		}
 
+
+		List<Action> actionsNextRound = new ArrayList<>();
 		// Positionne les marins de part et d'autres du bateau pour avoir la bonne poussée/orientation
-		//m.planificationMarinAllerRamer(liste d'entités, nombre marins manquants à babord, nombre de marins manquants à tribord, largeur du bateau)
-		//return la rame utilisée donc décrémenter nombre marins manquants à babord ou tribord en fonction de la position de la rame
-		/*for (Marin m : parsedInitGame.getMarins()){
-			m.planificationMarinAllerRamer(parsedInitGame.getBateau().getEntities(),,,parsedInitGame.getBateau());
-		}*/
+		int nbMarinsPlacerBabord = 1; // a modifier avec les valeurs suite au calcul de la poussée
+		int nbMarinsPlacerTribord = 1; // a modifier avec les valeurs suite au calcul de la poussée
+		for (Marin m : parsedInitGame.getMarins()) {
+			MOVING moving = m.planificationMarinAllerRamer(parsedInitGame.getBateau().getEntities(), nbMarinsPlacerBabord, nbMarinsPlacerTribord, (int) ((Rectangle) parsedInitGame.getBateau().getShape()).getWidth());
+			if (moving != null) {
+				if (moving.getYdistance()==0 && nbMarinsPlacerBabord > 0){
+					nbMarinsPlacerBabord-=1;
+					actionsNextRound.add(moving);
+				}
+				else if (moving.getYdistance()!=0 && nbMarinsPlacerTribord > 0){
+					nbMarinsPlacerTribord-=1;
+					actionsNextRound.add(moving);
+				}
+				else m.setLibre(true);
+			}
+		}
+		//actionsNextRound.removeAll(Collections.singleton(null));
 
 		//Creation of Actions
-		List<Action> actionsNextRound = new ArrayList<>();
 		for(Marin m : parsedInitGame.getMarins()){
-			actionsNextRound.add(new OAR(m.getId()));
+			if (!m.getLibre()) {
+				actionsNextRound.add(new OAR(m.getId()));
+			}
 		}
 
 		//Creation of actions JSON file

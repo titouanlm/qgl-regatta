@@ -5,7 +5,9 @@ import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
 import fr.unice.polytech.si3.qgl.theblackpearl.Position;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Shape;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @JsonTypeName("ship")
 public class Bateau {
@@ -15,12 +17,12 @@ public class Bateau {
     private Position position;
     private String name;
     private Deck deck;
-    private Entity[] entities;
+    private ArrayList<Entity> entities;
     private Shape shape;
 
     @JsonCreator
     public Bateau(@JsonProperty("type") String type, @JsonProperty("life") int life, @JsonProperty("position")  Position position,
-                  @JsonProperty("name")  String name, @JsonProperty("deck") Deck deck, @JsonProperty("entities") Entity[] entities,
+                  @JsonProperty("name")  String name, @JsonProperty("deck") Deck deck, @JsonProperty("entities") ArrayList<Entity> entities,
                   @JsonProperty("shape")  Shape shape) {
 
         this.type = type;
@@ -56,7 +58,7 @@ public class Bateau {
         return deck;
     }
 
-    public Entity[] getEntities() {
+    public List<Entity> getEntities() {
         return entities;
     }
 
@@ -72,7 +74,7 @@ public class Bateau {
                 ", position=" + position +
                 ", name='" + name + '\'' +
                 ", deck=" + deck +
-                ", entities=" + Arrays.toString(entities) +
+                ", entities=" + Arrays.toString(entities.toArray()) +
                 ", shape=" + shape +
                 '}';
     }

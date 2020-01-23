@@ -16,4 +16,5 @@ public abstract class Action {
     public String getType() {
         return type;
     }
+
 }

@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 public abstract class Shape {
     private String type;
+
     @JsonCreator
     Shape(@JsonProperty("type") String type) {
         this.type = type;
