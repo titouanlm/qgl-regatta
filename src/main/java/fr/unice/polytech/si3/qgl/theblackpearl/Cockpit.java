@@ -42,13 +42,17 @@ public class Cockpit implements ICockpit {
 			e.printStackTrace();
 		}
 
+		// Positionne les marins de part et d'autres du bateau pour avoir la bonne poussée/orientation
+		//m.planificationMarinAllerRamer(liste d'entités, nombre marins manquants à babord, nombre de marins manquants à tribord, largeur du bateau)
+		//return la rame utilisée donc décrémenter nombre marins manquants à babord ou tribord en fonction de la position de la rame
+		/*for (Marin m : parsedInitGame.getMarins()){
+			m.planificationMarinAllerRamer(parsedInitGame.getBateau().getEntities(),,,parsedInitGame.getBateau());
+		}*/
+
 		//Creation of Actions
 		List<Action> actionsNextRound = new ArrayList<>();
 		for(Marin m : parsedInitGame.getMarins()){
 			actionsNextRound.add(new OAR(m.getId()));
-			// Positionne les marins de part et d'autres du bateau pour avoir la bonne poussée/orientation
-			//m.planificationMarinAllerRamer(liste d'entités, nombre marins manquants à babord, nombre de marins manquants à tribord, largeur du bateau)
-			//return la rame utilisée donc décrémenter nombre marins manquants à babord ou tribord en fonction de la position de la rame
 		}
 
 		//Creation of actions JSON file
