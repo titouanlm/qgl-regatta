@@ -23,6 +23,7 @@ public abstract class Entity {
     private String type;
     private int x;
     private int y;
+    private boolean libre = true;
 
     @JsonCreator
     public Entity(@JsonProperty("type") String type, @JsonProperty("x") int x, @JsonProperty("y") int y) {
@@ -50,6 +51,15 @@ public abstract class Entity {
     public int getY() {
         return y;
     }
+
+    public boolean isLibre(){
+        return libre;
+    }
+
+    public void setLibre(boolean libre){
+        this.libre=libre;
+    }
+
 
     public void setY(int y) {
         this.y = y;

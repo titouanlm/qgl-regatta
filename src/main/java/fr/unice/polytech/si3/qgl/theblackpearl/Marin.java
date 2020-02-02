@@ -6,6 +6,7 @@ import fr.unice.polytech.si3.qgl.theblackpearl.actions.MOVING;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Rame;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Marin {
@@ -36,7 +37,7 @@ public class Marin {
                         deplacementPlusCourt = deplacementMarin;
                     }
                 }
-                else if (nombreDeMarinsManquantsADroite > 0 && Entities.get(i).getY() == largeurBateau) {
+                else if (nombreDeMarinsManquantsADroite > 0 && Entities.get(i).getY() == largeurBateau /* -1 ici normalement */) {
                     if (deplacementMarin < 6 && this.libre && deplacementMarin < deplacementPlusCourt) {
                         entiteRecoitMarin = i;
                         deplacementPlusCourt = deplacementMarin;
@@ -47,19 +48,20 @@ public class Marin {
         if (entiteRecoitMarin!=-1) {
             this.libre=false;
             return new MOVING(getId(),"MOVING",Entities.get(entiteRecoitMarin).getX(),Entities.get(entiteRecoitMarin).getY());
-            }
+        }
         else
             return null;
     }
 
 
-    public boolean getLibre(){
+    public boolean isLibre(){
         return libre;
     }
 
     public void setLibre(boolean libre){
         this.libre=libre;
     }
+
     public int getId() {
         return id;
     }

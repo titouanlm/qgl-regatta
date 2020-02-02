@@ -24,7 +24,7 @@ public class MarinTest {
 
     @BeforeEach
     void setUp(){
-        when(marin1.getLibre()).thenReturn(false);
+        when(marin1.isLibre()).thenReturn(false);
         Entities.add(e1);
         Entities.add(e2);
         Entities.add(e3);
@@ -32,10 +32,10 @@ public class MarinTest {
 
     @Test
     public void planificationTest(){
-        assertFalse(marin1.getLibre());
-        assertTrue(marin2.getLibre());
-        assertTrue(marin3.getLibre());
-        assertTrue(marin4.getLibre());
+        assertFalse(marin1.isLibre());
+        assertTrue(marin2.isLibre());
+        assertTrue(marin3.isLibre());
+        assertTrue(marin4.isLibre());
         assertNull(marin2.planificationMarinAllerRamer(Entities, 0,0,2));
         assertNotNull(marin2.planificationMarinAllerRamer(Entities, 1,0,2));
         assertNull(marin2.planificationMarinAllerRamer(Entities, 0,0,2));
