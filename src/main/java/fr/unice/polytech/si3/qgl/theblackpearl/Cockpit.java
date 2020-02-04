@@ -13,6 +13,7 @@ import fr.unice.polytech.si3.qgl.theblackpearl.engine.NextRound;
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.Checkpoint;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
+import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Rame;
 
 public class Cockpit implements ICockpit {
 	private InitGame parsedInitGame;
@@ -55,45 +56,41 @@ public class Cockpit implements ICockpit {
 			marin.setLibre(true);
 		}
 
-		for (int i=0;i<parsedInitGame.getBateau().anglesPossibles(parsedInitGame.getMarins().size()).length;i++) { // boucle pour tous les angles possibles
-			int distanceCheckpoint = 99999999;
-			ArrayList<Checkpoint> listCheckpoints = new ArrayList<>(parsedInitGame.getGoal().getListCheckpoints());
-			ArrayList<Action> actionsNextRoundTemporaire = new ArrayList<>();
-			if (parsedInitGame.getBateau().nombreMarinsBabordTribord(listCheckpoints, parsedInitGame.getMarins().size()) != null ) {
-				int[] nombreMarinAplacer = parsedInitGame.getBateau().nombreMarinsBabordTribord(listCheckpoints, parsedInitGame.getMarins().size()); // c'est ici qu'est donné le nombre de marin babord/tribord
-				ArrayList<Entity> listeEntite = parsedInitGame.getBateau().getEntities();
-				InitGame parsedInitGameTemporaire = parsedInitGame;
-				for (Marin m : parsedInitGameTemporaire.getMarins()) {
-					MOVING moving = m.planificationMarinAllerRamer(listeEntite, nombreMarinAplacer[0], nombreMarinAplacer[1], (int) ((Rectangle) parsedInitGame.getBateau().getShape()).getWidth());
-					if (moving != null) { // on considère que les rames sont au bord du bateau (mais on ne sait jamais) d'ou le else if et pas le else
-						if (moving.getYdistance() == 0 && nombreMarinAplacer[0] > 0) { //Babord
-							nombreMarinAplacer[0] -= 1;
-							actionsNextRoundTemporaire.add(moving);
-						} else if (moving.getYdistance() != 0 && nombreMarinAplacer[1] > 0) { //Tribord
-							nombreMarinAplacer[1] -= 1;
-							actionsNextRoundTemporaire.add(moving);
+		int vitesse = ;//un angle peut avoir différente configuration donc il nous faut la vitesse nécéssaire
+		double[] anglepossible = parsedInitGame.getBateau().anglesPossibles(parsedInitGame.getMarins().size());
+		Double angleoptimal = ;// méthode qui nous renvoie l'angle optimal
+		ArrayList<Rame> nombreRames = parsedInitGame.getBateau().getListRames();
+		int[] nombreMarinAplacer = parsedInitGame.getBateau().nombreMarinsBabordTribord(angleoptimal, parsedInitGame.getMarins().size(),nombreRames, vitesse);
+		ArrayList<Entity> listeEntite = parsedInitGame.getBateau().getEntities();
+		ArrayList<Action> actionsNextRoundTemporaire = new ArrayList<>();
+
+		do {
+			for (Marin m : parsedInitGame.getMarins()) {
+				MOVING moving = m.planificationMarinAllerRamer(listeEntite, nombreMarinAplacer[0], nombreMarinAplacer[1], (int) ((Rectangle) parsedInitGame.getBateau().getShape()).getWidth());
+				if (moving != null && nombreMarinAplacer[0] != 0 && nombreMarinAplacer[1] != 0) { // on considère que les rames sont au bord du bateau (mais on ne sait jamais) d'ou le else if et pas le else
+					if (moving.getYdistance() == 0 && nombreMarinAplacer[0] > 0) { //Babord
+						nombreMarinAplacer[0] -= 1;
+						actionsNextRoundTemporaire.add(moving);
+					} else if (moving.getYdistance() != 0 && nombreMarinAplacer[1] > 0) { //Tribord
+						nombreMarinAplacer[1] -= 1;
+						actionsNextRoundTemporaire.add(moving);
+					}
+					for (int b = 0; b < listeEntite.size(); b++) { // supprimer la rame utilisé pour cette configuration
+						if (listeEntite.get(b).getY() == moving.getYdistance() && listeEntite.get(b).getX() == moving.getXdistance()) {
+							listeEntite.remove(b);
+							break;
 						}
-						for (int b = 0; b < listeEntite.size(); b++) { // supprimer la rame utilisé pour cette configuration
-							if (listeEntite.get(b).getY() == moving.getYdistance() && listeEntite.get(b).getX() == moving.getXdistance()) {
-								listeEntite.remove(b);
-								break;
-							}
-							// à faire
-						}// calculer l'avancement hypothétique du bateau pour choisir la meilleure configuraiton
-						// on se base sur la distance qu'il lui reste pour arriver jusqu'au checkpoint
-
-
 					}
 				}
-				if ( <distanceCheckpoint){
-					actionsNextRound = actionsNextRoundTemporaire;
-				}
 			}
-		}
+			angleoptimal= ; // méthode qui nous renvoie le deuxième angle le plus optimal
+		} while (nombreMarinAplacer[0] != 0 || nombreMarinAplacer[1] != 0);
+		actionsNextRound=actionsNextRoundTemporaire;
 
 
 
-		//Creation of Actions
+
+		//Creation of
 		for(Marin m : parsedInitGame.getMarins()){
 			if (!m.isLibre()) {
 				actionsNextRound.add(new OAR(m.getId()));
@@ -115,17 +112,6 @@ public class Cockpit implements ICockpit {
 		roundJSON.append("]");
 
 		return roundJSON.toString();
-	}
-
-
-	public int DistanceCheckpoint(ArrayList<Action> listAction){
-		int distanceCheckpoints=999999999;
-		double positionCheckpointX=parsedInitGame.getGoal().getListCheckpoints().get(0).getPosition().getX();
-		double positionCheckpointY=parsedInitGame.getGoal().getListCheckpoints().get(0).getPosition().getY();
-		for (int i=0;i<50;i++){
-
-		}
-		return distanceCheckpoints;
 	}
 
 

@@ -9,6 +9,7 @@ import fr.unice.polytech.si3.qgl.theblackpearl.Position;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Shape;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Rame;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -81,41 +82,25 @@ public class Bateau {
     public double[] anglesPossibles(int nombreMarins) { // certains angles ne peuvent pas être réalisé s'il n'y a pas assez de marins
         // voir si les marins peuvent se rendre jusqu'a la rame
 
-        double angle[] = new double[nombreMarins == 1 ? 2 : (getListRames().size() <= nombreMarins ? getListRames().size() * 2 + 1 : nombreMarins * 2 + 1)];
+        double angle[] = new double[nombreMarins == 1 ? 2 : (getListRames().size() <= nombreMarins ? getListRames().size() + 1 : nombreMarins + 1)];
         if (nombreMarins == 1) {
-            angle[0] = (Math.PI/2) * (double) (1 / getListRames().size()) * (double) (1/2);
+            angle[0] = (Math.PI/2) * (double) (1 / getListRames().size()) * (double) (2);
             angle[1] = - angle[0] ;
         }
         else {
-            angle[getListRames().size() / 2] = 0.0;
-            for (int i = 0; i < getListRames().size() / 2; i++) { // je met tout les angles possibles dans un tableau
-                angle[i] = (Math.PI / 2) * (double) ((i + 1) / getListRames().size()) * (double) (1 / 2);
-                angle[i + getListRames().size() / 2 + 1] = -(Math.PI / 2) * (double) ((i + 1) / getListRames().size()) * (double) (1 / 2);
+            for (int i = 0; i < getListRames().size()+1; i++) { // je mets tout les angles possibles dans un tableau
+                angle[i] = (Math.PI / 2) - (Math.PI / getListRames().size())*i ;
             }
         }
         return angle;
     }
 
     // à faire
-    public int[] nombreMarinsBabordTribord(ArrayList<Checkpoint> listCheckpoints, int nombreMarins){  // pour un angle donné donne une configuration de marin possible
-                                                                                                        // si la configuraiton est impossible return null
-                                                                                                        // plusieurs facons de réaliser l'angle -> influt sur la vitesse
-                                                                                                        // voir ce cas dans oe cockpit
-        if (listCheckpoints.size() == 0 )  return new int[]{0, 0};  //la course est fini plus de checkpoints à faire
-        double checkpointX = listCheckpoints.get(0).getPosition().getX();
-        double checkpointY = listCheckpoints.get(0).getPosition().getY();
-        int nombreSousEtapes = 50;
-        //int vitesseBateau = 165 * getListRames().size()/getListRames().size(); // vitesse change
-        //double tableauDistance[][] = new double[anglesPossibles().length][2];
-        double positionApresTour[][] = new double[anglesPossibles(nombreMarins).length][2]; // jusqu'au checkpoint
-        for (int i=0;i<anglesPossibles(nombreMarins).length;i++){
-            for (int n=1; n<=50;n++){
-                positionApresTour[i][0] = ;
-                positionApresTour[i][1] = ;
-            }
-        }
-        //faire une fonction dans la classe position qui prend un tableau et retourne l'indice du tableau ou la distance est la plus courte
-        // jusqu'au checkpoint
+    public int[] nombreMarinsBabordTribord(double angle, int nombreMarins, ArrayList<Rame> nombreRames, int vitesse){
+        // pour un angle donné donne une configuration de marin possible
+        // si la configuraiton est impossible return null
+        // plusieurs facons de réaliser l'angle -> influt sur la vitesse donc prend en paramètre un int vitesse
+        // qui lui donne un information sur celle-ci
         return null;
     }
 
