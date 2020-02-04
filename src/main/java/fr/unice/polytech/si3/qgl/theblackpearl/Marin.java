@@ -29,7 +29,6 @@ public class Marin {
         int deplacementMarin=0;
         int deplacementPlusCourt=6;
         for (int i=0;i<Entities.size();i++) {
-            if (Entities.get(i) instanceof Rame) { //Pour faire ramer les marins
                 deplacementMarin = (Math.abs(Entities.get(i).getX() - this.getX()) + Math.abs(Entities.get(i).getY() - this.getY()));
                 if (nombreDeMarinsManquantsAGauche > 0 && Entities.get(i).getY() == 0) { // la gauche du bateau est à y = 0
                     if (deplacementMarin < 6 && this.libre && deplacementMarin < deplacementPlusCourt) {
@@ -37,17 +36,17 @@ public class Marin {
                         deplacementPlusCourt = deplacementMarin;
                     }
                 }
-                else if (nombreDeMarinsManquantsADroite > 0 && Entities.get(i).getY() == largeurBateau /* -1 ici normalement */) {
+                else if (nombreDeMarinsManquantsADroite > 0 && Entities.get(i).getY() == largeurBateau -1 /*ici normalement */) {
                     if (deplacementMarin < 6 && this.libre && deplacementMarin < deplacementPlusCourt) {
                         entiteRecoitMarin = i;
                         deplacementPlusCourt = deplacementMarin;
                     }
                 }
-            }
         }
         if (entiteRecoitMarin!=-1) {
             this.libre=false;
-            return new MOVING(getId(),"MOVING",Entities.get(entiteRecoitMarin).getX(),Entities.get(entiteRecoitMarin).getY());
+            return new MOVING(getId(),"MOVING",Entities.get(entiteRecoitMarin).getX() - this.getX(),Entities.get(entiteRecoitMarin).getY() - this.getY());
+
         }
         else
             return null;

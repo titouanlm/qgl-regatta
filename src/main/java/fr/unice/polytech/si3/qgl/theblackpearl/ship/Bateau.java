@@ -98,12 +98,12 @@ public class Bateau {
 
     // à faire
     public int[] nombreMarinsBabordTribord(double angle, int nombreMarins, ArrayList<Rame> nombreRames){
-        double angleCalcule=0;
+        double angleCalcule=-(Math.PI/2)-Math.PI/nombreRames.size();
         int i;
-        for (i=-nombreRames.size()/2;angleCalcule!=angle;i++){
-            angleCalcule = (Math.PI/nombreRames.size())*i;
+        for (i=-nombreRames.size()/2; ;i++){ // il faut tronquer le double angle   Calcule!=angle
+            angleCalcule += Math.PI/nombreRames.size();
+            if (angleCalcule>=angle-9.9E-5 && angleCalcule<=angle+9.9E-5) break;
         }
-        i--;
         int nombreMarinsBabordTribord[] = new int[2];
         int b=0;
         if (i>0) {
@@ -111,6 +111,7 @@ public class Bateau {
                 i += 1;
                 b += 1;
             }
+
             nombreMarinsBabordTribord[0]=b;
             nombreMarinsBabordTribord[1]=i;
 

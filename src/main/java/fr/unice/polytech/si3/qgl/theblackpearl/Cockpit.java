@@ -57,7 +57,7 @@ public class Cockpit implements ICockpit {
 		}
 
 		double[] anglepossible = parsedInitGame.getBateau().anglesPossibles(parsedInitGame.getMarins().size());
-		Double angleoptimal = -Math.PI/2 /*- Math.PI/6 */;// méthode qui nous renvoie l'angle optimal
+		Double angleoptimal = -Math.PI/2+Math.PI/6;// méthode qui nous renvoie l'angle optimal
 		ArrayList<Rame> nombreRames = parsedInitGame.getBateau().getListRames();
 		int[] nombreMarinAplacer = new int[2];
 		ArrayList<Entity> listeEntite = parsedInitGame.getBateau().getEntities();
@@ -68,22 +68,25 @@ public class Cockpit implements ICockpit {
 			for (Marin m : parsedInitGame.getMarins()) {
 				MOVING moving = m.planificationMarinAllerRamer(listeEntite, nombreMarinAplacer[0], nombreMarinAplacer[1], (int) ((Rectangle) parsedInitGame.getBateau().getShape()).getWidth());
 				if (moving != null && (nombreMarinAplacer[0] != 0 | nombreMarinAplacer[1] != 0)) { // on considère que les rames sont au bord du bateau (mais on ne sait jamais) d'ou le else if et pas le else
-					if (moving.getYdistance() == 0 && nombreMarinAplacer[0] > 0) { //Babord
+					if (moving.getYdistance()+m.getY() == 0 && nombreMarinAplacer[0] > 0) { //Babord
 						nombreMarinAplacer[0] -= 1;
 						actionsNextRoundTemporaire.add(moving);
-					} else if (moving.getYdistance() != 0 && nombreMarinAplacer[1] > 0) { //Tribord
+					} else if (moving.getYdistance()+m.getY() != 0 && nombreMarinAplacer[1] > 0) { //Tribord
 						nombreMarinAplacer[1] -= 1;
 						actionsNextRoundTemporaire.add(moving);
 					}
 					for (int b = 0; b < listeEntite.size(); b++) { // supprimer la rame utilisé pour cette configuration
-						if (listeEntite.get(b).getY() == moving.getYdistance() && listeEntite.get(b).getX() == moving.getXdistance()) {
-							listeEntite.remove(b);
-							break;
+						if (listeEntite.get(b) instanceof Rame) {
+							if (listeEntite.get(b).getY() - m.getY() == moving.getYdistance() && listeEntite.get(b).getX() - m.getX() == moving.getXdistance()) {
+								listeEntite.remove(b);
+								break;
+							}
 						}
 					}
 				}
 			}
-		} while (nombreMarinAplacer[0] != 0 || nombreMarinAplacer[1] != 0);
+		} while (nombreMarinAplacer[0] != 0 && nombreMarinAplacer[1] != 0);
+
 		actionsNextRound=actionsNextRoundTemporaire;
 
 
