@@ -56,19 +56,18 @@ public class Cockpit implements ICockpit {
 			marin.setLibre(true);
 		}
 
-		int vitesse = ;//un angle peut avoir différente configuration donc il nous faut la vitesse nécéssaire
 		double[] anglepossible = parsedInitGame.getBateau().anglesPossibles(parsedInitGame.getMarins().size());
-		Double angleoptimal = ;// méthode qui nous renvoie l'angle optimal
+		Double angleoptimal = -Math.PI/2 /*- Math.PI/6 */;// méthode qui nous renvoie l'angle optimal
 		ArrayList<Rame> nombreRames = parsedInitGame.getBateau().getListRames();
-		int[] nombreMarinAplacer;
+		int[] nombreMarinAplacer = new int[2];
 		ArrayList<Entity> listeEntite = parsedInitGame.getBateau().getEntities();
 		ArrayList<Action> actionsNextRoundTemporaire = new ArrayList<>();
 
 		do {
-			nombreMarinAplacer = parsedInitGame.getBateau().nombreMarinsBabordTribord(angleoptimal, parsedInitGame.getMarins().size(),nombreRames, vitesse);
+			nombreMarinAplacer = parsedInitGame.getBateau().nombreMarinsBabordTribord(angleoptimal, parsedInitGame.getMarins().size(),nombreRames);
 			for (Marin m : parsedInitGame.getMarins()) {
 				MOVING moving = m.planificationMarinAllerRamer(listeEntite, nombreMarinAplacer[0], nombreMarinAplacer[1], (int) ((Rectangle) parsedInitGame.getBateau().getShape()).getWidth());
-				if (moving != null && nombreMarinAplacer[0] != 0 && nombreMarinAplacer[1] != 0) { // on considère que les rames sont au bord du bateau (mais on ne sait jamais) d'ou le else if et pas le else
+				if (moving != null && (nombreMarinAplacer[0] != 0 | nombreMarinAplacer[1] != 0)) { // on considère que les rames sont au bord du bateau (mais on ne sait jamais) d'ou le else if et pas le else
 					if (moving.getYdistance() == 0 && nombreMarinAplacer[0] > 0) { //Babord
 						nombreMarinAplacer[0] -= 1;
 						actionsNextRoundTemporaire.add(moving);
@@ -84,7 +83,6 @@ public class Cockpit implements ICockpit {
 					}
 				}
 			}
-			angleoptimal= ; // méthode qui nous renvoie le deuxième angle le plus optimal
 		} while (nombreMarinAplacer[0] != 0 || nombreMarinAplacer[1] != 0);
 		actionsNextRound=actionsNextRoundTemporaire;
 

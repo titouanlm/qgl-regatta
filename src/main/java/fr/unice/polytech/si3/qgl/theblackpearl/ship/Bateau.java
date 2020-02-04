@@ -1,6 +1,7 @@
 package fr.unice.polytech.si3.qgl.theblackpearl.ship;
 
 import com.fasterxml.jackson.annotation.*;
+import fr.unice.polytech.si3.qgl.theblackpearl.Marin;
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.OAR;
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.Checkpoint;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Rectangle;
@@ -96,11 +97,36 @@ public class Bateau {
     }
 
     // à faire
-    public int[] nombreMarinsBabordTribord(double angle, int nombreMarins, ArrayList<Rame> nombreRames, int vitesse){
-        // pour un angle donné donne une configuration de marin possible
-        // si la configuraiton est impossible return null
-        // plusieurs facons de réaliser l'angle -> influt sur la vitesse donc prend en paramètre un int vitesse
-        // qui lui donne un information sur celle-ci
+    public int[] nombreMarinsBabordTribord(double angle, int nombreMarins, ArrayList<Rame> nombreRames){
+        double angleCalcule=0;
+        int i;
+        for (i=-nombreRames.size()/2;angleCalcule!=angle;i++){
+            angleCalcule = (Math.PI/nombreRames.size())*i;
+        }
+        i--;
+        int nombreMarinsBabordTribord[] = new int[2];
+        int b=0;
+        if (i>0) {
+            for (; i < (nombreRames.size() / 2); i++) {
+                i += 1;
+                b += 1;
+            }
+            nombreMarinsBabordTribord[0]=b;
+            nombreMarinsBabordTribord[1]=i;
+
+            return nombreMarinsBabordTribord;
+        }
+        if (i<0){
+            i=-i;
+            for (; i < (nombreRames.size() / 2); i++) {
+                i += 1;
+                b += 1;
+            }
+            nombreMarinsBabordTribord[0]=i;
+            nombreMarinsBabordTribord[1]=b;
+
+            return nombreMarinsBabordTribord;
+        }
         return null;
     }
 
