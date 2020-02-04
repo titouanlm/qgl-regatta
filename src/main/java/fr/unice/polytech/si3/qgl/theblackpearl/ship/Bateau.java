@@ -128,6 +128,14 @@ public class Bateau {
 
             return nombreMarinsBabordTribord;
         }
+        if (i==0){
+            i=nombreRames.size()/2;
+            b=nombreRames.size()/2;
+            nombreMarinsBabordTribord[0]=i;
+            nombreMarinsBabordTribord[1]=b;
+
+            return nombreMarinsBabordTribord;
+        }
         return null;
     }
 

@@ -57,7 +57,7 @@ public class Cockpit implements ICockpit {
 		}
 
 		double[] anglepossible = parsedInitGame.getBateau().anglesPossibles(parsedInitGame.getMarins().size());
-		Double angleoptimal = -Math.PI/2+Math.PI/6;// méthode qui nous renvoie l'angle optimal
+		Double angleoptimal = 0.0/*-Math.PI/2+Math.PI/6*/;// méthode qui nous renvoie l'angle optimal
 		ArrayList<Rame> nombreRames = parsedInitGame.getBateau().getListRames();
 		int[] nombreMarinAplacer = new int[2];
 		ArrayList<Entity> listeEntite = parsedInitGame.getBateau().getEntities();
@@ -75,7 +75,7 @@ public class Cockpit implements ICockpit {
 						nombreMarinAplacer[1] -= 1;
 						actionsNextRoundTemporaire.add(moving);
 					}
-					for (int b = 0; b < listeEntite.size(); b++) { // supprimer la rame utilisé pour cette configuration
+					for (int b = 0; b < listeEntite.size(); b++) { // supprimer la rame utilisée pour cette configuration
 						if (listeEntite.get(b) instanceof Rame) {
 							if (listeEntite.get(b).getY() - m.getY() == moving.getYdistance() && listeEntite.get(b).getX() - m.getX() == moving.getXdistance()) {
 								listeEntite.remove(b);
