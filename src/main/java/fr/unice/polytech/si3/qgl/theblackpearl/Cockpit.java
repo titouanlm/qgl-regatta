@@ -60,11 +60,12 @@ public class Cockpit implements ICockpit {
 		double[] anglepossible = parsedInitGame.getBateau().anglesPossibles(parsedInitGame.getMarins().size());
 		Double angleoptimal = ;// méthode qui nous renvoie l'angle optimal
 		ArrayList<Rame> nombreRames = parsedInitGame.getBateau().getListRames();
-		int[] nombreMarinAplacer = parsedInitGame.getBateau().nombreMarinsBabordTribord(angleoptimal, parsedInitGame.getMarins().size(),nombreRames, vitesse);
+		int[] nombreMarinAplacer;
 		ArrayList<Entity> listeEntite = parsedInitGame.getBateau().getEntities();
 		ArrayList<Action> actionsNextRoundTemporaire = new ArrayList<>();
 
 		do {
+			nombreMarinAplacer = parsedInitGame.getBateau().nombreMarinsBabordTribord(angleoptimal, parsedInitGame.getMarins().size(),nombreRames, vitesse);
 			for (Marin m : parsedInitGame.getMarins()) {
 				MOVING moving = m.planificationMarinAllerRamer(listeEntite, nombreMarinAplacer[0], nombreMarinAplacer[1], (int) ((Rectangle) parsedInitGame.getBateau().getShape()).getWidth());
 				if (moving != null && nombreMarinAplacer[0] != 0 && nombreMarinAplacer[1] != 0) { // on considère que les rames sont au bord du bateau (mais on ne sait jamais) d'ou le else if et pas le else
