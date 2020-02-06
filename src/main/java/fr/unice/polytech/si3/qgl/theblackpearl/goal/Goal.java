@@ -1,3 +1,4 @@
+
 package fr.unice.polytech.si3.qgl.theblackpearl.goal;
 
 import com.fasterxml.jackson.annotation.*;

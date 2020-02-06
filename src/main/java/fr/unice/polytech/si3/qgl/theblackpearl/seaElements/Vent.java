@@ -1,10 +1,14 @@
 package fr.unice.polytech.si3.qgl.theblackpearl.seaElements;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Vent {
     private double orientation;
     private double strength;
 
-    public Vent(double orientation, double strength) {
+    @JsonCreator
+    public Vent(@JsonProperty("orientation")double orientation,@JsonProperty("strength") double strength) {
         this.orientation = orientation;
         this.strength = strength;
     }

@@ -19,6 +19,7 @@ public class Main {
                 "          \"radius\": 50\n" +
                 "        }\n" +
                 "      },\n" +
+<<<<<<< HEAD
                         "      {\n" +
                         "        \"position\": {\n" +
                         "          \"x\": 0,\n" +
@@ -30,9 +31,21 @@ public class Main {
                         "          \"radius\": 50\n" +
                         "        }\n" +
                         "      }\n" +
+=======
+                "      {\n" +
+                "        \"position\": {\n" +
+                "          \"x\": 0,\n" +
+                "          \"y\": 0,\n" +
+                "          \"orientation\": 0\n" +
+                "        },\n" +
+                "        \"shape\": {\n" +
+                "          \"type\": \"circle\",\n" +
+                "          \"radius\": 50\n" +
+                "        }\n" +
+                "      }\n" +
+>>>>>>> beaed3d64bdbd27a6aa3de025d20a2b6f288972f
                 "    ]\n" +
                 "  },\n" +
-                "  \"shipCount\": 1,\n" +
                 "  \"ship\": {\n" +
                 "    \"type\": \"ship\",\n" +
                 "    \"life\": 100,\n" +
@@ -43,25 +56,56 @@ public class Main {
                 "    },\n" +
                 "    \"name\": \"Les copaings d'abord!\",\n" +
                 "    \"deck\": {\n" +
-                "      \"width\": 2,\n" +
-                "      \"length\": 1\n" +
+                "      \"width\": 3,\n" +
+                "      \"length\": 6\n" +
                 "    },\n" +
                 "    \"entities\": [\n" +
                 "      {\n" +
-                "        \"x\": 0,\n" +
+                "        \"x\": 1,\n" +
                 "        \"y\": 0,\n" +
                 "        \"type\": \"oar\"\n" +
                 "      },\n" +
                 "      {\n" +
                 "        \"x\": 1,\n" +
+                "        \"y\": 2,\n" +
+                "        \"type\": \"oar\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"x\": 3,\n" +
                 "        \"y\": 0,\n" +
                 "        \"type\": \"oar\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"x\": 3,\n" +
+                "        \"y\": 2,\n" +
+                "        \"type\": \"oar\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"x\": 4,\n" +
+                "        \"y\": 0,\n" +
+                "        \"type\": \"oar\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"x\": 4,\n" +
+                "        \"y\": 2,\n" +
+                "        \"type\": \"oar\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"x\": 2,\n" +
+                "        \"y\": 1,\n" +
+                "        \"type\": \"sail\",\n" +
+                "        \"openned\": false\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"x\": 5,\n" +
+                "        \"y\": 0,\n" +
+                "        \"type\": \"rudder\"\n" +
                 "      }\n" +
                 "    ],\n" +
                 "    \"shape\": {\n" +
                 "      \"type\": \"rectangle\",\n" +
-                "      \"width\": 2,\n" +
-                "      \"height\": 3,\n" +
+                "      \"width\": 3,\n" +
+                "      \"height\": 6,\n" +
                 "      \"orientation\": 0\n" +
                 "    }\n" +
                 "  },\n" +
@@ -76,6 +120,33 @@ public class Main {
                 "      \"x\": 0,\n" +
                 "      \"y\": 1,\n" +
                 "      \"id\": 1,\n" +
+<<<<<<< HEAD
+=======
+                "      \"name\": \"Edward Pouce\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"x\": 0,\n" +
+                "      \"y\": 2,\n" +
+                "      \"id\": 2,\n" +
+                "      \"name\": \"Tom Pouce\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"x\": 1,\n" +
+                "      \"y\": 0,\n" +
+                "      \"id\": 3,\n" +
+                "      \"name\": \"Jack Teach\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"x\": 1,\n" +
+                "      \"y\": 1,\n" +
+                "      \"id\": 4,\n" +
+                "      \"name\": \"Jack Teach\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"x\": 1,\n" +
+                "      \"y\": 2,\n" +
+                "      \"id\": 5,\n" +
+>>>>>>> beaed3d64bdbd27a6aa3de025d20a2b6f288972f
                 "      \"name\": \"Tom Pouce\"\n" +
                 "    }\n" +
                 "  ]\n" +
@@ -84,6 +155,7 @@ public class Main {
 
 
                 // for future test
+<<<<<<< HEAD
                String test =  c.nextRound(
                 "{" +
                     "\"ship\": " +
@@ -119,6 +191,94 @@ public class Main {
                         "\"visibleEntities\": [] " +
                 "}"
                 );
+=======
+               String test =  c.nextRound("{\n" +
+                       "  \"ship\": {\n" +
+                       "    \"type\": \"ship\",\n" +
+                       "    \"life\": 100,\n" +
+                       "    \"position\": {\n" +
+                       "      \"x\": 0,\n" +
+                       "      \"y\": 0,\n" +
+                       "      \"orientation\": 0\n" +
+                       "    },\n" +
+                       "    \"name\": \"Les copaings d'abord!\",\n" +
+                       "    \"deck\": {\n" +
+                       "      \"width\": 3,\n" +
+                       "      \"length\": 6\n" +
+                       "    },\n" +
+                       "    \"entities\": [\n" +
+                       "      {\n" +
+                       "        \"x\": 1,\n" +
+                       "        \"y\": 0,\n" +
+                       "        \"type\": \"oar\"\n" +
+                       "      },\n" +
+                       "      {\n" +
+                       "        \"x\": 1,\n" +
+                       "        \"y\": 2,\n" +
+                       "        \"type\": \"oar\"\n" +
+                       "      },\n" +
+                       "      {\n" +
+                       "        \"x\": 3,\n" +
+                       "        \"y\": 0,\n" +
+                       "        \"type\": \"oar\"\n" +
+                       "      },\n" +
+                       "      {\n" +
+                       "        \"x\": 3,\n" +
+                       "        \"y\": 2,\n" +
+                       "        \"type\": \"oar\"\n" +
+                       "      },\n" +
+                       "      {\n" +
+                       "        \"x\": 4,\n" +
+                       "        \"y\": 0,\n" +
+                       "        \"type\": \"oar\"\n" +
+                       "      },\n" +
+                       "      {\n" +
+                       "        \"x\": 4,\n" +
+                       "        \"y\": 2,\n" +
+                       "        \"type\": \"oar\"\n" +
+                       "      },\n" +
+                       "      {\n" +
+                       "        \"x\": 2,\n" +
+                       "        \"y\": 1,\n" +
+                       "        \"type\": \"sail\",\n" +
+                       "        \"openned\": false\n" +
+                       "      },\n" +
+                       "      {\n" +
+                       "        \"x\": 5,\n" +
+                       "        \"y\": 0,\n" +
+                       "        \"type\": \"rudder\"\n" +
+                       "      }\n" +
+                       "    ],\n" +
+                       "    \"shape\": {\n" +
+                       "      \"type\": \"rectangle\",\n" +
+                       "      \"width\": 3,\n" +
+                       "      \"height\": 6,\n" +
+                       "      \"orientation\": 0\n" +
+                       "    }\n" +
+                       "  },\n" +
+                       "  \"visibleEntities\": [\n" +
+                       "    {\n" +
+                       "      \"type\": \"stream\",\n" +
+                       "      \"position\": {\n" +
+                       "        \"x\": 500,\n" +
+                       "        \"y\": 0,\n" +
+                       "        \"orientation\": 0\n" +
+                       "      },\n" +
+                       "      \"shape\": {\n" +
+                       "        \"type\": \"rectangle\",\n" +
+                       "        \"width\": 50,\n" +
+                       "        \"height\": 500,\n" +
+                       "        \"orientation\": 0\n" +
+                       "      },\n" +
+                       "      \"strength\": 40\n" +
+                       "    }\n" +
+                       "  ],\n" +
+                       "  \"wind\": {\n" +
+                       "    \"orientation\": 0,\n" +
+                       "    \"strength\": 110\n" +
+                       "  }\n" +
+                       "}");
+>>>>>>> beaed3d64bdbd27a6aa3de025d20a2b6f288972f
 
 
                System.out.println(test);

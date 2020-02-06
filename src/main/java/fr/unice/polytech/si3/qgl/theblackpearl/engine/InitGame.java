@@ -3,10 +3,12 @@ package fr.unice.polytech.si3.qgl.theblackpearl.engine;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.unice.polytech.si3.qgl.theblackpearl.Marin;
+import fr.unice.polytech.si3.qgl.theblackpearl.goal.Checkpoint;
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.Goal;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.Bateau;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import java.util.Arrays;
@@ -29,6 +31,10 @@ public class InitGame {
         return this.ship;
     }
 
+    public Goal getGoal(){
+        return this.goal;
+    }
+
     public void setBateau(Bateau ship) {
         this.ship = ship;
     }
@@ -47,7 +53,4 @@ public class InitGame {
                 '}';
     }
 
-    public Goal getGoal() {
-        return goal;
-    }
 }
