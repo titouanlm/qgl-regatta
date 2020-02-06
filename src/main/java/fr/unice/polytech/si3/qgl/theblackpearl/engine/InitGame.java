@@ -15,10 +15,10 @@ public class InitGame {
     private Goal goal;
     private int shipCount;
     private Bateau ship;
-    private Marin[] sailors;
+    private List<Marin> sailors;
 
     @JsonCreator
-    public InitGame(@JsonProperty("goal") Goal goal, @JsonProperty("shipCount") int shipCount, @JsonProperty("ship") Bateau ship, @JsonProperty("sailors") Marin[] sailors){
+    public InitGame(@JsonProperty("goal") Goal goal, @JsonProperty("shipCount") int shipCount, @JsonProperty("ship") Bateau ship, @JsonProperty("sailors") List<Marin> sailors){
         this.goal = goal;
         this.shipCount  = shipCount;
         this.ship = ship;
@@ -33,7 +33,7 @@ public class InitGame {
         this.ship = ship;
     }
 
-    public Marin[] getMarins() {
+    public List<Marin> getMarins() {
         return sailors;
     }
 
@@ -43,12 +43,11 @@ public class InitGame {
                 "goal=" + goal +
                 ", shipCount=" + shipCount +
                 ", ship=" + ship +
-                ", sailors=" + Arrays.toString(sailors) +
+                ", sailors=" + sailors +
                 '}';
     }
 
-    public Marin[] getSailors() {
-        return sailors;
+    public Goal getGoal() {
+        return goal;
     }
-
 }

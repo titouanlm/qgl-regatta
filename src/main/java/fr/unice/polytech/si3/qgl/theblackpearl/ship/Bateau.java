@@ -1,11 +1,18 @@
 package fr.unice.polytech.si3.qgl.theblackpearl.ship;
 
 import com.fasterxml.jackson.annotation.*;
+import fr.unice.polytech.si3.qgl.theblackpearl.Marin;
+import fr.unice.polytech.si3.qgl.theblackpearl.actions.Action;
+import fr.unice.polytech.si3.qgl.theblackpearl.actions.OAR;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
 import fr.unice.polytech.si3.qgl.theblackpearl.Position;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Shape;
+import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Rame;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 
 @JsonTypeName("ship")
 public class Bateau {
@@ -76,4 +83,83 @@ public class Bateau {
                 ", shape=" + shape +
                 '}';
     }
+
+    public List<Double> anglesPossibles() {
+        List<Double> anglesRealisables = new ArrayList<>();
+        int nbRames = getNbRame();
+        for( int i=1 ; i<=nbRames/2 ; i++){
+            anglesRealisables.add(i*Math.PI/nbRames);
+            anglesRealisables.add(i*-Math.PI/nbRames);
+        }
+        anglesRealisables.add(0.0);
+        return anglesRealisables;
+    }
+
+    public List<Double> meilleurAngleRealisable(double angleIdealVersCheckpoint){
+        List<Double> meilleursAnglesRealisables = anglesPossibles();
+
+        meilleursAnglesRealisables.sort(Comparator.comparingDouble( angle -> Math.abs(angleIdealVersCheckpoint-angle)));
+
+        return meilleursAnglesRealisables;
+    }
+
+    public int getNbRame() {
+        int nbRame =0;
+        for(Entity e : getEntities()){
+            if(e instanceof Rame){
+                nbRame++;
+            }
+        }
+        return nbRame;
+    }
+
+    public void initRameUsed(List<Marin> marins){
+        for(Entity e : entities) {
+            if(e instanceof Rame){
+                for (Marin m : marins) {
+                    if (m.getX() == e.getX() && m.getY() == e.getY() ) {
+                        ((Rame) e).setUsed(true);
+                    }
+                }
+            }
+        }
+    }
+
+    public List<Action> allerToutDroit(List<Marin> marins) {
+        int nbMarinsTribord = nbMarinRameTribord(marins);
+        int nbMarinsBabord  = nbMarinRameBabord(marins);
+        List<Action> actions = new ArrayList<>();
+
+        if(nbMarinsTribord==nbMarinsBabord){
+            for(Marin m : marins){
+                actions.add(new OAR(m.getId()));
+            }
+        }
+        return actions;
+    }
+
+    public int nbMarinRameTribord(List<Marin> marins){
+        int nbMarinRameTribord=0;
+        for(Marin m : marins){
+            for(Entity e : entities){
+                if(e instanceof Rame && e.getY()==this.getDeck().getWidth()-1 && m.getX() == e.getX() && m.getY() == e.getY()){
+                    nbMarinRameTribord++;
+                }
+            }
+        }
+        return nbMarinRameTribord;
+    }
+
+    public int nbMarinRameBabord(List<Marin> marins){
+        int nbMarinRameBabord=0;
+        for(Marin m : marins){
+            for(Entity e : entities){
+                if(e instanceof Rame && e.getY()==0 && m.getX() == e.getX() && m.getY() == e.getY()){
+                    nbMarinRameBabord++;
+                }
+            }
+        }
+        return nbMarinRameBabord;
+    }
+
 }

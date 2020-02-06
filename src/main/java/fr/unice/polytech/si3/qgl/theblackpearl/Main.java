@@ -11,14 +11,25 @@ public class Main {
                 "      {\n" +
                 "        \"position\": {\n" +
                 "          \"x\": 1000,\n" +
-                "          \"y\": 0,\n" +
+                "          \"y\": 1000,\n" +
                 "          \"orientation\": 0\n" +
                 "        },\n" +
                 "        \"shape\": {\n" +
                 "          \"type\": \"circle\",\n" +
                 "          \"radius\": 50\n" +
                 "        }\n" +
-                "      }\n" +
+                "      },\n" +
+                        "      {\n" +
+                        "        \"position\": {\n" +
+                        "          \"x\": 0,\n" +
+                        "          \"y\": 1000,\n" +
+                        "          \"orientation\": 0\n" +
+                        "        },\n" +
+                        "        \"shape\": {\n" +
+                        "          \"type\": \"circle\",\n" +
+                        "          \"radius\": 50\n" +
+                        "        }\n" +
+                        "      }\n" +
                 "    ]\n" +
                 "  },\n" +
                 "  \"shipCount\": 1,\n" +
@@ -62,8 +73,8 @@ public class Main {
                 "      \"name\": \"Edward Teach\"\n" +
                 "    },\n" +
                 "    {\n" +
-                "      \"x\": 1,\n" +
-                "      \"y\": 0,\n" +
+                "      \"x\": 0,\n" +
+                "      \"y\": 1,\n" +
                 "      \"id\": 1,\n" +
                 "      \"name\": \"Tom Pouce\"\n" +
                 "    }\n" +
@@ -81,9 +92,9 @@ public class Main {
                             "\"life\": 100," +
                             "\"position\":" +
                                 "{" +
-                                    "\"x\": 10.654, " +
-                                    "\"y\": 3, " +
-                                    "\"orientation\": 2.05 " +
+                                    "\"x\": 0, " +
+                                    "\"y\": 0, " +
+                                    "\"orientation\": -1.57079632679" +
                                 "}," +
                             "\"name\": \"Les copaings d'abord!\" ," +
                             "\"deck\": " +
@@ -99,8 +110,8 @@ public class Main {
                                         "\"type\": \"oar\"" +
                                     "}," +
                                     "{" +
-                                        "\"x\": 1," +
-                                        "\"y\": 0," +
+                                        "\"x\": 0," +
+                                        "\"y\": 1," +
                                         "\"type\": \"oar\"" +
                                     "}" +
                                 "]" +
@@ -109,10 +120,11 @@ public class Main {
                 "}"
                 );
 
-        System.out.println(test);
-        for(String s : c.getLogs()){
-            System.out.println(s);
-        }
+
+               System.out.println(test);
+//        for(String s : c.getLogs()){
+//            System.out.println(s);
+//        }
 
     }
 
