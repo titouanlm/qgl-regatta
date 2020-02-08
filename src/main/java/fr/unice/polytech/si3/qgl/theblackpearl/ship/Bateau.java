@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.StreamSupport;
 
 @JsonTypeName("ship")
 public class Bateau {
@@ -23,12 +24,11 @@ public class Bateau {
     private Deck deck;
     private ArrayList<Entity> entities;
     private Shape shape;
-    public double orientationBateau;
 
     @JsonCreator
     public Bateau(@JsonProperty("type") String type, @JsonProperty("life") int life, @JsonProperty("position")  Position position,
                   @JsonProperty("name")  String name, @JsonProperty("deck") Deck deck, @JsonProperty("entities") ArrayList<Entity> entities,
-                  @JsonProperty("shape")  Shape shape, @JsonProperty("orientation")  double orientation) {
+                  @JsonProperty("shape")  Shape shape) {
 
         this.type = type;
         this.life = life;
@@ -37,7 +37,6 @@ public class Bateau {
         this.deck = deck;
         this.entities = entities;
         this.shape = shape;
-        this.orientationBateau=orientation;
     }
 
     public String getType() {
@@ -78,63 +77,42 @@ public class Bateau {
         return listRames;
     }
 
-    public double[] anglesPossibles(int nombreMarins) { // certains angles ne peuvent pas être réalisé s'il n'y a pas assez de marins
-        // voir si les marins peuvent se rendre jusqu'a la rame
-
-        double angle[] = new double[nombreMarins == 1 ? 2 : (getListRames().size() <= nombreMarins ? getListRames().size() + 1 : nombreMarins + 1)];
-        if (nombreMarins == 1) {
-            angle[0] = (Math.PI/2) * (double) (1 / getListRames().size()) * (double) (2);
-            angle[1] = - angle[0] ;
-        }
-        else {
-            for (int i = 0; i < getListRames().size()+1; i++) { // je mets tout les angles possibles dans un tableau
-                angle[i] = (Math.PI / 2) - (Math.PI / getListRames().size())*i ;
-            }
-        }
-        return angle;
-    }
-
-    // à faire
     public int[] nombreMarinsBabordTribord(double angle, int nombreMarins, ArrayList<Rame> nombreRames){
         double angleCalcule=-(Math.PI/2)-Math.PI/nombreRames.size();
         int i;
-        for (i=-nombreRames.size()/2; ;i++){ // il faut tronquer le double angle   Calcule!=angle
+        for (i=-nombreRames.size()/2; ;i++){
             angleCalcule += Math.PI/nombreRames.size();
-            if (angleCalcule>=angle-9.9E-5 && angleCalcule<=angle+9.9E-5) break;
+            if (angleCalcule>=(angle - Math.pow(5.0, -6.0))  && angleCalcule<=(angle + Math.pow(5.0, -6.0))){
+                break;
+            }
+            if (i>nombreRames.size()/2) return null;
         }
         int nombreMarinsBabordTribord[] = new int[2];
         int b=0;
         if (i>0) {
-            for (; i < (nombreRames.size() / 2); i++) {
+            for (; i < (nombreRames.size() / 2); ) {
                 i += 1;
                 b += 1;
             }
-
             nombreMarinsBabordTribord[0]=b;
             nombreMarinsBabordTribord[1]=i;
-
-            return nombreMarinsBabordTribord;
         }
-        if (i<0){
+        else if (i<0){
             i=-i;
-            for (; i < (nombreRames.size() / 2); i++) {
+            for (; i < (nombreRames.size() / 2); ) {
                 i += 1;
                 b += 1;
             }
             nombreMarinsBabordTribord[0]=i;
             nombreMarinsBabordTribord[1]=b;
-
-            return nombreMarinsBabordTribord;
         }
-        if (i==0){
+        else {
             i=nombreRames.size()/2;
             b=nombreRames.size()/2;
             nombreMarinsBabordTribord[0]=i;
             nombreMarinsBabordTribord[1]=b;
-
-            return nombreMarinsBabordTribord;
         }
-        return null;
+        return nombreMarinsBabordTribord;
     }
 
     public Shape getShape() {

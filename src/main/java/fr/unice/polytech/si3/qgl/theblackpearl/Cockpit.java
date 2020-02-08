@@ -16,6 +16,8 @@ import fr.unice.polytech.si3.qgl.theblackpearl.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Rame;
 
+import javax.swing.text.StyledEditorKit;
+
 public class Cockpit implements ICockpit {
 	private InitGame parsedInitGame;
 	private ObjectMapper objectMapper;
@@ -45,6 +47,8 @@ public class Cockpit implements ICockpit {
 			e.printStackTrace();
 		}
 
+		double angleoptimal = 0.0;/*-Math.PI/2+Math.PI/6*/;// méthode qui nous renvoie l'angle optimal
+
 		//1. Tester si on a atteint le check point (et si on a finit la course) ==> supprime le checkpoint
 		if(parsedInitGame.getGoal() instanceof RegattaGoal){
 			RegattaGoal regatta = (RegattaGoal) parsedInitGame.getGoal();
@@ -56,35 +60,22 @@ public class Cockpit implements ICockpit {
 			if(nextCheckpoint!=null){
 				Position pCheck = nextCheckpoint.getPosition();
 				double angleIdeal = Math.atan2(pCheck.getY()-parsedInitGame.getBateau().getPosition().getY(),pCheck.getX()-parsedInitGame.getBateau().getPosition().getX()) - parsedInitGame.getBateau().getPosition().getOrientation();
-				System.out.println(angleIdeal);
-				System.out.println(parsedInitGame.getBateau().nbMarinRameBabord(parsedInitGame.getMarins()));
-				System.out.println(parsedInitGame.getBateau().nbMarinRameTribord(parsedInitGame.getMarins()));
+				//System.out.println(angleIdeal);
+				//System.out.println(parsedInitGame.getBateau().nbMarinRameBabord(parsedInitGame.getMarins()));
+				//System.out.println(parsedInitGame.getBateau().nbMarinRameTribord(parsedInitGame.getMarins()));
 
-				System.out.println(parsedInitGame.getBateau().meilleurAngleRealisable(angleIdeal));
+				//System.out.println(parsedInitGame.getBateau().meilleurAngleRealisable(angleIdeal));
 				//3. Calculer la solution la plus optimale pour orienter correctement le bateau (tout en avancant si possible) avec les éléments à notre disposition
 				for(double angle : parsedInitGame.getBateau().meilleurAngleRealisable(angleIdeal)){
-					if(angle == parsedInitGame.getBateau().getPosition().getOrientation()){
-						//parsedInitGame.getBateau().allerToutDroit(parsedInitGame.getMarins());
-						break;
-					}else{
-
-//						if(!=null){
-//							break;
-//						}
-					}
+					angleoptimal = angle;
+					break;
 				}
 			}
-
 		}
 
-        //4. Faire et Renvoyer les actions pour le tour d'après
-
-        // TESTER LE CODE DANS PLUSIEURS CAS
 
 		//Creation of Actions
 		List<Action> actionsNextRound = new ArrayList<>();
-
-// =======
 
 		// Retourne liste constitué d'ensemble de rames à activer
 		// Test toute les configuration possibles, si c'est impossible on passe à la configuration suivante
@@ -94,40 +85,59 @@ public class Cockpit implements ICockpit {
 			marin.setLibre(true);
 		}
 
-		double[] anglepossible = parsedInitGame.getBateau().anglesPossibles(parsedInitGame.getMarins().size());
-		Double angleoptimal = 0.0/*-Math.PI/2+Math.PI/6*/;// méthode qui nous renvoie l'angle optimal
+		//double[] anglepossible = parsedInitGame.getBateau().anglesPossibles(parsedInitGame.getMarins().size());
 		ArrayList<Rame> nombreRames = parsedInitGame.getBateau().getListRames();
 		int[] nombreMarinAplacer = new int[2];
 		ArrayList<Entity> listeEntite = parsedInitGame.getBateau().getEntities();
 		ArrayList<Action> actionsNextRoundTemporaire = new ArrayList<>();
+		boolean True=false;
+		boolean True2=false;
+		System.out.println("Rame Utilisées");
+		System.out.println("-----------------");
 
-		do {
+		//do {
 			nombreMarinAplacer = parsedInitGame.getBateau().nombreMarinsBabordTribord(angleoptimal, parsedInitGame.getMarins().size(),nombreRames);
-			for (Marin m : parsedInitGame.getMarins()) {
-				MOVING moving = m.planificationMarinAllerRamer(listeEntite, nombreMarinAplacer[0], nombreMarinAplacer[1], (int) ((Rectangle) parsedInitGame.getBateau().getShape()).getWidth());
-				if (moving != null && (nombreMarinAplacer[0] != 0 | nombreMarinAplacer[1] != 0)) { // on considère que les rames sont au bord du bateau (mais on ne sait jamais) d'ou le else if et pas le else
-					if (moving.getYdistance()+m.getY() == 0 && nombreMarinAplacer[0] > 0) { //Babord
-						nombreMarinAplacer[0] -= 1;
-						actionsNextRoundTemporaire.add(moving);
-					} else if (moving.getYdistance()+m.getY() != 0 && nombreMarinAplacer[1] > 0) { //Tribord
-						nombreMarinAplacer[1] -= 1;
-						actionsNextRoundTemporaire.add(moving);
-					}
-					for (int b = 0; b < listeEntite.size(); b++) { // supprimer la rame utilisée pour cette configuration
-						if (listeEntite.get(b) instanceof Rame) {
-							if (listeEntite.get(b).getY() - m.getY() == moving.getYdistance() && listeEntite.get(b).getX() - m.getX() == moving.getXdistance()) {
-								listeEntite.remove(b);
-								break;
+			for (Marin m : parsedInitGame.getMarins()){
+				if (m.isLibre()) {
+					MOVING moving = m.planificationMarinAllerRamer(listeEntite, nombreMarinAplacer[0], nombreMarinAplacer[1], (int) ((Rectangle) parsedInitGame.getBateau().getShape()).getWidth());
+					if (moving != null && (nombreMarinAplacer[0] != 0 | nombreMarinAplacer[1] != 0)) { // on considère que les rames sont au bord du bateau (mais on ne sait jamais) d'ou le else if et pas le else
+						if (moving.getYdistance() + m.getY() == 0 && nombreMarinAplacer[0] > 0) { //Babord
+							nombreMarinAplacer[0] -= 1;
+							actionsNextRoundTemporaire.add(moving);
+							True = true;
+						} else if (moving.getYdistance() + m.getY() != 0 && nombreMarinAplacer[1] > 0) { //Tribord
+							nombreMarinAplacer[1] -= 1;
+							actionsNextRoundTemporaire.add(moving);
+							True2 = true;
+						} else {
+							m.setLibre(true);
+						}
+						for (int b = 0; b < listeEntite.size(); b++) { // supprimer la rame utilisée pour cette configuration
+							if (listeEntite.get(b) instanceof Rame && (True | True2)) {
+								if ((listeEntite.get(b).getY() - m.getY()) == moving.getYdistance() && (listeEntite.get(b).getX() - m.getX()) == moving.getXdistance()) {
+									System.out.println(listeEntite.get(b));
+									listeEntite.remove(b);
+									break;
+								}
 							}
 						}
+						m.setX(moving.getXdistance() + m.getX());
+						m.setY(moving.getYdistance() + m.getY());
 					}
 				}
 			}
-		} while (nombreMarinAplacer[0] != 0 && nombreMarinAplacer[1] != 0);
+		//} while (nombreMarinAplacer[0] != 0 && nombreMarinAplacer[1] != 0);
 
 		actionsNextRound=actionsNextRoundTemporaire;
-
-
+		System.out.println("-----------------");
+		System.out.println("\nRame Libres");
+		System.out.println("-----------------");
+		for (Entity c : listeEntite){
+			if (c instanceof Rame){
+				System.out.println(c);
+			}
+		}
+		System.out.println("-----------------\n");
 		//Creation of
 		for(Marin m : parsedInitGame.getMarins()){
 			if (!m.isLibre()) {
@@ -141,7 +151,7 @@ public class Cockpit implements ICockpit {
 			for(int i=0; i<actionsNextRound.size(); i++){
 				roundJSON.append(objectMapper.writeValueAsString(actionsNextRound.get(i)));
 				if(i!=actionsNextRound.size()-1){
-					roundJSON.append(",");
+					roundJSON.append(",\n");
 				}
 			}
 		}catch (JsonProcessingException e) {
