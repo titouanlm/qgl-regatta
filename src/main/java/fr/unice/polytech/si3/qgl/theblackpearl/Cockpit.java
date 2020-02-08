@@ -92,8 +92,6 @@ public class Cockpit implements ICockpit {
 		ArrayList<Action> actionsNextRoundTemporaire = new ArrayList<>();
 		boolean True=false;
 		boolean True2=false;
-		System.out.println("Rame Utilisées");
-		System.out.println("-----------------");
 
 		//do {
 			nombreMarinAplacer = parsedInitGame.getBateau().nombreMarinsBabordTribord(angleoptimal, parsedInitGame.getMarins().size(),nombreRames);
@@ -115,7 +113,6 @@ public class Cockpit implements ICockpit {
 						for (int b = 0; b < listeEntite.size(); b++) { // supprimer la rame utilisée pour cette configuration
 							if (listeEntite.get(b) instanceof Rame && (True | True2)) {
 								if ((listeEntite.get(b).getY() - m.getY()) == moving.getYdistance() && (listeEntite.get(b).getX() - m.getX()) == moving.getXdistance()) {
-									System.out.println(listeEntite.get(b));
 									listeEntite.remove(b);
 									break;
 								}
@@ -129,15 +126,6 @@ public class Cockpit implements ICockpit {
 		//} while (nombreMarinAplacer[0] != 0 && nombreMarinAplacer[1] != 0);
 
 		actionsNextRound=actionsNextRoundTemporaire;
-		System.out.println("-----------------");
-		System.out.println("\nRame Libres");
-		System.out.println("-----------------");
-		for (Entity c : listeEntite){
-			if (c instanceof Rame){
-				System.out.println(c);
-			}
-		}
-		System.out.println("-----------------\n");
 		//Creation of
 		for(Marin m : parsedInitGame.getMarins()){
 			if (!m.isLibre()) {
@@ -151,7 +139,7 @@ public class Cockpit implements ICockpit {
 			for(int i=0; i<actionsNextRound.size(); i++){
 				roundJSON.append(objectMapper.writeValueAsString(actionsNextRound.get(i)));
 				if(i!=actionsNextRound.size()-1){
-					roundJSON.append(",\n");
+					roundJSON.append(",");
 				}
 			}
 		}catch (JsonProcessingException e) {
