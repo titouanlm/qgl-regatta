@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.BattleGoal;
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.RegattaGoal;
 
+import java.util.ArrayList;
+
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
         include = JsonTypeInfo.As.PROPERTY,
@@ -59,7 +61,6 @@ public abstract class Entity {
     public void setLibre(boolean libre){
         this.libre=libre;
     }
-
 
     public void setY(int y) {
         this.y = y;

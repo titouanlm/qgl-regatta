@@ -110,14 +110,7 @@ public class Cockpit implements ICockpit {
 						} else {
 							m.setLibre(true);
 						}
-						for (int b = 0; b < listeEntite.size(); b++) { // supprimer la rame utilisée pour cette configuration
-							if (listeEntite.get(b) instanceof Rame && (True | True2)) {
-								if ((listeEntite.get(b).getY() - m.getY()) == moving.getYdistance() && (listeEntite.get(b).getX() - m.getX()) == moving.getXdistance()) {
-									listeEntite.remove(b);
-									break;
-								}
-							}
-						}
+						listeEntite=supprimerEntite(listeEntite, True, True2, m, moving);
 						m.setX(moving.getXdistance() + m.getX());
 						m.setY(moving.getYdistance() + m.getY());
 					}
@@ -148,6 +141,21 @@ public class Cockpit implements ICockpit {
 		roundJSON.append("]");
 
 		return roundJSON.toString();
+	}
+
+	public ArrayList<Entity> supprimerEntite(ArrayList<Entity> listeEntite, boolean True, boolean True2, Marin m, MOVING moving){
+		if (listeEntite!=null) {
+			for (int b = 0; b < listeEntite.size(); b++) { // supprimer la rame utilisée pour cette configuration
+				if (listeEntite.get(b) instanceof Rame && (True | True2)) {
+					if ((listeEntite.get(b).getY() - m.getY()) == moving.getYdistance() && (listeEntite.get(b).getX() - m.getX()) == moving.getXdistance()) {
+						listeEntite.remove(b);
+						break;
+					}
+				}
+			}
+			return listeEntite;
+		}
+		else return null;
 	}
 
 
