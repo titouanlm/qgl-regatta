@@ -47,7 +47,7 @@ public class Cockpit implements ICockpit {
 			e.printStackTrace();
 		}
 
-		double angleoptimal = 0.0;/*-Math.PI/2+Math.PI/6*/;// méthode qui nous renvoie l'angle optimal
+		double meilleurAngleRealisable = 0.0;/*-Math.PI/2+Math.PI/6*/;// méthode qui nous renvoie l'angle optimal
 
 		//1. Tester si on a atteint le check point (et si on a finit la course) ==> supprime le checkpoint
 		if(parsedInitGame.getGoal() instanceof RegattaGoal){
@@ -66,8 +66,8 @@ public class Cockpit implements ICockpit {
 
 				//System.out.println(parsedInitGame.getBateau().meilleurAngleRealisable(angleIdeal));
 				//3. Calculer la solution la plus optimale pour orienter correctement le bateau (tout en avancant si possible) avec les éléments à notre disposition
-				for(double angle : parsedInitGame.getBateau().meilleurAngleRealisable(angleIdeal)){
-					angleoptimal = angle;
+				for(double angleOptimal : parsedInitGame.getBateau().meilleurAngleRealisable(angleIdeal)){
+					meilleurAngleRealisable = angleOptimal;
 					break;
 				}
 			}
@@ -94,7 +94,7 @@ public class Cockpit implements ICockpit {
 		boolean True2=false;
 
 		//do {
-			nombreMarinAplacer = parsedInitGame.getBateau().nombreMarinsBabordTribord(angleoptimal, parsedInitGame.getMarins().size(),nombreRames);
+			nombreMarinAplacer = parsedInitGame.getBateau().nombreMarinsBabordTribord(meilleurAngleRealisable, parsedInitGame.getMarins().size(),nombreRames);
 			for (Marin m : parsedInitGame.getMarins()){
 				if (m.isLibre()) {
 					MOVING moving = m.planificationMarinAllerRamer(listeEntite, nombreMarinAplacer[0], nombreMarinAplacer[1], (int) ((Rectangle) parsedInitGame.getBateau().getShape()).getWidth());
