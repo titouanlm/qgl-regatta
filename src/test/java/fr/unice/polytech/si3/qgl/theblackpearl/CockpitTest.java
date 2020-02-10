@@ -45,11 +45,11 @@ class CockpitTest {
         boolean True3=false;
         Marin marin = new Marin(1, 5 ,6,"Edward Teach");
         MOVING moving = new MOVING(1,"MOVING",2,2);
-        assertEquals((cockpit.supprimerEntite(listeEntite,True,True2,marin,moving).size()),5);
-        assertEquals((cockpit.supprimerEntite(listeEntite,True,True2,marin,moving).size()),5);
-        assertEquals((cockpit.supprimerEntite(listeEntite,True3,True2,marin,moving).size()),5);
+        assertEquals((cockpit.getCaptain().supprimerEntite(listeEntite,True,True2,marin,moving).size()),5);
+        assertEquals((cockpit.getCaptain().supprimerEntite(listeEntite,True,True2,marin,moving).size()),5);
+        assertEquals((cockpit.getCaptain().supprimerEntite(listeEntite,True3,True2,marin,moving).size()),5);
         ArrayList<Entity> listeNulle = new ArrayList<>();
-        assertEquals((cockpit.supprimerEntite(listeNulle,True3,True2,marin,moving)).size(),0);
+        assertEquals((cockpit.getCaptain().supprimerEntite(listeNulle,True3,True2,marin,moving)).size(),0);
     }
 
 
