@@ -85,27 +85,20 @@ public class Referee {
 
         for (Rame rame : rames) {
             if (rame.isUsed()) {
-                if (bateau.getDeck().isStarboard(oar)) { // Starboard = tribord = droite
+                if (bateau.getDeck().isStarboard(rame)) { // Starboard = tribord = droite
                     radialSpeed += rotationSpeedPerOar;
-                } else if (bateau.getDeck().isPort(oar)) { // Port = bâbord = gauche
+                } else if (bateau.getDeck().isPort(rame)) { // Port = bâbord = gauche
                     radialSpeed -= rotationSpeedPerOar;
                 }
             }
         }
+
+        // TO FINISH
+
         // update infos of the string NextRound
         // Creation/Update of nextRound JSON file
-        StringBuilder roundJSON= new StringBuilder("[");
-        try {
-            for(int i=0; i < cockpit.getParsedNextRound().size(); i++){
-                roundJSON.append(cockpit.getObjectMapper().writeValueAsString(actionsNextRound.get(i)));
-                if(i!=actionsNextRound.size()-1){
-                    roundJSON.append(",");
-                }
-            }
-        }catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        roundJSON.append("]");
+        // TODO
+
 
     }
     /*
@@ -115,8 +108,7 @@ public class Referee {
     public void verifyActions(String actions){
 
     }
-
-    public void updateParsedNextRound()
+    
 
 
 }
