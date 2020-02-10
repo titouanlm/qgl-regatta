@@ -51,7 +51,6 @@ class CalculatorTest {
         posCheckpoint = new Position(32, -627,0);
         //assertEquals(calcul.calculAngleIdeal(posBateau, posCheckpoint), 0);
 
-
     }
 
     @Test
