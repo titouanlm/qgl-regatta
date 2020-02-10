@@ -20,10 +20,12 @@ public class Cockpit implements ICockpit {
 	private InitGame parsedInitGame;
 	private ObjectMapper objectMapper;
 	private List<String> logs;
+	private Calculator calculator;
 
 	public Cockpit(){
 		objectMapper = new ObjectMapper();
 		logs = new ArrayList<>();
+		calculator = new Calculator();
 	}
 
 	public void initGame(String game) {
@@ -48,21 +50,14 @@ public class Cockpit implements ICockpit {
 		//1. Tester si on a atteint le check point (et si on a finit la course) ==> supprime le checkpoint
 		if(parsedInitGame.getGoal() instanceof RegattaGoal){
 			RegattaGoal regatta = (RegattaGoal) parsedInitGame.getGoal();
-			if(regatta.shipIsInsideCheckpoint(parsedInitGame.getBateau())){
+			if(calculator.pointIsInsideCheckpoint(parsedInitGame.getBateau().getPosition(), regatta.getCheckpoints().get(0))){
 					regatta.removeCheckpoint();
 			}
 			//2. Calculer l'orientation du bateau pour qu'il soit dans l'axe du prochain checkpoint
 			Checkpoint nextCheckpoint = regatta.getCheckpoints().get(0);
 			if(nextCheckpoint!=null){
-				Position pCheck = nextCheckpoint.getPosition();
-				double angleIdeal = Math.atan2(pCheck.getY()-parsedInitGame.getBateau().getPosition().getY(),pCheck.getX()-parsedInitGame.getBateau().getPosition().getX()) - parsedInitGame.getBateau().getPosition().getOrientation();
-				System.out.println(angleIdeal);
-				System.out.println(parsedInitGame.getBateau().nbMarinRameBabord(parsedInitGame.getMarins()));
-				System.out.println(parsedInitGame.getBateau().nbMarinRameTribord(parsedInitGame.getMarins()));
-
-				System.out.println(parsedInitGame.getBateau().meilleurAngleRealisable(angleIdeal));
 				//3. Calculer la solution la plus optimale pour orienter correctement le bateau (tout en avancant si possible) avec les éléments à notre disposition
-				for(double angle : parsedInitGame.getBateau().meilleurAngleRealisable(angleIdeal)){
+				for(double angle : parsedInitGame.getBateau().meilleurAngleRealisable(calculator.calculAngleIdeal(parsedInitGame.getBateau().getPosition(), nextCheckpoint.getPosition()))){
 					if(angle == parsedInitGame.getBateau().getPosition().getOrientation()){
 						//parsedInitGame.getBateau().allerToutDroit(parsedInitGame.getMarins());
 						break;
@@ -98,7 +93,7 @@ public class Cockpit implements ICockpit {
 		Double angleoptimal = 0.0/*-Math.PI/2+Math.PI/6*/;// méthode qui nous renvoie l'angle optimal
 		ArrayList<Rame> nombreRames = parsedInitGame.getBateau().getListRames();
 		int[] nombreMarinAplacer = new int[2];
-		ArrayList<Entity> listeEntite = parsedInitGame.getBateau().getEntities();
+		List<Entity> listeEntite = parsedInitGame.getBateau().getEntities();
 		ArrayList<Action> actionsNextRoundTemporaire = new ArrayList<>();
 
 		do {
@@ -123,7 +118,7 @@ public class Cockpit implements ICockpit {
 					}
 				}
 			}
-		} while (nombreMarinAplacer[0] != 0 && nombreMarinAplacer[1] != 0);
+		} while (nombreMarinAplacer[0] != 0 && nombreMarinAplacer[1] != 0) ;
 
 		actionsNextRound=actionsNextRoundTemporaire;
 

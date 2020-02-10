@@ -21,14 +21,13 @@ public class Bateau {
     private Position position;
     private String name;
     private Deck deck;
-    private ArrayList<Entity> entities;
+    private List<Entity> entities;
     private Shape shape;
-    public double orientationBateau;
 
     @JsonCreator
     public Bateau(@JsonProperty("type") String type, @JsonProperty("life") int life, @JsonProperty("position")  Position position,
-                  @JsonProperty("name")  String name, @JsonProperty("deck") Deck deck, @JsonProperty("entities") ArrayList<Entity> entities,
-                  @JsonProperty("shape")  Shape shape, @JsonProperty("orientation")  double orientation) {
+                  @JsonProperty("name")  String name, @JsonProperty("deck") Deck deck, @JsonProperty("entities") List<Entity> entities,
+                  @JsonProperty("shape")  Shape shape) {
 
         this.type = type;
         this.life = life;
@@ -37,7 +36,6 @@ public class Bateau {
         this.deck = deck;
         this.entities = entities;
         this.shape = shape;
-        this.orientationBateau=orientation;
     }
 
     public String getType() {
@@ -64,7 +62,7 @@ public class Bateau {
         return deck;
     }
 
-    public ArrayList<Entity> getEntities() {
+    public List<Entity> getEntities() {
         return entities;
     }
 
