@@ -38,8 +38,8 @@ public class Captain {
         int[] nombreMarinAplacer;
         ArrayList<Entity> listeEntite = game.getBateau().getEntities();
         ArrayList<Action> actionsNextRoundTemporaire = new ArrayList<>();
-        boolean True=false;
-        boolean True2=false;
+        boolean marinPlaceGauche=false;
+        boolean marinPlaceDroite=false;
 
         //do {
         nombreMarinAplacer = game.getBateau().nombreMarinsBabordTribord(meilleurAngleRealisable[0], game.getMarins().size(),nombreRames);
@@ -50,19 +50,19 @@ public class Captain {
                     if (moving.getYdistance() + m.getY() == 0 && nombreMarinAplacer[0] > 0) { //Babord
                         nombreMarinAplacer[0] -= 1;
                         actionsNextRoundTemporaire.add(moving);
-                        True = true;
+                        marinPlaceGauche = true;
                     } else if (moving.getYdistance() + m.getY() != 0 && nombreMarinAplacer[1] > 0) { //Tribord
                         nombreMarinAplacer[1] -= 1;
                         actionsNextRoundTemporaire.add(moving);
-                        True2 = true;
+                        marinPlaceDroite = true;
                     } else {
                         m.setLibre(true);
                     }
-                    listeEntite=supprimerEntite(listeEntite, True, True2, m, moving);
+                    listeEntite=supprimerEntite(listeEntite, marinPlaceGauche, marinPlaceDroite, m, moving);
                     m.setX(moving.getXdistance() + m.getX());
                     m.setY(moving.getYdistance() + m.getY());
-                    True=false;
-                    True2=false;
+                    marinPlaceGauche=false;
+                    marinPlaceDroite=false;
                 }
             }
         }
