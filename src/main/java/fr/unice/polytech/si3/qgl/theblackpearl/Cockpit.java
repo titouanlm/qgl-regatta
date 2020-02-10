@@ -20,8 +20,10 @@ import javax.swing.text.StyledEditorKit;
 
 public class Cockpit implements ICockpit {
 	private InitGame parsedInitGame;
+	private NextRound parsedNextRound;
 	private ObjectMapper objectMapper;
 	private List<String> logs;
+
 
 	public Cockpit(){
 		objectMapper = new ObjectMapper();
@@ -40,8 +42,8 @@ public class Cockpit implements ICockpit {
 
 		//Update Ship & Visibles Entities
 		try {
-			NextRound nextRound = objectMapper.readValue(round, NextRound.class);
-			parsedInitGame.setBateau(nextRound.getBateau());
+			parsedNextRound = objectMapper.readValue(round, NextRound.class);
+			parsedInitGame.setBateau(parsedNextRound.getBateau());
 			logs.add(parsedInitGame.getBateau().getPosition().toString());
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
@@ -163,4 +165,23 @@ public class Cockpit implements ICockpit {
 	public List<String> getLogs() {
 		return logs;
 	}
+
+
+
+	/*
+	getteurs
+	 */
+
+	public InitGame getParsedInitGame() {
+		return parsedInitGame;
+	}
+
+	public NextRound getParsedNextRound() {
+		return parsedNextRound;
+	}
+
+	public ObjectMapper getObjectMapper() {
+		return objectMapper;
+	}
+
 }

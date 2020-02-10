@@ -27,4 +27,8 @@ public class Rame extends Entity{
     public void setUsed(boolean used) {
         isUsed = used;
     }
+
+    public boolean isUsed() {
+        return this.isUsed;
+    }
 }
