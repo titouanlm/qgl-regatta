@@ -30,11 +30,11 @@ public class Cockpit implements ICockpit {
 	public Cockpit(){
 		objectMapper = new ObjectMapper();
 		logs = new ArrayList<>();
+		captain = new Captain();
 	}
 
 	public void initGame(String game) {
 		try {
-			captain = new Captain();
 			parsedInitGame = objectMapper.readValue(game, InitGame.class);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
