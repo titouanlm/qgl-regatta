@@ -41,9 +41,11 @@ public class Cockpit implements ICockpit {
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-
+		int i = 0;
 		for (Marin marin : parsedInitGame.getMarins()) {
 			marin.setLibre(true);
+			parsedInitGame.getBateau().getListRames().get(i).setUsed(false);
+			i++;
 		}
 
 		double[] meilleurAngleRealisable = captain.meilleurAngleRealisable(parsedInitGame);
@@ -53,6 +55,7 @@ public class Cockpit implements ICockpit {
 		for(Marin m : parsedInitGame.getMarins()){
 			if (!m.isLibre()) {
 				actionsNextRound.add(new OAR(m.getId()));
+				parsedNextRound.getBateau().initRameUsed(parsedInitGame.getMarins());
 			}
 		}
 
@@ -90,4 +93,7 @@ public class Cockpit implements ICockpit {
 		return parsedNextRound;
 	}
 
+	public ObjectMapper getObjectMapper() {
+		return objectMapper;
+	}
 }

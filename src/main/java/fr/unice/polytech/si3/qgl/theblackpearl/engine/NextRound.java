@@ -7,7 +7,10 @@ import fr.unice.polytech.si3.qgl.theblackpearl.seaElements.Vent;
 import fr.unice.polytech.si3.qgl.theblackpearl.seaElements.VisibleEntity;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.Bateau;
 
+import java.util.Arrays;
+
 public class NextRound {
+
     private Bateau ship;
     @JsonIgnore
     private Vent wind;
@@ -25,4 +28,14 @@ public class NextRound {
         return this.ship;
     }
 
+
+
+    @Override
+    public String toString() {
+        return "NextRound{" +
+                "ship=" + ship +
+                ", wind=" + wind +
+                ", visibleEntities=" + Arrays.toString(visibleEntities) +
+                '}';
+    }
 }
