@@ -5,7 +5,7 @@
 </p>
 
 <ul>
-  <li> Julien N'Diaye - Titouan Le Mao - Léo Marache - Soulaiman Zabourdine </li>
+  <li> Julien N'diaye - Titouan Le Mao - Léo Marache - Soulaiman Zabourdine </li>
   <li> Team name : TheBlackPearl </li>
   <li> Boat name : TheBlackPearl </li>
   <li> Non apprenti </li>
