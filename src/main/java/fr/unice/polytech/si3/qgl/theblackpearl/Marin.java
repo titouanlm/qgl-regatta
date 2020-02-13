@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.MOVING;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
+import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Gouvernail;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Rame;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class Marin {
     private int y;
     private String name;
     private boolean libre = true;
+    private String actionAFaire="";
 
     @JsonCreator
     public Marin(@JsonProperty("id") int id,@JsonProperty("x") int x,@JsonProperty("y") int y,@JsonProperty("name") String name) {
@@ -24,7 +26,30 @@ public class Marin {
         this.name = name;
     }
 
-    public MOVING planificationMarinAllerRamer(List<Entity> Entities, int nombreDeMarinsManquantsAGauche, int nombreDeMarinsManquantsADroite, int largeurBateau){
+    public void resetMarinPourUnNouveauTour() {
+        this.actionAFaire="";
+        this.libre=true;
+    }
+    public String getActionAFaire(){
+        return actionAFaire;
+    }
+
+    public MOVING deplacementMarinGouvernail(List<Entity> Entities){
+        int deplacementMarin=0;
+        for (Entity entity : Entities) {
+            if (entity instanceof Gouvernail) {
+                deplacementMarin = (Math.abs(entity.getX() - this.getX()) + Math.abs(entity.getY() - this.getY()));
+                if (deplacementMarin < 6) {
+                    actionAFaire="tournerGouvernail";
+                    this.libre=false;
+                    return new MOVING(getId(), "MOVING", entity.getX() - this.getX(), entity.getY() - this.getY());
+                }
+            }
+        }
+        return null;
+    }
+
+    public MOVING deplacementMarinAllerRamer(List<Entity> Entities, int nombreDeMarinsManquantsAGauche, int nombreDeMarinsManquantsADroite, int largeurBateau){
         int entiteRecoitMarin=-1;
         int deplacementMarin=0;
         int deplacementPlusCourt=6;
@@ -46,6 +71,7 @@ public class Marin {
         }
         if (entiteRecoitMarin!=-1) {
             this.libre=false;
+            this.actionAFaire="Ramer";
             return new MOVING(getId(),"MOVING",Entities.get(entiteRecoitMarin).getX() - this.getX(),Entities.get(entiteRecoitMarin).getY() - this.getY());
 
         }

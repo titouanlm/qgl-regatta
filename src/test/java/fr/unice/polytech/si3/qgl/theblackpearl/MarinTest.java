@@ -4,7 +4,6 @@ import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Rame;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
@@ -39,24 +38,24 @@ public class MarinTest {
         assertTrue(marin2.isLibre());
         assertTrue(marin3.isLibre());
         assertTrue(marin4.isLibre());
-        assertNull(marin1.planificationMarinAllerRamer(Entities, 2,2,2));
-        assertNull(marin2.planificationMarinAllerRamer(Entities, 0,0,2));
-        assertNotNull(marin2.planificationMarinAllerRamer(Entities, 1,0,2));
-        assertNull(marin2.planificationMarinAllerRamer(Entities, 0,0,2));
-        assertNotNull(marin3.planificationMarinAllerRamer(Entities, 0,1,2));
+        assertNull(marin1.deplacementMarinAllerRamer(Entities, 2,2,2));
+        assertNull(marin2.deplacementMarinAllerRamer(Entities, 0,0,2));
+        assertNotNull(marin2.deplacementMarinAllerRamer(Entities, 1,0,2));
+        assertNull(marin2.deplacementMarinAllerRamer(Entities, 0,0,2));
+        assertNotNull(marin3.deplacementMarinAllerRamer(Entities, 0,1,2));
         marin2.setLibre(true);
         ArrayList<Entity> aucuneEntite = new ArrayList<>();
-        assertNull(marin2.planificationMarinAllerRamer(aucuneEntite, 1,0,2));
+        assertNull(marin2.deplacementMarinAllerRamer(aucuneEntite, 1,0,2));
         ArrayList<Entity> entitesPlaceLoin = new ArrayList<>();
         entitesPlaceLoin.add(new Rame("oar",6,0));
         entitesPlaceLoin.add(new Rame("oar",5, 1));
-        assertNull(marin2.planificationMarinAllerRamer(entitesPlaceLoin, 1,1,2));
+        assertNull(marin2.deplacementMarinAllerRamer(entitesPlaceLoin, 1,1,2));
         ArrayList<Entity> entitesDistancesDifferentes = new ArrayList<>();
         entitesDistancesDifferentes.add(new Rame("oar",3,1));
         entitesDistancesDifferentes.add(new Rame("oar",3, 0));
-        assertEquals((marin2.planificationMarinAllerRamer(entitesDistancesDifferentes,1,1,2)).getYdistance(),0);
+        assertEquals((marin2.deplacementMarinAllerRamer(entitesDistancesDifferentes,1,1,2)).getYdistance(),0);
         marin2.setLibre(true);
         entitesDistancesDifferentes.add(new Rame("oar",1,1));
-        assertEquals((marin2.planificationMarinAllerRamer(entitesDistancesDifferentes,1,1,2)).getYdistance(),1);
+        assertEquals((marin2.deplacementMarinAllerRamer(entitesDistancesDifferentes,1,1,2)).getYdistance(),1);
     }
 }

@@ -1,4 +1,16 @@
 package fr.unice.polytech.si3.qgl.theblackpearl.actions;
 
-public class TURN {
+public class TURN extends Action{
+
+    private double rotation;
+
+    public TURN(int sailorId, double rotation) {
+        super(sailorId, "Turn");
+        this.rotation=rotation;
+    }
+
+    public String toString() {
+        return "{\"sailordId\":" + getSailorId() + ",\"type\":\"TURN\",\"rotation\":" + this.rotation + "}";
+    }
+
 }

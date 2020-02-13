@@ -23,4 +23,5 @@ public class Courant extends VisibleEntity {
     public void setStrength(double strength) {
         this.strength = strength;
     }
+
 }

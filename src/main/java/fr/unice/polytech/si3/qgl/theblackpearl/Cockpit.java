@@ -7,8 +7,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.unice.polytech.si3.qgl.regatta.cockpit.ICockpit;
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.Action;
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.OAR;
+import fr.unice.polytech.si3.qgl.theblackpearl.actions.TURN;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.NextRound;
+import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Gouvernail;
 
 public class Cockpit implements ICockpit {
 	private InitGame parsedInitGame;
@@ -33,7 +35,7 @@ public class Cockpit implements ICockpit {
 	}
 
 	public String nextRound(String round) {
-
+		captain.resetCapitain();
 		try {
 			parsedNextRound = objectMapper.readValue(round, NextRound.class);
 			parsedInitGame.setBateau(parsedNextRound.getBateau());
@@ -43,19 +45,20 @@ public class Cockpit implements ICockpit {
 		}
 		int i = 0;
 		for (Marin marin : parsedInitGame.getMarins()) {
-			marin.setLibre(true);
+			marin.resetMarinPourUnNouveauTour();
 			parsedInitGame.getBateau().getListRames().get(i).setUsed(false);
 			i++;
 		}
-
-		double[] meilleurAngleRealisable = captain.meilleurAngleRealisable(parsedInitGame);
-		List<Action> actionsNextRound ;
-		actionsNextRound = captain.configurationBateau(meilleurAngleRealisable, parsedInitGame);
-
+		List<Action> actionsNextRound = captain.captainFaitLeJob(parsedInitGame);
 		for(Marin m : parsedInitGame.getMarins()){
 			if (!m.isLibre()) {
-				actionsNextRound.add(new OAR(m.getId()));
-				parsedNextRound.getBateau().initRameUsed(parsedInitGame.getMarins());
+				if (m.getActionAFaire().equals("Ramer")) {
+					actionsNextRound.add(new OAR(m.getId()));
+					parsedNextRound.getBateau().initRameUsed(parsedInitGame.getMarins());
+				}
+				else if (m.getActionAFaire().equals("tournerGouvernail")){
+					actionsNextRound.add(new TURN(m.getId(),captain.getAngleRealiseGouvernail()));
+				}
 			}
 		}
 
@@ -67,7 +70,8 @@ public class Cockpit implements ICockpit {
 		StringBuilder roundJSON= new StringBuilder("[");
 		try {
 			for(int i=0; i<actionsNextRound.size(); i++){
-				roundJSON.append(objectMapper.writeValueAsString(actionsNextRound.get(i)));
+				if (actionsNextRound.get(i) instanceof TURN) roundJSON.append(actionsNextRound.get(i).toString());
+				else roundJSON.append(objectMapper.writeValueAsString(actionsNextRound.get(i)));
 				if(i!=actionsNextRound.size()-1){
 					roundJSON.append(",");
 				}

@@ -8,6 +8,34 @@ import java.util.List;
 
 public class Calculator {
 
+    private int[] nombreMarinAplacer;
+    private int[] nombreMarinAplacerCopie;
+
+    public int[] getNombreMarinAplacer() {
+        return nombreMarinAplacer;
+    }
+
+    public void setNombreMarinAplacer(int[] nombreMarinAplacer) {
+        this.nombreMarinAplacer = nombreMarinAplacer;
+    }
+
+    public int[] getNombreMarinAplacerCopie() {
+        return nombreMarinAplacerCopie;
+    }
+
+    public void setNombreMarinAplacerCopie(int[] nombreMarinAplacerCopie) {
+        this.nombreMarinAplacerCopie = nombreMarinAplacerCopie;
+    }
+
+    public void decrementationNombreMarinPlacer(int nombreADecrementer, boolean gauche, boolean droite){
+        if (gauche) {
+            nombreMarinAplacer[0] -= nombreADecrementer;
+        }
+        if (droite){
+            nombreMarinAplacer[1]-=nombreADecrementer;
+        }
+    }
+
     public double calculDistanceEntreDeuxPoints(Position pos1, Position pos2){
         double x = pos1.getX()-pos2.getX();
         double y = pos1.getY()-pos2.getY();
@@ -30,7 +58,7 @@ public class Calculator {
     }
 
     public List<Double> calculAnglesPossiblesEnFonctionDesRames(int nbRamesTribord, int nbRamesBabord){
-        return  null;
+        return null;
     }
 
 }
