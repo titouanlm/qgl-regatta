@@ -203,30 +203,25 @@ public class Main {
         Referee referee = new Referee(initGame,firstRound,c);
         final int nombreTours = 10; // valeur arbitraire pour l'instant
 
-
         c.initGame(initGame);
 
         for(int i = 0 ; i < nombreTours ; i++ ){
             referee.setActions(c.nextRound(referee.getNextRound()));
-            referee.mettreAJourNextRound();
+            referee.mettreAJourNextRound(); // aller voir dans Referee la methode mettreAJourJson() non operationnelle
         }
 
 
-       // System.out.println(test);
-        /*for (String s : c.getLogs()) {
-            System.out.println(s);
-        }*/
+       /* POUR TESTER SEULEMENT LE PREMIER TOUR
+       c.initGame(initGame);
+       System.out.println(c.nextRound(firstRound);
+        */
 
 
 
+        double angle = -0.52;
+        double modulo = angle % (2*Math.PI);
+        System.out.println();
 
-        // Tests sur les modulos
-        /*
-        double angle = -16*Math.PI;
-        double modulo = 2*Math.PI;
-
-        System.out.println(angle % modulo);
-         */
 
 
 

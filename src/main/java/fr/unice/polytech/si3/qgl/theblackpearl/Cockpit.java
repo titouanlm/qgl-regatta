@@ -9,6 +9,7 @@ import fr.unice.polytech.si3.qgl.theblackpearl.actions.Action;
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.OAR;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.NextRound;
+import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
 
 public class Cockpit implements ICockpit {
 	private InitGame parsedInitGame;
@@ -41,11 +42,13 @@ public class Cockpit implements ICockpit {
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		int i = 0;
+
 		for (Marin marin : parsedInitGame.getMarins()) {
 			marin.setLibre(true);
-			parsedInitGame.getBateau().getListRames().get(i).setUsed(false);
-			i++;
+		}
+
+		for (Entity entite : parsedInitGame.getBateau().getEntities()){
+			entite.setLibre(true);
 		}
 
 		double[] meilleurAngleRealisable = captain.meilleurAngleRealisable(parsedInitGame);
@@ -55,7 +58,6 @@ public class Cockpit implements ICockpit {
 		for(Marin m : parsedInitGame.getMarins()){
 			if (!m.isLibre()) {
 				actionsNextRound.add(new OAR(m.getId()));
-				parsedNextRound.getBateau().initRameUsed(parsedInitGame.getMarins());
 			}
 		}
 
@@ -95,5 +97,9 @@ public class Cockpit implements ICockpit {
 
 	public ObjectMapper getObjectMapper() {
 		return objectMapper;
+	}
+
+	public InitGame getParsedInitGame() {
+		return parsedInitGame;
 	}
 }

@@ -43,7 +43,9 @@ public class Referee {
     double nouvelleRotationDuBateau ;
     int signeX;
     int signeY;
-
+    double alpha; // angle utilisé pour les calculs
+    double x;
+    double y;
 
 
     public Referee(String gameInfo, String firstRound,Cockpit aCockpit){
@@ -71,6 +73,10 @@ public class Referee {
         this.actions = actions;
     }
 
+    public void setNextRound(String nextRound) {
+        this.nextRound = nextRound;
+    }
+
     public Cockpit getCockpit() {
         return this.cockpit;
     }
@@ -90,6 +96,8 @@ public class Referee {
         bateau = cockpit.getParsedNextRound().getBateau();
         rames = cockpit.getParsedNextRound().getBateau().getListRames();
         rotationActuelleDuBateau = bateau.getPosition().getOrientation();
+        x = bateau.getPosition().getX();
+        y = bateau.getPosition().getY();
         // Mise à zéro des valeurs
         nouvelleRotationDuBateau = 0;
         rotationDesRames = 0;
@@ -99,7 +107,7 @@ public class Referee {
 
         // 1) Calcul de l'orientation induite par les rames
         for (Rame rame : rames) {
-            if (rame.isUsed()) {
+            if (!(rame.isLibre())) {
                 nombreRamesActives += 1;
                 if (bateau.getDeck().isStarboard(rame)) { // Starboard = tribord = droite
                     rotationDesRames += rotationParRame;
@@ -122,26 +130,32 @@ public class Referee {
 
         // 5) Mise à jour des coordonnées du bateau pour le prochain tour
         // 4 cas à distinguer
-        if ((nouvelleRotationDuBateau <= Math.PI / 2 && nouvelleRotationDuBateau >= 0) ||
-                (nouvelleRotationDuBateau <= -3 * Math.PI / 2 && nouvelleRotationDuBateau >= -2 * Math.PI)) { // Si on est dans la partie supérieure droite de la map
+        if ((x >= 0 && y >= 0) && ((nouvelleRotationDuBateau <= Math.PI / 2 && nouvelleRotationDuBateau >= 0) ||
+               (nouvelleRotationDuBateau <= -3 * Math.PI / 2 && nouvelleRotationDuBateau >= -2 * Math.PI))) { // Si on est dans la partie supérieure droite de la map
             signeX = 1;
             signeY = 1;
-        } else if ((nouvelleRotationDuBateau <= Math.PI && nouvelleRotationDuBateau >= Math.PI / 2) ||
-                (nouvelleRotationDuBateau <= -1 * Math.PI && nouvelleRotationDuBateau >= -3 * Math.PI / 2)) { // Si on est dans la partie supérieure gauche de la map
+            alpha = nouvelleRotationDuBateau;
+        } else if ((x<=0 && y>=0) && ((nouvelleRotationDuBateau <= Math.PI && nouvelleRotationDuBateau >= Math.PI / 2) ||
+                (nouvelleRotationDuBateau <= -1 * Math.PI && nouvelleRotationDuBateau >= -3 * Math.PI / 2))) { // Si on est dans la partie supérieure gauche de la map
             signeX = -1; // Les abscisses sont négatives dans cette partie de la map
             signeY = 1;
-        } else if ((nouvelleRotationDuBateau <= 3 * Math.PI / 2 && nouvelleRotationDuBateau >= Math.PI) ||
-                (nouvelleRotationDuBateau <= -1 * Math.PI / 2 && nouvelleRotationDuBateau >= -1 * Math.PI)) { // si on est dans la partie inférieure gauche de la map
+            alpha = Math.abs((nouvelleRotationDuBateau - Math.PI) % (2*Math.PI));
+        } else if ((x<=0 && y<=0) && ((nouvelleRotationDuBateau <= 3 * Math.PI / 2 && nouvelleRotationDuBateau >= Math.PI) ||
+                (nouvelleRotationDuBateau <= -1 * Math.PI / 2 && nouvelleRotationDuBateau >= -1 * Math.PI))) { // si on est dans la partie inférieure gauche de la map
             signeX = -1; // Les abscisses sont négatives dans cette partie de la map
             signeY = -1; // Les ordonnées sont négatives dans cette partie de la map
-        } else if ((nouvelleRotationDuBateau <= 2 * Math.PI && nouvelleRotationDuBateau >= 3 * Math.PI / 2) ||
-                (nouvelleRotationDuBateau <= -0 && nouvelleRotationDuBateau >= -1 * Math.PI / 2)) { // Si on est dans la partie inférieure droite de la map
+            alpha = Math.abs((nouvelleRotationDuBateau + Math.PI  ) % (2*Math.PI));
+        } else if ((x>=0 && y<= 0) && ((nouvelleRotationDuBateau <= 2 * Math.PI && nouvelleRotationDuBateau >= 3 * Math.PI / 2) ||
+                (nouvelleRotationDuBateau <= -0 && nouvelleRotationDuBateau >= -1 * Math.PI / 2))) { // Si on est dans la partie inférieure droite de la map
             signeX = 1;
             signeY = -1; // Les ordonnées sont négatives dans cette partie de la map
+            alpha = Math.abs((nouvelleRotationDuBateau + Math.PI/2  ) % (2*Math.PI));
         }
 
-        bateau.getPosition().setX(signeX * vitesseDesRames * Math.cos(rotationDesRames));
-        bateau.getPosition().setY(signeY * vitesseDesRames * Math.sin(rotationDesRames));
+        bateau.getPosition().setX(signeX * vitesseDesRames * Math.cos(alpha));
+        bateau.getPosition().setY(signeY * vitesseDesRames * Math.sin(alpha));
+
+        rotationActuelleDuBateau = nouvelleRotationDuBateau;
 
     }
 
@@ -151,17 +165,20 @@ public class Referee {
     Mettre à jour les infos de la chaine NextRound
      */
     public void mettreAJourJson() {
-        /* TODO Soit on arrive à trouver un moyen de juste mettre à jour les fields qui changent (orientation, position ...)
-            Soit on recrée le Json en entier à chaque tour
+        // TODO Soit on arrive à trouver un moyen de juste mettre à jour les fields qui changent (orientation, position ...)
+        //   Soit on recrée le Json en entier à chaque tour
+
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.writeValueAsString(cockpit.getParsedNextRound());
-
+            setNextRound(objectMapper.writeValueAsString(cockpit.getParsedNextRound()));
+            System.out.println(nextRound);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
 
-         */
+
+
+
 
     }
 

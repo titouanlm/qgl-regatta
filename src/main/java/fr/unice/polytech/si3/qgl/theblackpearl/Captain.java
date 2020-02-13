@@ -20,11 +20,12 @@ public class Captain {
         calculator = new Calculator();
     }
 
-    public ArrayList<Entity> supprimerEntite(ArrayList<Entity> listeEntite, boolean True, boolean True2, Marin m, MOVING moving){
+    public ArrayList<Entity> supprimerEntite(ArrayList<Entity> listeEntite, boolean True, boolean True2, Marin m, MOVING moving,InitGame game){
         if (listeEntite!=null) {
             for (int b = 0; b < listeEntite.size(); b++) { // supprimer la rame utilisée pour cette configuration
                 if (listeEntite.get(b) instanceof Rame && (True | True2)) {
                     if ((listeEntite.get(b).getY() - m.getY()) == moving.getYdistance() && (listeEntite.get(b).getX() - m.getX()) == moving.getXdistance()) {
+                        game.getBateau().getEntities().get(b).setLibre(false);
                         listeEntite.remove(b);
                         break;
                     }
@@ -35,10 +36,11 @@ public class Captain {
         else return null;
     }
 
-    public List<Action> configurationBateau(double meilleurAngleRealisable[], InitGame game){
+    public List<Action>
+    configurationBateau(double meilleurAngleRealisable[], InitGame game){
         ArrayList<Rame> nombreRames = game.getBateau().getListRames();
         int[] nombreMarinAplacer;
-        ArrayList<Entity> listeEntite = game.getBateau().getEntities();
+        ArrayList<Entity> listeEntite = (ArrayList<Entity>) game.getBateau().getEntities().clone();
         ArrayList<Action> actionsNextRoundTemporaire = new ArrayList<>();
         boolean marinPlaceGauche=false;
         boolean marinPlaceDroite=false;
@@ -60,7 +62,7 @@ public class Captain {
                     } else {
                         m.setLibre(true);
                     }
-                    listeEntite=supprimerEntite(listeEntite, marinPlaceGauche, marinPlaceDroite, m, moving);
+                    listeEntite = supprimerEntite(listeEntite, marinPlaceGauche, marinPlaceDroite, m, moving,game);
                     m.setX(moving.getXdistance() + m.getX());
                     m.setY(moving.getYdistance() + m.getY());
                     marinPlaceGauche=false;

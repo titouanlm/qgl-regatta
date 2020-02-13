@@ -1,6 +1,7 @@
 package fr.unice.polytech.si3.qgl.theblackpearl.ship;
 
 import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import fr.unice.polytech.si3.qgl.theblackpearl.Marin;
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.Action;
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.OAR;
@@ -13,7 +14,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.StreamSupport;
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonTypeName("ship")
 public class Bateau {
 
@@ -164,7 +165,7 @@ public class Bateau {
             if(e instanceof Rame){
                 for (Marin m : marins) {
                     if (m.getX() == e.getX() && m.getY() == e.getY() ) {
-                        ((Rame) e).setUsed(true);
+                        ((Rame) e).setLibre(false);
                     }
                 }
             }
