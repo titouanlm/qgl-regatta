@@ -25,7 +25,7 @@ public abstract class Entity {
     private String type;
     private int x;
     private int y;
-    private boolean libre = true;
+    protected boolean libre = true;
 
     @JsonCreator
     public Entity(@JsonProperty("type") String type, @JsonProperty("x") int x, @JsonProperty("y") int y) {

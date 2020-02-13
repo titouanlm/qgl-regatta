@@ -1,10 +1,10 @@
 package fr.unice.polytech.si3.qgl.theblackpearl;
 
+import fr.unice.polytech.si3.qgl.theblackpearl.Referee;
+
 public class Main {
     public static void main(String[] args) {
-        Cockpit c = new Cockpit();
-
-        c.initGame("{\n" +
+        String initGame = "{\n" +
                 "  \"goal\": {\n" +
                 "    \"mode\": \"REGATTA\",\n" +
                 "    \"checkpoints\": [\n" +
@@ -133,12 +133,10 @@ public class Main {
                 "      \"name\": \"Tom Pouce\"\n" +
                 "    }\n" +
                 "  ]\n" +
-                "}");
-        // for future test
+                "}";
 
 
-        // for future test
-        String test = c.nextRound("{\n" +
+        String firstRound = "{\n" +
                 "  \"ship\": {\n" +
                 "    \"type\": \"ship\",\n" +
                 "    \"life\": 100,\n" +
@@ -223,12 +221,34 @@ public class Main {
                 "    \"orientation\": 0,\n" +
                 "    \"strength\": 110\n" +
                 "  }\n" +
-                "}");
+                "}";
 
-        System.out.println(test);
-        /*for (String s : c.getLogs()) {
-            System.out.println(s);
-        }*/
+        Cockpit c = new Cockpit();
+        Referee referee = new Referee(initGame,firstRound,c);
+        final int nombreTours = 10; // valeur arbitraire pour l'instant
+
+        c.initGame(initGame);
+
+        for(int i = 0 ; i < nombreTours ; i++ ){
+            referee.setActions(c.nextRound(referee.getNextRound()));
+            referee.mettreAJourNextRound(); // aller voir dans Referee la methode mettreAJourJson() non operationnelle
+        }
+
+
+       /* POUR TESTER SEULEMENT LE PREMIER TOUR
+       c.initGame(initGame);
+       System.out.println(c.nextRound(firstRound);
+        */
+
+
+
+        double angle = -0.52;
+        double modulo = angle % (2*Math.PI);
+        System.out.println();
+
+
+
+
 
     }
 }

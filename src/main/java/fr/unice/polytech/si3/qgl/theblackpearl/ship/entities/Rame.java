@@ -7,12 +7,11 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("oar")
 public class Rame extends Entity{
 
-    private boolean isUsed;
 
     @JsonCreator
     public Rame(@JsonProperty("type") String type,@JsonProperty("x") int x,@JsonProperty("y") int y) {
         super(type, x, y);
-        this.isUsed=false;
+
     }
 
     @Override
@@ -24,11 +23,5 @@ public class Rame extends Entity{
                 "}";
     }
 
-    public void setUsed(boolean used) {
-        isUsed = used;
-    }
 
-    public boolean isUsed() {
-        return this.isUsed;
-    }
 }

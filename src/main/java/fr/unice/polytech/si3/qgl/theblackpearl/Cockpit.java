@@ -43,7 +43,7 @@ public class Cockpit implements ICockpit {
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		int i = 0;
+
 		for (Marin marin : parsedInitGame.getMarins()) {
 			marin.resetMarinPourUnNouveauTour();
 			parsedInitGame.getBateau().getListRames().get(i).setUsed(false);
@@ -99,5 +99,9 @@ public class Cockpit implements ICockpit {
 
 	public ObjectMapper getObjectMapper() {
 		return objectMapper;
+	}
+
+	public InitGame getParsedInitGame() {
+		return parsedInitGame;
 	}
 }

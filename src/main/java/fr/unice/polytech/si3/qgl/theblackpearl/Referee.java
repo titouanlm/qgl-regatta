@@ -1,10 +1,13 @@
 package fr.unice.polytech.si3.qgl.theblackpearl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.Bateau;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Rame;
 
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /*
@@ -12,8 +15,8 @@ Classe représentant l'arbitre d'une partie de régate.
 
 Responsablilités non exhaustives :
 1) Récupérer les actions envoyées par la méthode nextRound de la classe Cockpit et effectuer les taches suivantes :
-    a) Vérifier que les actions sont possibles, si non les ignorer. (méthode verifyActions)
-    b) Si les actions sont faisables, mettre à jour les informations du point 2). (méthode sendNextRound)
+    a) Vérifier que les actions sont possibles, si non les ignorer.
+    b) Si les actions sont faisables, mettre à jour les informations du point 2).
 
 2) Envoyer à chaque tour les informations mises à jour (sous forme d'une String au format Json) à la méthode nextRound de la classe Cockpit :
     a) Infos liées au bateau : seules la position et l'orientation sont à mettre à jour (plus tard la vie du bateau également)
@@ -31,10 +34,18 @@ public class Referee {
 
     Bateau bateau ;
     ArrayList<Rame> rames ;
-    private final int SPEED_CONSTANT = 165;
-    private final double MAX_RADIAL_SPEED = Math.PI/2 ;
-    double radialSpeed = 0;
-    double rotationSpeedPerOar ;
+    private final int CONSTANTE_DE_VITESSE = 165 ;
+    double rotationDesRames = 0 ; // C'est l'orientation induite par les rames actives (c'est un angle en radian)
+    double rotationParRame ; // C'est l'orientation induite par UNE rame (c'est un angle en radian)
+    int nombreRamesActives ;
+    double vitesseDesRames ; // C'est la norme de la vitesse induite par les rames actives
+    double rotationActuelleDuBateau ;
+    double nouvelleRotationDuBateau ;
+    int signeX;
+    int signeY;
+    double alpha; // angle utilisé pour les calculs
+    double x;
+    double y;
 
 
     public Referee(String gameInfo, String firstRound,Cockpit aCockpit){
@@ -58,57 +69,140 @@ public class Referee {
         return this.actions;
     }
 
+    public void setActions(String actions) {
+        this.actions = actions;
+    }
+
+    public void setNextRound(String nextRound) {
+        this.nextRound = nextRound;
+    }
+
     public Cockpit getCockpit() {
         return this.cockpit;
     }
 
     /*
-    TODO
-     1) Mettre à jour l'objet parsedNextRound
-     2) Mettre à jour les informations correspondantes dans le Json :
-            -   position du bateau
-            -   orientation du bateau
-            -   plus tard, la vie du bateau
-            -   Vent
-            -   plus tard, entités visibles (Courant, AutreBateau et Recif)
-     */
-    public void updateInfosForNextRound(String actions){
-        // TODO verifyActions(actions);
+    TODO Cette méthode détermine si les actions sont possibles et supprime celles qui ne le sont pas (on ne fait donc que les ignorer)
+    Pour l'instant, on vérifie juste qu'un marin peut en effet ramer
+    */
+    public void verifierActions(String actions){
+        // TODO
+    }
 
-        // update infos of the parsedNextRound object
-        // Calculate the orientation that the ship takes with the given actions
+    //____________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+    public void mettreAJourBateau() {
+        // Mise à jour des infos du bateau
         bateau = cockpit.getParsedNextRound().getBateau();
         rames = cockpit.getParsedNextRound().getBateau().getListRames();
-        radialSpeed = 0;
-        rotationSpeedPerOar = MAX_RADIAL_SPEED / rames.size();
+        rotationActuelleDuBateau = bateau.getPosition().getOrientation();
+        x = bateau.getPosition().getX();
+        y = bateau.getPosition().getY();
+        // Mise à zéro des valeurs
+        nouvelleRotationDuBateau = 0;
+        rotationDesRames = 0;
+        nombreRamesActives = 0;
+        vitesseDesRames = 0;
+        rotationParRame = Math.PI / rames.size();
 
-
+        // 1) Calcul de l'orientation induite par les rames
         for (Rame rame : rames) {
-            if (rame.isUsed()) {
+            if (!(rame.isLibre())) {
+                nombreRamesActives += 1;
                 if (bateau.getDeck().isStarboard(rame)) { // Starboard = tribord = droite
-                    radialSpeed += rotationSpeedPerOar;
+                    rotationDesRames += rotationParRame;
                 } else if (bateau.getDeck().isPort(rame)) { // Port = bâbord = gauche
-                    radialSpeed -= rotationSpeedPerOar;
+                    rotationDesRames -= rotationParRame;
                 }
             }
         }
 
-        // TO FINISH
+        // 2)a) Calcul de la nouvelle rotation du bateau
+        nouvelleRotationDuBateau = rotationActuelleDuBateau + rotationDesRames;
+        // 2)b) On travaille avec des rotations comprises entre -2PI et 2PI
+        nouvelleRotationDuBateau = nouvelleRotationDuBateau % (2 * Math.PI);
 
-        // update infos of the string NextRound
-        // Creation/Update of nextRound JSON file
-        // TODO
+        // 3) Calcul de la vitesse induite par les rames (actives)
+        vitesseDesRames = (nombreRamesActives * CONSTANTE_DE_VITESSE) / rames.size();
 
+        // 4) Mise à jour de l'orientation du bateau pour le prochain tour
+        bateau.getPosition().setOrientation(nouvelleRotationDuBateau);
+
+        // 5) Mise à jour des coordonnées du bateau pour le prochain tour
+        // 4 cas à distinguer
+        if ((x >= 0 && y >= 0) && ((nouvelleRotationDuBateau <= Math.PI / 2 && nouvelleRotationDuBateau >= 0) ||
+               (nouvelleRotationDuBateau <= -3 * Math.PI / 2 && nouvelleRotationDuBateau >= -2 * Math.PI))) { // Si on est dans la partie supérieure droite de la map
+            signeX = 1;
+            signeY = 1;
+            alpha = nouvelleRotationDuBateau;
+        } else if ((x<=0 && y>=0) && ((nouvelleRotationDuBateau <= Math.PI && nouvelleRotationDuBateau >= Math.PI / 2) ||
+                (nouvelleRotationDuBateau <= -1 * Math.PI && nouvelleRotationDuBateau >= -3 * Math.PI / 2))) { // Si on est dans la partie supérieure gauche de la map
+            signeX = -1; // Les abscisses sont négatives dans cette partie de la map
+            signeY = 1;
+            alpha = Math.abs((nouvelleRotationDuBateau - Math.PI) % (2*Math.PI));
+        } else if ((x<=0 && y<=0) && ((nouvelleRotationDuBateau <= 3 * Math.PI / 2 && nouvelleRotationDuBateau >= Math.PI) ||
+                (nouvelleRotationDuBateau <= -1 * Math.PI / 2 && nouvelleRotationDuBateau >= -1 * Math.PI))) { // si on est dans la partie inférieure gauche de la map
+            signeX = -1; // Les abscisses sont négatives dans cette partie de la map
+            signeY = -1; // Les ordonnées sont négatives dans cette partie de la map
+            alpha = Math.abs((nouvelleRotationDuBateau + Math.PI  ) % (2*Math.PI));
+        } else if ((x>=0 && y<= 0) && ((nouvelleRotationDuBateau <= 2 * Math.PI && nouvelleRotationDuBateau >= 3 * Math.PI / 2) ||
+                (nouvelleRotationDuBateau <= -0 && nouvelleRotationDuBateau >= -1 * Math.PI / 2))) { // Si on est dans la partie inférieure droite de la map
+            signeX = 1;
+            signeY = -1; // Les ordonnées sont négatives dans cette partie de la map
+            alpha = Math.abs((nouvelleRotationDuBateau + Math.PI/2  ) % (2*Math.PI));
+        }
+
+        bateau.getPosition().setX(signeX * vitesseDesRames * Math.cos(alpha));
+        bateau.getPosition().setY(signeY * vitesseDesRames * Math.sin(alpha));
+
+        rotationActuelleDuBateau = nouvelleRotationDuBateau;
 
     }
+
+    //____________________________________________________________________________________________________________________________________________________________________________________________________________________
+
     /*
-    TODO Cette méthode détermine si les actions sont possibles et supprime celles qui ne le sont pas (on ne fait donc que les ignorer)
-    Pour l'instant, on vérifie juste qu'un marin peut en effet ramer
-    */
-    public void verifyActions(String actions){
+    Mettre à jour les infos de la chaine NextRound
+     */
+    public void mettreAJourJson() {
+        // TODO Soit on arrive à trouver un moyen de juste mettre à jour les fields qui changent (orientation, position ...)
+        //   Soit on recrée le Json en entier à chaque tour
+
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            setNextRound(objectMapper.writeValueAsString(cockpit.getParsedNextRound()));
+            System.out.println(nextRound);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+
+
+
 
     }
 
+    //____________________________________________________________________________________________________________________________________________________________________________________________________________________
 
+    /*
+     1) TODO Vérifier que les actions sont possibles
+     2) Mettre à jour l'objet bateau
+     3) Mettre à jour les informations correspondantes dans le Json :
+            - Bateau
+                -   position
+                -   orientation
+                -   TODO plus tard, la vie
+            -   TODO Vent
+            -   TODO plus tard, entités visibles (Courant, AutreBateau et Recif)
+     */
+    public void mettreAJourNextRound()  {
+
+        // TODO verifierActions();
+
+        mettreAJourBateau();
+
+        mettreAJourJson();
+
+    }
 
 }
