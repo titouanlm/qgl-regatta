@@ -10,6 +10,7 @@ import fr.unice.polytech.si3.qgl.theblackpearl.actions.OAR;
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.TURN;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.NextRound;
+import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Gouvernail;
 
 public class Cockpit implements ICockpit {
@@ -46,15 +47,17 @@ public class Cockpit implements ICockpit {
 
 		for (Marin marin : parsedInitGame.getMarins()) {
 			marin.resetMarinPourUnNouveauTour();
-			parsedInitGame.getBateau().getListRames().get(i).setUsed(false);
-			i++;
 		}
+
+		for (Entity entite : parsedInitGame.getBateau().getEntities()){
+			entite.setLibre(true);
+		}
+
 		List<Action> actionsNextRound = captain.captainFaitLeJob(parsedInitGame);
 		for(Marin m : parsedInitGame.getMarins()){
 			if (!m.isLibre()) {
 				if (m.getActionAFaire().equals("Ramer")) {
 					actionsNextRound.add(new OAR(m.getId()));
-					parsedNextRound.getBateau().initRameUsed(parsedInitGame.getMarins());
 				}
 				else if (m.getActionAFaire().equals("tournerGouvernail")){
 					actionsNextRound.add(new TURN(m.getId(),captain.getAngleRealiseGouvernail()));

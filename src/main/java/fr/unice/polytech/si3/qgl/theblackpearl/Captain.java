@@ -45,7 +45,7 @@ public class Captain {
             for (int b = 0; b < listeEntite.size(); b++) { // supprimer la rame utilisée pour cette configuration
                 if (listeEntite.get(b) instanceof Rame && (marinPlaceGauche | marinPlaceDroite)) {
                     if ((listeEntite.get(b).getY() - m.getY()) == moving.getYdistance() && (listeEntite.get(b).getX() - m.getX()) == moving.getXdistance()) {
-                        game.getBateau().getEntities().get(b).setLibre(false);
+                        // TODO mettre l'attribut libre de Rame sur false
                         listeEntite.remove(b);
                         break;
                     }
@@ -120,11 +120,6 @@ public class Captain {
                         m.setX(moving.getXdistance() + m.getX());m.setY(moving.getYdistance() + m.getY());
                         marinPlaceGauche=false;marinPlaceDroite=false;
                     }
-                    listeEntite=supprimerEntite(listeEntite, marinPlaceGauche, marinPlaceDroite, m, moving);
-                    m.setX(moving.getXdistance() + m.getX());
-                    m.setY(moving.getYdistance() + m.getY());
-                    marinPlaceGauche=false;
-                    marinPlaceDroite=false;
                 }
             }
             neMarchePasPourLePremiertour=false;nombreTour++;
