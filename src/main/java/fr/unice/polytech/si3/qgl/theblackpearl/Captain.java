@@ -100,9 +100,10 @@ public class Captain {
         calculateur.setNombreMarinAplacerCopie(calculateur.getNombreMarinAplacer().clone());
         boolean neMarchePasPourLePremiertour = true;int nombreTour=0;boolean marinPlaceGauche=false; boolean marinPlaceDroite=false;
         priseEnComptePositionMarins(game);
+        ArrayList<Entity> listeEntiteCopie;
         do {
             preConfigurationBateau(game,neMarchePasPourLePremiertour,nombreTour,calculateur.getNombreMarinAplacerCopie(),meilleurAngleRealisable,calculateur);
-            ArrayList<Entity> listeEntiteCopie = (ArrayList<Entity>) game.getBateau().getEntities().clone();
+            listeEntiteCopie = (ArrayList<Entity>) game.getBateau().getEntities().clone();
             for (Marin m : game.getMarins()){
                 if (m.isLibre()) {
                     MOVING moving = m.deplacementMarinAllerRamer(listeEntiteCopie, calculateur.getNombreMarinAplacer()[0], calculateur.getNombreMarinAplacer()[1], (int) ((Rectangle) game.getBateau().getShape()).getWidth());
@@ -124,6 +125,16 @@ public class Captain {
             }
             neMarchePasPourLePremiertour=false;nombreTour++;
         } while (calculateur.getNombreMarinAplacer()[0] != 0 || calculateur.getNombreMarinAplacer()[1] != 0);
+        ArrayList<Entity> listeEntiteUtilisees = (ArrayList<Entity>) game.getBateau().getEntities().clone();
+        listeEntiteUtilisees.removeAll(listeEntiteCopie); //rames utilisées
+        ArrayList<Entity> listeEntite = game.getBateau().getEntities();
+        for (Entity e : listeEntite){
+            for (Entity e2 : listeEntiteUtilisees){
+                if (e==e2){
+                    ((Rame) e).setUsed(true);
+                }
+            }
+        }
         return meilleurAngleRealisable[meilleurAngleRealisablePosition];
     }
 
@@ -177,5 +188,6 @@ public class Captain {
     public double angleParfait(InitGame parsedInitGame){ // A appeler toujours après meilleurAngleRealisable
         return angleParfaitVersCheckpoint;
     }
+    // APPELER CETTE FONCTION TOUJOURS APRES MEILLEUR ANGLE REALISABLE
 
 }
