@@ -12,8 +12,8 @@ public class Main {
                 "    \"checkpoints\": [\n" +
                 "      {\n" +
                 "        \"position\": {\n" +
-                "          \"x\": -1000,\n" +
-                "          \"y\": -50,\n" +
+                "          \"x\": 1000,\n" +
+                "          \"y\": -1000,\n" +
                 "          \"orientation\": 0\n" +
                 "        },\n" +
                 "        \"shape\": {\n" +

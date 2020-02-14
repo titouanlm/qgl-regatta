@@ -18,13 +18,11 @@ public class Cockpit implements ICockpit {
 	private NextRound parsedNextRound;
 	private ObjectMapper objectMapper;
 	private List<String> logs;
-	private Captain captain;
 
 
 	public Cockpit(){
 		objectMapper = new ObjectMapper();
 		logs = new ArrayList<>();
-		captain = new Captain();
 	}
 
 	public void initGame(String game) {
@@ -36,7 +34,7 @@ public class Cockpit implements ICockpit {
 	}
 
 	public String nextRound(String round) {
-		captain.resetCapitain();
+		Captain captain = new Captain(parsedInitGame);
 		try {
 			parsedNextRound = objectMapper.readValue(round, NextRound.class);
 			parsedInitGame.setBateau(parsedNextRound.getBateau());
@@ -60,7 +58,7 @@ public class Cockpit implements ICockpit {
 					actionsNextRound.add(new OAR(m.getId()));
 				}
 				else if (m.getActionAFaire().equals("tournerGouvernail")){
-					actionsNextRound.add(new TURN(m.getId(),captain.getAngleRealiseGouvernail()));
+					actionsNextRound.add(new TURN(m.getId(),parsedInitGame.getBateau().getGouvernail().getAngleRealise()));
 				}
 			}
 		}
@@ -87,9 +85,9 @@ public class Cockpit implements ICockpit {
 		return roundJSON;
 	}
 
-	public Captain getCaptain() {
+	/*public Captain getCaptain() {
 		return captain;
-	}
+	}*/
 
 	@Override
 	public List<String> getLogs() {

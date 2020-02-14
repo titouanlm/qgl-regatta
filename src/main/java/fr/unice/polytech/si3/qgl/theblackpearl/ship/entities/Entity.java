@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import fr.unice.polytech.si3.qgl.theblackpearl.Marin;
+import fr.unice.polytech.si3.qgl.theblackpearl.actions.MOVING;
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.BattleGoal;
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.RegattaGoal;
 
@@ -32,6 +34,22 @@ public abstract class Entity {
         this.type = type;
         this.x = x;
         this.y = y;
+    }
+
+    public static ArrayList<Entity> supprimerEntite(ArrayList<Entity> listeEntite, boolean marinPlaceGauche, boolean marinPlaceDroite, Marin m, MOVING moving){
+        if (listeEntite!=null) {
+            for (int b = 0; b < listeEntite.size(); b++) { // supprimer la rame utilisée pour cette configuration
+                if (listeEntite.get(b) instanceof Rame && (marinPlaceGauche | marinPlaceDroite)) {
+                    if ((listeEntite.get(b).getY() - m.getY()) == moving.getYdistance() && (listeEntite.get(b).getX() - m.getX()) == moving.getXdistance()) {
+                        // TODO mettre l'attribut libre de Rame sur false
+                        listeEntite.remove(b);
+                        break;
+                    }
+                }
+            }
+            return listeEntite;
+        }
+        else return null;
     }
 
     public String getType() {

@@ -1,6 +1,7 @@
 package fr.unice.polytech.si3.qgl.theblackpearl;
 
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.MOVING;
+import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Rame;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity.supprimerEntite;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CaptainTest {
@@ -19,7 +21,7 @@ public class CaptainTest {
 
     @BeforeEach
     public void setUp(){
-        captain = new Captain();
+        captain = new Captain(null);
         listeEntite=new ArrayList<>();
         listeMarins=new ArrayList<>();
         listeEntite.add(new Rame("oar",0,0));
@@ -40,11 +42,11 @@ public class CaptainTest {
     public void supprimerEntiteTest(){
         Marin marin = new Marin(1, 5 ,6,"Edward Teach");
         MOVING moving = new MOVING(1,"MOVING",2,2);
-        assertEquals((captain.supprimerEntite(listeEntite,false,true,marin,moving).size()),5);
-        assertEquals((captain.supprimerEntite(listeEntite,false,true,marin,moving).size()),5);
-        assertEquals((captain.supprimerEntite(listeEntite,false,true,marin,moving).size()),5);
+        assertEquals((supprimerEntite(listeEntite,false,true,marin,moving).size()),5);
+        assertEquals((supprimerEntite(listeEntite,false,true,marin,moving).size()),5);
+        assertEquals((supprimerEntite(listeEntite,false,true,marin,moving).size()),5);
         ArrayList<Entity> listeNulle = new ArrayList<>();
-        assertEquals((captain.supprimerEntite(listeNulle,false,true,marin,moving)).size(),0);
+        assertEquals((supprimerEntite(listeNulle,false,true,marin,moving)).size(),0);
     }
 
     @Test

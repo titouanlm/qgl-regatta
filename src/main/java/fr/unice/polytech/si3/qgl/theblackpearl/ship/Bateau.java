@@ -8,6 +8,7 @@ import fr.unice.polytech.si3.qgl.theblackpearl.actions.OAR;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
 import fr.unice.polytech.si3.qgl.theblackpearl.Position;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Shape;
+import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Gouvernail;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Rame;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -64,6 +65,11 @@ public class Bateau {
 
     public ArrayList<Entity> getEntities() {
         return entities;
+    }
+
+    public Gouvernail getGouvernail(){
+        for (Entity e : entities) if (e instanceof Gouvernail) return ((Gouvernail) e);
+        return null;
     }
 
     public ArrayList<Rame> getListRames(){
