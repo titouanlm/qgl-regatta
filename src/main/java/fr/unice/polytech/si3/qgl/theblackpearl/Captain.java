@@ -4,7 +4,7 @@ import fr.unice.polytech.si3.qgl.theblackpearl.actions.Action;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.Checkpoint;
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.RegattaGoal;
-import fr.unice.polytech.si3.qgl.theblackpearl.seaElements.Vent;
+import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.Vent;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Gouvernail;
 
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class Captain {
     }
 
     public double[] meilleurAngleRealisable(InitGame parsedInitGame){
-        double meilleurAngleRealisable[] = new double[parsedInitGame.getBateau().getListRames().size()+1];
+        double[] meilleurAngleRealisable = new double[parsedInitGame.getBateau().getListRames().size()+1];
 
         //1. Tester si on a atteint le check point (et si on a finit la course) ==> supprime le checkpoint
         if(parsedInitGame.getGoal() instanceof RegattaGoal){

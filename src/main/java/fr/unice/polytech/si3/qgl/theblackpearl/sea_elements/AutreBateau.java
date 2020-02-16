@@ -1,4 +1,4 @@
-package fr.unice.polytech.si3.qgl.theblackpearl.seaElements;
+package fr.unice.polytech.si3.qgl.theblackpearl.sea_elements;
 
 import fr.unice.polytech.si3.qgl.theblackpearl.Position;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Shape;
@@ -11,4 +11,7 @@ public class AutreBateau extends VisibleEntity {
         this.life = life;
     }
 
+    public int getLife() {
+        return life;
+    }
 }

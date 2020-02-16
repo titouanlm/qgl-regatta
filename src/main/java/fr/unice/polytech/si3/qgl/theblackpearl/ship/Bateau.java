@@ -1,7 +1,6 @@
 package fr.unice.polytech.si3.qgl.theblackpearl.ship;
 
 import com.fasterxml.jackson.annotation.*;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import fr.unice.polytech.si3.qgl.theblackpearl.Marin;
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.Action;
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.OAR;
@@ -14,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.StreamSupport;
 
 @JsonIgnoreProperties(value = { "gouvernail","listRames", "nbRame"})
 @JsonTypeName("ship")
@@ -83,7 +81,7 @@ public class Bateau {
         return listRames;
     }
 
-    public int[] nombreMarinsBabordTribord(double angle, int nombreMarins, ArrayList<Rame> nombreRames){
+    public int[] nombreMarinsBabordTribord(double angle, ArrayList<Rame> nombreRames){
         double angleCalcule=-(Math.PI/2)-Math.PI/nombreRames.size();
         int i;
         for (i=-nombreRames.size()/2; ;i++){
@@ -93,10 +91,10 @@ public class Bateau {
             }
             if (i>nombreRames.size()/2) return null;
         }
-        int nombreMarinsBabordTribord[] = new int[2];
+        int[] nombreMarinsBabordTribord = new int[2];
         int b=0;
         if (i>0) {
-            for (; i < (nombreRames.size() / 2); ) {
+            while ( i < (nombreRames.size() / 2) ) {
                 i += 1;
                 b += 1;
             }
@@ -105,7 +103,7 @@ public class Bateau {
         }
         else if (i<0){
             i=-i;
-            for (; i < (nombreRames.size() / 2); ) {
+            while ( i < (nombreRames.size() / 2) ) {
                 i += 1;
                 b += 1;
             }

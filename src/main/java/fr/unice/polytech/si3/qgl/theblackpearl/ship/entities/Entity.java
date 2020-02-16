@@ -1,11 +1,8 @@
 package fr.unice.polytech.si3.qgl.theblackpearl.ship.entities;
 
 import com.fasterxml.jackson.annotation.*;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import fr.unice.polytech.si3.qgl.theblackpearl.Marin;
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.MOVING;
-import fr.unice.polytech.si3.qgl.theblackpearl.goal.BattleGoal;
-import fr.unice.polytech.si3.qgl.theblackpearl.goal.RegattaGoal;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package fr.unice.polytech.si3.qgl.theblackpearl.seaElements;
+package fr.unice.polytech.si3.qgl.theblackpearl.sea_elements;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

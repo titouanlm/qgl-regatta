@@ -1,10 +1,6 @@
 package fr.unice.polytech.si3.qgl.theblackpearl.goal;
 
 import com.fasterxml.jackson.annotation.*;
-import fr.unice.polytech.si3.qgl.theblackpearl.Position;
-import fr.unice.polytech.si3.qgl.theblackpearl.shape.Circle;
-import fr.unice.polytech.si3.qgl.theblackpearl.shape.Rectangle;
-import fr.unice.polytech.si3.qgl.theblackpearl.ship.Bateau;
 
 import java.util.List;
 

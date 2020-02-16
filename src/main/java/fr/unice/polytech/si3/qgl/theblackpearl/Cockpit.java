@@ -8,9 +8,8 @@ import fr.unice.polytech.si3.qgl.regatta.cockpit.ICockpit;
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.*;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.NextRound;
-import fr.unice.polytech.si3.qgl.theblackpearl.seaElements.Vent;
+import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.Vent;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
-import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Gouvernail;
 
 public class Cockpit implements ICockpit {
 	private InitGame parsedInitGame;
@@ -92,24 +91,8 @@ public class Cockpit implements ICockpit {
 		return roundJSON;
 	}
 
-	/*public Captain getCaptain() {
-		return captain;
-	}*/
-
 	@Override
 	public List<String> getLogs() {
 		return logs;
-	}
-
-	public NextRound getParsedNextRound() {
-		return parsedNextRound;
-	}
-
-	public ObjectMapper getObjectMapper() {
-		return objectMapper;
-	}
-
-	public InitGame getParsedInitGame() {
-		return parsedInitGame;
 	}
 }

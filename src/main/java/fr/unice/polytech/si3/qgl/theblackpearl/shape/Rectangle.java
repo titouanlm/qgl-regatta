@@ -13,7 +13,7 @@ public class Rectangle extends Shape {
     @JsonCreator
     public Rectangle(@JsonProperty("width") double width,
                      @JsonProperty("height") double height, @JsonProperty("orientation") double orientation) {
-        type = "rectangle";
+        this.type = "rectangle";
         this.width = width;
         this.height = height;
         this.orientation = orientation;

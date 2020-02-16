@@ -1,7 +1,6 @@
 package fr.unice.polytech.si3.qgl.theblackpearl;
 
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.MOVING;
-import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Rame;
 import org.junit.jupiter.api.BeforeEach;

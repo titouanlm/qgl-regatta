@@ -5,7 +5,7 @@ import fr.unice.polytech.si3.qgl.theblackpearl.actions.MOVING;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.Checkpoint;
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.RegattaGoal;
-import fr.unice.polytech.si3.qgl.theblackpearl.seaElements.Vent;
+import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.Vent;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Voile;
@@ -46,7 +46,7 @@ public class SalleDesCommandes {
         }
     }
 
-    public void preConfigurationRamesBateau(boolean neMarchePasPourLePremiertour, int nombreTour, int[] nombreMarinAplacerCopie, double meilleurAngleRealisable[], Calculator calculateur, ArrayList<Action> actionsNextRound, int meilleurAngleRealisablePosition){
+    public void preConfigurationRamesBateau(boolean neMarchePasPourLePremiertour, int nombreTour, int[] nombreMarinAplacerCopie, double[] meilleurAngleRealisable, Calculator calculateur, ArrayList<Action> actionsNextRound, int meilleurAngleRealisablePosition){
         if (!neMarchePasPourLePremiertour){
             restaurationPositionMarins();
             calculateur.setNombreMarinAplacer(nombreMarinAplacerCopie.clone());
@@ -54,15 +54,15 @@ public class SalleDesCommandes {
         }
         if (calculateur.getNombreMarinAplacer()[0] < 0 || calculateur.getNombreMarinAplacer()[1] < 0){
             ++meilleurAngleRealisablePosition;
-            calculateur.setNombreMarinAplacer(game.getBateau().nombreMarinsBabordTribord(meilleurAngleRealisable[meilleurAngleRealisablePosition], game.getMarins().size(),game.getBateau().getListRames()));
+            calculateur.setNombreMarinAplacer(game.getBateau().nombreMarinsBabordTribord(meilleurAngleRealisable[meilleurAngleRealisablePosition],game.getBateau().getListRames()));
         }
 
     }
 
-    public double configurationRames(double meilleurAngleRealisable[], ArrayList<Action> actionsNextRound, int meilleurAngleRealisablePosition){
+    public double configurationRames(double[] meilleurAngleRealisable, ArrayList<Action> actionsNextRound, int meilleurAngleRealisablePosition){
         Calculator calculateur = new Calculator();
         creationTableauMarins();
-        calculateur.setNombreMarinAplacer(game.getBateau().nombreMarinsBabordTribord(meilleurAngleRealisable[0], game.getMarins().size(),game.getBateau().getListRames()));
+        calculateur.setNombreMarinAplacer(game.getBateau().nombreMarinsBabordTribord(meilleurAngleRealisable[0], game.getBateau().getListRames()));
         calculateur.setNombreMarinAplacerCopie(calculateur.getNombreMarinAplacer().clone());
         boolean neMarchePasPourLePremiertour = true;int nombreTour=0;boolean marinPlaceGauche=false; boolean marinPlaceDroite=false;
         priseEnComptePositionMarins();

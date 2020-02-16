@@ -3,7 +3,6 @@ package fr.unice.polytech.si3.qgl.theblackpearl;
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.MOVING;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Rame;
-import net.bytebuddy.build.ToStringPlugin;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,17 +11,14 @@ import java.util.List;
 
 import static fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity.supprimerEntite;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 class CockpitTest {
 
     private ArrayList<Entity> listeEntite;
     private List<Marin> listeMarins;
-    private Cockpit cockpit;
 
     @BeforeEach
     public void setUp(){
-        cockpit=new Cockpit();
         listeEntite=new ArrayList<>();
         listeMarins=new ArrayList<>();
         listeEntite.add(new Rame(0,0));
@@ -46,11 +42,11 @@ class CockpitTest {
         boolean True3=false;
         Marin marin = new Marin(1, 5 ,6,"Edward Teach");
         MOVING moving = new MOVING(1,"MOVING",2,2);
-        assertEquals((supprimerEntite(listeEntite,True,True2,marin,moving).size()),5);
-        assertEquals((supprimerEntite(listeEntite,True,True2,marin,moving).size()),5);
-        assertEquals((supprimerEntite(listeEntite,True3,True2,marin,moving).size()),5);
+        assertEquals(5,supprimerEntite(listeEntite,True,True2,marin,moving).size());
+        assertEquals(5, supprimerEntite(listeEntite,True,True2,marin,moving).size());
+        assertEquals(5, supprimerEntite(listeEntite,True3,True2,marin,moving).size());
         ArrayList<Entity> listeNulle = new ArrayList<>();
-        assertEquals((supprimerEntite(listeNulle,True3,True2,marin,moving)).size(),0);
+        assertEquals(0, supprimerEntite(listeNulle,True3,True2,marin,moving).size());
     }
 
 

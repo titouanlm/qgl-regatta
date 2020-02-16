@@ -2,8 +2,8 @@ package fr.unice.polytech.si3.qgl.theblackpearl.engine;
 
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import fr.unice.polytech.si3.qgl.theblackpearl.seaElements.Vent;
-import fr.unice.polytech.si3.qgl.theblackpearl.seaElements.VisibleEntity;
+import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.Vent;
+import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.VisibleEntity;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.Bateau;
 
 import java.util.Arrays;

@@ -33,9 +33,9 @@ public class Deck {
     public boolean isStarboard(Entity entity){ // Starboard = tribord = droite
         if(entity.getX() >= 0 && entity.getX() < length) { // on vérifie que l'entité est bien sur le bateau
             if (width % 2 == 0) {
-                if (entity.getY() >= width / 2 && entity.getY() < width) return true;
+                return entity.getY() >= width / 2 && entity.getY() < width;
             } else if (width % 2 == 1) {
-                if (entity.getY() > width / 2 && entity.getY() < width) return true;
+                return entity.getY() > width / 2 && entity.getY() < width;
 
             }
         }
@@ -44,7 +44,7 @@ public class Deck {
 
     public boolean isPort(Entity entity){ // Port = bâbord = gauche
         if(entity.getX() >= 0 && entity.getX() < length){ // on vérifie que l'entité est bien sur le bateau
-            if(entity.getY() >= 0 && entity.getY() < width/2) return true; // on vérifie s'il est à bâbord
+            return entity.getY() >= 0 && entity.getY() < width / 2; // on vérifie s'il est à bâbord
         }
         return false;
     }

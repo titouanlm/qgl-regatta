@@ -229,10 +229,9 @@ public class Main {
 
         c.initGame(initGame);
         System.out.println(c.nextRound(firstRound));
-//        System.out.println(c.nextRound(firstRound));
 
-//      Cockpit c = new Cockpit();
-        /*Referee referee = new Referee(initGame,firstRound,c);
+/*      Cockpit c = new Cockpit();
+        Referee referee = new Referee(initGame,firstRound,c);
         final int nombreTours = 10; // valeur arbitraire pour l'instant
 
         c.initGame(initGame);
@@ -241,12 +240,6 @@ public class Main {
            referee.setActions(c.nextRound(referee.getNextRound()));
            referee.mettreAJourNextRound(); // aller voir dans Referee la methode mettreAJourJson() non operationnelle
        }*/
-
-     /* TEST MODULO
-     double angle = -0.52;
-     double modulo = angle % (2*Math.PI);
-     System.out.println();
-      */
     }
 }
 

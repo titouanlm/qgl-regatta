@@ -52,7 +52,7 @@ public class Calculator {
             Circle circle = (Circle) checkpoint.getShape();
             return distanceCBCC <= circle.getRadius();
         }else{
-            Rectangle rectangle = (Rectangle) checkpoint.getShape();
+            //Rectangle rectangle = (Rectangle) checkpoint.getShape();
             return false;
         }
     }

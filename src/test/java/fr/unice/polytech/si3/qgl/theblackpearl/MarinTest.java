@@ -16,7 +16,6 @@ public class MarinTest {
     private Marin marin2 = new Marin(2,0, 0, "Chef");
     private Marin marin3 = new Marin(3,0, 0, "General");
     private Marin marin4 = new Marin(4,0, 0, "Commandant");
-    private Marin marin5 = new Marin(5,0, 0, "Capitaine");
     private ArrayList<Entity> Entities = new ArrayList<>();
     private Entity e1 = new Rame(1,0);
     private Entity e2 = new Rame(0,1);

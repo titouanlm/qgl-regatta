@@ -8,7 +8,6 @@ import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Gouvernail;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Rame;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Voile;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Marin {
@@ -36,7 +35,7 @@ public class Marin {
     }
 
     public MOVING deplacementMarinGouvernail(List<Entity> Entities){
-        int deplacementMarin=0;
+        int deplacementMarin;
         for (Entity entity : Entities) {
             if (entity instanceof Gouvernail) {
                 deplacementMarin = (Math.abs(entity.getX() - this.getX()) + Math.abs(entity.getY() - this.getY()));
