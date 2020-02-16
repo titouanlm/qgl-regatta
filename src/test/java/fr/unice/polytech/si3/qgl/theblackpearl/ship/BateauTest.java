@@ -39,15 +39,15 @@ class BateauTest {
         listeMarins.add(new Marin(3,0,0,"Jack Teach"));
         listeMarins.add(new Marin(4,0,0,"Marschall D Teach"));
         listeMarins.add(new Marin(5,0,0,"Edward New Gate"));
-        entities.add(new Rame("oar",0,0));
-        entities.add(new Rame("oar",1,0));
-        entities.add(new Rame("oar",0,1));
-        entities.add(new Rame("oar",1,1));
-        entities.add(new Rame("oar",2,0));
-        entities.add(new Rame("oar",2,1));
+        entities.add(new Rame(0,0));
+        entities.add(new Rame(1,0));
+        entities.add(new Rame(0,1));
+        entities.add(new Rame(1,1));
+        entities.add(new Rame(2,0));
+        entities.add(new Rame(2,1));
         pos = new Position(0,0,0);
         deck = new Deck(2, 3);
-        shape = new Rectangle("rectangle", 2, 3, 0 );
+        shape = new Rectangle( 2, 3, 0 );
         bateau = new Bateau("ship", 100, pos, "Les copaings d'abord!", deck, entities, shape);
     }
 

@@ -1,9 +1,12 @@
 package fr.unice.polytech.si3.qgl.theblackpearl.ship.entities;
 
-public class Vigie extends Entity{
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-    public Vigie(String type, int x, int y) {
-        super(type, x, y);
+public class Vigie extends Entity{
+    @JsonCreator
+    public Vigie(@JsonProperty("x") int x, @JsonProperty("y") int y) {
+        super(x, y);
     }
 
 }

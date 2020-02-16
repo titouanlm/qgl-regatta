@@ -12,12 +12,11 @@ import com.fasterxml.jackson.annotation.*;
         @JsonSubTypes.Type(value = BattleGoal.class, name = "BATTLE"),
         @JsonSubTypes.Type(value = RegattaGoal.class, name = "REGATTA")
 })
+
+
 public abstract class Goal {
     protected String mode;
-    @JsonCreator
-    Goal(@JsonProperty("mode") String mode) {
-        this.mode = mode;
-    }
+
 
     public String getMode() {
         return mode;

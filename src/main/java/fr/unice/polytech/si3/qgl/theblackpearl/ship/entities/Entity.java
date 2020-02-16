@@ -1,9 +1,7 @@
 package fr.unice.polytech.si3.qgl.theblackpearl.ship.entities;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import fr.unice.polytech.si3.qgl.theblackpearl.Marin;
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.MOVING;
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.BattleGoal;
@@ -15,23 +13,26 @@ import java.util.ArrayList;
         use = JsonTypeInfo.Id.NAME,
         include = JsonTypeInfo.As.PROPERTY,
         property = "type",
-        visible = true)
+        visible = false
+)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = Gouvernail.class, name = "rudder"),
         @JsonSubTypes.Type(value = Rame.class, name = "oar"),
         @JsonSubTypes.Type(value = Vigie.class, name = "watch"),
         @JsonSubTypes.Type(value = Voile.class, name = "sail"),
 })
-
+@JsonIgnoreProperties(value = { "isUsed" , "used", "type", "angleRealise"})
 public abstract class Entity {
-    private String type;
+
+
+    protected String type;
     private int x;
     private int y;
+    @JsonIgnore
     protected boolean libre = true;
 
     @JsonCreator
-    public Entity(@JsonProperty("type") String type, @JsonProperty("x") int x, @JsonProperty("y") int y) {
-        this.type = type;
+    public Entity(@JsonProperty("x") int x, @JsonProperty("y") int y) {
         this.x = x;
         this.y = y;
     }

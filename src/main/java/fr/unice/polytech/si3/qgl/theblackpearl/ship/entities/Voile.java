@@ -7,8 +7,9 @@ public class Voile extends Entity{
     private boolean openned;
 
     @JsonCreator
-    public Voile(@JsonProperty("type") String type,@JsonProperty("x") int x,@JsonProperty("y") int y,@JsonProperty("openned") boolean openned) {
-        super(type, x, y);
+    public Voile(@JsonProperty("x") int x,@JsonProperty("y") int y,@JsonProperty("openned") boolean openned) {
+        super(x, y);
+        type = "sail";
         this.openned=openned;
     }
 

@@ -18,10 +18,10 @@ public class MarinTest {
     private Marin marin4 = new Marin(4,0, 0, "Commandant");
     private Marin marin5 = new Marin(5,0, 0, "Capitaine");
     private ArrayList<Entity> Entities = new ArrayList<>();
-    private Entity e1 = new Rame("oar",1,0);
-    private Entity e2 = new Rame("oar",0,1);
-    private Entity e3 = new Rame("oar",1, 1);
-    private Entity e4 = new Rame("oar",0, 0);
+    private Entity e1 = new Rame(1,0);
+    private Entity e2 = new Rame(0,1);
+    private Entity e3 = new Rame(1, 1);
+    private Entity e4 = new Rame(0, 0);
 
     @BeforeEach
     void setUp(){
@@ -47,15 +47,15 @@ public class MarinTest {
         ArrayList<Entity> aucuneEntite = new ArrayList<>();
         assertNull(marin2.deplacementMarinAllerRamer(aucuneEntite, 1,0,2));
         ArrayList<Entity> entitesPlaceLoin = new ArrayList<>();
-        entitesPlaceLoin.add(new Rame("oar",6,0));
-        entitesPlaceLoin.add(new Rame("oar",5, 1));
+        entitesPlaceLoin.add(new Rame(6,0));
+        entitesPlaceLoin.add(new Rame(5, 1));
         assertNull(marin2.deplacementMarinAllerRamer(entitesPlaceLoin, 1,1,2));
         ArrayList<Entity> entitesDistancesDifferentes = new ArrayList<>();
-        entitesDistancesDifferentes.add(new Rame("oar",3,1));
-        entitesDistancesDifferentes.add(new Rame("oar",3, 0));
+        entitesDistancesDifferentes.add(new Rame(3,1));
+        entitesDistancesDifferentes.add(new Rame(3, 0));
         assertEquals((marin2.deplacementMarinAllerRamer(entitesDistancesDifferentes,1,1,2)).getYdistance(),0);
         marin2.setLibre(true);
-        entitesDistancesDifferentes.add(new Rame("oar",1,1));
+        entitesDistancesDifferentes.add(new Rame(1,1));
         assertEquals((marin2.deplacementMarinAllerRamer(entitesDistancesDifferentes,1,1,2)).getYdistance(),1);
     }
 }

@@ -11,9 +11,9 @@ public class Rectangle extends Shape {
     private double orientation;
 
     @JsonCreator
-    public Rectangle(@JsonProperty("type") String type,@JsonProperty("width") double width,
+    public Rectangle(@JsonProperty("width") double width,
                      @JsonProperty("height") double height, @JsonProperty("orientation") double orientation) {
-        super(type);
+        type = "rectangle";
         this.width = width;
         this.height = height;
         this.orientation = orientation;
@@ -27,12 +27,12 @@ public class Rectangle extends Shape {
         this.width = width;
     }
 
-    public double getLength() {
+    public double getHeight() {
         return height;
     }
 
-    public void setLength(double length) {
-        this.height = length;
+    public void setHeight(double height) {
+        this.height = height;
     }
 
     public double getOrientation() {

@@ -7,8 +7,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @JsonTypeName("BATTLE")
 public class BattleGoal extends Goal {
-    @JsonCreator
-    public BattleGoal(@JsonProperty("mode") String mode) {
-        super(mode);
+    BattleGoal(){
+        mode = "BATTLE";
     }
 }

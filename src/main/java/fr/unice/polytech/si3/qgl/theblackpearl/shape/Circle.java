@@ -10,7 +10,7 @@ public class Circle extends Shape {
 
     @JsonCreator
     public Circle(@JsonProperty("type") String type,@JsonProperty("radius") double radius) {
-        super(type);
+        type = "circle";
         this.radius = radius;
     }
 

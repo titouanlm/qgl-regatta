@@ -7,7 +7,7 @@ import fr.unice.polytech.si3.qgl.theblackpearl.goal.Goal;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.Bateau;
 
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class InitGame {
     private Goal goal;

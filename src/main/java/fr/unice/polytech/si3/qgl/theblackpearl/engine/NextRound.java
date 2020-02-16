@@ -7,7 +7,8 @@ import fr.unice.polytech.si3.qgl.theblackpearl.seaElements.VisibleEntity;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.Bateau;
 
 import java.util.Arrays;
-@JsonIgnoreProperties(ignoreUnknown = true)
+
+@JsonIgnoreProperties(value = { "bateau"})
 public class NextRound {
     @JsonSerialize
     private Bateau ship;

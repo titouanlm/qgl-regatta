@@ -5,6 +5,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Gouvernail extends Entity{
 
+    @JsonCreator
+    public Gouvernail(@JsonProperty("x") int x,@JsonProperty("y") int y) {
+        super(x, y);
+        type = "rudder";
+    }
     private double angleRealise;
 
     public double getAngleRealise() {
@@ -25,10 +30,7 @@ public class Gouvernail extends Entity{
         else return -angleAFaire % (45 * Math.PI / 180);
     }
 
-    @JsonCreator
-    public Gouvernail(@JsonProperty("type")String type,@JsonProperty("x") int x,@JsonProperty("y") int y) {
-        super(type, x, y);
-    }
+
 
 
 }

@@ -24,12 +24,12 @@ public class CaptainTest {
         captain = new Captain(null);
         listeEntite=new ArrayList<>();
         listeMarins=new ArrayList<>();
-        listeEntite.add(new Rame("oar",0,0));
-        listeEntite.add(new Rame("oar",1,0));
-        listeEntite.add(new Rame("oar",2,0));
-        listeEntite.add(new Rame("oar",7,8));
-        listeEntite.add(new Rame("oar",1,8));
-        listeEntite.add(new Rame("oar",2,8));
+        listeEntite.add(new Rame(0,0));
+        listeEntite.add(new Rame(1,0));
+        listeEntite.add(new Rame(2,0));
+        listeEntite.add(new Rame(7,8));
+        listeEntite.add(new Rame(1,8));
+        listeEntite.add(new Rame(2,8));
         listeMarins.add(new Marin(0,0,0,"Edward Teach"));
         listeMarins.add(new Marin(1,0,0,"Edward Pouce"));
         listeMarins.add(new Marin(2,0,0,"Tom Pouce"));

@@ -1,9 +1,6 @@
 package fr.unice.polytech.si3.qgl.theblackpearl.shape;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.*;
 
 
 @JsonTypeInfo(
@@ -15,14 +12,11 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         @JsonSubTypes.Type(value = Circle.class, name = "circle"),
         @JsonSubTypes.Type(value = Rectangle.class, name = "rectangle")
 })
-
+@JsonIgnoreProperties(value = { "type"})
 public abstract class Shape {
-    private String type;
+    protected String type;
 
-    @JsonCreator
-    Shape(@JsonProperty("type") String type) {
-        this.type = type;
-    }
+
 
     public String getType() {
         return type;

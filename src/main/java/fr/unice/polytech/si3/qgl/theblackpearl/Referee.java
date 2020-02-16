@@ -2,6 +2,7 @@ package fr.unice.polytech.si3.qgl.theblackpearl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.unice.polytech.si3.qgl.theblackpearl.actions.TURN;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.Bateau;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Rame;
 
@@ -107,7 +108,7 @@ public class Referee {
 
         // 1) Calcul de l'orientation induite par les rames
         for (Rame rame : rames) {
-            if (!(rame.isLibre())) {
+            if (rame.isUsed()) {
                 nombreRamesActives += 1;
                 if (bateau.getDeck().isStarboard(rame)) { // Starboard = tribord = droite
                     rotationDesRames += rotationParRame;
@@ -167,19 +168,38 @@ public class Referee {
     public void mettreAJourJson() {
         // TODO Soit on arrive à trouver un moyen de juste mettre à jour les fields qui changent (orientation, position ...)
         //   Soit on recrée le Json en entier à chaque tour
-
+        ObjectMapper objectMapper = new ObjectMapper();
         try {
-            ObjectMapper objectMapper = new ObjectMapper();
+            //setInitGame(objectMapper.writeValueAsString(cockpit.getParsedInitGame()));
+            // System.out.println(initGame);
             setNextRound(objectMapper.writeValueAsString(cockpit.getParsedNextRound()));
             System.out.println(nextRound);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
 
+        /*
+        StringBuilder roundMisAJour = new StringBuilder("[");
+        try {
+            for(int i=0; i<actionsNextRound.size(); i++){
+                if (actionsNextRound.get(i) instanceof TURN) roundJSON.append(actionsNextRound.get(i).toString());
+                else roundJSON.append(objectMapper.writeValueAsString(actionsNextRound.get(i)));
+                if(i!=actionsNextRound.size()-1){
+                    roundJSON.append(",");
+                }
+            }
+        }catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        roundJSON.append("]");
 
+        return roundJSON;
+        */
 
+    }
 
-
+    private void setInitGame(String initGame) {
+        this.initGame = initGame;
     }
 
     //____________________________________________________________________________________________________________________________________________________________________________________________________________________
