@@ -6,14 +6,16 @@ import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
 public class Main {
     public static void main(String[] args) {
         Cockpit c = new Cockpit();
+        //String initGame = "{ \"goal\": { \"mode\": \"REGATTA\", \"checkpoints\": [ { \"position\": { \"x\": 50, \"y\": 1000 }, \"shape\": { \"type\": \"circle\", \"radius\": 50.0 } }, { \"position\": { \"x\": 500, \"y\": -200 }, \"shape\": { \"type\": \"circle\", \"radius\": 50.0 } }, { \"position\": { \"x\": -500, \"y\": 1250 }, \"shape\": { \"type\": \"circle\", \"radius\": 60.0 } } ] }, \"ship\": { \"name\": \"Péquod\", \"life\": 300, \"deck\": { \"length\": 4, \"width\": 3 }, \"entities\": [ { \"type\": \"oar\", \"x\": 0, \"y\": 0 }, { \"type\": \"oar\", \"x\": 0, \"y\": 2 }, { \"type\": \"oar\", \"x\": 1, \"y\": 0 }, { \"type\": \"oar\", \"x\": 1, \"y\": 2 }, { \"type\": \"oar\", \"x\": 2, \"y\": 0 }, { \"type\": \"oar\", \"x\": 2, \"y\": 2 }, { \"type\": \"rudder\", \"x\": 3, \"y\": 1 } ] }, \"startingPositions\": [ { \"x\": 0.0, \"y\": 0.0, \"orientation\": 0.0 } ], \"wind\": { \"direction\": 0, \"strenght\": 0 }, \"seaEntities\": [], \"maxRound\": 300, \"minumumCrewSize\": 4, \"maximumCrewSize\": 4 }";
+
         String initGame = "{\n" +
                 "  \"goal\": {\n" +
                 "    \"mode\": \"REGATTA\",\n" +
                 "    \"checkpoints\": [\n" +
                 "      {\n" +
                 "        \"position\": {\n" +
-                "          \"x\": 1000,\n" +
-                "          \"y\": -1000,\n" +
+                "          \"x\": -1000,\n" +
+                "          \"y\": -50,\n" +
                 "          \"orientation\": 0\n" +
                 "        },\n" +
                 "        \"shape\": {\n" +

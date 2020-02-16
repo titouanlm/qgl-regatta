@@ -8,8 +8,10 @@ import fr.unice.polytech.si3.qgl.theblackpearl.goal.RegattaGoal;
 import fr.unice.polytech.si3.qgl.theblackpearl.seaElements.Vent;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
+import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Voile;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity.supprimerEntite;
 import static fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Rame.setRamesUsed;
@@ -22,10 +24,12 @@ public class SalleDesCommandes {
 
     public SalleDesCommandes(InitGame game, Vent vent){
         this.game=game;
-        tableauPositionPotentielleMarins = new int[game.getMarins().size()][2];
         this.vent=vent;
     }
 
+    public void creationTableauMarins(){
+        tableauPositionPotentielleMarins = new int[game.getMarins().size()][2];
+    }
     public void priseEnComptePositionMarins(){
         for (int b=0;b<game.getMarins().size();b++){
             tableauPositionPotentielleMarins[b][0] = game.getMarins().get(b).getX();
@@ -57,6 +61,7 @@ public class SalleDesCommandes {
 
     public double configurationRames(double meilleurAngleRealisable[], ArrayList<Action> actionsNextRound, int meilleurAngleRealisablePosition){
         Calculator calculateur = new Calculator();
+        creationTableauMarins();
         calculateur.setNombreMarinAplacer(game.getBateau().nombreMarinsBabordTribord(meilleurAngleRealisable[0], game.getMarins().size(),game.getBateau().getListRames()));
         calculateur.setNombreMarinAplacerCopie(calculateur.getNombreMarinAplacer().clone());
         boolean neMarchePasPourLePremiertour = true;int nombreTour=0;boolean marinPlaceGauche=false; boolean marinPlaceDroite=false;
@@ -90,7 +95,41 @@ public class SalleDesCommandes {
         return meilleurAngleRealisable[meilleurAngleRealisablePosition];
     }
 
-    public boolean utilisationRameOuiNon(InitGame game){
+    public void utilisationVoile(InitGame parsedInitGame, List<Action> actionsNextRound){
+        for (Marin marin : parsedInitGame.getMarins())
+            if (marin.isLibre()) //calcul nouvelle postion du bateau si l'on utilise la voile, si pas rentable on ne la prend pas
+                if (marin.peutSeRendreALavoile(parsedInitGame.getBateau().getEntities()))
+                    if(utilisationVoileOuiNon(parsedInitGame)){
+                        for (Entity e : parsedInitGame.getBateau().getEntities()) {
+                            if (e instanceof Voile)
+                                if (!((Voile) e).isOpenned()) {
+                                    MOVING moving = marin.deplacementMarinVoile(parsedInitGame.getBateau().getEntities(), true);
+                                    if (moving != null) {
+                                        actionsNextRound.add(moving);
+                                        marin.setX(moving.getXdistance() + marin.getX());
+                                        marin.setY(moving.getYdistance() + marin.getY());
+                                        return;
+                                    }
+                                }
+                        }
+                    }
+                    else {//baisser la voile si c'est pas rentable
+                        for (Entity e : parsedInitGame.getBateau().getEntities()) {
+                            if (e instanceof Voile)
+                                if (((Voile) e).isOpenned()) {
+                                    MOVING moving = marin.deplacementMarinVoile(parsedInitGame.getBateau().getEntities(), false);
+                                    if (moving != null) {
+                                        actionsNextRound.add(moving);
+                                        marin.setX(moving.getXdistance() + marin.getX());
+                                        marin.setY(moving.getYdistance() + marin.getY());
+                                        return;
+                                    }
+                                }
+                        }
+                    }
+    }
+
+    public boolean utilisationVoileOuiNon(InitGame game){
         double xAvecVoile=game.getBateau().getPosition().getX() + vent.getStrength()*Math.cos(vent.getOrientation());
         double yAvecVoile=game.getBateau().getPosition().getX() + vent.getStrength()*Math.sin(vent.getOrientation());
         Position positionSiRameactive = new Position(xAvecVoile,yAvecVoile, game.getBateau().getPosition().getOrientation());
@@ -109,12 +148,26 @@ public class SalleDesCommandes {
                 MOVING moving = m.deplacementMarinGouvernail(game.getBateau().getEntities());
                 if (moving!=null){
                     actionsNextRound.add(moving);
-                    m.setX(moving.getXdistance() + m.getX());m.setY(moving.getYdistance() + m.getY());
+                    m.setX(moving.getXdistance() + m.getX());
+                    m.setY(moving.getYdistance() + m.getY());
                     return true;
                 }
             }
         }
         return false;
+    }
+
+    public void configurationGouvernail(InitGame game,List<Action> actionsNextRound){
+        for (Marin m :game.getMarins()){
+            if (m.isLibre()){
+                MOVING moving = m.deplacementMarinGouvernail(game.getBateau().getEntities());
+                if (moving!=null){
+                    actionsNextRound.add(moving);
+                    m.setX(moving.getXdistance() + m.getX());m.setY(moving.getYdistance() + m.getY());
+                    return;
+                }
+            }
+        }
     }
 
 

@@ -1,14 +1,11 @@
 package fr.unice.polytech.si3.qgl.theblackpearl;
 
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.Action;
-import fr.unice.polytech.si3.qgl.theblackpearl.actions.MOVING;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.Checkpoint;
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.RegattaGoal;
 import fr.unice.polytech.si3.qgl.theblackpearl.seaElements.Vent;
-import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Gouvernail;
-import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Voile;
 
 import java.util.ArrayList;
 
@@ -32,35 +29,11 @@ public class Captain {
         double resteAngleARealiser = angleParfait - angleRealiseRames;
         Gouvernail gouvernail = parsedInitGame.getBateau().getGouvernail();
         gouvernail.setAngleRealise(gouvernail.angleGouvernail(resteAngleARealiser));
-        if (gouvernail.getAngleRealise() != 0.0) if(!salleDesCommandes.possibiliteSeRendreVoile(actionsNextRound)){
-            gouvernail.setAngleRealise(0.0);
+        if (gouvernail.getAngleRealise() != 0.0) {
+            salleDesCommandes.configurationGouvernail(parsedInitGame,actionsNextRound);
         }
-        utilisationVoile(parsedInitGame);
+        salleDesCommandes.utilisationVoile(parsedInitGame,actionsNextRound);
         return actionsNextRound;
-    }
-
-    public void utilisationVoile(InitGame parsedInitGame){
-        for (Marin marin : parsedInitGame.getMarins())
-            if (marin.isLibre()) //calcul nouvelle postion du bateau si l'on utilise la voile, si pas rentable on ne la prend pas
-                if (marin.peutSeRendreALavoile(parsedInitGame.getBateau().getEntities()))
-                    if(salleDesCommandes.utilisationRameOuiNon(parsedInitGame)){
-                        for (Entity e : parsedInitGame.getBateau().getEntities()) {
-                            if (e instanceof Voile)
-                                if (!((Voile) e).isOpenned()) {
-                                    MOVING moving = marin.deplacementMarinVoile(parsedInitGame.getBateau().getEntities(), true);
-                                    if (moving != null) actionsNextRound.add(moving);
-                                }
-                        }
-                    }
-                    else {//baisser la voile si c'est pas rentable
-                        for (Entity e : parsedInitGame.getBateau().getEntities()) {
-                            if (e instanceof Voile)
-                                if (((Voile) e).isOpenned()) {
-                                    MOVING moving = marin.deplacementMarinVoile(parsedInitGame.getBateau().getEntities(), false);
-                                    if (moving != null) actionsNextRound.add(moving);
-                                }
-                        }
-                    }
     }
 
     public double[] meilleurAngleRealisable(InitGame parsedInitGame){
