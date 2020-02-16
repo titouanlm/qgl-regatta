@@ -13,7 +13,6 @@ public class Captain {
 
     private Calculator calculator;
     ArrayList<Action> actionsNextRound = new ArrayList<>();
-    int meilleurAngleRealisablePosition;
     private double angleParfaitVersCheckpoint;
     private SalleDesCommandes salleDesCommandes;
 
@@ -25,7 +24,7 @@ public class Captain {
     public ArrayList<Action> captainFaitLeJob(InitGame parsedInitGame){
         double[] meilleurAngleRealisable = meilleurAngleRealisable(parsedInitGame);
         double angleParfait = angleParfait(parsedInitGame);
-        double angleRealiseRames = salleDesCommandes.configurationRames(meilleurAngleRealisable, actionsNextRound,meilleurAngleRealisablePosition);
+        double angleRealiseRames = salleDesCommandes.configurationRames(meilleurAngleRealisable, actionsNextRound,0);
         double resteAngleARealiser = angleParfait - angleRealiseRames;
         Gouvernail gouvernail = parsedInitGame.getBateau().getGouvernail();
         gouvernail.setAngleRealise(gouvernail.angleGouvernail(resteAngleARealiser));

@@ -13,11 +13,20 @@ public class Vent {
         this.strength = strength;
     }
 
+    public void setStrength(double strength) {
+        this.strength = strength;
+    }
+
+    public void setOrientation(double orientation){
+        this.orientation=orientation;
+    }
+
     public double getOrientation() {
-        return orientation;
+        return this.orientation;
     }
 
     public double getStrength() {
-        return strength;
+        return this.strength;
     }
+
 }

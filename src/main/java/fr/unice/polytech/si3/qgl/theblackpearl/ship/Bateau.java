@@ -9,6 +9,8 @@ import fr.unice.polytech.si3.qgl.theblackpearl.Position;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Shape;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Gouvernail;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Rame;
+import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Voile;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -79,6 +81,15 @@ public class Bateau {
             }
         }
         return listRames;
+    }
+
+    public Voile getVoile(){
+        for (Entity c : getEntities()){
+            if (c instanceof Voile){
+                return ((Voile) c);
+            }
+        }
+        return null;
     }
 
     public int[] nombreMarinsBabordTribord(double angle, ArrayList<Rame> nombreRames){

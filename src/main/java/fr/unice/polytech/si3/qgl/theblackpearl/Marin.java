@@ -65,15 +65,6 @@ public class Marin {
         return null;
     }
 
-    public boolean peutSeRendreALavoile(List<Entity> Entities) {
-        for (Entity entity : Entities) {
-            if (entity instanceof Voile) {
-                return (Math.abs(entity.getX() - this.getX()) + Math.abs(entity.getY() - this.getY())) < 6;
-            }
-        }
-        return false;
-    }
-
     public MOVING deplacementMarinAllerRamer(List<Entity> Entities, int nombreDeMarinsManquantsAGauche, int nombreDeMarinsManquantsADroite, int largeurBateau){
         int entiteRecoitMarin=-1;
         int deplacementMarin=0;
