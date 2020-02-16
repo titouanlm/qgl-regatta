@@ -12,7 +12,7 @@ import java.util.Arrays;
 public class NextRound {
     @JsonSerialize
     private Bateau ship;
-    @JsonIgnore
+    @JsonSerialize
     private Vent wind;
     @JsonIgnore
     private VisibleEntity[] visibleEntities;
@@ -28,7 +28,7 @@ public class NextRound {
         return this.ship;
     }
 
-
+    public Vent getVent() { return this.wind; }
 
     @Override
     public String toString() {

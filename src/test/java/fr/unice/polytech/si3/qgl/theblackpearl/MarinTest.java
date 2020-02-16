@@ -58,4 +58,19 @@ public class MarinTest {
         entitesDistancesDifferentes.add(new Rame(1,1));
         assertEquals((marin2.deplacementMarinAllerRamer(entitesDistancesDifferentes,1,1,2)).getYdistance(),1);
     }
+
+    @Test
+    public void deplacementMarinVoileTest(){
+
+    }
+
+    @Test
+    public void deplacementMarinGouvernailTest(){
+
+    }
+
+    @Test
+    public void peutSeRendreALaVoileTest(){
+
+    }
 }

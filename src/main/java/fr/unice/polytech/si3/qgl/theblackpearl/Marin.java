@@ -6,6 +6,7 @@ import fr.unice.polytech.si3.qgl.theblackpearl.actions.MOVING;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Gouvernail;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Rame;
+import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Voile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,7 @@ public class Marin {
         for (Entity entity : Entities) {
             if (entity instanceof Gouvernail) {
                 deplacementMarin = (Math.abs(entity.getX() - this.getX()) + Math.abs(entity.getY() - this.getY()));
-                if (deplacementMarin < 6) {
+                if (deplacementMarin < 6 && this.libre) {
                     actionAFaire="tournerGouvernail";
                     this.libre=false;
                     return new MOVING(getId(), "MOVING", entity.getX() - this.getX(), entity.getY() - this.getY());
@@ -47,6 +48,31 @@ public class Marin {
             }
         }
         return null;
+    }
+
+    public MOVING deplacementMarinVoile(List<Entity> Entities, boolean leverLaVoile){
+        int deplacementMarin=0;
+        for (Entity entity : Entities) {
+            if (entity instanceof Voile) {
+                deplacementMarin = (Math.abs(entity.getX() - this.getX()) + Math.abs(entity.getY() - this.getY()));
+                if (deplacementMarin < 6 && this.libre) {
+                    if (leverLaVoile) actionAFaire="HisserVoile";
+                    else actionAFaire="BaisserLaVoile";
+                    this.libre=false;
+                    return new MOVING(getId(), "MOVING", entity.getX() - this.getX(), entity.getY() - this.getY());
+                }
+            }
+        }
+        return null;
+    }
+
+    public boolean peutSeRendreALavoile(List<Entity> Entities) {
+        for (Entity entity : Entities) {
+            if (entity instanceof Voile) {
+                return (Math.abs(entity.getX() - this.getX()) + Math.abs(entity.getY() - this.getY())) < 6;
+            }
+        }
+        return false;
     }
 
     public MOVING deplacementMarinAllerRamer(List<Entity> Entities, int nombreDeMarinsManquantsAGauche, int nombreDeMarinsManquantsADroite, int largeurBateau){

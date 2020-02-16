@@ -21,7 +21,7 @@ public class CaptainTest {
 
     @BeforeEach
     public void setUp(){
-        captain = new Captain(null);
+        captain = new Captain(null,null);
         listeEntite=new ArrayList<>();
         listeMarins=new ArrayList<>();
         listeEntite.add(new Rame(0,0));
@@ -38,7 +38,7 @@ public class CaptainTest {
         listeMarins.add(new Marin(5,0,0,"Edward New Gate"));
     }
 
-    @Test
+    @Test //Test D'une autre classe
     public void supprimerEntiteTest(){
         Marin marin = new Marin(1, 5 ,6,"Edward Teach");
         MOVING moving = new MOVING(1,"MOVING",2,2);
@@ -49,18 +49,14 @@ public class CaptainTest {
         assertEquals((supprimerEntite(listeNulle,false,true,marin,moving)).size(),0);
     }
 
+
     @Test
-    public void configurationBateauTest(){
+    public void captainFaitLeJobTest(){
 
     }
 
     @Test
-    public void priseEnComptePositionMarinsTest(){
-
-    }
-
-    @Test
-    public void restaurationPositionMarinsTest(){
+    public void utilisationVoileTest(){
 
     }
 
@@ -70,27 +66,17 @@ public class CaptainTest {
     }
 
     @Test
-    public void resetCapitainTest(){
+    public void utilisationRameOuiNon(){
 
     }
 
     @Test
-    public void preConfigurationBateauTest(){
+    public void estUnePositionRentableTest(){
 
     }
 
     @Test
-    public void angleGouvernailTest(){
-
-    }
-
-    @Test
-    public void configurationGouvernailTest(){
-
-    }
-
-    @Test
-    public void captainFaitLeJobTest(){
+    public void possibiliteSeRendreVoileTest(){
 
     }
 }

@@ -5,11 +5,10 @@ import java.util.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.unice.polytech.si3.qgl.regatta.cockpit.ICockpit;
-import fr.unice.polytech.si3.qgl.theblackpearl.actions.Action;
-import fr.unice.polytech.si3.qgl.theblackpearl.actions.OAR;
-import fr.unice.polytech.si3.qgl.theblackpearl.actions.TURN;
+import fr.unice.polytech.si3.qgl.theblackpearl.actions.*;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.NextRound;
+import fr.unice.polytech.si3.qgl.theblackpearl.seaElements.Vent;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Gouvernail;
 
@@ -33,8 +32,7 @@ public class Cockpit implements ICockpit {
 		}
 	}
 
-	public String nextRound(String round) {
-		Captain captain = new Captain(parsedInitGame);
+	public String nextRound(String round) { //reinitialiser toute les actions à faire des marins
 		try {
 			parsedNextRound = objectMapper.readValue(round, NextRound.class);
 			parsedInitGame.setBateau(parsedNextRound.getBateau());
@@ -42,6 +40,9 @@ public class Cockpit implements ICockpit {
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
+		Vent vent = parsedNextRound.getVent();
+		Captain captain = new Captain(parsedInitGame, vent);
+
 
 		for (Marin marin : parsedInitGame.getMarins()) {
 			marin.resetMarinPourUnNouveauTour();
@@ -59,6 +60,12 @@ public class Cockpit implements ICockpit {
 				}
 				else if (m.getActionAFaire().equals("tournerGouvernail")){
 					actionsNextRound.add(new TURN(m.getId(),parsedInitGame.getBateau().getGouvernail().getAngleRealise()));
+				}
+				else if (m.getActionAFaire().equals("HisserVoile")){
+					actionsNextRound.add(new LIFT_SAIL(m.getId()));
+				}
+				else if (m.getActionAFaire().equals("BaisserLaVoile")){
+					actionsNextRound.add(new LOWER_SAIL(m.getId()));
 				}
 			}
 		}
