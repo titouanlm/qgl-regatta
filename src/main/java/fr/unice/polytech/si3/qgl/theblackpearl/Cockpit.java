@@ -54,17 +54,19 @@ public class Cockpit implements ICockpit {
 		List<Action> actionsNextRound = captain.captainFaitLeJob(parsedInitGame);
 		for(Marin m : parsedInitGame.getMarins()){
 			if (!m.isLibre()) {
-				if (m.getActionAFaire().equals("Ramer")) {
-					actionsNextRound.add(new OAR(m.getId()));
-				}
-				else if (m.getActionAFaire().equals("tournerGouvernail")){
-					actionsNextRound.add(new TURN(m.getId(),parsedInitGame.getBateau().getGouvernail().getAngleRealise()));
-				}
-				else if (m.getActionAFaire().equals("HisserVoile")){
-					actionsNextRound.add(new LIFT_SAIL(m.getId()));
-				}
-				else if (m.getActionAFaire().equals("BaisserLaVoile")){
-					actionsNextRound.add(new LOWER_SAIL(m.getId()));
+				switch (m.getActionAFaire()) {
+					case "Ramer":
+						actionsNextRound.add(new OAR(m.getId()));
+						break;
+					case "tournerGouvernail":
+						actionsNextRound.add(new TURN(m.getId(), parsedInitGame.getBateau().getGouvernail().getAngleRealise()));
+						break;
+					case "HisserVoile":
+						actionsNextRound.add(new LIFT_SAIL(m.getId()));
+						break;
+					case "BaisserLaVoile":
+						actionsNextRound.add(new LOWER_SAIL(m.getId()));
+						break;
 				}
 			}
 		}
@@ -73,7 +75,7 @@ public class Cockpit implements ICockpit {
 		return roundJSON.toString();
 	}
 
-	public StringBuilder creationJson(List <Action> actionsNextRound){
+	public StringBuilder creationJson(List<Action> actionsNextRound){
 		StringBuilder roundJSON= new StringBuilder("[");
 		try {
 			for(int i=0; i<actionsNextRound.size(); i++){

@@ -20,4 +20,6 @@ public class Vent {
     public double getStrength() {
         return strength;
     }
+
+
 }
