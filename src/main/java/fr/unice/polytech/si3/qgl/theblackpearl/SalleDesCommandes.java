@@ -117,6 +117,7 @@ public class SalleDesCommandes {
                                     marin.setX(moving.getXdistance() + marin.getX());
                                     marin.setY(moving.getYdistance() + marin.getY());
                                     ((Voile) e).setOpenned(true);
+                                    parsedInitGame.getBateau().setPosition(new Position(game.getBateau().getPosition().getX() + vent.getStrength()*Math.cos(vent.getOrientation()),game.getBateau().getPosition().getY() + vent.getStrength()*Math.sin(vent.getOrientation()),parsedInitGame.getBateau().getPosition().getOrientation()));
                                     return;
                                 }
                             }
@@ -160,6 +161,5 @@ public class SalleDesCommandes {
             }
         }
     }
-
 
 }

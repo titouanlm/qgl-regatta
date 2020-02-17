@@ -39,13 +39,16 @@ public class Cockpit implements ICockpit {
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		Vent vent = parsedNextRound.getVent();
-		Captain captain = new Captain(parsedInitGame, vent);
 
+		Captain captain = new Captain(parsedInitGame, parsedNextRound.getVent());
 
+		StringBuilder log = new StringBuilder();
 		for (Marin marin : parsedInitGame.getMarins()) {
 			marin.resetMarinPourUnNouveauTour();
+			log.append(marin.toString());
+			//System.out.println(marin.getX() + " " + marin.getY());
 		}
+		logs.add(log.toString());
 
 		for (Entity entite : parsedInitGame.getBateau().getEntities()){
 			entite.setLibre(true);
@@ -54,17 +57,19 @@ public class Cockpit implements ICockpit {
 		List<Action> actionsNextRound = captain.captainFaitLeJob(parsedInitGame);
 		for(Marin m : parsedInitGame.getMarins()){
 			if (!m.isLibre()) {
-				if (m.getActionAFaire().equals("Ramer")) {
-					actionsNextRound.add(new OAR(m.getId()));
-				}
-				else if (m.getActionAFaire().equals("tournerGouvernail")){
-					actionsNextRound.add(new TURN(m.getId(),parsedInitGame.getBateau().getGouvernail().getAngleRealise()));
-				}
-				else if (m.getActionAFaire().equals("HisserVoile")){
-					actionsNextRound.add(new LIFT_SAIL(m.getId()));
-				}
-				else if (m.getActionAFaire().equals("BaisserLaVoile")){
-					actionsNextRound.add(new LOWER_SAIL(m.getId()));
+				switch (m.getActionAFaire()) {
+					case "Ramer":
+						actionsNextRound.add(new OAR(m.getId()));
+						break;
+					case "tournerGouvernail":
+						actionsNextRound.add(new TURN(m.getId(), parsedInitGame.getBateau().getGouvernail().getAngleRealise()));
+						break;
+					case "HisserVoile":
+						actionsNextRound.add(new LIFT_SAIL(m.getId()));
+						break;
+					case "BaisserLaVoile":
+						actionsNextRound.add(new LOWER_SAIL(m.getId()));
+						break;
 				}
 			}
 		}
