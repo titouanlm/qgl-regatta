@@ -39,13 +39,15 @@ public class Cockpit implements ICockpit {
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		Vent vent = parsedNextRound.getVent();
-		Captain captain = new Captain(parsedInitGame, vent);
 
+		Captain captain = new Captain(parsedInitGame, parsedNextRound.getVent());
 
+		StringBuilder log= new StringBuilder();
 		for (Marin marin : parsedInitGame.getMarins()) {
 			marin.resetMarinPourUnNouveauTour();
+			log.append(marin.toString());
 		}
+		logs.add(log.toString());
 
 		for (Entity entite : parsedInitGame.getBateau().getEntities()){
 			entite.setLibre(true);

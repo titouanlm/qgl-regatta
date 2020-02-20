@@ -20,8 +20,6 @@ import java.util.ArrayList;
 })
 @JsonIgnoreProperties(value = { "isUsed" , "used", "type", "angleRealise"})
 public abstract class Entity {
-
-
     protected String type;
     private int x;
     private int y;
@@ -37,7 +35,7 @@ public abstract class Entity {
     public static ArrayList<Entity> supprimerEntite(ArrayList<Entity> listeEntite, boolean marinPlaceGauche, boolean marinPlaceDroite, Marin m, MOVING moving){
         if (listeEntite!=null) {
             for (int b = 0; b < listeEntite.size(); b++) { // supprimer la rame utilisée pour cette configuration
-                if (listeEntite.get(b) instanceof Rame && (marinPlaceGauche | marinPlaceDroite)) {
+                if (listeEntite.get(b) instanceof Rame && (marinPlaceGauche || marinPlaceDroite)) {
                     if ((listeEntite.get(b).getY() - m.getY()) == moving.getYdistance() && (listeEntite.get(b).getX() - m.getX()) == moving.getXdistance()) {
                         // TODO mettre l'attribut libre de Rame sur false
                         listeEntite.remove(b);

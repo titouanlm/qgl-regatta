@@ -65,18 +65,9 @@ public class Marin {
         return null;
     }
 
-    public boolean peutSeRendreALavoile(List<Entity> Entities) {
-        for (Entity entity : Entities) {
-            if (entity instanceof Voile) {
-                return (Math.abs(entity.getX() - this.getX()) + Math.abs(entity.getY() - this.getY())) < 6;
-            }
-        }
-        return false;
-    }
-
     public MOVING deplacementMarinAllerRamer(List<Entity> Entities, int nombreDeMarinsManquantsAGauche, int nombreDeMarinsManquantsADroite, int largeurBateau){
         int entiteRecoitMarin=-1;
-        int deplacementMarin=0;
+        int deplacementMarin;
         int deplacementPlusCourt=6;
         for (int i=0;i<Entities.size();i++) {
             if (Entities.get(i) instanceof Rame) {
@@ -117,10 +108,6 @@ public class Marin {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public int getX() {
         return x;
     }
@@ -137,13 +124,6 @@ public class Marin {
         this.y = y;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     @Override
     public String toString() {

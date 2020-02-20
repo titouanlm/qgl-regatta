@@ -9,6 +9,8 @@ import fr.unice.polytech.si3.qgl.theblackpearl.Position;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Shape;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Gouvernail;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Rame;
+import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Voile;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -81,6 +83,15 @@ public class Bateau {
         return listRames;
     }
 
+    public Voile getVoile(){
+        for (Entity c : getEntities()){
+            if (c instanceof Voile){
+                return ((Voile) c);
+            }
+        }
+        return null;
+    }
+
     public int[] nombreMarinsBabordTribord(double angle, ArrayList<Rame> nombreRames){
         double angleCalcule=-(Math.PI/2)-Math.PI/nombreRames.size();
         int i;
@@ -136,7 +147,7 @@ public class Bateau {
                 '}';
     }
 
-    public List<Double> anglesPossibles() {
+    public List<Double> anglesPossiblesAvecRames() {
         List<Double> anglesRealisables = new ArrayList<>();
         int nbRames = getNbRame();
         for( int i=1 ; i<=nbRames/2 ; i++){
@@ -148,7 +159,7 @@ public class Bateau {
     }
 
     public List<Double> meilleurAngleRealisable(double angleIdealVersCheckpoint){
-        List<Double> meilleursAnglesRealisables = anglesPossibles();
+        List<Double> meilleursAnglesRealisables = anglesPossiblesAvecRames();
 
         meilleursAnglesRealisables.sort(Comparator.comparingDouble( angle -> Math.abs(angleIdealVersCheckpoint-angle)));
 
@@ -177,18 +188,6 @@ public class Bateau {
         }
     }
 
-    public List<Action> allerToutDroit(List<Marin> marins) {
-        int nbMarinsTribord = nbMarinRameTribord(marins);
-        int nbMarinsBabord  = nbMarinRameBabord(marins);
-        List<Action> actions = new ArrayList<>();
-
-        if(nbMarinsTribord==nbMarinsBabord){
-            for(Marin m : marins){
-                actions.add(new OAR(m.getId()));
-            }
-        }
-        return actions;
-    }
 
     public int nbMarinRameTribord(List<Marin> marins){
         int nbMarinRameTribord=0;

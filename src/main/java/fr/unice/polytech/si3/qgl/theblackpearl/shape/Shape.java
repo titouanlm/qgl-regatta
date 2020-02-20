@@ -16,8 +16,6 @@ import com.fasterxml.jackson.annotation.*;
 public abstract class Shape {
     protected String type;
 
-
-
     public String getType() {
         return type;
     }
