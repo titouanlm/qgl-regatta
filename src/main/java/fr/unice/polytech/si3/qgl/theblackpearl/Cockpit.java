@@ -42,7 +42,7 @@ public class Cockpit implements ICockpit {
 
 		Captain captain = new Captain(parsedInitGame, parsedNextRound.getVent());
 
-		StringBuilder log= new StringBuilder();
+		StringBuilder log = new StringBuilder();
 		for (Marin marin : parsedInitGame.getMarins()) {
 			marin.resetMarinPourUnNouveauTour();
 			log.append(marin.toString());

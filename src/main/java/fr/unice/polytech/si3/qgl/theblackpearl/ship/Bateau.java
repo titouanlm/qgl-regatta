@@ -213,4 +213,8 @@ public class Bateau {
         return nbMarinRameBabord;
     }
 
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
 }
