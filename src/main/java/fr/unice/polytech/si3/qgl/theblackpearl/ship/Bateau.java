@@ -176,7 +176,7 @@ public class Bateau {
         return nbRame;
     }
 
-    public void initRameUsed(List<Marin> marins){
+    /*public void initRameUsed(List<Marin> marins){
         for(Entity e : entities) {
             if(e instanceof Rame){
                 for (Marin m : marins) {
@@ -211,7 +211,7 @@ public class Bateau {
             }
         }
         return nbMarinRameBabord;
-    }
+    }*/
 
     public void setPosition(Position position) {
         this.position = position;

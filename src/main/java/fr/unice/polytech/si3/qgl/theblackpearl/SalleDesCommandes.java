@@ -69,18 +69,12 @@ public class SalleDesCommandes {
     }
 
     public double configurationRames(List<Double> meilleurAngleRealisable, ArrayList<Action> actionsNextRound, int meilleurAngleRealisablePosition){
-        this.meilleurAngleRealisablePosition=meilleurAngleRealisablePosition;
-        Calculator calculateur = new Calculator();
-        creationTableauMarins();
+        this.meilleurAngleRealisablePosition=meilleurAngleRealisablePosition;Calculator calculateur = new Calculator();creationTableauMarins();
         calculateur.setNombreMarinAplacer(game.getBateau().nombreMarinsBabordTribord(meilleurAngleRealisable.get(0), game.getBateau().getListRames()));
         calculateur.setNombreMarinAplacerCopie(calculateur.getNombreMarinAplacer().clone());
-        boolean neMarchePasPourLePremiertour = true;
-        int nombreTour=0;
-        boolean marinPlaceGauche=false;
-        boolean marinPlaceDroite=false;
+        boolean neMarchePasPourLePremiertour = true;int nombreTour=0;boolean marinPlaceGauche=false;boolean marinPlaceDroite=false;
         priseEnComptePositionMarins();
-        ArrayList<Entity> listeEntiteCopie;
-        ArrayList<Action> actionsNextRoundTemporaire;
+        ArrayList<Entity> listeEntiteCopie;ArrayList<Action> actionsNextRoundTemporaire;
         do {
             actionsNextRoundTemporaire = new ArrayList<>();
             preConfigurationRamesBateau(neMarchePasPourLePremiertour,nombreTour,calculateur.getNombreMarinAplacerCopie(),meilleurAngleRealisable,calculateur,this.meilleurAngleRealisablePosition);
