@@ -1,6 +1,7 @@
 package fr.unice.polytech.si3.qgl.theblackpearl;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.MOVING;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
@@ -15,7 +16,9 @@ public class Marin {
     private int x;
     private int y;
     private String name;
+    //@JsonIgnore
     private boolean libre = true;
+    //@JsonIgnore
     private String actionAFaire="";
 
     @JsonCreator

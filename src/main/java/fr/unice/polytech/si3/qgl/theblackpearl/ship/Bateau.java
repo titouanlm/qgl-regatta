@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-@JsonIgnoreProperties(value = { "gouvernail","listRames", "nbRame"})
+@JsonIgnoreProperties(value = {"gouvernail","listRames", "nbRame"})
 @JsonTypeName("ship")
 public class Bateau {
 

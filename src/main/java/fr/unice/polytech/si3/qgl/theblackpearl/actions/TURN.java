@@ -10,7 +10,7 @@ public class TURN extends Action{
     }
 
     public String toString() {
-        return "{\"sailordId\":" + getSailorId() + ",\"type\":\"TURN\",\"rotation\":" + this.rotation + "}";
+        return "{\"sailorId\":" + getSailorId() + ",\"type\":\"TURN\",\"rotation\":" + this.rotation + "}";
     }
 
 }

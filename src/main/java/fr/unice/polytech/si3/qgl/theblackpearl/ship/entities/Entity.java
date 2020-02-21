@@ -25,7 +25,6 @@ public abstract class Entity {
     protected String type;
     private int x;
     private int y;
-    @JsonIgnore
     protected boolean libre = true;
 
     @JsonCreator

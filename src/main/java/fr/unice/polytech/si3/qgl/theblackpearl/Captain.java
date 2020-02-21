@@ -22,7 +22,6 @@ public class Captain {
     }
 
     public ArrayList<Action> captainFaitLeJob(InitGame parsedInitGame){
-        salleDesCommandes.utilisationVoile(parsedInitGame,actionsNextRound);
         double[] meilleurAngleRealisable = meilleurAngleRealisable(parsedInitGame);
         double angleParfait = angleParfait();
         double angleRealiseRames = salleDesCommandes.configurationRames(meilleurAngleRealisable, actionsNextRound,0);
@@ -32,6 +31,7 @@ public class Captain {
         if (gouvernail.getAngleRealise() != 0.0) {
             salleDesCommandes.configurationGouvernail(parsedInitGame,actionsNextRound);
         }
+        salleDesCommandes.utilisationVoile(parsedInitGame,actionsNextRound);
         return actionsNextRound;
     }
 
