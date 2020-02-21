@@ -20,8 +20,6 @@ import java.util.ArrayList;
 })
 @JsonIgnoreProperties(value = { "isUsed" , "used", "type", "angleRealise"})
 public abstract class Entity {
-
-
     protected String type;
     private int x;
     private int y;

@@ -6,7 +6,6 @@ import fr.unice.polytech.si3.qgl.theblackpearl.actions.Action;
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.MOVING;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
 import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.Vent;
-import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Gouvernail;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +19,7 @@ public class SalleDesCommandesTest {
     private Vent vent;
     private InitGame parsedInitGame;
     private SalleDesCommandes salleDesCommandes;
-    private double[] meilleurAngleRealisable;
+    private List<Double> meilleurAngleRealisable;
     private List<Action> actionsNextRound;
 
     @BeforeEach
@@ -36,6 +35,7 @@ public class SalleDesCommandesTest {
         salleDesCommandes = new SalleDesCommandes(parsedInitGame,vent);
         salleDesCommandes.creationTableauMarins();
         Captain captain = new Captain(parsedInitGame, vent);
+        captain.determinerCheckpointAViser(parsedInitGame);
         meilleurAngleRealisable = captain.meilleurAngleRealisable(parsedInitGame);
     }
 
@@ -86,7 +86,7 @@ public class SalleDesCommandesTest {
     @Test
     public void preConfigurationRamesBateauTest() {
         Calculator calculateur = new Calculator();
-        calculateur.setNombreMarinAplacer(parsedInitGame.getBateau().nombreMarinsBabordTribord(meilleurAngleRealisable[0], parsedInitGame.getBateau().getListRames()));
+        calculateur.setNombreMarinAplacer(parsedInitGame.getBateau().nombreMarinsBabordTribord(meilleurAngleRealisable.get(0), parsedInitGame.getBateau().getListRames()));
         calculateur.setNombreMarinAplacerCopie(calculateur.getNombreMarinAplacer().clone());
         salleDesCommandes.preConfigurationRamesBateau(true, 0, calculateur.getNombreMarinAplacerCopie(), meilleurAngleRealisable, calculateur, salleDesCommandes.meilleurAngleRealisablePosition);
         assertEquals(salleDesCommandes.meilleurAngleRealisablePosition, 0);

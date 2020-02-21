@@ -47,7 +47,6 @@ public class Cockpit implements ICockpit {
 		for (Marin marin : parsedInitGame.getMarins()) {
 			marin.resetMarinPourUnNouveauTour();
 			log.append(marin.toString());
-			//System.out.println(marin.getX() + " " + marin.getY());
 		}
 		logs.add(log.toString());
 
@@ -80,7 +79,7 @@ public class Cockpit implements ICockpit {
 		return roundJSON.toString();
 	}
 
-	public StringBuilder creationJson(List <Action> actionsNextRound){
+	public StringBuilder creationJson(List<Action> actionsNextRound){
 		StringBuilder roundJSON= new StringBuilder("[");
 		try {
 			for(int i=0; i<actionsNextRound.size(); i++){

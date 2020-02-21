@@ -147,7 +147,7 @@ public class Bateau {
                 '}';
     }
 
-    public List<Double> anglesPossibles() {
+    public List<Double> anglesPossiblesAvecRames() {
         List<Double> anglesRealisables = new ArrayList<>();
         int nbRames = getNbRame();
         for( int i=1 ; i<=nbRames/2 ; i++){
@@ -159,7 +159,7 @@ public class Bateau {
     }
 
     public List<Double> meilleurAngleRealisable(double angleIdealVersCheckpoint){
-        List<Double> meilleursAnglesRealisables = anglesPossibles();
+        List<Double> meilleursAnglesRealisables = anglesPossiblesAvecRames();
 
         meilleursAnglesRealisables.sort(Comparator.comparingDouble( angle -> Math.abs(angleIdealVersCheckpoint-angle)));
 
@@ -188,18 +188,6 @@ public class Bateau {
         }
     }
 
-    public List<Action> allerToutDroit(List<Marin> marins) {
-        int nbMarinsTribord = nbMarinRameTribord(marins);
-        int nbMarinsBabord  = nbMarinRameBabord(marins);
-        List<Action> actions = new ArrayList<>();
-
-        if(nbMarinsTribord==nbMarinsBabord){
-            for(Marin m : marins){
-                actions.add(new OAR(m.getId()));
-            }
-        }
-        return actions;
-    }
 
     public int nbMarinRameTribord(List<Marin> marins){
         int nbMarinRameTribord=0;

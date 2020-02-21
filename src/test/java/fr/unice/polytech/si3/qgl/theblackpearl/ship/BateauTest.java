@@ -60,7 +60,7 @@ class BateauTest {
         anglesPossibles.add(Math.PI/2);
         anglesPossibles.add(-Math.PI/2);
         anglesPossibles.add(0.0);
-        assertThat(bateau.anglesPossibles(), is(anglesPossibles));
+        assertThat(bateau.anglesPossiblesAvecRames(), is(anglesPossibles));
     }
 
     @Test
