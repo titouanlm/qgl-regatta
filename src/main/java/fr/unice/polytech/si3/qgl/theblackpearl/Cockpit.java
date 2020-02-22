@@ -2,6 +2,7 @@ package fr.unice.polytech.si3.qgl.theblackpearl;
 
 import java.util.*;
 
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.unice.polytech.si3.qgl.regatta.cockpit.ICockpit;
@@ -30,7 +31,7 @@ public class Cockpit implements ICockpit {
 		}
 	}
 
-	public String nextRound(String round) { //reinitialiser toute les actions à faire des marins
+	public String nextRound(String round) { //reinitialiser toutes les actions à faire des marins
 		try {
 			parsedNextRound = objectMapper.readValue(round, NextRound.class);
 			parsedInitGame.setBateau(parsedNextRound.getBateau());
@@ -55,6 +56,7 @@ public class Cockpit implements ICockpit {
 		List<Action> actionsNextRound = captain.captainFaitLeJob(parsedInitGame);
 		for(Marin m : parsedInitGame.getMarins()){
 			if (!m.isLibre()) {
+				//System.out.println(m.getId());
 				switch (m.getActionAFaire()) {
 					case "Ramer":
 						actionsNextRound.add(new OAR(m.getId()));
@@ -97,5 +99,9 @@ public class Cockpit implements ICockpit {
 	@Override
 	public List<String> getLogs() {
 		return logs;
+	}
+
+	public InitGame getParsedInitGame() {
+		return parsedInitGame;
 	}
 }

@@ -25,7 +25,6 @@ public abstract class Entity {
     private int y;
     @JsonIgnore
     protected boolean libre;
-
     @JsonCreator
     public Entity(@JsonProperty("x") int x, @JsonProperty("y") int y) {
         this.x = x;

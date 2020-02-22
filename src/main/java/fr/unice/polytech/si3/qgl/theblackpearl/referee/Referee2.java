@@ -2,20 +2,25 @@ package fr.unice.polytech.si3.qgl.theblackpearl.referee;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.security.jgss.GSSUtil;
 import fr.unice.polytech.si3.qgl.theblackpearl.Calculator;
 import fr.unice.polytech.si3.qgl.theblackpearl.Cockpit;
 import fr.unice.polytech.si3.qgl.theblackpearl.Marin;
 import fr.unice.polytech.si3.qgl.theblackpearl.Position;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
+import fr.unice.polytech.si3.qgl.theblackpearl.goal.Checkpoint;
+import fr.unice.polytech.si3.qgl.theblackpearl.goal.RegattaGoal;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
+
+import java.util.List;
 
 
 public class Referee2 {
     private String initGame;
     private String nextRound;
     private Cockpit cockpit;
-    private boolean finishGame;
+    private Calculator c;
     private int nbTour;
     private InitGame parsedInitGameReferee;
     private ActionsRound parsedActionsRound;
@@ -26,9 +31,9 @@ public class Referee2 {
         this.initGame = initGame;
         this.nextRound = firstRound;
         this.cockpit = cockpit;
-        this.finishGame = false;
         this.nbTour = 0;
         this.objectMapperReferee = new ObjectMapper();
+        this.c = new Calculator();
     }
 
     public void startGame() {
@@ -46,7 +51,8 @@ public class Referee2 {
     }
 
     private void nextRound() {
-        while (!this.finishGame && this.nbTour < 60) {
+        while (!this.getFinishGame() && this.nbTour < 300) {
+            System.out.println(this.nbTour + " : " + parsedInitGameReferee.getBateau().getPosition());
             this.rotationShip=0.0;
             for (Entity e : parsedInitGameReferee.getBateau().getEntities()) {
                 e.setLibre(true);
@@ -63,6 +69,13 @@ public class Referee2 {
             this.nbTour++;
         }
 
+    }
+
+    private boolean getFinishGame() {
+        Position shipPosition = parsedInitGameReferee.getBateau().getPosition();
+        RegattaGoal regatta =  (RegattaGoal) parsedInitGameReferee.getGoal();
+        List<Checkpoint> checkpoints = regatta.getCheckpoints();
+        return c.pointIsInsideCheckpoint(shipPosition, checkpoints.get(checkpoints.size()-1));
     }
 
     private void getActions(String actionsRound) {
@@ -99,7 +112,6 @@ public class Referee2 {
         int nbRamesBabord = parsedInitGameReferee.getBateau().nbMarinRameBabord();
         int nbRamesTribord = parsedInitGameReferee.getBateau().nbMarinRameTribord();
         int nbRames = parsedInitGameReferee.getBateau().getNbRame();
-        Calculator c =new Calculator();
         this.rotationShip+=c.calculRotationRamesTribordBabord(nbRamesBabord,nbRamesTribord, nbRames);
         double vitesseRames = c.calculVitesseRames(nbRamesBabord+nbRamesTribord,nbRames);
         int N=100;
@@ -110,7 +122,6 @@ public class Referee2 {
         }
         Rectangle shipShape = (Rectangle) parsedInitGameReferee.getBateau().getShape();
         shipShape.setOrientation(parsedInitGameReferee.getBateau().getPosition().getOrientation());
-        System.out.println(parsedInitGameReferee.getBateau().getPosition());
     }
 
     private void updateNextRound() {

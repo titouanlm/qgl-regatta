@@ -32,6 +32,7 @@ public class Captain {
         if (gouvernail.getAngleRealise() != 0.0) {
             salleDesCommandes.configurationGouvernail(parsedInitGame,actionsNextRound);
         }
+        salleDesCommandes.utilisationVoile(parsedInitGame,actionsNextRound);
         return actionsNextRound;
     }
 
