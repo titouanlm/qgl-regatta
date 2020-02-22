@@ -2,8 +2,6 @@ package fr.unice.polytech.si3.qgl.theblackpearl.ship;
 
 import com.fasterxml.jackson.annotation.*;
 import fr.unice.polytech.si3.qgl.theblackpearl.Marin;
-import fr.unice.polytech.si3.qgl.theblackpearl.actions.Action;
-import fr.unice.polytech.si3.qgl.theblackpearl.actions.OAR;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
 import fr.unice.polytech.si3.qgl.theblackpearl.Position;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Shape;
@@ -166,6 +164,56 @@ public class Bateau {
         return meilleursAnglesRealisables;
     }
 
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
+
+    //////////////////////////Referee
+    public boolean isOnOarNotUsed(Marin m) {
+        for(Entity e: entities){
+            if(e instanceof Rame && e.isLibre()){
+                if(e.getX()==m.getX() && e.getY()==m.getY()){
+                    e.setLibre(false);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean isOnRudderNotUsed(Marin m) {
+        for(Entity e: entities){
+            if(e instanceof Gouvernail && e.isLibre()){
+                if(e.getX()==m.getX() && e.getY()==m.getY()){
+                    e.setLibre(false);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public int nbMarinRameTribord(){
+        int nbMarinRameTribord=0;
+        for(Entity e : entities){
+            if(e instanceof Rame && e.getY()==this.getDeck().getWidth()-1 && !e.isLibre()){
+                nbMarinRameTribord++;
+            }
+        }
+        return nbMarinRameTribord;
+    }
+
+    public int nbMarinRameBabord(){
+        int nbMarinRameBabord=0;
+        for(Entity e : entities){
+            if(e instanceof Rame && e.getY()==0  && !e.isLibre()){
+                nbMarinRameBabord++;
+            }
+        }
+        return nbMarinRameBabord;
+    }
+
     public int getNbRame() {
         int nbRame =0;
         for(Entity e : getEntities()){
@@ -174,47 +222,6 @@ public class Bateau {
             }
         }
         return nbRame;
-    }
-
-    public void initRameUsed(List<Marin> marins){
-        for(Entity e : entities) {
-            if(e instanceof Rame){
-                for (Marin m : marins) {
-                    if (m.getX() == e.getX() && m.getY() == e.getY() ) {
-                        ((Rame) e).setLibre(false);
-                    }
-                }
-            }
-        }
-    }
-
-
-    public int nbMarinRameTribord(List<Marin> marins){
-        int nbMarinRameTribord=0;
-        for(Marin m : marins){
-            for(Entity e : entities){
-                if(e instanceof Rame && e.getY()==this.getDeck().getWidth()-1 && m.getX() == e.getX() && m.getY() == e.getY()){
-                    nbMarinRameTribord++;
-                }
-            }
-        }
-        return nbMarinRameTribord;
-    }
-
-    public int nbMarinRameBabord(List<Marin> marins){
-        int nbMarinRameBabord=0;
-        for(Marin m : marins){
-            for(Entity e : entities){
-                if(e instanceof Rame && e.getY()==0 && m.getX() == e.getX() && m.getY() == e.getY()){
-                    nbMarinRameBabord++;
-                }
-            }
-        }
-        return nbMarinRameBabord;
-    }
-
-    public void setPosition(Position position) {
-        this.position = position;
     }
 
 }

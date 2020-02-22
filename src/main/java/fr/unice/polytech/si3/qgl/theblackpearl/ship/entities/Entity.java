@@ -24,12 +24,13 @@ public abstract class Entity {
     private int x;
     private int y;
     @JsonIgnore
-    protected boolean libre = true;
+    protected boolean libre;
 
     @JsonCreator
     public Entity(@JsonProperty("x") int x, @JsonProperty("y") int y) {
         this.x = x;
         this.y = y;
+        this.libre=true;
     }
 
     public static ArrayList<Entity> supprimerEntite(ArrayList<Entity> listeEntite, boolean marinPlaceGauche, boolean marinPlaceDroite, Marin m, MOVING moving){

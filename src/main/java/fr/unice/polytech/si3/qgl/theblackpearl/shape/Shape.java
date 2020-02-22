@@ -2,7 +2,6 @@ package fr.unice.polytech.si3.qgl.theblackpearl.shape;
 
 import com.fasterxml.jackson.annotation.*;
 
-
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
         include = JsonTypeInfo.As.PROPERTY,

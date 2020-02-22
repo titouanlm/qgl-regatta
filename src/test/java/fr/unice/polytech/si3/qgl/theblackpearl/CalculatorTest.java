@@ -65,9 +65,47 @@ class CalculatorTest {
         assertTrue(calcul.pointIsInsideCheckpoint(posBateau, checkpoint));
     }
 
+
+    @Test
+    void calculRotationRamesTribordBabord() {
+        assertEquals(-2*Math.PI/6, calcul.calculRotationRamesTribordBabord(3,1,6));
+        assertEquals(Math.PI/2, calcul.calculRotationRamesTribordBabord(0,3,6));
+        assertEquals(-Math.PI/2, calcul.calculRotationRamesTribordBabord(18,0,36));
+        assertEquals(Math.PI/4, calcul.calculRotationRamesTribordBabord(1,2,4));
+        assertEquals(0.0, calcul.calculRotationRamesTribordBabord(2,2,4));
+        assertEquals(Math.PI/4, calcul.calculRotationRamesTribordBabord(1,2,4));
+    }
+
     @Test
     void calculAnglesPossiblesEnFonctionDesRames() {
 
+    }
+
+    @Test
+    void calculNewPositionShip(){
+        posBateau = new Position(0, 0,0);
+        System.out.println(posBateau);
+        posBateau = calcul.calculNewPositionShip(100, 1, posBateau, 10);
+        System.out.println(posBateau);
+        posBateau = calcul.calculNewPositionShip(100, 1, posBateau, 10);
+        System.out.println(posBateau);
+        posBateau = calcul.calculNewPositionShip(100, 1, posBateau, 10);
+        System.out.println(posBateau);
+        posBateau = calcul.calculNewPositionShip(100, 1, posBateau, 10);
+        System.out.println(posBateau);
+        posBateau = calcul.calculNewPositionShip(100, 1, posBateau, 10);
+        System.out.println(posBateau);
+        posBateau = calcul.calculNewPositionShip(100, 1, posBateau, 10);
+        System.out.println(posBateau);
+        posBateau = calcul.calculNewPositionShip(100, 1, posBateau, 10);
+        System.out.println(posBateau);
+        posBateau = calcul.calculNewPositionShip(100, 1, posBateau, 10);
+        System.out.println(posBateau);
+        posBateau = calcul.calculNewPositionShip(100, 1, posBateau, 10);
+        System.out.println(posBateau);
+        posBateau = calcul.calculNewPositionShip(100, 1, posBateau, 10);
+        System.out.println(posBateau);
+        posBateau = calcul.calculNewPositionShip(100, 1, posBateau, 10);
     }
 
 

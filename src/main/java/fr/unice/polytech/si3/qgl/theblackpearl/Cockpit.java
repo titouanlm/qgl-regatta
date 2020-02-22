@@ -8,7 +8,6 @@ import fr.unice.polytech.si3.qgl.regatta.cockpit.ICockpit;
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.*;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.NextRound;
-import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.Vent;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
 
 public class Cockpit implements ICockpit {

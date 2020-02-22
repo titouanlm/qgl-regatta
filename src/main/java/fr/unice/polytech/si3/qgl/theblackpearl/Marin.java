@@ -15,8 +15,9 @@ public class Marin {
     private int x;
     private int y;
     private String name;
-    private boolean libre = true;
+    private boolean libre;
     private String actionAFaire="";
+    private boolean canMove;
 
     @JsonCreator
     public Marin(@JsonProperty("id") int id,@JsonProperty("x") int x,@JsonProperty("y") int y,@JsonProperty("name") String name) {
@@ -24,6 +25,8 @@ public class Marin {
         this.x = x;
         this.y = y;
         this.name = name;
+        this.libre=true;
+        this.canMove=true;
     }
 
     public void resetMarinPourUnNouveauTour() {
@@ -134,4 +137,19 @@ public class Marin {
                 ", name='" + name + '\'' +
                 '}';
     }
+
+    public void moveSailor(int xdistance, int ydistance) {
+        this.setX(this.x+xdistance);
+        this.setY(this.y+ydistance);
+        this.canMove=false;
+    }
+
+    public void setCanMove(boolean b) {
+        this.canMove=b;
+    }
+
+    public boolean canMove() {
+        return canMove;
+    }
+
 }
