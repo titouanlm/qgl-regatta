@@ -103,4 +103,9 @@ public class Cockpit implements ICockpit {
 	public InitGame getParsedInitGame() {
 		return parsedInitGame;
 	}
+
+
+	public NextRound getParsedNextRound() {
+		return parsedNextRound;
+	}
 }

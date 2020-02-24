@@ -8,7 +8,7 @@ import fr.unice.polytech.si3.qgl.theblackpearl.ship.Bateau;
 
 import java.util.Arrays;
 
-@JsonIgnoreProperties(value = { "bateau"})
+@JsonIgnoreProperties(value = { "bateau","vent"})
 public class NextRound {
     @JsonSerialize
     private Bateau ship;
