@@ -12,14 +12,13 @@ import java.util.Arrays;
 public class NextRound {
     @JsonSerialize
     private Bateau ship;
-
+    @JsonSerialize
+    private VisibleEntity[] visibleEntities;
     @JsonSerialize
     private Vent wind;
-    @JsonIgnore
-    private VisibleEntity[] visibleEntities;
 
     @JsonCreator
-    NextRound(@JsonProperty("ship") Bateau ship,@JsonProperty("wind") Vent wind, @JsonProperty("visibleEntities") VisibleEntity[] visibleEntities){
+    NextRound(@JsonProperty("ship") Bateau ship, @JsonProperty("visibleEntities") VisibleEntity[] visibleEntities, @JsonProperty("wind") Vent wind){
         this.ship = ship;
         this.wind = wind;
         this.visibleEntities = visibleEntities;
@@ -29,8 +28,15 @@ public class NextRound {
         return this.ship;
     }
 
-    public Vent getVent() { return this.wind; }
+    public Vent getWind() { return this.wind; }
 
+    public void setShip(Bateau ship) {
+        this.ship = ship;
+    }
+
+    public void setVisibleEntities(VisibleEntity[] visibleEntities) {
+        this.visibleEntities = visibleEntities;
+    }
 
     @Override
     public String toString() {

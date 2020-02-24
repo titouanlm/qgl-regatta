@@ -9,9 +9,11 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         property = "type",
         visible = true)
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = MovingTest.class, name = "MOVING"),
-        @JsonSubTypes.Type(value = OarTest.class, name = "OAR"),
-        @JsonSubTypes.Type(value = TurnTest.class, name = "TURN"),
+        @JsonSubTypes.Type(value = MovingReferee.class, name = "MOVING"),
+        @JsonSubTypes.Type(value = OarReferee.class, name = "OAR"),
+        @JsonSubTypes.Type(value = TurnReferee.class, name = "TURN"),
+        @JsonSubTypes.Type(value = LiftSailReferee.class, name = "LIFT_SAIL"),
+        @JsonSubTypes.Type(value = LowerSailReferee.class, name = "LOWER_SAIL"),
 })
 public class ActionRound {
     protected int sailorId;

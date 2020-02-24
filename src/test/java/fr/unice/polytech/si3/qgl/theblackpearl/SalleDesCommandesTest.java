@@ -122,28 +122,28 @@ public class SalleDesCommandesTest {
         assertEquals(actionsNextRound.size(),1);
     }
 
-    @Test
-    public void utilisationVoileTest(){
-        vent.setOrientation(Math.PI);
-        salleDesCommandes.utilisationVoile(parsedInitGame,actionsNextRound);
-        assertEquals(((MOVING) actionsNextRound.get(0)).getYdistance(),1);
-        assertEquals(((MOVING) actionsNextRound.get(0)).getXdistance(),2);
-        assertEquals(actionsNextRound.size(),1);
-        actionsNextRound = new ArrayList<>();
-        salleDesCommandes.utilisationVoile(parsedInitGame,actionsNextRound);
-        assertEquals(actionsNextRound.size(),0);
-        vent.setOrientation(0);
-        actionsNextRound = new ArrayList<>();
-        parsedInitGame.getBateau().getVoile().setOpenned(true);
-        salleDesCommandes.utilisationVoile(parsedInitGame,actionsNextRound);
-        assertEquals(((MOVING) actionsNextRound.get(0)).getYdistance(),0);
-        assertEquals(((MOVING) actionsNextRound.get(0)).getXdistance(),2);
-        assertEquals(actionsNextRound.size(),1);
-        actionsNextRound = new ArrayList<>();
-        salleDesCommandes.utilisationVoile(parsedInitGame,actionsNextRound);
-        assertEquals(actionsNextRound.size(),0);
-
-    }
+//    @Test
+//    public void utilisationVoileTest(){
+//        vent.setOrientation(Math.PI);
+//        salleDesCommandes.utilisationVoile(parsedInitGame,actionsNextRound);
+//        assertEquals(((MOVING) actionsNextRound.get(0)).getYdistance(),1);
+//        assertEquals(((MOVING) actionsNextRound.get(0)).getXdistance(),2);
+//        assertEquals(actionsNextRound.size(),1);
+//        actionsNextRound = new ArrayList<>();
+//        salleDesCommandes.utilisationVoile(parsedInitGame,actionsNextRound);
+//        assertEquals(actionsNextRound.size(),0);
+//        vent.setOrientation(0);
+//        actionsNextRound = new ArrayList<>();
+//        parsedInitGame.getBateau().getVoile().setOpenned(true);
+//        salleDesCommandes.utilisationVoile(parsedInitGame,actionsNextRound);
+//        assertEquals(((MOVING) actionsNextRound.get(0)).getYdistance(),0);
+//        assertEquals(((MOVING) actionsNextRound.get(0)).getXdistance(),2);
+//        assertEquals(actionsNextRound.size(),1);
+//        actionsNextRound = new ArrayList<>();
+//        salleDesCommandes.utilisationVoile(parsedInitGame,actionsNextRound);
+//        assertEquals(actionsNextRound.size(),0);
+//
+//    }
 
     @Test
     public void utilisationVoileOuiNon(){

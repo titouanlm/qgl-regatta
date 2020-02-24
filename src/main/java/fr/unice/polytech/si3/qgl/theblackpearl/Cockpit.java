@@ -2,7 +2,6 @@ package fr.unice.polytech.si3.qgl.theblackpearl;
 
 import java.util.*;
 
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.unice.polytech.si3.qgl.regatta.cockpit.ICockpit;
@@ -40,7 +39,7 @@ public class Cockpit implements ICockpit {
 			e.printStackTrace();
 		}
 
-		Captain captain = new Captain(parsedInitGame, parsedNextRound.getVent());
+		Captain captain = new Captain(parsedInitGame, parsedNextRound.getWind());
 
 		StringBuilder log = new StringBuilder();
 		for (Marin marin : parsedInitGame.getMarins()) {

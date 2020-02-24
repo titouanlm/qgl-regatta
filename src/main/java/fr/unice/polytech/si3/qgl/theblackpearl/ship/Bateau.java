@@ -81,15 +81,6 @@ public class Bateau {
         return listRames;
     }
 
-    public Voile getVoile(){
-        for (Entity c : getEntities()){
-            if (c instanceof Voile){
-                return ((Voile) c);
-            }
-        }
-        return null;
-    }
-
     public int[] nombreMarinsBabordTribord(double angle, ArrayList<Rame> nombreRames){
         double angleCalcule=-(Math.PI/2)-Math.PI/nombreRames.size();
         int i;
@@ -224,4 +215,52 @@ public class Bateau {
         return nbRame;
     }
 
+    public int nbVoile() {
+        int nbVoile = 0;
+        for(Entity e : getEntities()){
+            if(e instanceof Voile){
+                nbVoile++;
+            }
+        }
+        return nbVoile;
+    }
+
+
+    public int nbVoileOuverte() {
+        int nbVoileOuverte = 0;
+        for(Entity e : getEntities()){
+            if(e instanceof Voile){
+                if(((Voile) e).isOpenned()){
+                    nbVoileOuverte++;
+                }
+            }
+        }
+        return nbVoileOuverte;
+    }
+
+    public boolean isOnSailNotUsedNotOppened(Marin m) {
+        for(Entity e: entities){
+            if(e instanceof Voile && e.isLibre()){
+                if(e.getX()==m.getX() && e.getY()==m.getY() && !((Voile) e).isOpenned()){
+                    e.setLibre(false);
+                    ((Voile) e).setOpenned(true);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean isOnSailNotUsedOppened(Marin m) {
+        for(Entity e: entities){
+            if(e instanceof Voile && e.isLibre()){
+                if(e.getX()==m.getX() && e.getY()==m.getY() && ((Voile) e).isOpenned()){
+                    e.setLibre(false);
+                    ((Voile) e).setOpenned(false);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

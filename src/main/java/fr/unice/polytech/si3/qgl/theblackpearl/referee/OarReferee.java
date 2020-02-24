@@ -6,9 +6,9 @@ import fr.unice.polytech.si3.qgl.theblackpearl.Marin;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
 
 @JsonTypeName("OAR")
-public class OarTest extends ActionRound {
+public class OarReferee extends ActionRound {
 
-    public OarTest(@JsonProperty("sailorId") int sailorId) {
+    public OarReferee(@JsonProperty("sailorId") int sailorId) {
         this.type = "OAR";
         this.sailorId= sailorId;
     }

@@ -7,12 +7,12 @@ import fr.unice.polytech.si3.qgl.theblackpearl.Marin;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
 
 @JsonTypeName("MOVING")
-public class MovingTest extends ActionRound {
+public class MovingReferee extends ActionRound {
     private int xdistance;
     private int ydistance;
 
     @JsonCreator
-    public MovingTest(@JsonProperty("sailorId") int sailorId,@JsonProperty("xdistance") int xdistance, @JsonProperty("ydistance") int ydistance) {
+    public MovingReferee(@JsonProperty("sailorId") int sailorId, @JsonProperty("xdistance") int xdistance, @JsonProperty("ydistance") int ydistance) {
         this.type="MOVING";
         this.sailorId = sailorId;
         this.xdistance=xdistance;

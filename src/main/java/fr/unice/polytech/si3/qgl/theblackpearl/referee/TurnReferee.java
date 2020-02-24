@@ -4,10 +4,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.unice.polytech.si3.qgl.theblackpearl.Marin;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
 
-public class TurnTest extends ActionRound {
+public class TurnReferee extends ActionRound {
     private double rotation;
 
-    public TurnTest(@JsonProperty("sailorId") int sailorId, @JsonProperty("rotation") double rotation) {
+    public TurnReferee(@JsonProperty("sailorId") int sailorId, @JsonProperty("rotation") double rotation) {
         this.type = "TURN";
         this.sailorId=sailorId;
         this.rotation = rotation;
@@ -33,6 +33,8 @@ public class TurnTest extends ActionRound {
                     //System.out.println(m.getId()+" peut faire tourner le bateau de " + this.rotation);
                     m.setLibre(false);
                     return this.rotation;
+                }else{
+                    System.out.println("ERREUR : " + m.getId() + " Impossible de tourner.");
                 }
                 break;
             }

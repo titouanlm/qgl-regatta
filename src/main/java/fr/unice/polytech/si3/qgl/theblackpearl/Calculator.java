@@ -1,11 +1,10 @@
 package fr.unice.polytech.si3.qgl.theblackpearl;
 
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.Checkpoint;
+import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.Vent;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Circle;
-import fr.unice.polytech.si3.qgl.theblackpearl.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.Bateau;
 
-import java.util.List;
 
 public class Calculator {
 
@@ -78,5 +77,9 @@ public class Calculator {
         double newX = (int)(Math.cos(shipPosition.getOrientation())*speed * 100)/100.;
         double newY = (int)(Math.sin(shipPosition.getOrientation())*speed * 100)/100.;
         return new Position(shipPosition.getX()+newX,shipPosition.getY()+newY, shipPosition.getOrientation()+rotation );
+    }
+
+    public double calculVitesseVent(int nbVoileOuverte, int nbVoile, Vent wind, Bateau bateau) {
+        return ((double)nbVoileOuverte/nbVoile)*wind.getStrength()*Math.cos(Math.abs(wind.getOrientation()-bateau.getPosition().getOrientation()));
     }
 }

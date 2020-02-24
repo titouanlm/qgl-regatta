@@ -2,6 +2,7 @@ package fr.unice.polytech.si3.qgl.theblackpearl.sea_elements;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 public class Vent {
     private double orientation;
@@ -29,5 +30,11 @@ public class Vent {
         return this.strength;
     }
 
-
+    @Override
+    public String toString() {
+        return "Vent{" +
+                "orientation=" + orientation +
+                ", strength=" + strength +
+                '}';
+    }
 }
