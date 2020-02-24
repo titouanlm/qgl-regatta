@@ -97,9 +97,9 @@ public class Referee2 {
             e.printStackTrace();
         }
 
-//        for (ActionRound a : this.parsedActionsRound.getActionsRound()) {
-//            System.out.println(a);
-//        }
+        for (ActionRound a : this.parsedActionsRound.getActionsRound()) {
+            System.out.println(a);
+        }
     }
 
     private void executeActions() {
@@ -136,8 +136,8 @@ public class Referee2 {
         //Calculs voiles
         int nbVoileOuverte = parsedInitGameReferee.getBateau().nbVoileOuverte();
         int nbVoile = parsedInitGameReferee.getBateau().nbVoile();
-        this.speedShip += c.calculVitesseVent(nbVoileOuverte,nbVoile,parsedNextRoundReferee.getWind(), parsedInitGameReferee.getBateau());
-
+        if(nbVoile>0)
+            this.speedShip += c.calculVitesseVent(nbVoileOuverte,nbVoile,parsedNextRoundReferee.getWind(), parsedInitGameReferee.getBateau());
         int N=0;
         while(N<50){
             Position positionShipThisStep = c.calculNewPositionShip(this.speedShip, this.rotationShip ,parsedInitGameReferee.getBateau().getPosition(), 50);
