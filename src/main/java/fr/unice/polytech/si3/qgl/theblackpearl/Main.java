@@ -14,7 +14,7 @@ public class Main {
 
             Cockpit cockpit = new Cockpit();
             Referee2 referee2 = new Referee2(gameString,firstRound, cockpit);
-            referee2.startGame();
+            referee2.startGame(400);
     }
 }
 
