@@ -53,23 +53,25 @@ public class SalleDesCommandes {
     }
 
     public void preConfigurationRamesBateau(boolean neMarchePasPourLePremiertour, int nombreTour, int[] nombreMarinAplacerCopie, List<Double> meilleurAngleRealisable, Calculator calculateur, int meilleurAngleRealisablePosition) {
-        if (this.meilleurAngleRealisablePosition < meilleurAngleRealisable.size() - 1) {
-            if (!neMarchePasPourLePremiertour) {
-                restaurationPositionMarins();
-                for (Marin m : game.getMarins()) m.setLibre(true);
-                calculateur.setNombreMarinAplacer(nombreMarinAplacerCopie.clone());
-                calculateur.decrementationNombreMarinPlacer(nombreTour, true, true);
+        if (nombreTour != 0) {
+            if (this.meilleurAngleRealisablePosition < meilleurAngleRealisable.size() - 1) {
+                if (!neMarchePasPourLePremiertour) {
+                    restaurationPositionMarins();
+                    for (Marin m : game.getMarins()) m.setLibre(true);
+                    calculateur.setNombreMarinAplacer(nombreMarinAplacerCopie.clone());
+                    calculateur.decrementationNombreMarinPlacer(nombreTour, true, true);
+                }
+                if (calculateur.getNombreMarinAplacer()[0] < 0 || calculateur.getNombreMarinAplacer()[1] < 0) {
+                    ++meilleurAngleRealisablePosition;
+                    this.meilleurAngleRealisablePosition = meilleurAngleRealisablePosition;
+                    calculateur.setNombreMarinAplacer(game.getBateau().nombreMarinsBabordTribord(meilleurAngleRealisable.get(meilleurAngleRealisablePosition), game.getBateau().getListRames()));
+                } else this.continuerConfigurationRames = false;
             }
-            if (calculateur.getNombreMarinAplacer()[0] < 0 || calculateur.getNombreMarinAplacer()[1] < 0) {
-                ++meilleurAngleRealisablePosition;
-                this.meilleurAngleRealisablePosition = meilleurAngleRealisablePosition;
-                calculateur.setNombreMarinAplacer(game.getBateau().nombreMarinsBabordTribord(meilleurAngleRealisable.get(meilleurAngleRealisablePosition), game.getBateau().getListRames()));
-            } else this.continuerConfigurationRames = false;
         }
     }
 
     public double configurationRames(List<Double> meilleurAngleRealisable, ArrayList<Action> actionsNextRound, int meilleurAngleRealisablePosition){
-        this.meilleurAngleRealisablePosition=meilleurAngleRealisablePosition;Calculator calculateur = new Calculator();creationTableauMarins();
+        this.meilleurAngleRealisablePosition=meilleurAngleRealisablePosition;Calculator calculateur = new Calculator();creationTableauMarins();this.continuerConfigurationRames=true;
         calculateur.setNombreMarinAplacer(game.getBateau().nombreMarinsBabordTribord(meilleurAngleRealisable.get(0), game.getBateau().getListRames()));
         calculateur.setNombreMarinAplacerCopie(calculateur.getNombreMarinAplacer().clone());
         boolean neMarchePasPourLePremiertour = true;int nombreTour=0;boolean marinPlaceGauche=false;boolean marinPlaceDroite=false;
@@ -104,6 +106,7 @@ public class SalleDesCommandes {
         } while ((calculateur.getNombreMarinAplacer()[0] != 0 || calculateur.getNombreMarinAplacer()[1] != 0) && this.continuerConfigurationRames);
         actionsNextRound.addAll(actionsNextRoundTemporaire);
         setRamesUsed(game,listeEntiteCopie);//vérifier si ca marche
+        // if (!this.continuerConfigurationRames) return meilleurAngleRealisable.get(this.meilleurAngleRealisablePosition-1);
         return meilleurAngleRealisable.get(this.meilleurAngleRealisablePosition);
     }
 
