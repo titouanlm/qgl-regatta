@@ -59,7 +59,7 @@ public class Referee2 {
 
     private void nextRound(int nbTour) {
         while (!this.getFinishGame() && this.tour < nbTour) {
-            System.out.println(this.tour + " : " + parsedInitGameReferee.getBateau().getPosition());
+            System.out.println("TOUR " + this.tour + " : " + parsedInitGameReferee.getBateau().getPosition());
             this.rotationShip=0.0;
             this.speedShip=0.0;
             for (Entity e : parsedInitGameReferee.getBateau().getEntities()) {
@@ -97,9 +97,9 @@ public class Referee2 {
             e.printStackTrace();
         }
 
-        for (ActionRound a : this.parsedActionsRound.getActionsRound()) {
-            System.out.println(a);
-        }
+//        for (ActionRound a : this.parsedActionsRound.getActionsRound()) {
+//            System.out.println(a);
+//        }
     }
 
     private void executeActions() {
@@ -139,12 +139,13 @@ public class Referee2 {
         if(nbVoile>0)
             this.speedShip += c.calculVitesseVent(nbVoileOuverte,nbVoile,parsedNextRoundReferee.getWind(), parsedInitGameReferee.getBateau());
         int N=0;
-        int nbStep=50;
-        while(N<nbStep){
-            Position positionShipThisStep = c.calculNewPositionShip(this.speedShip, this.rotationShip ,parsedInitGameReferee.getBateau().getPosition(), nbStep);
-            parsedInitGameReferee.getBateau().setPosition(positionShipThisStep);
-            N++;
-        }
+        int nbStep=70;
+            while(N<nbStep){
+                Position positionShipThisStep = c.calculNewPositionShip(this.speedShip, this.rotationShip ,parsedInitGameReferee.getBateau().getPosition(), nbStep);
+                parsedInitGameReferee.getBateau().setPosition(positionShipThisStep);
+                N++;
+            }
+
         //MAJ Orientation de la forme du bateau
         Rectangle shipShape = (Rectangle) parsedInitGameReferee.getBateau().getShape();
         shipShape.setOrientation(parsedInitGameReferee.getBateau().getPosition().getOrientation());

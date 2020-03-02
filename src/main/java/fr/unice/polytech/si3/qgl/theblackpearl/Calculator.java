@@ -74,8 +74,8 @@ public class Calculator {
     public Position calculNewPositionShip(double shipSpeed , double rotationSpeed, Position shipPosition, int nbSteps){
         double speed = shipSpeed/nbSteps;
         double rotation = rotationSpeed/nbSteps;
-        double newX = (int)(Math.cos(shipPosition.getOrientation())*speed * 100)/100.;
-        double newY = (int)(Math.sin(shipPosition.getOrientation())*speed * 100)/100.;
+        double newX = Math.cos(shipPosition.getOrientation())*speed;
+        double newY = Math.sin(shipPosition.getOrientation())*speed;
         return new Position(shipPosition.getX()+newX,shipPosition.getY()+newY, shipPosition.getOrientation()+rotation );
     }
 
