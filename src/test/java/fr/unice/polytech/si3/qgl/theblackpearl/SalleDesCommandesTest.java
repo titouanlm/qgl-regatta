@@ -86,20 +86,20 @@ public class SalleDesCommandesTest {
     @Test
     public void preConfigurationRamesBateauTest() {
         Calculator calculateur = new Calculator();
-        calculateur.setNombreMarinAplacer(parsedInitGame.getBateau().nombreMarinsBabordTribord(meilleurAngleRealisable.get(0), parsedInitGame.getBateau().getListRames()));
+        calculateur.setNombreMarinAplacer(parsedInitGame.getBateau().nombreMarinsBabordTribordRames(meilleurAngleRealisable.get(0), parsedInitGame.getBateau().getListRames()));
         calculateur.setNombreMarinAplacerCopie(calculateur.getNombreMarinAplacer().clone());
-        salleDesCommandes.preConfigurationRamesBateau(true, 0, calculateur.getNombreMarinAplacerCopie(), meilleurAngleRealisable, calculateur, salleDesCommandes.meilleurAngleRealisablePosition);
+        salleDesCommandes.preConfigurationRamesBateau(true, 0, calculateur.getNombreMarinAplacerCopie(), meilleurAngleRealisable, calculateur, salleDesCommandes.meilleurAngleRealisablePosition,-1);
         assertEquals(salleDesCommandes.meilleurAngleRealisablePosition, 0);
         assertEquals(calculateur.getNombreMarinAplacer()[0], 3);
         assertEquals(calculateur.getNombreMarinAplacer()[1], 0);
         calculateur.setNombreMarinAplacer(new int[]{3, -1});
-        salleDesCommandes.preConfigurationRamesBateau(true, 0, calculateur.getNombreMarinAplacerCopie(), meilleurAngleRealisable, calculateur, salleDesCommandes.meilleurAngleRealisablePosition);
+        salleDesCommandes.preConfigurationRamesBateau(true, 0, calculateur.getNombreMarinAplacerCopie(), meilleurAngleRealisable, calculateur, salleDesCommandes.meilleurAngleRealisablePosition,-1);
         assertEquals(salleDesCommandes.meilleurAngleRealisablePosition, 1);
         assertEquals(calculateur.getNombreMarinAplacer()[0],3);
         assertEquals(calculateur.getNombreMarinAplacer()[1],1);
         calculateur.setNombreMarinAplacer(new int[]{3, 2});
         calculateur.setNombreMarinAplacerCopie(new int[]{3, 2});
-        salleDesCommandes.preConfigurationRamesBateau(false, 1, calculateur.getNombreMarinAplacerCopie(), meilleurAngleRealisable, calculateur, salleDesCommandes.meilleurAngleRealisablePosition);
+        salleDesCommandes.preConfigurationRamesBateau(false, 1, calculateur.getNombreMarinAplacerCopie(), meilleurAngleRealisable, calculateur, salleDesCommandes.meilleurAngleRealisablePosition,-1);
         assertEquals(calculateur.getNombreMarinAplacer()[0],2);
         assertEquals(calculateur.getNombreMarinAplacer()[1],1);
 

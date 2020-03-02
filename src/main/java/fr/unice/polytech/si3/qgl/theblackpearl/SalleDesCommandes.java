@@ -52,34 +52,34 @@ public class SalleDesCommandes {
         }
     }
 
-    public void preConfigurationRamesBateau(boolean neMarchePasPourLePremiertour, int nombreTour, int[] nombreMarinAplacerCopie, List<Double> meilleurAngleRealisable, Calculator calculateur, int meilleurAngleRealisablePosition) {
+    public void preConfigurationRamesBateau(boolean neMarchePasPourLePremiertour, int nombreTour, int[] nombreMarinAplacerCopie, List<Double> meilleurAngleRealisable, Calculator calculateur, int meilleurAngleRealisablePosition, int IdMarinIntouchable) {
         if (nombreTour != 0) {
             if (this.meilleurAngleRealisablePosition < meilleurAngleRealisable.size() - 1) {
                 if (!neMarchePasPourLePremiertour) {
                     restaurationPositionMarins();
-                    for (Marin m : game.getMarins()) m.setLibre(true);
+                    for (Marin m : game.getMarins()) if (m.getId()!=IdMarinIntouchable) m.setLibre(true);
                     calculateur.setNombreMarinAplacer(nombreMarinAplacerCopie.clone());
                     calculateur.decrementationNombreMarinPlacer(nombreTour, true, true);
                 }
                 if (calculateur.getNombreMarinAplacer()[0] < 0 || calculateur.getNombreMarinAplacer()[1] < 0) {
                     ++meilleurAngleRealisablePosition;
                     this.meilleurAngleRealisablePosition = meilleurAngleRealisablePosition;
-                    calculateur.setNombreMarinAplacer(game.getBateau().nombreMarinsBabordTribord(meilleurAngleRealisable.get(meilleurAngleRealisablePosition), game.getBateau().getListRames()));
+                    calculateur.setNombreMarinAplacer(game.getBateau().nombreMarinsBabordTribordRames(meilleurAngleRealisable.get(meilleurAngleRealisablePosition), game.getBateau().getListRames()));
                 } else this.continuerConfigurationRames = false;
             }
         }
     }
 
-    public double configurationRames(List<Double> meilleurAngleRealisable, ArrayList<Action> actionsNextRound, int meilleurAngleRealisablePosition){
+    public double configurationRames(InitGame game, List<Double> meilleurAngleRealisable, ArrayList<Action> actionsNextRound, int meilleurAngleRealisablePosition, int IdMarinIntouchable){
         this.meilleurAngleRealisablePosition=meilleurAngleRealisablePosition;Calculator calculateur = new Calculator();creationTableauMarins();this.continuerConfigurationRames=true;
-        calculateur.setNombreMarinAplacer(game.getBateau().nombreMarinsBabordTribord(meilleurAngleRealisable.get(0), game.getBateau().getListRames()));
+        calculateur.setNombreMarinAplacer(game.getBateau().nombreMarinsBabordTribordRames(meilleurAngleRealisable.get(0), game.getBateau().getListRames()));
         calculateur.setNombreMarinAplacerCopie(calculateur.getNombreMarinAplacer().clone());
         boolean neMarchePasPourLePremiertour = true;int nombreTour=0;boolean marinPlaceGauche=false;boolean marinPlaceDroite=false;
         priseEnComptePositionMarins();
         ArrayList<Entity> listeEntiteCopie;ArrayList<Action> actionsNextRoundTemporaire;
         do {
             actionsNextRoundTemporaire = new ArrayList<>();
-            preConfigurationRamesBateau(neMarchePasPourLePremiertour,nombreTour,calculateur.getNombreMarinAplacerCopie(),meilleurAngleRealisable,calculateur,this.meilleurAngleRealisablePosition);
+            preConfigurationRamesBateau(neMarchePasPourLePremiertour,nombreTour,calculateur.getNombreMarinAplacerCopie(),meilleurAngleRealisable,calculateur,this.meilleurAngleRealisablePosition,IdMarinIntouchable);
             listeEntiteCopie = (ArrayList<Entity>) game.getBateau().getEntities().clone();
             //System.out.print("Avant " + Arrays.toString(calculateur.getNombreMarinAplacer()));
             for (Marin m : game.getMarins()){
@@ -153,11 +153,11 @@ public class SalleDesCommandes {
         double xAvecVoile=game.getBateau().getPosition().getX() + vent.getStrength()*Math.cos(vent.getOrientation());
         double yAvecVoile=game.getBateau().getPosition().getY() + vent.getStrength()*Math.sin(vent.getOrientation());
         Position positionSiRameactive = new Position(xAvecVoile,yAvecVoile, game.getBateau().getPosition().getOrientation());
-        return Math.abs(positionSiRameactive.getX()-((RegattaGoal) game.getGoal()).getCheckpoints().get(0).getPosition().getX()) + Math.abs(positionSiRameactive.getY()-((RegattaGoal) game.getGoal()).getCheckpoints().get(0).getPosition().getY()) <=
-                Math.abs(game.getBateau().getPosition().getX()-((RegattaGoal) game.getGoal()).getCheckpoints().get(0).getPosition().getX()) + Math.abs(game.getBateau().getPosition().getY()-((RegattaGoal) game.getGoal()).getCheckpoints().get(0).getPosition().getY());
+        return Math.sqrt(Math.pow(2,positionSiRameactive.getX()-((RegattaGoal) game.getGoal()).getCheckpoints().get(0).getPosition().getX()) + Math.pow(2,positionSiRameactive.getY()-((RegattaGoal) game.getGoal()).getCheckpoints().get(0).getPosition().getY())) <=
+                Math.sqrt(Math.pow(2,game.getBateau().getPosition().getX()-((RegattaGoal) game.getGoal()).getCheckpoints().get(0).getPosition().getX()) + Math.pow(2,game.getBateau().getPosition().getY()-((RegattaGoal) game.getGoal()).getCheckpoints().get(0).getPosition().getY()));
     }
 
-    public void configurationGouvernail(InitGame game,List<Action> actionsNextRound){
+    public int configurationGouvernail(InitGame game,List<Action> actionsNextRound){
         for (Marin m :game.getMarins()){
             if (m.isLibre()){
                 MOVING moving = m.deplacementMarinGouvernail(game.getBateau().getEntities());
@@ -165,10 +165,12 @@ public class SalleDesCommandes {
                     actionsNextRound.add(moving);
                     m.setX(moving.getXdistance() + m.getX());
                     m.setY(moving.getYdistance() + m.getY());
-                    return;
+                    // System.out.println(m.getId() + " "+ m.isLibre());
+                    return m.getId();
                 }
             }
         }
+        return -1;
     }
 
 }
