@@ -57,12 +57,14 @@ public class Marin {
         int deplacementMarin=0;
         for (Entity entity : Entities) {
             if (entity instanceof Voile) {
-                deplacementMarin = (Math.abs(entity.getX() - this.getX()) + Math.abs(entity.getY() - this.getY()));
-                if (deplacementMarin < 6 && this.libre) {
-                    if (leverLaVoile) actionAFaire="HisserVoile";
-                    else actionAFaire="BaisserLaVoile";
-                    this.libre=false;
-                    return new MOVING(getId(), "MOVING", entity.getX() - this.getX(), entity.getY() - this.getY());
+                if (this.libre) {
+                    deplacementMarin = (Math.abs(entity.getX() - this.getX()) + Math.abs(entity.getY() - this.getY()));
+                        if (deplacementMarin < 6) {
+                            if (leverLaVoile) actionAFaire = "HisserVoile";
+                            else actionAFaire = "BaisserLaVoile";
+                            this.libre = false;
+                            return new MOVING(getId(), "MOVING", entity.getX() - this.getX(), entity.getY() - this.getY());
+                    }
                 }
             }
         }

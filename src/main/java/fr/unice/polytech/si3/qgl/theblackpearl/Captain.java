@@ -25,13 +25,11 @@ public class Captain {
 
     public ArrayList<Action> captainFaitLeJob(InitGame parsedInitGame){
         this.determinerCheckpointAViser(parsedInitGame);
-        double angleRealiseRames = salleDesCommandes.configurationRames(this.meilleurAngleRealisable(parsedInitGame), actionsNextRound,0);
+        int numeroMarinIntouchable = salleDesCommandes.configurationGouvernail(parsedInitGame,actionsNextRound);
+        double angleRealiseRames = salleDesCommandes.configurationRames(parsedInitGame,this.meilleurAngleRealisable(parsedInitGame), actionsNextRound,0,numeroMarinIntouchable);
         double resteAngleARealiser = this.angleParfaitVersCheckpoint - angleRealiseRames;
         Gouvernail gouvernail = parsedInitGame.getBateau().getGouvernail();
         gouvernail.setAngleRealise(gouvernail.angleGouvernail(resteAngleARealiser));
-        if (gouvernail.getAngleRealise() != 0.0) {
-            salleDesCommandes.configurationGouvernail(parsedInitGame,actionsNextRound);
-        }
         salleDesCommandes.utilisationVoile(parsedInitGame,actionsNextRound);
         return actionsNextRound;
     }
