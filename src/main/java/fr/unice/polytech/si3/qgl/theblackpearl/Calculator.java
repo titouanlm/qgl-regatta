@@ -3,6 +3,7 @@ package fr.unice.polytech.si3.qgl.theblackpearl;
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.Checkpoint;
 import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.Vent;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Circle;
+import fr.unice.polytech.si3.qgl.theblackpearl.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.Bateau;
 
 
@@ -52,8 +53,8 @@ public class Calculator {
             Circle circle = (Circle) checkpoint.getShape();
             return distanceCBCC <= circle.getRadius();
         }else{
-            //Rectangle rectangle = (Rectangle) checkpoint.getShape();
-            return false;
+            Rectangle rectangle = (Rectangle) checkpoint.getShape();
+            return distanceCBCC <= rectangle.getWidth()/2;
         }
     }
 
@@ -74,8 +75,8 @@ public class Calculator {
     public Position calculNewPositionShip(double shipSpeed , double rotationSpeed, Position shipPosition, int nbSteps){
         double speed = shipSpeed/nbSteps;
         double rotation = rotationSpeed/nbSteps;
-        double newX = (int)(Math.cos(shipPosition.getOrientation())*speed * 100)/100.;
-        double newY = (int)(Math.sin(shipPosition.getOrientation())*speed * 100)/100.;
+        double newX = Math.cos(shipPosition.getOrientation())*speed;
+        double newY = Math.sin(shipPosition.getOrientation())*speed;
         return new Position(shipPosition.getX()+newX,shipPosition.getY()+newY, shipPosition.getOrientation()+rotation );
     }
 

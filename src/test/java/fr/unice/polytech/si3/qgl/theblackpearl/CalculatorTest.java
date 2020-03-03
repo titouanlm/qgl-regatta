@@ -81,7 +81,7 @@ class CalculatorTest {
 
     }
 
-    @Test
+    /*@Test
     void calculNewPositionShip(){
         posBateau = new Position(0, 0,0);
         System.out.println(posBateau);
@@ -106,7 +106,7 @@ class CalculatorTest {
         posBateau = calcul.calculNewPositionShip(100, 1, posBateau, 10);
         System.out.println(posBateau);
         posBateau = calcul.calculNewPositionShip(100, 1, posBateau, 10);
-    }
+    }*/
 
 
 }
