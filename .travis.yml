@@ -1,17 +1,1 @@
 language: java
-
-jdk:
-- oraclejdk11
-
-script:
-- ./buildMyProjectPlease.sh
-
-sudo: false
-
-cache:
-  directories:
-  - $HOME/.m2
-
-notifications:
-  email:
-  - travis@polytech.com
