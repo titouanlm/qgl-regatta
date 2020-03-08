@@ -13,6 +13,7 @@ import fr.unice.polytech.si3.qgl.theblackpearl.goal.RegattaGoal;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Referee2 {
@@ -27,6 +28,9 @@ public class Referee2 {
     private ObjectMapper objectMapperReferee;
     private double rotationShip;
     private double speedShip;
+    //Processing
+    private List<Position> logsPositionsShip;
+    private String jsonCheckpoints;
 
     public Referee2(String initGame, String firstRound, Cockpit cockpit) {
         this.initGame = initGame;
@@ -35,6 +39,7 @@ public class Referee2 {
         this.tour = 0;
         this.objectMapperReferee = new ObjectMapper();
         this.c = new Calculator();
+        this.logsPositionsShip =new ArrayList<>();
     }
 
     public void startGame(int nbTour) {
@@ -45,6 +50,8 @@ public class Referee2 {
     public void initGame() {
         try {
             parsedInitGameReferee = objectMapperReferee.readValue(initGame, InitGame.class);
+            RegattaGoal regatta =  (RegattaGoal) parsedInitGameReferee.getGoal();
+            jsonCheckpoints = objectMapperReferee.writeValueAsString(regatta.getCheckpoints());
             this.cockpit.initGame(initGame);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
@@ -141,6 +148,7 @@ public class Referee2 {
         int N=0;
         int nbStep=70;
             while(N<nbStep){
+                this.savedPos();
                 Position positionShipThisStep = c.calculNewPositionShip(this.speedShip, this.rotationShip ,parsedInitGameReferee.getBateau().getPosition(), nbStep);
                 parsedInitGameReferee.getBateau().setPosition(positionShipThisStep);
                 N++;
@@ -159,5 +167,17 @@ public class Referee2 {
             e.printStackTrace();
         }
         //System.out.println(this.nextRound);
+    }
+
+    private void savedPos() {
+        logsPositionsShip.add(parsedInitGameReferee.getBateau().getPosition());
+    }
+
+    public String getJsonPositionsShip() throws JsonProcessingException {
+        return objectMapperReferee.writeValueAsString(logsPositionsShip);
+    }
+
+    public String getJsonCheckpoints() {
+        return jsonCheckpoints;
     }
 }
