@@ -56,13 +56,13 @@ class CalculatorTest {
     @Test
     void pointIsInsideCheckpoint() {
         checkpoint = new Checkpoint(posCheckpoint, new Circle(50));
-        assertFalse(calcul.pointIsInsideCheckpoint(posBateau, checkpoint));
+        assertFalse(calcul.shapeInCollision(posBateau, checkpoint));
         posBateau = new Position(950, 1000,0);
-        assertTrue(calcul.pointIsInsideCheckpoint(posBateau, checkpoint));
+        assertTrue(calcul.shapeInCollision(posBateau, checkpoint));
         posBateau = new Position(1000, 1000,0);
-        assertTrue(calcul.pointIsInsideCheckpoint(posBateau, checkpoint));
+        assertTrue(calcul.shapeInCollision(posBateau, checkpoint));
         posBateau = new Position(958.3, 973.8,0);
-        assertTrue(calcul.pointIsInsideCheckpoint(posBateau, checkpoint));
+        assertTrue(calcul.shapeInCollision(posBateau, checkpoint));
     }
 
 

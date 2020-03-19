@@ -8,8 +8,11 @@ import fr.unice.polytech.si3.qgl.theblackpearl.shape.Shape;
 
 @JsonTypeName("reef")
 public class Recif extends VisibleEntity {
+
     @JsonCreator
     Recif(@JsonProperty("type") String type, @JsonProperty("position") Position position, @JsonProperty("shape") Shape shape){
         super(type, position,shape);
     }
+
+
 }
