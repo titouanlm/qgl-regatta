@@ -3,8 +3,13 @@ package fr.unice.polytech.si3.qgl.theblackpearl;
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.Checkpoint;
 import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.Vent;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Circle;
+import fr.unice.polytech.si3.qgl.theblackpearl.shape.Point;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.Bateau;
+import org.w3c.dom.css.Rect;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 
 public class Calculator {
@@ -47,14 +52,62 @@ public class Calculator {
         return Math.atan2(pos2.getY()-pos1.getY(),pos2.getX()-pos1.getX()) - pos1.getOrientation();
     }
 
-    public boolean pointIsInsideCheckpoint(Position point, Checkpoint checkpoint) {
-        double distanceCBCC = calculDistanceEntreDeuxPoints(point, checkpoint.getPosition());
+    public double calculateAreaOf1Triangle(Point sommet1, Point sommet2, Point sommet3){
+        double area = (sommet1.getX() * (sommet2.getY() - sommet3.getY()) + sommet2.getX() * (sommet3.getY() - sommet1.getY()) + sommet3.getX() * (sommet1.getY() - sommet2.getY())) / 2.0;
+        return Math.abs(area);
+    }
+
+    public double calculateAreaOf4Triangles(ArrayList<Point>){
+
+    }
+
+    public ArrayList<Point> calculateCoordinatesOfRectangleVertices(Checkpoint checkpoint){
+        ArrayList<Point> sommetsRectangle = new ArrayList<>();
+        Point centreRectangle = new Point(checkpoint.getPosition().getX(), checkpoint.getPosition().getY());
+        Rectangle rectangle = (Rectangle) checkpoint.getShape();
+        Point sommet1 = new Point(centreRectangle.getX()  -  ((rectangle.getHeight()/2.0)*Math.cos(checkpoint.getPosition().getOrientation()+rectangle.getOrientation()))
+                - (rectangle.getWidth()/2.0)*Math.sin(checkpoint.getPosition().getOrientation()+rectangle.getOrientation())
+                , centreRectangle.getY()  -  ((rectangle.getHeight()/2.0)*Math.sin(checkpoint.getPosition().getOrientation()+rectangle.getOrientation()))
+                + (rectangle.getWidth()/2.0)*Math.cos(checkpoint.getPosition().getOrientation()+rectangle.getOrientation())  );
+
+        Point sommet2 = new Point(centreRectangle.getX()  +  ((rectangle.getHeight()/2.0)*Math.cos(checkpoint.getPosition().getOrientation()+rectangle.getOrientation()))
+                - (rectangle.getWidth()/2.0)*Math.sin(checkpoint.getPosition().getOrientation()+rectangle.getOrientation())
+                , centreRectangle.getY()  +  ((rectangle.getHeight()/2.0)*Math.sin(checkpoint.getPosition().getOrientation()+rectangle.getOrientation()))
+                + (rectangle.getWidth()/2.0)*Math.cos(checkpoint.getPosition().getOrientation()+rectangle.getOrientation()));
+
+        Point sommet3 = new Point(centreRectangle.getX()  +  ((rectangle.getHeight()/2.0)*Math.cos(checkpoint.getPosition().getOrientation()+rectangle.getOrientation()))
+                + (rectangle.getWidth()/2.0)*Math.sin(checkpoint.getPosition().getOrientation()+rectangle.getOrientation())
+                , centreRectangle.getY()  +  ((rectangle.getHeight()/2.0)*Math.sin(checkpoint.getPosition().getOrientation()+rectangle.getOrientation()))
+                - (rectangle.getWidth()/2.0)*Math.cos(checkpoint.getPosition().getOrientation()+rectangle.getOrientation()));
+
+        Point sommet4 = new Point(centreRectangle.getX()  -  ((rectangle.getHeight()/2.0)*Math.cos(checkpoint.getPosition().getOrientation()+rectangle.getOrientation()))
+                + (rectangle.getWidth()/2.0)*Math.sin(checkpoint.getPosition().getOrientation()+rectangle.getOrientation())
+                , centreRectangle.getY()  -  ((rectangle.getHeight()/2.0)*Math.sin(checkpoint.getPosition().getOrientation()+rectangle.getOrientation()))
+                - (rectangle.getWidth()/2.0)*Math.cos(checkpoint.getPosition().getOrientation()+rectangle.getOrientation()));
+
+        sommetsRectangle.add(sommet1);
+        sommetsRectangle.add(sommet2);
+        sommetsRectangle.add(sommet3);
+        sommetsRectangle.add(sommet4);
+        return sommetsRectangle;
+    }
+
+    public boolean pointIsInsideRectangle(Position centreBateau, Checkpoint checkpoint){
+        ArrayList<Point> sommetsRectangle = calculateCoordinatesOfRectangleVertices(checkpoint);
+        double areaOf4Triangles = calculateAreaOf4Triangles();
+        return false;
+    }
+
+    public boolean pointIsInsideCheckpoint(Position centreBateau, Checkpoint checkpoint) {
+        double distanceCBCC = calculDistanceEntreDeuxPoints(centreBateau, checkpoint.getPosition());
+        Point pointCentreBateau = new Point(centreBateau.getX(),centreBateau.getY());
         if(checkpoint.getShape() instanceof Circle){
             Circle circle = (Circle) checkpoint.getShape();
             return distanceCBCC <= circle.getRadius();
-        }else{
+        }else {
             Rectangle rectangle = (Rectangle) checkpoint.getShape();
             return distanceCBCC <= rectangle.getWidth()/2;
+            //return pointIsInsideRectangle(point, checkpoint)
         }
     }
 
