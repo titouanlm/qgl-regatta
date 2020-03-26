@@ -75,7 +75,6 @@ public class Referee2 {
             for (Marin m : parsedInitGameReferee.getMarins()) {
                 m.setCanMove(true);
                 m.setLibre(true);
-                //System.out.println(m);
             }
             this.getActions(this.cockpit.nextRound(nextRound));
             this.executeActions();
