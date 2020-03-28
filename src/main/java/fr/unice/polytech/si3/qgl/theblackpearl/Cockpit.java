@@ -8,7 +8,6 @@ import fr.unice.polytech.si3.qgl.regatta.cockpit.ICockpit;
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.*;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.NextRound;
-import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
 
 public class Cockpit implements ICockpit {
 	private InitGame parsedInitGame;
@@ -41,21 +40,27 @@ public class Cockpit implements ICockpit {
 
 		Captain captain = new Captain(parsedInitGame, parsedNextRound.getWind());
 
+		creerLogNouveautour();
+
+		List<Action> actionsNextRound = captain.ordreCapitaine();
+		tacheMarins(actionsNextRound);
+
+		StringBuilder roundJSON=creationJson(actionsNextRound);
+		return roundJSON.toString();
+	}
+
+	public void creerLogNouveautour(){
 		StringBuilder log = new StringBuilder();
 		for (Marin marin : parsedInitGame.getMarins()) {
 			marin.resetMarinPourUnNouveauTour();
 			log.append(marin.toString());
 		}
 		logs.add(log.toString());
+	}
 
-		for (Entity entite : parsedInitGame.getBateau().getEntities()){
-			entite.setLibre(true);
-		}
-
-		List<Action> actionsNextRound = captain.captainFaitLeJob(parsedInitGame);
+	public void tacheMarins(List<Action> actionsNextRound){
 		for(Marin m : parsedInitGame.getMarins()){
 			if (!m.isLibre()) {
-				//System.out.println(m.getId());
 				switch (m.getActionAFaire()) {
 					case "Ramer":
 						actionsNextRound.add(new OAR(m.getId()));
@@ -72,9 +77,6 @@ public class Cockpit implements ICockpit {
 				}
 			}
 		}
-
-		StringBuilder roundJSON=creationJson(actionsNextRound);
-		return roundJSON.toString();
 	}
 
 	public StringBuilder creationJson(List<Action> actionsNextRound){

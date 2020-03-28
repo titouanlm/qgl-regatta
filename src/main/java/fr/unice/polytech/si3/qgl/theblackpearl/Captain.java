@@ -13,28 +13,31 @@ import java.util.List;
 public class Captain {
 
     private Calculator calculator;
-    ArrayList<Action> actionsNextRound = new ArrayList<>();
+    private ArrayList<Action> actionsNextRound = new ArrayList<>();
     private double angleParfaitVersCheckpoint;
     private Checkpoint checkpointAViser;
     private SalleDesCommandes salleDesCommandes;
+    private List<Marin> marinsOccupes = new ArrayList<>();
+    private InitGame parsedInitGame;
 
     public Captain(InitGame game, Vent vent) {
+        parsedInitGame = game;
         calculator = new Calculator();
-        salleDesCommandes = new SalleDesCommandes(game,vent);
+        salleDesCommandes = new SalleDesCommandes(game,vent,actionsNextRound);
     }
 
-    public ArrayList<Action> captainFaitLeJob(InitGame parsedInitGame){
-        this.determinerCheckpointAViser(parsedInitGame);
-        int numeroMarinIntouchable = salleDesCommandes.configurationGouvernail(parsedInitGame,actionsNextRound);
-        double angleRealiseRames = salleDesCommandes.configurationRames(parsedInitGame,this.meilleurAngleRealisable(parsedInitGame), actionsNextRound,0,numeroMarinIntouchable);
+    public ArrayList<Action> ordreCapitaine(){
+        this.determinerCheckpointAViser();
+        marinsOccupes.add(salleDesCommandes.configurationGouvernail());
+        marinsOccupes.add(salleDesCommandes.utilisationVoile());
+        double angleRealiseRames = salleDesCommandes.configurationRames(this.meilleurAngleRealisable(), 0, marinsOccupes);
         double resteAngleARealiser = this.angleParfaitVersCheckpoint - angleRealiseRames;
         Gouvernail gouvernail = parsedInitGame.getBateau().getGouvernail();
         gouvernail.setAngleRealise(gouvernail.angleGouvernail(resteAngleARealiser));
-        salleDesCommandes.utilisationVoile(parsedInitGame,actionsNextRound);
         return actionsNextRound;
     }
 
-    public void determinerCheckpointAViser(InitGame parsedInitGame) {
+    public void determinerCheckpointAViser() {
         //1. Tester si on a atteint le check point (et si on a finit la course) ==> supprime le checkpoint
         if(parsedInitGame.getGoal() instanceof RegattaGoal){
             RegattaGoal regatta = (RegattaGoal) parsedInitGame.getGoal();
@@ -46,7 +49,7 @@ public class Captain {
         }
     }
 
-    public List<Double> meilleurAngleRealisable(InitGame parsedInitGame){
+    public List<Double> meilleurAngleRealisable(){
         List<Double> meilleurAngleRealisable = new ArrayList<>();
         //2. Calculer l'orientation du bateau pour qu'il soit dans l'axe du prochain checkpoint
         if(checkpointAViser!=null){
