@@ -83,7 +83,7 @@ public class Referee2 {
         Position shipPosition = parsedInitGameReferee.getBateau().getPosition();
         RegattaGoal regatta =  (RegattaGoal) parsedInitGameReferee.getGoal();
         List<Checkpoint> checkpoints = regatta.getCheckpoints();
-        if(c.shapeInCollision(shipPosition, checkpoints.get(0))){
+        if(c.shapeInCollision(parsedInitGameReferee.getBateau(), checkpoints.get(0))){
             regatta.removeCheckpoint();
         }
         return regatta.getCheckpoints().isEmpty();

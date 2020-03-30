@@ -1,4 +1,4 @@
-package fr.unice.polytech.si3.qgl.theblackpearl;
+/*package fr.unice.polytech.si3.qgl.theblackpearl;
 
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.Checkpoint;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Circle;
@@ -138,4 +138,4 @@ class CalculatorTest {
 
     }
 
-}
+}*/

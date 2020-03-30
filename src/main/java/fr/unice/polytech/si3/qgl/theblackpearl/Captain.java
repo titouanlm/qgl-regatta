@@ -41,7 +41,7 @@ public class Captain {
         //1. Tester si on a atteint le check point (et si on a finit la course) ==> supprime le checkpoint
         if(parsedInitGame.getGoal() instanceof RegattaGoal){
             RegattaGoal regatta = (RegattaGoal) parsedInitGame.getGoal();
-            if(calculator.shapeInCollision(parsedInitGame.getBateau().getPosition(), regatta.getCheckpoints().get(0))){
+            if(calculator.shapeInCollision(parsedInitGame.getBateau(), regatta.getCheckpoints().get(0))){
                 regatta.removeCheckpoint();
             }
             //Checkpoint à viser
