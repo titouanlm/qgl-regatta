@@ -101,7 +101,7 @@ public class SalleDesCommandes {
         return meilleurAngleRealisable.get(this.meilleurAngleRealisablePosition);
     }
 
-    public List<Action> meilleurPositionnementMarins(Calculator calculateur ,List<Double> meilleurAngleRealisable){
+    public void meilleurPositionnementMarins(Calculator calculateur ,List<Double> meilleurAngleRealisable){
         boolean neMarchePasPourLePremiertour = true;
         int nombreTour=0;
         boolean marinPlaceGauche=false;
@@ -130,7 +130,6 @@ public class SalleDesCommandes {
             }
             neMarchePasPourLePremiertour=false;nombreTour++;
         } while ((calculateur.getNombreMarinAplacer()[0] != 0 || calculateur.getNombreMarinAplacer()[1] != 0) && this.continuerConfigurationRames);
-        return actionsNextRoundTemporaire;
     }
 
     public Marin hisserLaVoile(){
