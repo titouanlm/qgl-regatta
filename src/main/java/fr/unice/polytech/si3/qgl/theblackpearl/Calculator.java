@@ -204,6 +204,41 @@ public class Calculator {
         return myList;
     }
 
+
+    public ArrayList<Point> calculateCoordinatesOfRectangleVertices(Checkpoint checkpoint){
+        ArrayList<Point> sommetsRectangle = new ArrayList<>();
+        Point centreRectangle = new Point(checkpoint.getPosition().getX(), checkpoint.getPosition().getY());
+        Rectangle rectangle = (Rectangle) checkpoint.getShape();
+        double centreX = centreRectangle.getX();
+        double centreY = centreRectangle.getY();
+        double semiHeight = rectangle.getHeight()/2.0;
+        double semiWidth = rectangle.getWidth()/2.0;                             //    _____________________________
+        double shapeOrientation = rectangle.getOrientation();                    //   |                             |
+        double positionOrientation = checkpoint.getPosition().getOrientation();  //   |                             |
+                                                                                 //   |                             |  width
+                                                                                 //   |                             |
+                                                                                 //   |_____________________________|
+                                                                                 //               height
+
+        Point sommet1 = new Point(centreX  -  ( (semiHeight) * Math.cos(positionOrientation+shapeOrientation) ) -  ( (semiWidth) * Math.sin(positionOrientation+shapeOrientation) ) ,
+                                  centreY  -  ( (semiHeight) * Math.sin(positionOrientation+shapeOrientation) ) +  ( (semiWidth) * Math.cos(positionOrientation+shapeOrientation) ) );
+
+        Point sommet2 = new Point(centreX  +  ( (semiHeight) * Math.cos(positionOrientation+shapeOrientation) ) -  ( (semiWidth) * Math.sin(positionOrientation+shapeOrientation) ) ,
+                                  centreY  +  ( (semiHeight) * Math.sin(positionOrientation+shapeOrientation) ) +  ( (semiWidth) * Math.cos(positionOrientation+shapeOrientation) ) );
+
+        Point sommet3 = new Point(centreX  +  ( (semiHeight) * Math.cos(positionOrientation+shapeOrientation) ) +  ( (semiWidth) * Math.sin(positionOrientation+shapeOrientation) ) ,
+                                  centreY  +  ( (semiHeight) * Math.sin(positionOrientation+shapeOrientation) ) -  ( (semiWidth) * Math.cos(positionOrientation+shapeOrientation) ) );
+
+        Point sommet4 = new Point(centreX  -  ( (semiHeight) * Math.cos(positionOrientation+shapeOrientation) ) +  ( (semiWidth) * Math.sin(positionOrientation+shapeOrientation) ) ,
+                                  centreY  -  ( (semiHeight) * Math.sin(positionOrientation+shapeOrientation) ) -  ( (semiWidth) * Math.cos(positionOrientation+shapeOrientation) ) );
+
+        sommetsRectangle.add(sommet1);
+        sommetsRectangle.add(sommet2);
+        sommetsRectangle.add(sommet3);
+        sommetsRectangle.add(sommet4);
+        return sommetsRectangle;
+    }
+
     public double calculRotationRamesTribordBabord(int nbRameBabord, int nbRameTribord, int nbRames){
         if(nbRameTribord>nbRameBabord){
             return ((nbRameTribord-nbRameBabord)*Math.PI)/nbRames;

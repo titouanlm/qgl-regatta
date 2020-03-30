@@ -2,8 +2,12 @@ package fr.unice.polytech.si3.qgl.theblackpearl;
 
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.Checkpoint;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Circle;
+import fr.unice.polytech.si3.qgl.theblackpearl.shape.Rectangle;
+import fr.unice.polytech.si3.qgl.theblackpearl.shape.Shape;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,6 +16,7 @@ class CalculatorTest {
     private Position posBateau;
     private Position posCheckpoint;
     private Checkpoint checkpoint;
+    private Shape shape;
 
     @BeforeEach
     public void init() {
@@ -108,5 +113,29 @@ class CalculatorTest {
         posBateau = calcul.calculNewPositionShip(100, 1, posBateau, 10);
     }
 
+    @Test
+    void calculateCoordinatesOfRectangleVertices(){
+        shape = new Rectangle(50,100, 0);
+        checkpoint = new Checkpoint(posCheckpoint,shape);
+        System.out.println(Arrays.toString(calcul.calculateCoordinatesOfRectangleVertices(checkpoint).toArray()));
+        // rotation de pi/4 de la position du checkpoint
+        posCheckpoint  =  new Position(500, -500, Math.PI/4);
+        checkpoint = new Checkpoint(posCheckpoint,shape);
+        System.out.println(Arrays.toString(calcul.calculateCoordinatesOfRectangleVertices(checkpoint).toArray()));
+        // rotation globale superieure à pi/2
+        shape = new Rectangle(50, 100, Math.PI/2);
+        checkpoint = new Checkpoint(posCheckpoint,shape);
+        System.out.println(Arrays.toString(calcul.calculateCoordinatesOfRectangleVertices(checkpoint).toArray()));
+        // rotation de la position du checkpoint superieure à pi/2
+        posCheckpoint  =  new Position(-1000, 0, (2*Math.PI)/3);
+        checkpoint = new Checkpoint(posCheckpoint,shape);
+        System.out.println(Arrays.toString(calcul.calculateCoordinatesOfRectangleVertices(checkpoint).toArray()));
+        // rotations de la forme du checkpoint et de  sa position supérieure chacune à pi/2
+        posCheckpoint  =  new Position(-1000, 0, (2*Math.PI)/3);
+        shape = new Rectangle(50, 100, Math.PI);
+        checkpoint = new Checkpoint(posCheckpoint,shape);
+        System.out.println(Arrays.toString(calcul.calculateCoordinatesOfRectangleVertices(checkpoint).toArray()));
+
+    }
 
 }
