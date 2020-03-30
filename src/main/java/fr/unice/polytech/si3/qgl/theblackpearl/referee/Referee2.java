@@ -147,7 +147,7 @@ public class Referee2 {
         }
         //MAJ Orientation de la forme du bateau
         Rectangle shipShape = (Rectangle) parsedInitGameReferee.getBateau().getShape();
-        shipShape.setOrientation(parsedInitGameReferee.getBateau().getPosition().getOrientation());
+        shipShape.setOrientationRectangle(parsedInitGameReferee.getBateau().getPosition().getOrientation());
     }
 
     private void updateNextRound() {
