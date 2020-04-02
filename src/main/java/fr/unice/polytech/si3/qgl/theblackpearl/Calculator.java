@@ -62,10 +62,8 @@ public class Calculator {
     }
 
     public boolean shapescollide(Object object1, Object object2){
-        Shape shape1; // BON
-        Shape shape2; // BON
-        shape1 = getShape(object1); // BON
-        shape2 = getShape(object2); // BON
+        Shape shape1 =  getShape(object1); // BON
+        Shape shape2  = getShape(object2); // BON
         if (shape1 == null || shape2 == null) return false;
         if (shape1 instanceof Circle && shape2 instanceof Circle){ return collisionCercles((Circle) shape1,(Circle) shape2);}
         List<Vecteur> myList = vecteurATester(shape1,shape2); // BON
@@ -79,17 +77,17 @@ public class Calculator {
         Shape shape2 = null;
         if (object2 instanceof AutreBateau ||object2 instanceof Recif || object2 instanceof Courant){
             shape2 = ((VisibleEntity) object2).getShape();
-            if (((VisibleEntity) object2).getShape() instanceof Rectangle || ((VisibleEntity) object2).getShape() instanceof Circle)
+            if (shape2 instanceof Rectangle || shape2 instanceof Circle)
                 shape2.setCoordonneesCentre(((VisibleEntity) object2).getPosition());
         }
         else if (object2 instanceof Checkpoint){
             shape2 = ((Checkpoint) object2).getShape();
-            if (((Checkpoint) object2).getShape() instanceof Rectangle || ((Checkpoint) object2).getShape() instanceof Circle)
+            if (shape2 instanceof Rectangle || shape2 instanceof Circle)
                 shape2.setCoordonneesCentre(((Checkpoint) object2).getPosition());
         }
         else if (object2 instanceof Bateau){
             shape2 = ((Bateau) object2).getShape();
-            if (((Bateau) object2).getShape() instanceof Rectangle /*|| ((Bateau) object2).getShape() instanceof Circle*/) {
+            if (shape2 instanceof Rectangle ) {
                 ((Rectangle) shape2).setCoordonneesCentre(((Bateau) object2).getPosition());
                 ((Rectangle) shape2).setOrientationRectangle(((Bateau) object2).getPosition().getOrientation());
             }

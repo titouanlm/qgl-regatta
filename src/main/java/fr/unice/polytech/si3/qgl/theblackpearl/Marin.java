@@ -30,6 +30,10 @@ public class Marin {
         this.canMove=true;
     }
 
+    public Marin clone(){
+        return new Marin(this.id, this.x, this.y, this.name);
+    }
+
     public void resetMarinPourUnNouveauTour() {
         this.actionAFaire="";
         this.libre=true;

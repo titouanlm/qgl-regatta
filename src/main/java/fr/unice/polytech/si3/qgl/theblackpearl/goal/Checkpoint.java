@@ -38,4 +38,5 @@ public class Checkpoint {
                 ", shape=" + shape +
                 '}';
     }
+
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.unice.polytech.si3.qgl.theblackpearl.Marin;
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.Goal;
+import fr.unice.polytech.si3.qgl.theblackpearl.goal.RegattaGoal;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.Bateau;
 
 import java.util.ArrayList;
@@ -47,6 +48,22 @@ public class InitGame {
                 ", ship=" + ship +
                 ", sailors=" + sailors +
                 '}';
+    }
+
+
+    public InitGame clone(){
+        Goal cloneGoal;
+        if(goal instanceof RegattaGoal){
+            cloneGoal = ((RegattaGoal) goal).clone();
+        }else{
+            cloneGoal = goal;
+        }
+        Bateau cloneBateau = ship.clone();
+        ArrayList<Marin> cloneSailors = new ArrayList<>();
+        for(Marin m : sailors){
+            cloneSailors.add(m.clone());
+        }
+        return new InitGame(cloneGoal, shipCount, cloneBateau, cloneSailors);
     }
 
 }

@@ -8,12 +8,14 @@ import fr.unice.polytech.si3.qgl.regatta.cockpit.ICockpit;
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.*;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.NextRound;
+import fr.unice.polytech.si3.qgl.theblackpearl.referee.Referee2;
 
 public class Cockpit implements ICockpit {
 	private InitGame parsedInitGame;
 	private NextRound parsedNextRound;
 	private ObjectMapper objectMapper;
 	private List<String> logs;
+	private Referee2 ref;
 
 
 	public Cockpit(){
@@ -46,6 +48,17 @@ public class Cockpit implements ICockpit {
 		tacheMarins(actionsNextRound);
 
 		StringBuilder roundJSON=creationJson(actionsNextRound);
+
+
+		InitGame cloneInitGame =  parsedInitGame.clone();
+		NextRound cloneNextRound = parsedNextRound.clone();
+		ref = new Referee2(cloneInitGame, cloneNextRound);
+		while(ref.startRound(roundJSON.toString())){
+			ref = new Referee2(cloneInitGame, cloneNextRound);
+			System.exit(0);
+			//ON CHANGE LE CAP ICI ** roundJSON a modifier **
+		}
+
 		return roundJSON.toString();
 	}
 

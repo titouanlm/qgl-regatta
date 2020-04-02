@@ -47,4 +47,9 @@ public class Position {
                 ", orientation=" + orientation +
                 '}';
     }
+
+    public Position clone(){
+        return new Position(this.x, this.y, this.orientation);
+    }
+
 }

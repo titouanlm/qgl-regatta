@@ -66,6 +66,11 @@ public class Bateau {
         return entities;
     }
 
+    public Bateau clone(){
+
+        return new Bateau(this.type, this.life , this.position.clone(), this.name, this.deck, this.entities, this.shape);
+    }
+
     public Gouvernail getGouvernail(){
         for (Entity e : entities) if (e instanceof Gouvernail) return ((Gouvernail) e);
         return null;

@@ -10,6 +10,9 @@ import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.NextRound;
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.Checkpoint;
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.RegattaGoal;
+import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.AutreBateau;
+import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.Recif;
+import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.VisibleEntity;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
 
@@ -37,9 +40,31 @@ public class Referee2 {
         this.c = new Calculator();
     }
 
+    public Referee2(InitGame initGame, NextRound nextRound) {
+        this.parsedInitGameReferee = initGame;
+        this.parsedNextRoundReferee = nextRound;
+        this.objectMapperReferee = new ObjectMapper();
+        this.c = new Calculator();
+    }
+
     public void startGame(int nbTour) {
         this.initGame();
         this.nextRound(nbTour);
+    }
+
+    public boolean startRound(String actions){
+        this.rotationShip=0.0;
+        this.speedShip=0.0;
+        for (Entity e : parsedInitGameReferee.getBateau().getEntities()) {
+            e.setLibre(true);
+        }
+        for (Marin m : parsedInitGameReferee.getMarins()) {
+            m.setCanMove(true);
+            m.setLibre(true);
+        }
+        this.getActions(actions);
+        this.executeActions();
+        return this.crashTest();
     }
 
     public void initGame() {
@@ -80,7 +105,6 @@ public class Referee2 {
     }
 
     private boolean getFinishGame() {
-        Position shipPosition = parsedInitGameReferee.getBateau().getPosition();
         RegattaGoal regatta =  (RegattaGoal) parsedInitGameReferee.getGoal();
         List<Checkpoint> checkpoints = regatta.getCheckpoints();
         if(c.shapeInCollision(parsedInitGameReferee.getBateau(), checkpoints.get(0))){
@@ -148,6 +172,44 @@ public class Referee2 {
         //MAJ Orientation de la forme du bateau
         Rectangle shipShape = (Rectangle) parsedInitGameReferee.getBateau().getShape();
         shipShape.setOrientationRectangle(parsedInitGameReferee.getBateau().getPosition().getOrientation());
+    }
+
+    private boolean crashTest() {
+        //Calculs rames
+        int nbRamesBabord = parsedInitGameReferee.getBateau().nbMarinRameBabord();
+        int nbRamesTribord = parsedInitGameReferee.getBateau().nbMarinRameTribord();
+        int nbRames = parsedInitGameReferee.getBateau().getNbRame();
+        this.rotationShip += c.calculRotationRamesTribordBabord(nbRamesBabord,nbRamesTribord, nbRames);
+        this.speedShip += c.calculVitesseRames(nbRamesBabord+nbRamesTribord,nbRames);
+
+        //Calculs voiles
+        int nbVoileOuverte = parsedInitGameReferee.getBateau().nbVoileOuverte();
+        int nbVoile = parsedInitGameReferee.getBateau().nbVoile();
+        if(nbVoile>0)
+            this.speedShip += c.calculVitesseVent(nbVoileOuverte,nbVoile,parsedNextRoundReferee.getWind(), parsedInitGameReferee.getBateau());
+        int N=0;
+        int nbStep=50;
+        while(N<nbStep){
+            Position positionShipThisStep = c.calculNewPositionShip(this.speedShip, this.rotationShip ,parsedInitGameReferee.getBateau().getPosition(), nbStep);
+            parsedInitGameReferee.getBateau().setPosition(positionShipThisStep);
+            if(this.testCollision()){
+                return true;
+            }
+            N++;
+        }
+        //MAJ Orientation de la forme du bateau
+        Rectangle shipShape = (Rectangle) parsedInitGameReferee.getBateau().getShape();
+        shipShape.setOrientationRectangle(parsedInitGameReferee.getBateau().getPosition().getOrientation());
+        return false;
+    }
+
+    private boolean testCollision() {
+        for(VisibleEntity v : parsedNextRoundReferee.getVisibleEntities()){
+            if(v instanceof Recif || v instanceof AutreBateau){
+                return c.shapescollide(parsedInitGameReferee.getBateau(), v);
+            }
+        }
+        return false;
     }
 
     private void updateNextRound() {
