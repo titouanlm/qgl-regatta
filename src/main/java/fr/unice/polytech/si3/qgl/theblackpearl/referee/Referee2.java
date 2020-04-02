@@ -193,6 +193,8 @@ public class Referee2 {
             Position positionShipThisStep = c.calculNewPositionShip(this.speedShip, this.rotationShip ,parsedInitGameReferee.getBateau().getPosition(), nbStep);
             parsedInitGameReferee.getBateau().setPosition(positionShipThisStep);
             if(this.testCollision()){
+                System.out.println(" ******************************** COLLISION ******************************** ");
+                System.out.println("Position bateeau : " + parsedInitGameReferee.getBateau().getPosition());
                 return true;
             }
             N++;

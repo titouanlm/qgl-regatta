@@ -9,6 +9,8 @@ import fr.unice.polytech.si3.qgl.theblackpearl.actions.*;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.NextRound;
 import fr.unice.polytech.si3.qgl.theblackpearl.referee.Referee2;
+import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.VisibleEntity;
+import fr.unice.polytech.si3.qgl.theblackpearl.shape.Rectangle;
 
 public class Cockpit implements ICockpit {
 	private InitGame parsedInitGame;
@@ -39,6 +41,7 @@ public class Cockpit implements ICockpit {
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
+
 
 		Captain captain = new Captain(parsedInitGame, parsedNextRound.getWind());
 
