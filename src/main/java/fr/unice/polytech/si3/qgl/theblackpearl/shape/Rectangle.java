@@ -37,13 +37,14 @@ public class Rectangle extends Shape {
         this.height = height;
     }
 
+    public void setOrientationRectangle(double orientationObjecct) {
+        this.orientationObjecct = orientationObjecct;
+    }
+
     public double getOrientationRectangle() {
         return orientationObjecct;
     }
 
-    public void setOrientationRectangle(double orientationObjecct) {
-        this.orientationObjecct = orientationObjecct;
-    }
 
     @Override
     public String toString() {

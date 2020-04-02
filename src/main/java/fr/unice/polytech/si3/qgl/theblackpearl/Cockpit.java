@@ -9,6 +9,7 @@ import fr.unice.polytech.si3.qgl.theblackpearl.actions.*;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.NextRound;
 import fr.unice.polytech.si3.qgl.theblackpearl.referee.Referee2;
+import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.Recif;
 import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.VisibleEntity;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Rectangle;
 
@@ -45,6 +46,7 @@ public class Cockpit implements ICockpit {
 
 		Captain captain = new Captain(parsedInitGame, parsedNextRound.getWind());
 
+		resetMarinNouveauTour();
 		creerLogNouveautour();
 
 		List<Action> actionsNextRound = captain.ordreCapitaine();
@@ -65,10 +67,15 @@ public class Cockpit implements ICockpit {
 		return roundJSON.toString();
 	}
 
+	public void resetMarinNouveauTour(){
+		for (Marin marin : parsedInitGame.getMarins()) {
+			marin.resetMarinPourUnNouveauTour();
+		}
+	}
+
 	public void creerLogNouveautour(){
 		StringBuilder log = new StringBuilder();
 		for (Marin marin : parsedInitGame.getMarins()) {
-			marin.resetMarinPourUnNouveauTour();
 			log.append(marin.toString());
 		}
 		logs.add(log.toString());

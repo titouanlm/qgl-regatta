@@ -21,6 +21,8 @@ public abstract class Shape {
 
     public void setCoordonneesCentre(Position coordonneesCentre) { this.coordonneesCentre = coordonneesCentre; }
 
+    public void setOrientationCentre(double orientationCentre) { this.coordonneesCentre = new Position(coordonneesCentre.getX(),coordonneesCentre.getY(),orientationCentre); }
+
     public String getType() {
         return type;
     }

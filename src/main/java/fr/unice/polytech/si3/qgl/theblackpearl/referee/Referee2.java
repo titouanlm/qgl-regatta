@@ -15,6 +15,7 @@ import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.Recif;
 import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.VisibleEntity;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
+import org.w3c.dom.css.Rect;
 
 import java.util.List;
 
@@ -192,8 +193,8 @@ public class Referee2 {
         while(N<nbStep){
             Position positionShipThisStep = c.calculNewPositionShip(this.speedShip, this.rotationShip ,parsedInitGameReferee.getBateau().getPosition(), nbStep);
             parsedInitGameReferee.getBateau().setPosition(positionShipThisStep);
+            parsedInitGameReferee.getBateau().setPosition(new Position(721.4102619847073,612.1770162338017,-2.0479183822456073));
             if(this.testCollision()){
-                System.out.println(" ******************************** COLLISION ******************************** ");
                 System.out.println("Position bateeau : " + parsedInitGameReferee.getBateau().getPosition());
                 return true;
             }
@@ -208,7 +209,11 @@ public class Referee2 {
     private boolean testCollision() {
         for(VisibleEntity v : parsedNextRoundReferee.getVisibleEntities()){
             if(v instanceof Recif || v instanceof AutreBateau){
-                return c.shapescollide(parsedInitGameReferee.getBateau(), v);
+                if (c.shapescollide(parsedInitGameReferee.getBateau(), v)){
+                    System.out.println(" ******************************** COLLISION ******************************** ");
+                    System.out.println(v.getPosition() + " Height : " + ((Rectangle) v.getShape()).getHeight() + " Width : " + ((Rectangle) v.getShape()).getWidth());
+                    return true;
+                }
             }
         }
         return false;

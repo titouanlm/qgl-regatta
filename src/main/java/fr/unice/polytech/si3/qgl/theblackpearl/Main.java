@@ -23,6 +23,9 @@ public class Main {
             /*cockpit.initGame(gameString);
             System.out.println(cockpit.nextRound(firstRound));*/
 
+        // position":{"x":500.0,"y":1500.0,"orientation":0.78539816339},"shape":{"type":"rectangle","width":1250.0,"height":1300.0,"orientation":0.0}
+        // position":{"x":1500.0,"y":500.0,"orientation":0.78539816339},"shape":{"type":"rectangle","width":1250.0,"height":1300.0,"orientation":0.0}
+
 
     }
 }
