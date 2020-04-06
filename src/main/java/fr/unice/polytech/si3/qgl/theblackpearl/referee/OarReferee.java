@@ -28,7 +28,7 @@ public class OarReferee extends ActionRound {
                     //System.out.println(m.getId()+" peut ramer.");
                     m.setLibre(false);
                 }else{
-                    System.out.println("ERREUR : " + m.getId() + " NE PEUT PAS RAMER !");
+                    //System.out.println("ERREUR : " + m.getId() + " NE PEUT PAS RAMER !");
                 }
                 break;
             }

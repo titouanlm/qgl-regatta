@@ -91,10 +91,6 @@ public class Calculator {
                 shape2.setCoordonneesCentre(((Bateau) object2).getPosition());
                 shape2.setOrientationCentre(((Bateau) object2).getPosition().getOrientation());
             }
-            /*if (shape2 instanceof Rectangle ) {
-                shape2.setCoordonneesCentre(((Bateau) object2).getPosition());
-                ((Rectangle) shape2).setOrientationRectangle(((Bateau) object2).getPosition().getOrientation());
-            }*/
         }
         return shape2;
     }
@@ -197,7 +193,7 @@ public class Calculator {
         calculCoordonneePointProjeteCercle(liste, vecteur,1,1,shape.getCoordonneesCentre().getX() , shape.getCoordonneesCentre().getY(), shape);
     }
 
-    private void creationPointsProjetesPolygone(Polygone shape2, List<Point> liste, Vecteur vecteur) {
+    private void creationPointsProjetesPolygone(Polygone shape2, List<Point> liste, Vecteur vecteur) { // PAS ENCORE GÉRÉ LA ROTATION DES POLYGONES
         double xb = 1;
         double yb = 1;
         for (int i = 0; i< shape2.getVertices().size(); i++){

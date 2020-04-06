@@ -34,7 +34,7 @@ public class TurnReferee extends ActionRound {
                     m.setLibre(false);
                     return this.rotation;
                 }else{
-                    System.out.println("ERREUR : " + m.getId() + " Impossible de tourner.");
+                    //System.out.println("ERREUR : " + m.getId() + " Impossible de tourner.");
                 }
                 break;
             }

@@ -41,7 +41,7 @@ public class SalleDesCommandesTest {
 
     @Test
     public void creationTableauMarinsTest(){
-        assertEquals(salleDesCommandes.getTableauPositionPotentielleMarins().length,6);
+        assertEquals(salleDesCommandes.getTableauPositionMarinOriginale().length,6);
     }
 
 
@@ -87,7 +87,7 @@ public class SalleDesCommandesTest {
     public void preConfigurationRamesBateauTest() {
         ArrayList<Marin> marinsOccupes = new ArrayList<>();
         Calculator calculateur = new Calculator();
-        calculateur.setNombreMarinAplacer(parsedInitGame.getBateau().nombreMarinsBabordTribordRames(meilleurAngleRealisable.get(0), parsedInitGame.getBateau().getListRames()));
+        calculateur.setNombreMarinAplacer(parsedInitGame.getBateau().nombreMarinsRamesBabordTribordRames(meilleurAngleRealisable.get(0), parsedInitGame.getBateau().getListRames()));
         calculateur.setNombreMarinAplacerCopie(calculateur.getNombreMarinAplacer().clone());
         salleDesCommandes.preConfigurationRamesBateau(true, 0, calculateur.getNombreMarinAplacerCopie(), meilleurAngleRealisable, calculateur, salleDesCommandes.meilleurAngleRealisablePosition,marinsOccupes);
         assertEquals(salleDesCommandes.meilleurAngleRealisablePosition, 0);

@@ -18,7 +18,7 @@ import static fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Rame.setRame
 
 public class SalleDesCommandes {
 
-    private int[][] tableauPositionPotentielleMarins;
+    private int[][] tableauPositionMarinOriginale;
     private Vent vent;
     private InitGame parsedInitGame;
     int meilleurAngleRealisablePosition=0;
@@ -34,25 +34,25 @@ public class SalleDesCommandes {
         this.actionsNextRound=actionsNextRound;
     }
 
-    public int[][] getTableauPositionPotentielleMarins() {
-        return tableauPositionPotentielleMarins;
+    public int[][] getTableauPositionMarinOriginale() {
+        return tableauPositionMarinOriginale;
     }
 
     public void creationTableauMarins(){
-        tableauPositionPotentielleMarins = new int[parsedInitGame.getMarins().size()][2];
+        tableauPositionMarinOriginale = new int[parsedInitGame.getMarins().size()][2];
     }
     public void priseEnComptePositionMarins(){
         for (int b = 0; b< parsedInitGame.getMarins().size(); b++){
-            tableauPositionPotentielleMarins[b][0] = parsedInitGame.getMarins().get(b).getX();
-            tableauPositionPotentielleMarins[b][1] = parsedInitGame.getMarins().get(b).getY();
+            tableauPositionMarinOriginale[b][0] = parsedInitGame.getMarins().get(b).getX();
+            tableauPositionMarinOriginale[b][1] = parsedInitGame.getMarins().get(b).getY();
         }
     }
 
     public void restaurationPositionMarins(){
         int positionnementMarins =0;
         for (Marin marin : parsedInitGame.getMarins()) {
-            marin.setX(tableauPositionPotentielleMarins[positionnementMarins][0]);
-            marin.setY(tableauPositionPotentielleMarins[positionnementMarins][1]);
+            marin.setX(tableauPositionMarinOriginale[positionnementMarins][0]);
+            marin.setY(tableauPositionMarinOriginale[positionnementMarins][1]);
             positionnementMarins++;
         }
     }
@@ -69,7 +69,7 @@ public class SalleDesCommandes {
                 if (calculateur.getNombreMarinAplacer()[0] < 0 || calculateur.getNombreMarinAplacer()[1] < 0) {
                     ++meilleurAngleRealisablePosition;
                     this.meilleurAngleRealisablePosition = meilleurAngleRealisablePosition;
-                    calculateur.setNombreMarinAplacer(parsedInitGame.getBateau().nombreMarinsBabordTribordRames(meilleurAngleRealisable.get(meilleurAngleRealisablePosition), parsedInitGame.getBateau().getListRames()));
+                    calculateur.setNombreMarinAplacer(parsedInitGame.getBateau().nombreMarinsRamesBabordTribordRames(meilleurAngleRealisable.get(meilleurAngleRealisablePosition), parsedInitGame.getBateau().getListRames()));
                 } else this.continuerConfigurationRames = false;
             }
         }
@@ -77,7 +77,7 @@ public class SalleDesCommandes {
 
     public Calculator configurationCalculateur(List<Double> meilleurAngleRealisable){
         Calculator calculateur = new Calculator();
-        calculateur.setNombreMarinAplacer(parsedInitGame.getBateau().nombreMarinsBabordTribordRames(meilleurAngleRealisable.get(0), parsedInitGame.getBateau().getListRames()));
+        calculateur.setNombreMarinAplacer(parsedInitGame.getBateau().nombreMarinsRamesBabordTribordRames(meilleurAngleRealisable.get(0), parsedInitGame.getBateau().getListRames()));
         calculateur.setNombreMarinAplacerCopie(calculateur.getNombreMarinAplacer().clone());
         return calculateur;
     }
@@ -104,9 +104,9 @@ public class SalleDesCommandes {
     public void meilleurPositionnementMarins(Calculator calculateur ,List<Double> meilleurAngleRealisable){
         boolean neMarchePasPourLePremiertour = true;
         int nombreTour=0;
-        boolean marinPlaceGauche=false;
-        boolean marinPlaceDroite=false;
         do {
+            boolean marinPlaceGauche=false;
+            boolean marinPlaceDroite=false;
             actionsNextRoundTemporaire = new ArrayList<>();
             preConfigurationRamesBateau(neMarchePasPourLePremiertour,nombreTour,calculateur.getNombreMarinAplacerCopie(),meilleurAngleRealisable,calculateur,this.meilleurAngleRealisablePosition, marinsOccupes);
             listeEntiteCopie = (ArrayList<Entity>) parsedInitGame.getBateau().getEntities().clone();
@@ -114,17 +114,21 @@ public class SalleDesCommandes {
                 if (m.isLibre()) {
                     MOVING moving = m.deplacementMarinAllerRamer(listeEntiteCopie, calculateur.getNombreMarinAplacer()[0], calculateur.getNombreMarinAplacer()[1], (int) ((Rectangle) parsedInitGame.getBateau().getShape()).getWidth());
                     if (moving != null && (calculateur.getNombreMarinAplacer()[0] != 0 || calculateur.getNombreMarinAplacer()[1] != 0)) {
-                        if (moving.getYdistance() + m.getY() == 0 && calculateur.getNombreMarinAplacer()[0] > 0) { //Babord
+                        if (moving.getYdistance() + m.getY() <= (parsedInitGame.getBateau().getDeck().getWidth()/2-1) && calculateur.getNombreMarinAplacer()[0] > 0) { //marin placé à Tribord
                             calculateur.decrementationNombreMarinPlacer(1,true,false);
                             actionsNextRoundTemporaire.add(moving);marinPlaceGauche = true;
-                        } else if (moving.getYdistance() + m.getY() != 0 && calculateur.getNombreMarinAplacer()[1] > 0) { //Tribord
+                            listeEntiteCopie=supprimerEntite(listeEntiteCopie, marinPlaceGauche, marinPlaceDroite, m, moving);
+                            m.setX(moving.getXdistance() + m.getX());m.setY(moving.getYdistance() + m.getY());
+
+                        } else if (moving.getYdistance() + m.getY() >= (parsedInitGame.getBateau().getDeck().getWidth()/2-1) && calculateur.getNombreMarinAplacer()[1] > 0) { //marin placé à Babord
                             calculateur.decrementationNombreMarinPlacer(1,false,true);
                             actionsNextRoundTemporaire.add(moving);marinPlaceDroite = true;
-                        } else m.setLibre(true);
-                        listeEntiteCopie=supprimerEntite(listeEntiteCopie, marinPlaceGauche, marinPlaceDroite, m, moving);
-                        m.setX(moving.getXdistance() + m.getX());m.setY(moving.getYdistance() + m.getY());
-                        marinPlaceGauche=false;
-                        marinPlaceDroite=false;
+                            listeEntiteCopie=supprimerEntite(listeEntiteCopie, marinPlaceGauche, marinPlaceDroite, m, moving);
+                            m.setX(moving.getXdistance() + m.getX());m.setY(moving.getYdistance() + m.getY());
+
+                        } else{
+                            m.resetMarinPourUnNouveauTour();
+                        }
                     }
                 }
             }

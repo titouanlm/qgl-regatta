@@ -86,7 +86,7 @@ public class Bateau {
         return listRames;
     }
 
-    public int[] nombreMarinsBabordTribordRames(double angle, ArrayList<Rame> nombreRames){
+    public int[] nombreMarinsRamesBabordTribordRames(double angle, ArrayList<Rame> nombreRames){
         double angleCalcule=-(Math.PI/2)-Math.PI/nombreRames.size();
         int i;
         for (i=-nombreRames.size()/2; ;i++){

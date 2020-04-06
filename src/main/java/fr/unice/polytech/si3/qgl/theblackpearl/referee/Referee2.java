@@ -192,11 +192,12 @@ public class Referee2 {
         int nbStep=50;
         while(N<nbStep){
             Position positionShipThisStep = c.calculNewPositionShip(this.speedShip, this.rotationShip ,parsedInitGameReferee.getBateau().getPosition(), nbStep);
+            //System.out.println(positionShipThisStep);
             parsedInitGameReferee.getBateau().setPosition(positionShipThisStep);
-            parsedInitGameReferee.getBateau().setPosition(new Position(721.4102619847073,612.1770162338017,-2.0479183822456073));
+            //parsedInitGameReferee.getBateau().setPosition(new Position(808,700,-2.0479183822456073));
             if(this.testCollision()){
                 System.out.println("Position bateeau : " + parsedInitGameReferee.getBateau().getPosition());
-                return true;
+                //return true;
             }
             N++;
         }
