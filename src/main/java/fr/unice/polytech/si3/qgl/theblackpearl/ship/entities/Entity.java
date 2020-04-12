@@ -21,6 +21,16 @@ import java.util.ArrayList;
 @JsonIgnoreProperties(value = { "isUsed" , "used", "type", "angleRealise"})
 public abstract class Entity {
     protected String type;
+
+    /*public boolean isDejaUtilise() {
+        return dejaUtilise;
+    }
+
+    public void setDejaUtilise(boolean dejaUtilise) {
+        this.dejaUtilise = dejaUtilise;
+    }
+
+    private boolean dejaUtilise;*/
     private int x;
     private int y;
     @JsonIgnore

@@ -6,9 +6,11 @@ import fr.unice.polytech.si3.qgl.theblackpearl.goal.Checkpoint;
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.RegattaGoal;
 import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.Vent;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Gouvernail;
+import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Rame;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Captain {
 
@@ -26,27 +28,35 @@ public class Captain {
         salleDesCommandes = new SalleDesCommandes(game,vent,actionsNextRound);
     }
 
-    public ArrayList<Action> ordreCapitaine(){
-        this.determinerCheckpointAViser();
-        marinsOccupes.add(salleDesCommandes.configurationGouvernail());
-        marinsOccupes.add(salleDesCommandes.utilisationVoile());
-        double angleRealiseRames = salleDesCommandes.configurationRames(this.meilleurAngleRealisable(), 0, marinsOccupes);
-        double resteAngleARealiser = this.angleParfaitVersCheckpoint - angleRealiseRames;
-        Gouvernail gouvernail = parsedInitGame.getBateau().getGouvernail();
-        gouvernail.setAngleRealise(gouvernail.angleGouvernail(resteAngleARealiser));
-        return actionsNextRound;
+    public ArrayList<Action> ordreCapitaine() throws Exception {
+        if (this.determinerCheckpointAViser()){
+            if (salleDesCommandes.isThereASail()) marinsOccupes.add(salleDesCommandes.utilisationVoile());
+            if (salleDesCommandes.isThereARudder()) marinsOccupes.add(salleDesCommandes.configurationGouvernail());
+            double angleRealiseRames = salleDesCommandes.configurationRames(this.meilleurAngleRealisable(), 0, marinsOccupes);
+            if (salleDesCommandes.isThereARudder()) {
+                double resteAngleARealiser = this.angleParfaitVersCheckpoint - angleRealiseRames;
+                Gouvernail gouvernail = parsedInitGame.getBateau().getGouvernail();
+                gouvernail.setAngleRealise(gouvernail.angleGouvernail(resteAngleARealiser));
+            }
+            return actionsNextRound;
+        }
+        else return null;
     }
 
-    public void determinerCheckpointAViser() {
+    public boolean determinerCheckpointAViser() throws Exception {
         //1. Tester si on a atteint le check point (et si on a finit la course) ==> supprime le checkpoint
         if(parsedInitGame.getGoal() instanceof RegattaGoal){
             RegattaGoal regatta = (RegattaGoal) parsedInitGame.getGoal();
-            if(calculator.shapeInCollision(parsedInitGame.getBateau(), regatta.getCheckpoints().get(0))){
+            if(calculator.pointIsInsideCheckpoint(parsedInitGame.getBateau().getPosition(), regatta.getCheckpoints().get(0))){
                 regatta.removeCheckpoint();
             }
             //Checkpoint à viser
-            checkpointAViser = regatta.getCheckpoints().get(0);
+            if (regatta.getCheckpoints().size() != 0){
+                checkpointAViser = regatta.getCheckpoints().get(0);
+                return true;
+            }
         }
+        return false;
     }
 
     public List<Double> meilleurAngleRealisable(){

@@ -49,11 +49,22 @@ public class Calculator {
         return Math.atan2(pos2.getY()-pos1.getY(),pos2.getX()-pos1.getX()) - pos1.getOrientation();
     }
 
-    public boolean shapeInCollision(Bateau bateau, Checkpoint checkpoint) { // Peut y avoir un probleme du à l'orientation du rectangle et du bateau
+    public boolean pointIsInsideCheckpoint(Position point, Checkpoint checkpoint) {
+        double distanceCBCC = calculDistanceEntreDeuxPoints(point, checkpoint.getPosition());
+        if(checkpoint.getShape() instanceof Circle){
+            Circle circle = (Circle) checkpoint.getShape();
+            return distanceCBCC <= circle.getRadius();
+        }else{
+            Rectangle rectangle = (Rectangle) checkpoint.getShape();
+            return distanceCBCC <= rectangle.getWidth()/2;
+        }
+    }
+
+    public boolean shapeInCollision(Bateau bateau, Checkpoint checkpoint) throws Exception { // Peut y avoir un probleme du à l'orientation du rectangle et du bateau
         return shapescollide(bateau, checkpoint);
     }
 
-    public boolean shapescollide(Object object1, Object object2){
+    public boolean shapescollide(Object object1, Object object2) throws Exception {
         Shape shape1 =  getShape(object1); // BON
         Shape shape2  = getShape(object2); // BON
         if (shape1 == null || shape2 == null) return false;
@@ -255,7 +266,7 @@ public class Calculator {
         liste.add(new Point(xb + v * vecteur.getX()-shape.getRadius(),yb + v * vecteur.getY()+(-shape.getRadius()*vecteur.getY()/vecteur.getX())));
     }
 
-    public List<Vecteur> vecteurATester(Shape shape1, Shape shape2){
+    public List<Vecteur> vecteurATester(Shape shape1, Shape shape2) throws Exception {
         List<Vecteur> myList = new ArrayList<>();
         if (shape1 instanceof Circle) {
             myList.add(vecteurDirecteurProjetectionAxeCercle((Circle) shape1, shape2));
@@ -272,7 +283,7 @@ public class Calculator {
         return myList;
     }
 
-    public Vecteur vecteurDirecteurProjetectionAxeCercle(Circle shape, Shape shape2){ // points et axe
+    public Vecteur vecteurDirecteurProjetectionAxeCercle(Circle shape, Shape shape2) throws Exception { // points et axe
         Point point = null; // c'est pas très intelligent ici mais bon
         double d = 99999.999;
         List<Point> liste = new ArrayList<>();
@@ -288,7 +299,7 @@ public class Calculator {
                 }
             }
             Vecteur vecteur = vecteurUnitairePourCerclePoint(shape, point);
-            if (vecteur != null) return vecteur;
+            return vecteur;
         }
         else {
             for (Point pointPolygone : ((Polygone) shape2).getVertices()){
@@ -298,26 +309,28 @@ public class Calculator {
                 }
             }
             Vecteur vecteur = vecteurUnitairePourCerclePoint(shape, point);
-            if (vecteur != null) return vecteur;
+            return vecteur;
         }
-        return null;
     }
 
-    private Vecteur vecteurUnitairePourCerclePoint(Circle shape, Point point) {
+    private Vecteur vecteurUnitairePourCerclePoint(Circle shape, Point point) throws Exception {
         if (point!=null){
             Vecteur vecteur = new Vecteur((shape.getCoordonneesCentre().getX()-point.getX()),shape.getCoordonneesCentre().getY()-point.getY());
             double normeVecteur = Math.sqrt(Math.pow(vecteur.getX(),2)+Math.pow(vecteur.getY(),2));
-            return new Vecteur(vecteur.getX()/normeVecteur,vecteur.getY()/normeVecteur);
+            if (normeVecteur !=0) return new Vecteur(vecteur.getX()/normeVecteur,vecteur.getY()/normeVecteur);
+            else throw new Exception("Can't divide by zero");
         }
-        return null;
+        else throw new Exception("Point is null");
     }
 
-    public Vecteur vecteurUnitaireVecteur(Vecteur vecteur){
+    public Vecteur vecteurUnitaireVecteur(Vecteur vecteur) throws Exception {
         double normeVecteur = Math.sqrt(Math.pow(vecteur.getX(),2)+Math.pow(vecteur.getY(),2));
+        if (normeVecteur != 0)
         return new Vecteur(vecteur.getX()/normeVecteur,vecteur.getY()/normeVecteur);
+        else throw new Exception("Can't divide by zero");
     }
 
-    public List<Vecteur> vecteurDirecteurPourProjectionAxe(Shape shape, List<Vecteur> myList){ // MODIFIER MAIS PAS SUR
+    public List<Vecteur> vecteurDirecteurPourProjectionAxe(Shape shape, List<Vecteur> myList) throws Exception { // MODIFIER MAIS PAS SUR
         if (shape instanceof Rectangle) {
             Vecteur vecteur = new Vecteur(Math.cos(((Rectangle) shape).getOrientationRectangle()+shape.getCoordonneesCentre().getOrientation()),Math.sin(((Rectangle) shape).getOrientationRectangle()+shape.getCoordonneesCentre().getOrientation()));
             vecteur=vecteurUnitaireVecteur(vecteur);
@@ -366,6 +379,8 @@ public class Calculator {
     }
 
     public double calculVitesseVent(int nbVoileOuverte, int nbVoile, Vent wind, Bateau bateau) {
-        return ((double)nbVoileOuverte/nbVoile)*wind.getStrength()*Math.cos(Math.abs(wind.getOrientation()-bateau.getPosition().getOrientation()));
+        if (nbVoile != 0)
+            return ((double)nbVoileOuverte/nbVoile)*wind.getStrength()*Math.cos(Math.abs(wind.getOrientation()-bateau.getPosition().getOrientation()));
+        else return 0;
     }
 }

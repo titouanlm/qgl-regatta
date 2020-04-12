@@ -76,8 +76,8 @@ public class Bateau {
         return null;
     }
 
-    public ArrayList<Rame> getListRames(){
-        ArrayList<Rame> listRames = new ArrayList<>();
+    public List<Rame> getListRames(){
+        List<Rame> listRames = new ArrayList<>();
         for (Entity c : getEntities()){
             if (c instanceof Rame){
                 listRames.add((Rame) c);
@@ -86,7 +86,7 @@ public class Bateau {
         return listRames;
     }
 
-    public int[] nombreMarinsRamesBabordTribordRames(double angle, ArrayList<Rame> nombreRames){
+    public int[] nombreMarinsRamesBabordTribordRames(double angle, List<Rame> nombreRames){
         double angleCalcule=-(Math.PI/2)-Math.PI/nombreRames.size();
         int i;
         for (i=-nombreRames.size()/2; ;i++){

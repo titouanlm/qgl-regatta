@@ -47,10 +47,10 @@ public class MovingReferee extends ActionRound {
                 if(5>=(Math.abs(this.getXdistance())+Math.abs(this.getYdistance())) && 0<=y && y<=largeur-1 && 0<=x && x<=longueur-1 && m.canMove()){
                     m.moveSailor(this.getXdistance(), this.getYdistance());
                 }else{
-                    /*System.out.println("ERREUR : Marin " + m.getId() + "ne peut pas se déplacer");
+                    System.out.println("ERREUR : Marin " + m.getId() + "ne peut pas se déplacer");
                     System.out.println("MOVINGX : " + this.getXdistance() + " \nMOVINGY : " + this.getYdistance());
                     System.out.println("XBEFORE : " + m.getX() + " \nYBEFORE : " + m.getY());
-                    System.out.println("X : " + x + " \nY : " + y);*/
+                    System.out.println("X : " + x + " \nY : " + y);
 
                 }
                 break;

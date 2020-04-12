@@ -43,28 +43,37 @@ public class Cockpit implements ICockpit {
 			e.printStackTrace();
 		}
 
-
-		Captain captain = new Captain(parsedInitGame, parsedNextRound.getWind());
-
 		resetMarinNouveauTour();
 		creerLogNouveautour();
 
-		List<Action> actionsNextRound = captain.ordreCapitaine();
-		tacheMarins(actionsNextRound);
+		Captain captain = new Captain(parsedInitGame, parsedNextRound.getWind());
 
-		StringBuilder roundJSON=creationJson(actionsNextRound);
+		List<Action> actionsNextRound = null;
+		try {
+			actionsNextRound = captain.ordreCapitaine();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		tacheMarins(Objects.requireNonNull(actionsNextRound));
+		StringBuilder roundJSON=creationJson(Objects.requireNonNull(actionsNextRound));
 
-
-		InitGame cloneInitGame =  parsedInitGame.clone();
-		NextRound cloneNextRound = parsedNextRound.clone();
-		ref = new Referee2(cloneInitGame, cloneNextRound);
-		while(ref.startRound(roundJSON.toString())){
-			ref = new Referee2(cloneInitGame, cloneNextRound);
+		/*while(true){
+			ref = new Referee2(parsedInitGame.clone(), parsedNextRound.clone());
+			try {
+				if (!ref.startRound(roundJSON.toString())) break;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			System.exit(0);
 			//ON CHANGE LE CAP ICI ** roundJSON a modifier **
-		}
+			modificationJsonObstacles(roundJSON);
+		}*/
 
 		return roundJSON.toString();
+	}
+
+	public void modificationJsonObstacles(StringBuilder roundJson){ // À faire
+
 	}
 
 	public void resetMarinNouveauTour(){

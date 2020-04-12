@@ -26,7 +26,7 @@ public class LowerSailReferee extends ActionRound {
                 if(m.isLibre() && parsedInitGameReferee.getBateau().isOnSailNotUsedOppened(m)){
                     m.setLibre(false);
                 }else{
-                    //System.out.println("ERREUR : " + m.getId() + " NE PEUT PAS AFFALER !");
+                    System.out.println("ERREUR : " + m.getId() + " NE PEUT PAS AFFALER !");
                 }
                 break;
             }
