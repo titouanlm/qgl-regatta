@@ -55,7 +55,7 @@ public class Referee2 {
     }
 
     public boolean startRound(String actions) throws Exception {
-        this.rotationShip=0.0;
+        this.rotationShip=0.;
         this.speedShip=0.0;
         for (Entity e : parsedInitGameReferee.getBateau().getEntities()) {
             e.setLibre(true);
@@ -88,7 +88,7 @@ public class Referee2 {
     private void nextRound(int nbTour) throws Exception {
         while (!this.getFinishGame() && this.tour < nbTour) {
             System.out.println(this.tour + " : " + parsedInitGameReferee.getBateau().getPosition());
-            this.rotationShip=0.0;
+            this.rotationShip=0.;
             this.speedShip=0.0;
             for (Entity e : parsedInitGameReferee.getBateau().getEntities()) {
                 e.setLibre(true);
@@ -158,16 +158,13 @@ public class Referee2 {
         int nbRamesTribord = parsedInitGameReferee.getBateau().nbMarinRameTribord();
         int nbRames = parsedInitGameReferee.getBateau().getNbRame();
         this.rotationShip += c.calculRotationRamesTribordBabord(nbRamesBabord,nbRamesTribord, nbRames);
-        this.speedShip += c.calculVitesseRames(nbRamesBabord+nbRamesTribord,nbRames);
 
         //Calculs voiles
         int nbVoileOuverte = parsedInitGameReferee.getBateau().nbVoileOuverte();
         int nbVoile = parsedInitGameReferee.getBateau().nbVoile();
-        if(nbVoile>0)
-            this.speedShip += c.calculVitesseVent(nbVoileOuverte,nbVoile,parsedNextRoundReferee.getWind(), parsedInitGameReferee.getBateau());
-        int N=0;
-        int nbStep=50;
 
+        int N=0;
+        int nbStep=100;
 
         while(N<nbStep){
             //TEST COURANT
@@ -179,6 +176,11 @@ public class Referee2 {
                     }
                 }
             }
+
+            this.speedShip=0.;
+            this.speedShip += c.calculVitesseRames(nbRamesBabord+nbRamesTribord,nbRames);
+            if(nbVoile>0)
+                this.speedShip += c.calculVitesseVent(nbVoileOuverte,nbVoile,parsedNextRoundReferee.getWind(), parsedInitGameReferee.getBateau());
 
             Position positionShipThisStep = c.calculNewPositionShip(this.speedShip, this.rotationShip ,parsedInitGameReferee.getBateau().getPosition(), nbStep);
             parsedInitGameReferee.getBateau().setPosition(positionShipThisStep);
