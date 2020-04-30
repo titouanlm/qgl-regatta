@@ -298,8 +298,7 @@ public class Calculator {
                     d = Math.sqrt(Math.pow(pointRectangle.getX()-shape.getCoordonneesCentre().getX(),2)+Math.pow(pointRectangle.getY()-shape.getCoordonneesCentre().getY(),2));
                 }
             }
-            Vecteur vecteur = vecteurUnitairePourCerclePoint(shape, point);
-            return vecteur;
+            return vecteurUnitairePourCerclePoint(shape, point);
         }
         else {
             for (Point pointPolygone : ((Polygone) shape2).getVertices()){
@@ -308,8 +307,7 @@ public class Calculator {
                     d = Math.sqrt(Math.pow(pointPolygone.getX()-shape.getCoordonneesCentre().getX(),2)+Math.pow(pointPolygone.getY()-shape.getCoordonneesCentre().getY(),2));
                 }
             }
-            Vecteur vecteur = vecteurUnitairePourCerclePoint(shape, point);
-            return vecteur;
+            return vecteurUnitairePourCerclePoint(shape, point);
         }
     }
 
@@ -382,5 +380,12 @@ public class Calculator {
         if (nbVoile != 0)
             return ((double)nbVoileOuverte/nbVoile)*wind.getStrength()*Math.cos(Math.abs(wind.getOrientation()-bateau.getPosition().getOrientation()));
         else return 0;
+    }
+
+    public Position calculInfluenceOfStream(Position shipPosition, Courant courant, int nbSteps) {
+        double streamSpeed = courant.getStrength()/nbSteps;
+        double newX = (int)(Math.cos(courant.getPosition().getOrientation())*streamSpeed * 100)/100.;
+        double newY = (int)(Math.sin(courant.getPosition().getOrientation())*streamSpeed * 100)/100.;
+        return new Position(shipPosition.getX()+newX,shipPosition.getY()+newY, shipPosition.getOrientation());
     }
 }

@@ -11,6 +11,7 @@ import fr.unice.polytech.si3.qgl.theblackpearl.engine.NextRound;
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.Checkpoint;
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.RegattaGoal;
 import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.AutreBateau;
+import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.Courant;
 import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.Recif;
 import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.VisibleEntity;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Rectangle;
@@ -150,7 +151,7 @@ public class Referee2 {
         }
     }
 
-    private void moveShip() {
+    private void moveShip() throws Exception {
         //Calculs rames
         int nbRamesBabord = parsedInitGameReferee.getBateau().nbMarinRameBabord();
         int nbRamesTribord = parsedInitGameReferee.getBateau().nbMarinRameTribord();
@@ -165,9 +166,22 @@ public class Referee2 {
             this.speedShip += c.calculVitesseVent(nbVoileOuverte,nbVoile,parsedNextRoundReferee.getWind(), parsedInitGameReferee.getBateau());
         int N=0;
         int nbStep=50;
+
+
         while(N<nbStep){
+            //TEST COURANT
+            for(VisibleEntity v : parsedNextRoundReferee.getVisibleEntities()){
+                if(v instanceof Courant){
+                    if(c.shapescollide(parsedNextRoundReferee.getBateau(), v)){
+                        Position positionAfterStream = c.calculInfluenceOfStream(parsedInitGameReferee.getBateau().getPosition(), (Courant) v, nbStep);
+                        parsedInitGameReferee.getBateau().setPosition(positionAfterStream);
+                    }
+                }
+            }
+
             Position positionShipThisStep = c.calculNewPositionShip(this.speedShip, this.rotationShip ,parsedInitGameReferee.getBateau().getPosition(), nbStep);
-            parsedInitGameReferee.getBateau().setPosition(positionShipThisStep);N++;
+            parsedInitGameReferee.getBateau().setPosition(positionShipThisStep);
+            N++;
         }
         //MAJ Orientation de la forme du bateau
         Rectangle shipShape = (Rectangle) parsedInitGameReferee.getBateau().getShape();
