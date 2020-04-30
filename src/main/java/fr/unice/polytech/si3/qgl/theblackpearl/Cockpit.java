@@ -57,20 +57,20 @@ public class Cockpit implements ICockpit {
 		tacheMarins(Objects.requireNonNull(actionsNextRound));
 		StringBuilder roundJSON=creationJson(Objects.requireNonNull(actionsNextRound));
 
-		while(true){
-			InitGame initGameClone = parsedInitGame.clone();
-			initGameClone.setMarins(marinsClone);
-			ref = new Referee2(initGameClone, parsedNextRound.clone());
-			try {
-				if (!ref.startRound(roundJSON.toString())) break;
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			System.exit(0);
-			this.logs.add("********** COLLISION DETECTE ");
-			//ON CHANGE LE CAP ICI ** roundJSON a modifier **
-			modificationJsonObstacles(roundJSON);
-		}
+//		while(true){
+//			InitGame initGameClone = parsedInitGame.clone();
+//			initGameClone.setMarins(marinsClone);
+//			ref = new Referee2(initGameClone, parsedNextRound.clone());
+//			try {
+//				if (!ref.startRound(roundJSON.toString())) break;
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//			System.exit(0);
+//			this.logs.add("********** COLLISION DETECTE ");
+//			//ON CHANGE LE CAP ICI ** roundJSON a modifier **
+//			modificationJsonObstacles(roundJSON);
+//		}
 
 		return roundJSON.toString();
 	}

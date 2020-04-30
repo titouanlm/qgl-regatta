@@ -371,8 +371,8 @@ public class Calculator {
     public Position calculNewPositionShip(double shipSpeed , double rotationSpeed, Position shipPosition, int nbSteps){
         double speed = shipSpeed/nbSteps;
         double rotation = rotationSpeed/nbSteps;
-        double newX = (int)(Math.cos(shipPosition.getOrientation())*speed * 100)/100.;
-        double newY = (int)(Math.sin(shipPosition.getOrientation())*speed * 100)/100.;
+        double newX = Math.cos(shipPosition.getOrientation())*speed;
+        double newY = Math.sin(shipPosition.getOrientation())*speed;
         return new Position(shipPosition.getX()+newX,shipPosition.getY()+newY, shipPosition.getOrientation()+rotation );
     }
 
@@ -384,8 +384,8 @@ public class Calculator {
 
     public Position calculInfluenceOfStream(Position shipPosition, Courant courant, int nbSteps) {
         double streamSpeed = courant.getStrength()/nbSteps;
-        double newX = (int)(Math.cos(courant.getPosition().getOrientation())*streamSpeed * 100)/100.;
-        double newY = (int)(Math.sin(courant.getPosition().getOrientation())*streamSpeed * 100)/100.;
+        double newX = Math.cos(courant.getPosition().getOrientation())*streamSpeed ;
+        double newY = Math.sin(courant.getPosition().getOrientation())*streamSpeed ;
         return new Position(shipPosition.getX()+newX,shipPosition.getY()+newY, shipPosition.getOrientation());
     }
 }
