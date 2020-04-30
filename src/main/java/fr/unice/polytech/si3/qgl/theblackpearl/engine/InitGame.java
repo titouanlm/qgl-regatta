@@ -40,6 +40,10 @@ public class InitGame {
         return sailors;
     }
 
+    public void setMarins(ArrayList<Marin> sailors) {
+        this.sailors = sailors;
+    }
+
     @Override
     public String toString() {
         return "Game{" +

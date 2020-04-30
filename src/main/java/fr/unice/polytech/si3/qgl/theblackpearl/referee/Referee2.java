@@ -64,6 +64,7 @@ public class Referee2 {
             m.setCanMove(true);
             m.setLibre(true);
         }
+        System.out.println("COUCOUCOUCOUCOUCOUCOUCOUCOUCOUCOUCOUCOCUCOUC");
         this.getActions(actions);
         this.executeActions();
         return this.crashTest();
@@ -202,17 +203,26 @@ public class Referee2 {
         if(nbVoile>0)
             this.speedShip += c.calculVitesseVent(nbVoileOuverte,nbVoile,parsedNextRoundReferee.getWind(), parsedInitGameReferee.getBateau());
         int N=0;
-        int nbStep=50;
+        int nbStep=100;
         while(N<nbStep){
+            //TEST COURANT
+            for(VisibleEntity v : parsedNextRoundReferee.getVisibleEntities()){
+                if(v instanceof Courant){
+                    if(c.shapescollide(parsedNextRoundReferee.getBateau(), v)){
+                        Position positionAfterStream = c.calculInfluenceOfStream(parsedInitGameReferee.getBateau().getPosition(), (Courant) v, nbStep);
+                        parsedInitGameReferee.getBateau().setPosition(positionAfterStream);
+                    }
+                }
+            }
             Position positionShipThisStep = c.calculNewPositionShip(this.speedShip, this.rotationShip ,parsedInitGameReferee.getBateau().getPosition(), nbStep);
             //System.out.println(positionShipThisStep);
             parsedInitGameReferee.getBateau().setPosition(positionShipThisStep);
             //parsedInitGameReferee.getBateau().setPosition(new Position(808,700,-2.0479183822456073));
             //parsedInitGameReferee.getBateau().setPosition(new Position(14.514804965812885, -14.51742469817632,2.1539373544429288));
-            parsedInitGameReferee.getBateau().setPosition(new Position(14.514804965812885,-14.51742469817632,-2.1539373544429288));
+            //parsedInitGameReferee.getBateau().setPosition(new Position(14.514804965812885,-14.51742469817632,-2.1539373544429288));
             if(this.testCollision()){
-                //System.out.println("Position bateeau : " + parsedInitGameReferee.getBateau().getPosition());
-                //return true;
+                System.out.println("Position bateeau : " + parsedInitGameReferee.getBateau().getPosition());
+                return true;
             }
             N++;
         }

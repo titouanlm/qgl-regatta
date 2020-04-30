@@ -9,9 +9,6 @@ import fr.unice.polytech.si3.qgl.theblackpearl.actions.*;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.NextRound;
 import fr.unice.polytech.si3.qgl.theblackpearl.referee.Referee2;
-import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.Recif;
-import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.VisibleEntity;
-import fr.unice.polytech.si3.qgl.theblackpearl.shape.Rectangle;
 
 public class Cockpit implements ICockpit {
 	private InitGame parsedInitGame;
@@ -19,6 +16,7 @@ public class Cockpit implements ICockpit {
 	private ObjectMapper objectMapper;
 	private List<String> logs;
 	private Referee2 ref;
+	private ArrayList<Marin> marinsClone;
 
 
 	public Cockpit(){
@@ -43,6 +41,8 @@ public class Cockpit implements ICockpit {
 			e.printStackTrace();
 		}
 
+		//Copie l'état des marins avant de les bouger (sert dans le détecteur de colision)
+		copyOfSailorsBeforeMove();
 		resetMarinNouveauTour();
 		creerLogNouveautour();
 
@@ -57,19 +57,29 @@ public class Cockpit implements ICockpit {
 		tacheMarins(Objects.requireNonNull(actionsNextRound));
 		StringBuilder roundJSON=creationJson(Objects.requireNonNull(actionsNextRound));
 
-		/*while(true){
-			ref = new Referee2(parsedInitGame.clone(), parsedNextRound.clone());
+		while(true){
+			InitGame initGameClone = parsedInitGame.clone();
+			initGameClone.setMarins(marinsClone);
+			ref = new Referee2(initGameClone, parsedNextRound.clone());
 			try {
 				if (!ref.startRound(roundJSON.toString())) break;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			System.exit(0);
+			this.logs.add("********** COLLISION DETECTE ");
 			//ON CHANGE LE CAP ICI ** roundJSON a modifier **
 			modificationJsonObstacles(roundJSON);
-		}*/
+		}
 
 		return roundJSON.toString();
+	}
+
+	private void copyOfSailorsBeforeMove() {
+		marinsClone = new ArrayList<>();
+		for(Marin m : parsedInitGame.getMarins()){
+			marinsClone.add(m.clone());
+		}
 	}
 
 	public void modificationJsonObstacles(StringBuilder roundJson){ // À faire
