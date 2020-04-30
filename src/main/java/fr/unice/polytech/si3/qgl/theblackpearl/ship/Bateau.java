@@ -46,16 +46,8 @@ public class Bateau {
         type = aType;
     }
 
-    public int getLife() {
-        return life;
-    }
-
     public Position getPosition() {
         return position;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public Deck getDeck() {
@@ -67,7 +59,7 @@ public class Bateau {
     }
 
     public Gouvernail getGouvernail(){
-        for (Entity e : entities) if (e instanceof Gouvernail) return ((Gouvernail) e);
+        for (Entity e : this.getEntities()) if (e instanceof Gouvernail) return ((Gouvernail) e);
         return null;
     }
 

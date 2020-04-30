@@ -5,7 +5,9 @@ import fr.unice.polytech.si3.qgl.theblackpearl.Position;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Shape;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
+import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Gouvernail;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Rame;
+import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Voile;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -33,11 +35,11 @@ class BateauTest {
         entities = new ArrayList<>();
         listeMarins = new ArrayList<>();
         listeMarins.add(new Marin(0,0,0,"Edward Teach"));
-        listeMarins.add(new Marin(1,0,0,"Edward Pouce"));
-        listeMarins.add(new Marin(2,0,0,"Tom Pouce"));
+        listeMarins.add(new Marin(1,0,2,"Edward Pouce"));
+        listeMarins.add(new Marin(2,0,2,"Tom Pouce"));
         listeMarins.add(new Marin(3,0,0,"Jack Teach"));
-        listeMarins.add(new Marin(4,0,0,"Marschall D Teach"));
-        listeMarins.add(new Marin(5,0,0,"Edward New Gate"));
+        listeMarins.add(new Marin(4,9,0,"Marschall D Teach"));
+        listeMarins.add(new Marin(5,9,0,"Edward New Gate"));
         entities.add(new Rame(0,0));
         entities.add(new Rame(1,0));
         entities.add(new Rame(0,1));
@@ -66,6 +68,22 @@ class BateauTest {
     @Test
     void getNbRame() {
         assertEquals(6 , bateau.getNbRame());
+    }
+
+    @Test
+    void getNbVoile() {
+        assertEquals(0 , bateau.nbVoile());
+    }
+
+    @Test
+    void getNbVoileOuverte() {
+        assertEquals(0 , bateau.nbVoile());
+        Voile v = new Voile(0,0, false);
+        entities.add(v);
+        assertEquals(1, bateau.nbVoile());
+        assertEquals(0, bateau.nbVoileOuverte());
+        v.setOpenned(true);
+        assertEquals(1, bateau.nbVoileOuverte());
     }
 
     @Test
@@ -106,17 +124,85 @@ class BateauTest {
         assertNull(nombreMarinAplacer);
     }
 
-    /*@Test
-    void meilleurAngleRealisable() {
-        List<Double> meilleurAngleRealisableSort= new ArrayList<>();
-        meilleurAngleRealisableSort.add(0.0);
-        meilleurAngleRealisableSort.add(Math.PI/6);
-        meilleurAngleRealisableSort.add(-Math.PI/6);
-        meilleurAngleRealisableSort.add(Math.PI/3);
-        meilleurAngleRealisableSort.add(-Math.PI/3);
-        meilleurAngleRealisableSort.add(Math.PI/2);
-        meilleurAngleRealisableSort.add(-Math.PI/2);
 
-        assertThat(bateau.meilleurAngleRealisable(0.223981633974483), is(meilleurAngleRealisableSort));
-    }*/
+    @Test
+    void getGouvernail(){
+         assertNull(bateau.getGouvernail());
+         entities.add(new Gouvernail(0,2));
+         assertNotNull(bateau.getGouvernail());
+    }
+
+    @Test
+    void isOnRudderNotUsed(){
+        entities.add(new Gouvernail(0,2));
+        assertFalse(bateau.isOnRudderNotUsed(listeMarins.get(0)));
+        assertTrue(bateau.isOnRudderNotUsed(listeMarins.get(1)));
+        assertFalse(bateau.isOnRudderNotUsed(listeMarins.get(2)));
+    }
+
+
+    @Test
+    void isOnOarNotUsedTest(){
+        assertFalse(bateau.isOnOarNotUsed(listeMarins.get(5)));
+        assertTrue(bateau.isOnOarNotUsed(listeMarins.get(0)));
+        assertFalse(bateau.isOnOarNotUsed(listeMarins.get(2)));
+    }
+
+    @Test
+    void isOnSailNotUsedNotOppenedTest(){
+        assertFalse(bateau.isOnSailNotUsedNotOppened(listeMarins.get(0)));
+        Voile v = new Voile(9,0, true);
+        entities.add(v);
+        assertFalse(bateau.isOnSailNotUsedNotOppened(listeMarins.get(5)));
+        v.setOpenned(false);
+        assertTrue(bateau.isOnSailNotUsedNotOppened(listeMarins.get(5)));
+        assertFalse(bateau.isOnSailNotUsedNotOppened(listeMarins.get(4)));
+    }
+
+    @Test
+    void isOnSailNotUsedOppenedTest(){
+        assertFalse(bateau.isOnSailNotUsedOppened(listeMarins.get(0)));
+        Voile v = new Voile(9,0, false);
+        entities.add(v);
+        assertFalse(bateau.isOnSailNotUsedOppened(listeMarins.get(5)));
+        v.setOpenned(true);
+        assertTrue(bateau.isOnSailNotUsedOppened(listeMarins.get(5)));
+        assertFalse(bateau.isOnSailNotUsedOppened(listeMarins.get(4)));
+    }
+
+
+    @Test
+    void nbMarinRameTribord(){
+        assertEquals(0, bateau.nbMarinRameTribord());
+        entities.add(new Gouvernail(8,8));
+        for(Entity e : entities){
+            e.setLibre(false); // Marin dessus
+        }
+        assertEquals(3, bateau.nbMarinRameTribord());
+    }
+
+    @Test
+    void nbMarinRameBabord(){
+        assertEquals(0, bateau.nbMarinRameBabord());
+        entities.add(new Gouvernail(8,8));
+        for(Entity e : entities){
+            e.setLibre(false); // Marin dessus
+        }
+        assertEquals(3, bateau.nbMarinRameBabord());
+    }
+
+    @Test
+    void getterSetter(){
+        assertEquals(shape, bateau.getShape());
+        assertEquals("ship", bateau.getType());
+        bateau.setType("");
+        assertEquals("", bateau.getType());
+        bateau.setPosition(null);
+        assertNull(bateau.getPosition());
+        entities=null;
+        assertNotNull(bateau.toString());
+    }
+
+
+
 }
