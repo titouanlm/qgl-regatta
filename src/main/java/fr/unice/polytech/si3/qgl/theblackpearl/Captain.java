@@ -5,6 +5,7 @@ import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.Checkpoint;
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.RegattaGoal;
 import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.Vent;
+import fr.unice.polytech.si3.qgl.theblackpearl.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Gouvernail;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Rame;
 
@@ -47,9 +48,13 @@ public class Captain {
         //1. Tester si on a atteint le check point (et si on a finit la course) ==> supprime le checkpoint
         if(parsedInitGame.getGoal() instanceof RegattaGoal){
             RegattaGoal regatta = (RegattaGoal) parsedInitGame.getGoal();
-            if(calculator.pointIsInsideCheckpoint(parsedInitGame.getBateau().getPosition(), regatta.getCheckpoints().get(0))){
+            Calculator c = new Calculator();
+            if (c.shapeInCollision(parsedInitGame.getBateau(),regatta.getCheckpoints().get(0))){
                 regatta.removeCheckpoint();
             }
+            /*if(calculator.pointIsInsideCheckpoint(parsedInitGame.getBateau().getPosition(), regatta.getCheckpoints().get(0))){
+                regatta.removeCheckpoint();
+            }*/
             //Checkpoint à viser
             if (regatta.getCheckpoints().size() != 0){
                 checkpointAViser = regatta.getCheckpoints().get(0);

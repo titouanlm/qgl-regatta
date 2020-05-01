@@ -64,7 +64,7 @@ public class Referee2 {
             m.setCanMove(true);
             m.setLibre(true);
         }
-        System.out.println("COUCOUCOUCOUCOUCOUCOUCOUCOUCOUCOUCOUCOCUCOUC");
+        //System.out.println("COUCOUCOUCOUCOUCOUCOUCOUCOUCOUCOUCOUCOCUCOUC");
         this.getActions(actions);
         this.executeActions();
         return this.crashTest();
@@ -111,6 +111,8 @@ public class Referee2 {
         RegattaGoal regatta =  (RegattaGoal) parsedInitGameReferee.getGoal();
         List<Checkpoint> checkpoints = regatta.getCheckpoints();
         if(c.shapeInCollision(parsedInitGameReferee.getBateau(), checkpoints.get(0))){
+            System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" + parsedInitGameReferee.getBateau().getPosition() + "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+            System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" + regatta.getCheckpoints().get(0).getPosition() + "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
             regatta.removeCheckpoint();
         }
         return regatta.getCheckpoints().isEmpty();
@@ -125,7 +127,7 @@ public class Referee2 {
         }
 
         for (ActionRound a : this.parsedActionsRound.getActionsRound()) {
-            System.out.println(a);
+            //System.out.println(a);
         }
     }
 
@@ -178,10 +180,10 @@ public class Referee2 {
             }
 
             this.speedShip=0.;
-            this.speedShip += c.calculVitesseRames(nbRamesBabord+nbRamesTribord,nbRames);
             if(nbVoile>0)
                 this.speedShip += c.calculVitesseVent(nbVoileOuverte,nbVoile,parsedNextRoundReferee.getWind(), parsedInitGameReferee.getBateau());
 
+            this.speedShip += c.calculVitesseRames(nbRamesBabord+nbRamesTribord,nbRames);
             Position positionShipThisStep = c.calculNewPositionShip(this.speedShip, this.rotationShip ,parsedInitGameReferee.getBateau().getPosition(), nbStep);
             parsedInitGameReferee.getBateau().setPosition(positionShipThisStep);
             N++;
@@ -216,6 +218,11 @@ public class Referee2 {
                     }
                 }
             }
+            this.speedShip=0.;
+            if(nbVoile>0)
+                this.speedShip += c.calculVitesseVent(nbVoileOuverte,nbVoile,parsedNextRoundReferee.getWind(), parsedInitGameReferee.getBateau());
+
+            this.speedShip += c.calculVitesseRames(nbRamesBabord+nbRamesTribord,nbRames);
             Position positionShipThisStep = c.calculNewPositionShip(this.speedShip, this.rotationShip ,parsedInitGameReferee.getBateau().getPosition(), nbStep);
             //System.out.println(positionShipThisStep);
             parsedInitGameReferee.getBateau().setPosition(positionShipThisStep);
@@ -239,7 +246,7 @@ public class Referee2 {
             if(v instanceof Recif || v instanceof AutreBateau){
                 if (c.shapescollide(parsedInitGameReferee.getBateau(), v)){
                     System.out.println(" ******************************** COLLISION ******************************** ");
-                    System.out.println(v.getPosition() + " Height : " + ((Rectangle) v.getShape()).getHeight() + " Width : " + ((Rectangle) v.getShape()).getWidth());
+                    //System.out.println(v.getPosition() + " Height : " + ((Rectangle) v.getShape()).getHeight() + " Width : " + ((Rectangle) v.getShape()).getWidth());
                     return true;
                 }
             }

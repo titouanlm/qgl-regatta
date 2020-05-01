@@ -10,7 +10,8 @@ import fr.unice.polytech.si3.qgl.theblackpearl.Position;
         visible = true)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = Circle.class, name = "circle"),
-        @JsonSubTypes.Type(value = Rectangle.class, name = "rectangle")
+        @JsonSubTypes.Type(value = Rectangle.class, name = "rectangle"),
+        @JsonSubTypes.Type(value = Polygone.class, name = "polygon"),
 })
 @JsonIgnoreProperties(value = { "type"})
 public abstract class Shape {

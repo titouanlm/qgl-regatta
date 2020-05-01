@@ -24,4 +24,12 @@ public class Vecteur {
     public void setY(double y) {
         this.y = y;
     }
+
+    @Override
+    public String toString() {
+        return "Vecteur{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
+    }
 }
