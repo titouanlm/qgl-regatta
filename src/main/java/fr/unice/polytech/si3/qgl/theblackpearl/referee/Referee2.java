@@ -110,6 +110,8 @@ public class Referee2 {
         RegattaGoal regatta =  (RegattaGoal) parsedInitGameReferee.getGoal();
         List<Checkpoint> checkpoints = regatta.getCheckpoints();
         if(c.shapeInCollision(parsedInitGameReferee.getBateau(), checkpoints.get(0))){
+            //System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" + parsedInitGameReferee.getBateau().getPosition() + "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+            //System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" + regatta.getCheckpoints().get(0).getPosition() + "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
             regatta.removeCheckpoint();
         }
         return regatta.getCheckpoints().isEmpty();
@@ -178,10 +180,10 @@ public class Referee2 {
             }
 
             this.speedShip=0.;
-            this.speedShip += c.calculVitesseRames(nbRamesBabord+nbRamesTribord,nbRames);
             if(nbVoile>0)
                 this.speedShip += c.calculVitesseVent(nbVoileOuverte,nbVoile,parsedNextRoundReferee.getWind(), parsedInitGameReferee.getBateau());
 
+            this.speedShip += c.calculVitesseRames(nbRamesBabord+nbRamesTribord,nbRames);
             Position positionShipThisStep = c.calculNewPositionShip(this.speedShip, this.rotationShip ,parsedInitGameReferee.getBateau().getPosition(), nbStep);
             parsedInitGameReferee.getBateau().setPosition(positionShipThisStep);
             N++;
@@ -230,7 +232,6 @@ public class Referee2 {
             }
             N++;
         }
-        System.out.println(parsedInitGameReferee.getBateau().getPosition());
         //MAJ Orientation de la forme du bateau
         //Rectangle shipShape = (Rectangle) parsedInitGameReferee.getBateau().getShape();
         //shipShape.setOrientationRectangle(parsedInitGameReferee.getBateau().getPosition().getOrientation());

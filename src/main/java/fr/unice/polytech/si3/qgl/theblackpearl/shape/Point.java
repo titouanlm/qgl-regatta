@@ -2,7 +2,6 @@ package fr.unice.polytech.si3.qgl.theblackpearl.shape;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-
 public class Point {
     private double x, y;
 

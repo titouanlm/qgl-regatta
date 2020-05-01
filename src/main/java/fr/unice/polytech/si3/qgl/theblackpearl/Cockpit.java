@@ -42,7 +42,7 @@ public class Cockpit implements ICockpit {
 		}
 
 		//Copie l'état du bateau et de toutes les entités avant de les modifier (utile dans détection de colision)
-		InitGame initGameClone = parsedInitGame.clone();
+		InitGame initGameDebutTour = parsedInitGame.clone();
 
 		resetMarinNouveauTour();
 		creerLogNouveautour();
@@ -57,17 +57,17 @@ public class Cockpit implements ICockpit {
 		}
 		tacheMarins(Objects.requireNonNull(actionsNextRound));
 		StringBuilder roundJSON=creationJson(Objects.requireNonNull(actionsNextRound));
-
+		String saveJSON = roundJSON.toString();
 		while(true){
+			InitGame initGameClone = initGameDebutTour.clone();
 			ref = new Referee2(initGameClone, parsedNextRound.clone());
 			Calculator c = new Calculator();
 			try {
 				if (!ref.startRound(roundJSON.toString())){
 					RegattaGoal regatta = (RegattaGoal) parsedInitGame.getGoal();
 					if(c.calculDistanceEntreDeuxPoints(parsedNextRound.getBateau().getPosition(), regatta.getCheckpoints().get(0).getPosition()) <= c.calculDistanceEntreDeuxPoints(initGameClone.getBateau().getPosition(), regatta.getCheckpoints().get(0).getPosition())){
-						//System.out.println(parsedNextRound.getBateau().getPosition());
-						//System.out.println(initGameClone.getBateau().getPosition());
-						System.out.println("OUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII");
+						// Modifie ici le json pour ralentir
+						modificationJsonRalentir(roundJSON);
 					}else{
 						break;
 					}
@@ -81,6 +81,10 @@ public class Cockpit implements ICockpit {
 		}
 
 		return roundJSON.toString();
+	}
+
+	private void modificationJsonRalentir(StringBuilder roundJSON) {
+
 	}
 
 	public void modificationJsonObstacles(StringBuilder roundJson){ // À faire
