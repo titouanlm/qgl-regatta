@@ -64,7 +64,6 @@ public class Referee2 {
             m.setCanMove(true);
             m.setLibre(true);
         }
-        System.out.println("COUCOUCOUCOUCOUCOUCOUCOUCOUCOUCOUCOUCOCUCOUC");
         this.getActions(actions);
         this.executeActions();
         return this.crashTest();
@@ -125,7 +124,7 @@ public class Referee2 {
         }
 
         for (ActionRound a : this.parsedActionsRound.getActionsRound()) {
-            System.out.println(a);
+            //System.out.println(a);
         }
     }
 
@@ -170,9 +169,10 @@ public class Referee2 {
             //TEST COURANT
             for(VisibleEntity v : parsedNextRoundReferee.getVisibleEntities()){
                 if(v instanceof Courant){
-                    if(c.shapescollide(parsedNextRoundReferee.getBateau(), v)){
+                    if(c.shapescollide(parsedInitGameReferee.getBateau(), v)){
                         Position positionAfterStream = c.calculInfluenceOfStream(parsedInitGameReferee.getBateau().getPosition(), (Courant) v, nbStep);
                         parsedInitGameReferee.getBateau().setPosition(positionAfterStream);
+                        //System.out.println("COURANT" + N + " : " + parsedInitGameReferee.getBateau().getPosition());
                     }
                 }
             }
@@ -187,8 +187,8 @@ public class Referee2 {
             N++;
         }
         //MAJ Orientation de la forme du bateau
-        Rectangle shipShape = (Rectangle) parsedInitGameReferee.getBateau().getShape();
-        shipShape.setOrientationRectangle(parsedInitGameReferee.getBateau().getPosition().getOrientation());
+        //Rectangle shipShape = (Rectangle) parsedInitGameReferee.getBateau().getShape();
+        //shipShape.setOrientationRectangle(parsedInitGameReferee.getBateau().getPosition().getOrientation());
     }
 
     private boolean crashTest() throws Exception {
@@ -197,40 +197,43 @@ public class Referee2 {
         int nbRamesTribord = parsedInitGameReferee.getBateau().nbMarinRameTribord();
         int nbRames = parsedInitGameReferee.getBateau().getNbRame();
         this.rotationShip += c.calculRotationRamesTribordBabord(nbRamesBabord,nbRamesTribord, nbRames);
-        this.speedShip += c.calculVitesseRames(nbRamesBabord+nbRamesTribord,nbRames);
 
         //Calculs voiles
         int nbVoileOuverte = parsedInitGameReferee.getBateau().nbVoileOuverte();
         int nbVoile = parsedInitGameReferee.getBateau().nbVoile();
-        if(nbVoile>0)
-            this.speedShip += c.calculVitesseVent(nbVoileOuverte,nbVoile,parsedNextRoundReferee.getWind(), parsedInitGameReferee.getBateau());
+
         int N=0;
         int nbStep=100;
+
         while(N<nbStep){
             //TEST COURANT
             for(VisibleEntity v : parsedNextRoundReferee.getVisibleEntities()){
                 if(v instanceof Courant){
-                    if(c.shapescollide(parsedNextRoundReferee.getBateau(), v)){
+                    if(c.shapescollide(parsedInitGameReferee.getBateau(), v)){
                         Position positionAfterStream = c.calculInfluenceOfStream(parsedInitGameReferee.getBateau().getPosition(), (Courant) v, nbStep);
                         parsedInitGameReferee.getBateau().setPosition(positionAfterStream);
                     }
                 }
             }
+
+            this.speedShip=0.;
+            this.speedShip += c.calculVitesseRames(nbRamesBabord+nbRamesTribord,nbRames);
+            if(nbVoile>0)
+                this.speedShip += c.calculVitesseVent(nbVoileOuverte,nbVoile,parsedNextRoundReferee.getWind(), parsedInitGameReferee.getBateau());
+
             Position positionShipThisStep = c.calculNewPositionShip(this.speedShip, this.rotationShip ,parsedInitGameReferee.getBateau().getPosition(), nbStep);
             //System.out.println(positionShipThisStep);
             parsedInitGameReferee.getBateau().setPosition(positionShipThisStep);
-            //parsedInitGameReferee.getBateau().setPosition(new Position(808,700,-2.0479183822456073));
-            //parsedInitGameReferee.getBateau().setPosition(new Position(14.514804965812885, -14.51742469817632,2.1539373544429288));
-            //parsedInitGameReferee.getBateau().setPosition(new Position(14.514804965812885,-14.51742469817632,-2.1539373544429288));
             if(this.testCollision()){
-                System.out.println("Position bateeau : " + parsedInitGameReferee.getBateau().getPosition());
+                System.out.println("Position bateau : " + parsedInitGameReferee.getBateau().getPosition());
                 return true;
             }
             N++;
         }
+        System.out.println(parsedInitGameReferee.getBateau().getPosition());
         //MAJ Orientation de la forme du bateau
-        Rectangle shipShape = (Rectangle) parsedInitGameReferee.getBateau().getShape();
-        shipShape.setOrientationRectangle(parsedInitGameReferee.getBateau().getPosition().getOrientation());
+        //Rectangle shipShape = (Rectangle) parsedInitGameReferee.getBateau().getShape();
+        //shipShape.setOrientationRectangle(parsedInitGameReferee.getBateau().getPosition().getOrientation());
         return false;
     }
 
@@ -239,7 +242,7 @@ public class Referee2 {
             if(v instanceof Recif || v instanceof AutreBateau){
                 if (c.shapescollide(parsedInitGameReferee.getBateau(), v)){
                     System.out.println(" ******************************** COLLISION ******************************** ");
-                    System.out.println(v.getPosition() + " Height : " + ((Rectangle) v.getShape()).getHeight() + " Width : " + ((Rectangle) v.getShape()).getWidth());
+                    //System.out.println(v.getPosition() + " Height : " + ((Rectangle) v.getShape()).getHeight() + " Width : " + ((Rectangle) v.getShape()).getWidth());
                     return true;
                 }
             }
@@ -254,6 +257,6 @@ public class Referee2 {
         }catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        System.out.println(this.nextRound);
+        //System.out.println(this.nextRound);
     }
 }

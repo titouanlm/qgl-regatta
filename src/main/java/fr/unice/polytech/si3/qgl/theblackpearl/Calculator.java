@@ -231,29 +231,30 @@ public class Calculator {
 
     }
 
-    private Point pointBasGauche(Rectangle shape2){ // MODIFIÉ MAIS PAS SUR
+    public Point pointBasGauche(Rectangle shape2){ // MODIFIÉ MAIS PAS SUR
         double xModifie = Math.cos(shape2.getOrientationRectangle()+shape2.getCoordonneesCentre().getOrientation())*-shape2.getHeight()/2-Math.sin(shape2.getOrientationRectangle()+shape2.getCoordonneesCentre().getOrientation())*-shape2.getWidth()/2;
         double yModifie = Math.sin(shape2.getOrientationRectangle()+shape2.getCoordonneesCentre().getOrientation())*-shape2.getHeight()/2+Math.cos(shape2.getOrientationRectangle()+shape2.getCoordonneesCentre().getOrientation())*-shape2.getWidth()/2;
         return new Point(xModifie+shape2.getCoordonneesCentre().getX(),yModifie+shape2.getCoordonneesCentre().getY());
     }
 
-    private Point pointBasDroit(Rectangle shape2){ // ici peut etre confusion avec height et width
+    public Point pointBasDroit(Rectangle shape2){ // ici peut etre confusion avec height et width
         double xModifie = Math.cos(shape2.getOrientationRectangle()+shape2.getCoordonneesCentre().getOrientation())*+shape2.getHeight()/2-Math.sin(shape2.getOrientationRectangle()+shape2.getCoordonneesCentre().getOrientation())*-shape2.getWidth()/2;
         double yModifie = Math.sin(shape2.getOrientationRectangle()+shape2.getCoordonneesCentre().getOrientation())*+shape2.getHeight()/2+Math.cos(shape2.getOrientationRectangle()+shape2.getCoordonneesCentre().getOrientation())*-shape2.getWidth()/2;
         return new Point(xModifie+shape2.getCoordonneesCentre().getX(),yModifie+shape2.getCoordonneesCentre().getY());
     }
 
-    private Point pointHautGauche(Rectangle shape2){ // ici peut etre confusion avec height et width
+    public Point pointHautGauche(Rectangle shape2){ // ici peut etre confusion avec height et width
         double xModifie = Math.cos(shape2.getOrientationRectangle()+shape2.getCoordonneesCentre().getOrientation())*-shape2.getHeight()/2-Math.sin(shape2.getOrientationRectangle()+shape2.getCoordonneesCentre().getOrientation())*+shape2.getWidth()/2;
         double yModifie = Math.sin(shape2.getOrientationRectangle()+shape2.getCoordonneesCentre().getOrientation())*-shape2.getHeight()/2+Math.cos(shape2.getOrientationRectangle()+shape2.getCoordonneesCentre().getOrientation())*+shape2.getWidth()/2;
         return new Point(xModifie+shape2.getCoordonneesCentre().getX(),yModifie+shape2.getCoordonneesCentre().getY());
     }
 
-    private Point pointHautDroit(Rectangle shape2){ // ici peut etre confusion avec height et width
+    public Point pointHautDroit(Rectangle shape2){ // ici peut etre confusion avec height et width
         double xModifie = Math.cos(shape2.getOrientationRectangle()+shape2.getCoordonneesCentre().getOrientation())*+shape2.getHeight()/2-Math.sin(shape2.getOrientationRectangle()+shape2.getCoordonneesCentre().getOrientation())*+shape2.getWidth()/2;
         double yModifie = Math.sin(shape2.getOrientationRectangle()+shape2.getCoordonneesCentre().getOrientation())*+shape2.getHeight()/2+Math.cos(shape2.getOrientationRectangle()+shape2.getCoordonneesCentre().getOrientation())*+shape2.getWidth()/2;
         return new Point(xModifie+shape2.getCoordonneesCentre().getX(),yModifie+shape2.getCoordonneesCentre().getY());
     }
+
 
     private void calculCoordonneePointProjete(List<Point> liste, Vecteur vecteur, double xb, double yb, double xa, double ya) {
         double v = ( (xa - xb) * vecteur.getX() + (ya - yb) * vecteur.getY() ) / ( Math.pow(vecteur.getX(),2) + Math.pow(vecteur.getY(),2) );

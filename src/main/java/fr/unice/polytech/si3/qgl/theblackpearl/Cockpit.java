@@ -8,6 +8,7 @@ import fr.unice.polytech.si3.qgl.regatta.cockpit.ICockpit;
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.*;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.NextRound;
+import fr.unice.polytech.si3.qgl.theblackpearl.goal.RegattaGoal;
 import fr.unice.polytech.si3.qgl.theblackpearl.referee.Referee2;
 
 public class Cockpit implements ICockpit {
@@ -16,7 +17,6 @@ public class Cockpit implements ICockpit {
 	private ObjectMapper objectMapper;
 	private List<String> logs;
 	private Referee2 ref;
-	private ArrayList<Marin> marinsClone;
 
 
 	public Cockpit(){
@@ -41,8 +41,9 @@ public class Cockpit implements ICockpit {
 			e.printStackTrace();
 		}
 
-		//Copie l'état des marins avant de les bouger (sert dans le détecteur de colision)
-		copyOfSailorsBeforeMove();
+		//Copie l'état du bateau et de toutes les entités avant de les modifier (utile dans détection de colision)
+		InitGame initGameClone = parsedInitGame.clone();
+
 		resetMarinNouveauTour();
 		creerLogNouveautour();
 
@@ -57,29 +58,29 @@ public class Cockpit implements ICockpit {
 		tacheMarins(Objects.requireNonNull(actionsNextRound));
 		StringBuilder roundJSON=creationJson(Objects.requireNonNull(actionsNextRound));
 
-//		while(true){
-//			InitGame initGameClone = parsedInitGame.clone();
-//			initGameClone.setMarins(marinsClone);
-//			ref = new Referee2(initGameClone, parsedNextRound.clone());
-//			try {
-//				if (!ref.startRound(roundJSON.toString())) break;
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//			System.exit(0);
-//			this.logs.add("********** COLLISION DETECTE ");
-//			//ON CHANGE LE CAP ICI ** roundJSON a modifier **
-//			modificationJsonObstacles(roundJSON);
-//		}
+		while(true){
+			ref = new Referee2(initGameClone, parsedNextRound.clone());
+			Calculator c = new Calculator();
+			try {
+				if (!ref.startRound(roundJSON.toString())){
+					RegattaGoal regatta = (RegattaGoal) parsedInitGame.getGoal();
+					if(c.calculDistanceEntreDeuxPoints(parsedNextRound.getBateau().getPosition(), regatta.getCheckpoints().get(0).getPosition()) <= c.calculDistanceEntreDeuxPoints(initGameClone.getBateau().getPosition(), regatta.getCheckpoints().get(0).getPosition())){
+						//System.out.println(parsedNextRound.getBateau().getPosition());
+						//System.out.println(initGameClone.getBateau().getPosition());
+						System.out.println("OUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII");
+					}else{
+						break;
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			System.exit(0);
+			//ON CHANGE LE CAP ICI ** roundJSON a modifier **
+			modificationJsonObstacles(roundJSON);
+		}
 
 		return roundJSON.toString();
-	}
-
-	private void copyOfSailorsBeforeMove() {
-		marinsClone = new ArrayList<>();
-		for(Marin m : parsedInitGame.getMarins()){
-			marinsClone.add(m.clone());
-		}
 	}
 
 	public void modificationJsonObstacles(StringBuilder roundJson){ // À faire

@@ -1,11 +1,14 @@
 package fr.unice.polytech.si3.qgl.theblackpearl.shape;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+
 public class Point {
     private double x, y;
 
-    public Point(double a, double b) {
-        this.x = a;
-        this.y = b;
+    public Point(@JsonProperty("x") double x, @JsonProperty("y") double y) {
+        this.x = x;
+        this.y = y;
     }
 
     public double getX() {

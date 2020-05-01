@@ -1,7 +1,8 @@
-/*package fr.unice.polytech.si3.qgl.theblackpearl;
+package fr.unice.polytech.si3.qgl.theblackpearl;
 
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.Checkpoint;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Circle;
+import fr.unice.polytech.si3.qgl.theblackpearl.shape.Point;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Shape;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,7 +25,7 @@ class CalculatorTest {
         posCheckpoint = new Position(1000, 1000,0);
     }
 
-    @Test
+    /*@Test
     void calculDistanceEntreDeuxPoints() {
         assertEquals(calcul.calculDistanceEntreDeuxPoints(posBateau, posCheckpoint), 53.0);
         posBateau = new Position(853, 202,0);
@@ -136,6 +137,20 @@ class CalculatorTest {
         checkpoint = new Checkpoint(posCheckpoint,shape);
         System.out.println(Arrays.toString(calcul.calculateCoordinatesOfRectangleVertices(checkpoint).toArray()));
 
+    }*/
+
+    @Test
+    void testPointGauche(){
+        Rectangle s = new Rectangle(2, 10, 0.78);
+        s.setCoordonneesCentre(new Position(0,0,0.78));
+        Point BG = calcul.pointBasGauche(s);
+        Point BD = calcul.pointBasDroit(s);
+        Point HD = calcul.pointHautDroit(s);
+        Point HG = calcul.pointHautGauche(s);
+        System.out.println(BG);
+        System.out.println(BD);
+        System.out.println(HD);
+        System.out.println(HG);
     }
 
-}*/
+}

@@ -46,16 +46,8 @@ public class Bateau {
         type = aType;
     }
 
-    public int getLife() {
-        return life;
-    }
-
     public Position getPosition() {
         return position;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public Deck getDeck() {
@@ -67,8 +59,14 @@ public class Bateau {
     }
 
     public Bateau clone(){
-
-        return new Bateau(this.type, this.life , this.position.clone(), this.name, this.deck, this.entities, this.shape);
+        ArrayList<Entity> cloneEntities = new ArrayList<>();
+        for(Entity e : entities){
+            if(e instanceof Voile){
+                cloneEntities.add(((Voile) e).clone());
+            }
+            cloneEntities.add(e);
+        }
+        return new Bateau(this.type, this.life , this.position.clone(), this.name, this.deck, cloneEntities, this.shape);
     }
 
     public Gouvernail getGouvernail(){
