@@ -3,6 +3,7 @@ package fr.unice.polytech.si3.qgl.theblackpearl.shape;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import fr.unice.polytech.si3.qgl.theblackpearl.Position;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,6 +13,7 @@ import java.util.Arrays;
 public class Polygone extends Shape {
     private double orientation;
     private ArrayList<Point> vertices;
+    private Position positionRelative;
 
 
     @JsonCreator
@@ -27,6 +29,14 @@ public class Polygone extends Shape {
     }
 
     public ArrayList<Point> getVertices(){ return vertices; }
+
+    public Position getPositionRelative() {
+        return positionRelative;
+    }
+
+    public void setPositionRelative(Position positionRelative) {
+        this.positionRelative = positionRelative;
+    }
 
     @Override
     public String toString() {

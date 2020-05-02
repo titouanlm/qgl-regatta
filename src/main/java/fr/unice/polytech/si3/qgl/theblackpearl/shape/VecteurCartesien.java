@@ -1,10 +1,10 @@
 package fr.unice.polytech.si3.qgl.theblackpearl.shape;
 
-public class Vecteur {
+public class VecteurCartesien {
 
     private double x,y;
 
-    public Vecteur(double x, double y){
+    public VecteurCartesien(double x, double y){
         this.x = x;
         this.y = y;
     }
@@ -27,7 +27,7 @@ public class Vecteur {
 
     @Override
     public String toString() {
-        return "Vecteur{" +
+        return "VecteurCartesien{" +
                 "x=" + x +
                 ", y=" + y +
                 '}';
