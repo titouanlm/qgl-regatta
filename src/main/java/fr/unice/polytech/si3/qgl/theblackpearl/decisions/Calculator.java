@@ -49,7 +49,7 @@ public class Calculator {
         return Math.atan2(pos2.getY()-pos1.getY(),pos2.getX()-pos1.getX()) - pos1.getOrientation();
     }
 
-    public boolean shapeInCollision(Bateau bateau, Checkpoint checkpoint) throws Exception { // Peut y avoir un probleme du à l'orientation du rectangle et du bateau
+    public boolean shapeInCollision(Bateau bateau, Checkpoint checkpoint) throws Exception {
         return shapesCollide(bateau, checkpoint);
     }
 
@@ -58,8 +58,8 @@ public class Calculator {
         Shape shape2  = getShape(object2);
         if (shape1 == null || shape2 == null) return false;
         if (shape1 instanceof Circle && shape2 instanceof Circle){ return collisionCercles((Circle) shape1,(Circle) shape2);}
-        List<Vecteur> myList = vecteurATester(shape1,shape2);
-        for (Vecteur vecteur : myList) {
+        List<VecteurCartesien> myList = vecteurATester(shape1,shape2);
+        for (VecteurCartesien vecteur : myList) {
             if (!objectsInCollision(shape1, shape2, vecteur)) return false;
         }
         return true;
@@ -75,6 +75,10 @@ public class Calculator {
                 shape2.setCoordonneesCentre(((VisibleEntity) object2).getPosition());
                 shape2.setOrientationCentre(((VisibleEntity) object2).getPosition().getOrientation());
             }
+            else if (shape2 instanceof Polygone){
+                //System.out.println(((VisibleEntity) object2).getPosition());
+                ((Polygone) shape2).setPositionRelative(((VisibleEntity) object2).getPosition());
+            }
         }
         else if (object2 instanceof Checkpoint){
             shape2 = ((Checkpoint) object2).getShape();
@@ -83,6 +87,9 @@ public class Calculator {
             else if (shape2 instanceof Rectangle){
                 shape2.setCoordonneesCentre(((Checkpoint) object2).getPosition());
                 shape2.setOrientationCentre(((Checkpoint) object2).getPosition().getOrientation());
+            }
+            else if (shape2 instanceof Polygone){
+                ((Polygone) shape2).setPositionRelative(((Checkpoint) object2).getPosition());
             }
         }
         else if (object2 instanceof Bateau){
@@ -95,7 +102,7 @@ public class Calculator {
         return shape2;
     }
 
-    public boolean objectsInCollision(Shape shape, Shape shape2, Vecteur vecteur) {
+    public boolean objectsInCollision(Shape shape, Shape shape2, VecteurCartesien vecteur) {
         if ((shape instanceof Polygone && shape2 instanceof Rectangle) || (shape instanceof Rectangle && shape2 instanceof Polygone))
             return shadowInCollisionPolygoneRectangle(shape,shape2, vecteur);
         if ((shape instanceof Circle && shape2 instanceof Rectangle) || (shape instanceof Rectangle && shape2 instanceof Circle))
@@ -114,7 +121,7 @@ public class Calculator {
         return distanceCBCC <= (a.getRadius()+b.getRadius());
     }
 
-    public boolean collisionSegments(List<Point> Liste1, List<Point> Liste2){ // peut etre faux
+    public boolean collisionSegments(List<Point> Liste1, List<Point> Liste2){ // MODIFICATION A FAIRE : FAUX DANS LE CAS OU LE COEFF DIRECTEUR DE LA PENTE EST NEGATIF
         double a = 9999999, b = -9999999, c = 9999999, d = -9999999;
         for (Point point : Liste1) {
             if ((point.getY() + point.getX()) <= a) a = (point.getY() + point.getX());
@@ -133,7 +140,7 @@ public class Calculator {
         return false;
     }
 
-    public boolean shadowInCollisionPolygonePolygone(Shape shape, Shape shape2, Vecteur vecteur){
+    public boolean shadowInCollisionPolygonePolygone(Shape shape, Shape shape2, VecteurCartesien vecteur){
         List<Point> Liste1 = new ArrayList<>();
         List<Point> Liste2 = new ArrayList<>();
         creationPointsProjetesPolygone((Polygone)shape, Liste1, vecteur);
@@ -141,7 +148,7 @@ public class Calculator {
         return collisionSegments(Liste1,Liste2);
     }
 
-    public boolean shadowInCollisionRectangleRectangle(Shape shape, Shape shape2, Vecteur vecteur){
+    public boolean shadowInCollisionRectangleRectangle(Shape shape, Shape shape2, VecteurCartesien vecteur){
         List<Point> Liste1 = new ArrayList<>();
         List<Point> Liste2 = new ArrayList<>();
         creationPointsProjetesRectangle((Rectangle)shape, Liste1, vecteur);
@@ -149,7 +156,7 @@ public class Calculator {
         return collisionSegments(Liste1,Liste2);
     }
 
-    public boolean shadowInCollisionRectangleCercle(Shape shape, Shape shape2, Vecteur vecteur) {
+    public boolean shadowInCollisionRectangleCercle(Shape shape, Shape shape2, VecteurCartesien vecteur) {
         List<Point> Liste1 = new ArrayList<>();
         List<Point> Liste2 = new ArrayList<>();
         if (shape instanceof Rectangle) {
@@ -163,7 +170,7 @@ public class Calculator {
         return collisionSegments(Liste1,Liste2);
     }
 
-    public boolean shadowInCollisionPolygoneCercle(Shape shape, Shape shape2, Vecteur vecteur) {
+    public boolean shadowInCollisionPolygoneCercle(Shape shape, Shape shape2, VecteurCartesien vecteur) {
         List<Point> Liste1 = new ArrayList<>();
         List<Point> Liste2 = new ArrayList<>();
         if (shape instanceof Polygone) {
@@ -177,7 +184,7 @@ public class Calculator {
         return collisionSegments(Liste1,Liste2);
     }
 
-    public boolean shadowInCollisionPolygoneRectangle(Shape shape, Shape shape2, Vecteur vecteur) {
+    public boolean shadowInCollisionPolygoneRectangle(Shape shape, Shape shape2, VecteurCartesien vecteur) {
         List<Point> Liste1 = new ArrayList<>();
         List<Point> Liste2 = new ArrayList<>();
         if (shape instanceof Polygone){
@@ -189,21 +196,28 @@ public class Calculator {
         return collisionSegments(Liste1,Liste2);
     }
 
-    public void creationPointsProjetesCercle(Circle shape, List<Point> liste, Vecteur vecteur){  // pas sur de la fonction
+    public void creationPointsProjetesCercle(Circle shape, List<Point> liste, VecteurCartesien vecteur){  // pas sur de la fonction
         calculCoordonneePointProjeteCercle(liste, vecteur,1,1,shape.getCoordonneesCentre().getX() , shape.getCoordonneesCentre().getY(), shape);
     }
 
-    private void creationPointsProjetesPolygone(Polygone shape2, List<Point> liste, Vecteur vecteur) { // PAS ENCORE GÉRÉ LA ROTATION DES POLYGONES + pas sur de la fonction
+    private void creationPointsProjetesPolygone(Polygone shape2, List<Point> liste, VecteurCartesien vecteur) { // PAS ENCORE GÉRÉ LA ROTATION DES POLYGONES + pas sur de la fonction
         double xb = 1;
         double yb = 1;
         for (int i = 0; i< shape2.getVertices().size(); i++){
-            double xa = shape2.getVertices().get(i).getX();
-            double ya = shape2.getVertices().get(i).getY();
-            calculCoordonneePointProjete(liste, vecteur, xb, yb, xa, ya);
+            //Point point = new Point(shape2.getVertices().get(i).getX(),shape2.getVertices().get(i).getY());
+            Point point = rotationPointPolygone(shape2,i);
+            calculCoordonneePointProjete(liste, vecteur, xb, yb, point.getX()+shape2.getPositionRelative().getX(), point.getY()+shape2.getPositionRelative().getY());
         }
     }
 
-    private void creationPointsProjetesRectangle(Rectangle shape2, List<Point> liste, Vecteur vecteur){ // Pas sur de la fonction
+    public Point rotationPointPolygone(Polygone shape2,int i){
+        Point point = shape2.getVertices().get(i);
+        VecteurPolaire vecteurPolaire = new VecteurPolaire(Math.sqrt(Math.pow(point.getX(),2)+Math.pow(point.getY(),2)),Math.atan2(point.getY(),point.getX()));
+        vecteurPolaire.setAngle(vecteurPolaire.getAngle()+shape2.getPositionRelative().getOrientation());
+        return new Point(vecteurPolaire.getLongeur()*Math.cos(vecteurPolaire.getAngle())+shape2.getPositionRelative().getX(),vecteurPolaire.getLongeur()*Math.sin(vecteurPolaire.getAngle())+shape2.getPositionRelative().getY());
+    }
+
+    private void creationPointsProjetesRectangle(Rectangle shape2, List<Point> liste, VecteurCartesien vecteur){ // Pas sur de la fonction
         double xb = 1;
         double yb = 1;
         Point basGauche = pointBasGauche(shape2);
@@ -245,19 +259,19 @@ public class Calculator {
     }
 
 
-    private void calculCoordonneePointProjete(List<Point> liste, Vecteur vecteur, double xb, double yb, double xa, double ya) {
+    private void calculCoordonneePointProjete(List<Point> liste, VecteurCartesien vecteur, double xb, double yb, double xa, double ya) {
         double v = ( (xa - xb) * vecteur.getX() + (ya - yb) * vecteur.getY() ) / ( Math.pow(vecteur.getX(),2) + Math.pow(vecteur.getY(),2) );
         liste.add(new Point(xb + v * vecteur.getX(),yb + v * vecteur.getY()));
     }
 
-    private void calculCoordonneePointProjeteCercle(List<Point> liste, Vecteur vecteur, double xb, double yb, double xa, double ya, Circle shape) { // PEUT ETRE FAUX
+    private void calculCoordonneePointProjeteCercle(List<Point> liste, VecteurCartesien vecteur, double xb, double yb, double xa, double ya, Circle shape) { // PEUT ETRE FAUX
         double v = ( (xa - xb) * vecteur.getX() + (ya - yb) * vecteur.getY() ) / ( Math.pow(vecteur.getX(),2) + Math.pow(vecteur.getY(),2) );
         liste.add(new Point(xb + v * vecteur.getX()+shape.getRadius()*Math.cos(Math.atan2(vecteur.getY(),vecteur.getX())),yb + v * vecteur.getY()+shape.getRadius()*Math.sin(Math.atan2(vecteur.getY(),vecteur.getX()))));
         liste.add(new Point(xb + v * vecteur.getX()-shape.getRadius()*Math.cos(Math.atan2(vecteur.getY(),vecteur.getX())),yb + v * vecteur.getY()-shape.getRadius()*Math.sin(Math.atan2(vecteur.getY(),vecteur.getX()))));
     }
 
-    public List<Vecteur> vecteurATester(Shape shape1, Shape shape2) throws Exception {
-        List<Vecteur> myList = new ArrayList<>();
+    public List<VecteurCartesien> vecteurATester(Shape shape1, Shape shape2) throws Exception {
+        List<VecteurCartesien> myList = new ArrayList<>();
         if (shape1 instanceof Circle) {
             myList.add(vecteurDirecteurProjetectionAxeCercle((Circle) shape1, shape2));
             myList=vecteurDirecteurPourProjectionAxe(shape2,myList);
@@ -273,7 +287,7 @@ public class Calculator {
         return myList;
     }
 
-    public Vecteur vecteurDirecteurProjetectionAxeCercle(Circle shape, Shape shape2) throws Exception { // PEUT ETRE FAUX
+    public VecteurCartesien vecteurDirecteurProjetectionAxeCercle(Circle shape, Shape shape2) throws Exception { // PEUT ETRE FAUX
         Point point = null;
         double d = 9999999.999;
         List<Point> liste = new ArrayList<>();
@@ -300,30 +314,30 @@ public class Calculator {
         return vecteurUnitairePourCerclePoint(shape, point);
     }
 
-    private Vecteur vecteurUnitairePourCerclePoint(Circle shape, Point point) throws Exception {
+    private VecteurCartesien vecteurUnitairePourCerclePoint(Circle shape, Point point) throws Exception {
         if (point!=null){
-            Vecteur vecteur = new Vecteur((shape.getCoordonneesCentre().getX()-point.getX()),shape.getCoordonneesCentre().getY()-point.getY());
+            VecteurCartesien vecteur = new VecteurCartesien((shape.getCoordonneesCentre().getX()-point.getX()),shape.getCoordonneesCentre().getY()-point.getY());
             double normeVecteur = Math.sqrt(Math.pow(vecteur.getX(),2)+Math.pow(vecteur.getY(),2));
             if (normeVecteur !=0){
-                return new Vecteur(vecteur.getX()/normeVecteur,vecteur.getY()/normeVecteur);
+                return new VecteurCartesien(vecteur.getX()/normeVecteur,vecteur.getY()/normeVecteur);
             }
             else throw new Exception("Can't divide by zero");
         }
         else throw new Exception("Point is null");
     }
 
-    public Vecteur vecteurUnitaireVecteur(Vecteur vecteur) throws Exception {
+    public VecteurCartesien vecteurUnitaireVecteur(VecteurCartesien vecteur) throws Exception {
         double normeVecteur = Math.sqrt(Math.pow(vecteur.getX(),2)+Math.pow(vecteur.getY(),2));
         if (normeVecteur != 0)
-        return new Vecteur(vecteur.getX()/normeVecteur,vecteur.getY()/normeVecteur);
+            return new VecteurCartesien(vecteur.getX()/normeVecteur,vecteur.getY()/normeVecteur);
         else throw new Exception("Can't divide by zero");
     }
 
-    public List<Vecteur> vecteurDirecteurPourProjectionAxe(Shape shape, List<Vecteur> myList) throws Exception { // MODIFIER POLYGONE
+    public List<VecteurCartesien> vecteurDirecteurPourProjectionAxe(Shape shape, List<VecteurCartesien> myList) throws Exception { // MODIFIER POLYGONE
         if (shape instanceof Rectangle) {
-            Vecteur vecteur = new Vecteur(Math.cos(((Rectangle) shape).getOrientationRectangle()+shape.getCoordonneesCentre().getOrientation()),Math.sin(((Rectangle) shape).getOrientationRectangle()+shape.getCoordonneesCentre().getOrientation()));
+            VecteurCartesien vecteur = new VecteurCartesien(Math.cos(((Rectangle) shape).getOrientationRectangle()+shape.getCoordonneesCentre().getOrientation()),Math.sin(((Rectangle) shape).getOrientationRectangle()+shape.getCoordonneesCentre().getOrientation()));
             vecteur=vecteurUnitaireVecteur(vecteur);
-            Vecteur vecteur2 = new Vecteur(Math.cos(((Rectangle) shape).getOrientationRectangle()+Math.PI/2+shape.getCoordonneesCentre().getOrientation()),Math.sin(((Rectangle) shape).getOrientationRectangle()+Math.PI/2+shape.getCoordonneesCentre().getOrientation()));
+            VecteurCartesien vecteur2 = new VecteurCartesien(Math.cos(((Rectangle) shape).getOrientationRectangle()+Math.PI/2+shape.getCoordonneesCentre().getOrientation()),Math.sin(((Rectangle) shape).getOrientationRectangle()+Math.PI/2+shape.getCoordonneesCentre().getOrientation()));
             vecteur2=vecteurUnitaireVecteur(vecteur2);
             myList.add(vecteur);
             myList.add(vecteur2);
@@ -331,12 +345,12 @@ public class Calculator {
         if (shape instanceof Polygone) {
             for (int i = 0; i < ((Polygone) shape).getVertices().size(); i++) {
                 if (i != (((Polygone) shape).getVertices().size()-1) ){
-                    Vecteur vecteur = new Vecteur(((Polygone) shape).getVertices().get(i + 1).getX() - ((Polygone) shape).getVertices().get(i).getX(),((Polygone) shape).getVertices().get(i + 1).getY() - ((Polygone) shape).getVertices().get(i).getY());
+                    VecteurCartesien vecteur = new VecteurCartesien(((Polygone) shape).getVertices().get(i + 1).getX() - ((Polygone) shape).getVertices().get(i).getX(),((Polygone) shape).getVertices().get(i + 1).getY() - ((Polygone) shape).getVertices().get(i).getY());
                     vecteur=vecteurUnitaireVecteur(vecteur);
                     myList.add(vecteur);
                 }
                 else{
-                    Vecteur vecteur = new Vecteur(((Polygone) shape).getVertices().get(0).getX() - ((Polygone) shape).getVertices().get(i).getX(),((Polygone) shape).getVertices().get(0).getY() - ((Polygone) shape).getVertices().get(i).getY());
+                    VecteurCartesien vecteur = new VecteurCartesien(((Polygone) shape).getVertices().get(0).getX() - ((Polygone) shape).getVertices().get(i).getX(),((Polygone) shape).getVertices().get(0).getY() - ((Polygone) shape).getVertices().get(i).getY());
                     vecteur=vecteurUnitaireVecteur(vecteur);
                     myList.add(vecteur);
                 }

@@ -12,6 +12,7 @@ import java.util.Arrays;
 public class Polygone extends Shape {
     private double orientation;
     private ArrayList<Point> vertices;
+    private Position positionRelative;
 
 
     @JsonCreator
@@ -20,13 +21,20 @@ public class Polygone extends Shape {
         this.orientation = orientation;
         this.vertices = vertices;
     }
-
-
+    
     public double getOrientation() {
         return orientation;
     }
 
     public ArrayList<Point> getVertices(){ return vertices; }
+
+    public Position getPositionRelative() {
+        return positionRelative;
+    }
+
+    public void setPositionRelative(Position positionRelative) {
+        this.positionRelative = positionRelative;
+    }
 
     @Override
     public String toString() {
