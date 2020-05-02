@@ -54,22 +54,39 @@ public class Referee2 {
         this.nextRound(nbTour);
     }
 
+    public InitGame getParsedInitGameReferee() {
+        return parsedInitGameReferee;
+    }
+
+    public NextRound getParsedNextRoundReferee() {
+        return parsedNextRoundReferee;
+    }
+
     public boolean startRound(String actions) throws Exception {
         this.rotationShip=0.;
         this.speedShip=0.0;
+        this.resetEntities();
+        this.resetSailors();
+        this.getActions(actions);
+        this.executeActions();
+        return this.moveShip();
+    }
+
+    public void resetEntities() {
         for (Entity e : parsedInitGameReferee.getBateau().getEntities()) {
             e.setLibre(true);
         }
+    }
+
+    public void resetSailors() {
         for (Marin m : parsedInitGameReferee.getMarins()) {
             m.setCanMove(true);
             m.setLibre(true);
         }
-        this.getActions(actions);
-        this.executeActions();
-        return this.crashTest();
     }
 
-    private void initGame() {
+
+    public void initGame() {
         try {
             parsedInitGameReferee = objectMapperReferee.readValue(initGame, InitGame.class);
             this.cockpit.initGame(initGame);
@@ -84,18 +101,13 @@ public class Referee2 {
         }
     }
 
-    private void nextRound(int nbTour) throws Exception {
+    public void nextRound(int nbTour) throws Exception {
         while (!this.getFinishGame() && this.tour < nbTour) {
             System.out.println(this.tour + " : " + parsedInitGameReferee.getBateau().getPosition());
             this.rotationShip=0.;
             this.speedShip=0.0;
-            for (Entity e : parsedInitGameReferee.getBateau().getEntities()) {
-                e.setLibre(true);
-            }
-            for (Marin m : parsedInitGameReferee.getMarins()) {
-                m.setCanMove(true);
-                m.setLibre(true);
-            }
+            this.resetEntities();
+            this.resetSailors();
             this.getActions(this.cockpit.nextRound(nextRound));
             this.executeActions();
             this.moveShip();
@@ -105,7 +117,7 @@ public class Referee2 {
         System.out.println("SCORE DE LA PARTIE : " + ((nbTour-this.tour)+1));
     }
 
-    private boolean getFinishGame() throws Exception {
+    public boolean getFinishGame() throws Exception {
         RegattaGoal regatta =  (RegattaGoal) parsedInitGameReferee.getGoal();
         List<Checkpoint> checkpoints = regatta.getCheckpoints();
         if(c.shapeInCollision(parsedInitGameReferee.getBateau(), checkpoints.get(0))){
@@ -114,7 +126,7 @@ public class Referee2 {
         return regatta.getCheckpoints().isEmpty();
     }
 
-    private void getActions(String actionsRound) {
+    public void getActions(String actionsRound) {
         actionsRound = "{" + "\"actions\":" + actionsRound + "}";
         try {
             this.parsedActionsRound = objectMapperReferee.readValue(actionsRound, ActionsRound.class);
@@ -123,7 +135,7 @@ public class Referee2 {
         }
     }
 
-    private void executeActions() {
+    public void executeActions() {
         for (ActionRound a : this.parsedActionsRound.getActionsRound()) {
             if (a instanceof MovingReferee) {
                 ((MovingReferee) a).tryToMoveMarin(parsedInitGameReferee);
@@ -146,7 +158,7 @@ public class Referee2 {
         }
     }
 
-    private void moveShip() throws Exception {
+    public boolean moveShip() throws Exception {
         //Calculs rames
         int nbRamesBabord = parsedInitGameReferee.getBateau().nbMarinRameBabord();
         int nbRamesTribord = parsedInitGameReferee.getBateau().nbMarinRameTribord();
@@ -173,69 +185,32 @@ public class Referee2 {
             }
 
             this.speedShip=0.;
+            this.speedShip += c.calculVitesseRames(nbRamesBabord+nbRamesTribord,nbRames);
             if(nbVoile>0)
                 this.speedShip += c.calculVitesseVent(nbVoileOuverte,nbVoile,parsedNextRoundReferee.getWind(), parsedInitGameReferee.getBateau());
 
-            this.speedShip += c.calculVitesseRames(nbRamesBabord+nbRamesTribord,nbRames);
             Position positionShipThisStep = c.calculNewPositionShip(this.speedShip, this.rotationShip ,parsedInitGameReferee.getBateau().getPosition(), nbStep);
             parsedInitGameReferee.getBateau().setPosition(positionShipThisStep);
-            N++;
-        }
-    }
 
-    private boolean crashTest() throws Exception {
-        //Calculs rames
-        int nbRamesBabord = parsedInitGameReferee.getBateau().nbMarinRameBabord();
-        int nbRamesTribord = parsedInitGameReferee.getBateau().nbMarinRameTribord();
-        int nbRames = parsedInitGameReferee.getBateau().getNbRame();
-        this.rotationShip += c.calculRotationRamesTribordBabord(nbRamesBabord,nbRamesTribord, nbRames);
-
-        //Calculs voiles
-        int nbVoileOuverte = parsedInitGameReferee.getBateau().nbVoileOuverte();
-        int nbVoile = parsedInitGameReferee.getBateau().nbVoile();
-
-        int N=0;
-        int nbStep=100;
-
-        while(N<nbStep){
-            //TEST COURANT
-            for(VisibleEntity v : parsedNextRoundReferee.getVisibleEntities()){
-                if(v instanceof Courant){
-                    if(c.shapesCollide(parsedInitGameReferee.getBateau(), v)){
-                        Position positionAfterStream = c.calculInfluenceOfStream(parsedInitGameReferee.getBateau().getPosition(), (Courant) v, nbStep);
-                        parsedInitGameReferee.getBateau().setPosition(positionAfterStream);
-                    }
+            if(this.cockpit==null){
+                RegattaGoal regatta = (RegattaGoal) parsedInitGameReferee.getGoal();
+                if(c.shapeInCollision(parsedInitGameReferee.getBateau(), regatta.getCheckpoints().get(0))){
+                    this.goThroughCheckpoint = true;
                 }
-            }
-
-            this.speedShip=0.;
-            this.speedShip += c.calculVitesseRames(nbRamesBabord+nbRamesTribord,nbRames);
-            if(nbVoile>0)
-                this.speedShip += c.calculVitesseVent(nbVoileOuverte,nbVoile,parsedNextRoundReferee.getWind(), parsedInitGameReferee.getBateau());
-
-            Position positionShipThisStep = c.calculNewPositionShip(this.speedShip, this.rotationShip ,parsedInitGameReferee.getBateau().getPosition(), nbStep);
-            parsedInitGameReferee.getBateau().setPosition(positionShipThisStep);
-
-            //test si il est dans le checkpoint
-            RegattaGoal regatta = (RegattaGoal) parsedInitGameReferee.getGoal();
-            if(c.shapeInCollision(parsedInitGameReferee.getBateau(), regatta.getCheckpoints().get(0))){
-                this.goThroughCheckpoint = true;
-            }
-            if(this.testCollision()){
-                System.out.println("Position bateau : " + parsedInitGameReferee.getBateau().getPosition());
-                return true;
+                if(this.testCollision()){
+                    return true;
+                }
             }
             N++;
         }
         return false;
     }
 
-    private boolean testCollision() throws Exception {
+    public boolean testCollision() throws Exception {
         for(VisibleEntity v : parsedNextRoundReferee.getVisibleEntities()){
             if(v instanceof Recif || v instanceof AutreBateau){
                 if (c.shapesCollide(parsedInitGameReferee.getBateau(), v)){
                     System.out.println(" ******************************** COLLISION ******************************** ");
-                    //System.out.println(v.getPosition() + " Height : " + ((Rectangle) v.getShape()).getHeight() + " Width : " + ((Rectangle) v.getShape()).getWidth());
                     return true;
                 }
             }
@@ -243,7 +218,7 @@ public class Referee2 {
         return false;
     }
 
-    private void updateNextRound() {
+    public void updateNextRound() {
         parsedNextRoundReferee.setShip(parsedInitGameReferee.getBateau());
         try {
             this.nextRound =objectMapperReferee.writeValueAsString(parsedNextRoundReferee);

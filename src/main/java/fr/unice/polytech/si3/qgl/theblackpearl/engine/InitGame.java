@@ -40,20 +40,15 @@ public class InitGame {
         return sailors;
     }
 
-    public void setMarins(ArrayList<Marin> sailors) {
-        this.sailors = sailors;
-    }
-
     @Override
     public String toString() {
-        return "Game{" +
+        return "InitGame{" +
                 "goal=" + goal +
                 ", shipCount=" + shipCount +
                 ", ship=" + ship +
                 ", sailors=" + sailors +
                 '}';
     }
-
 
     public InitGame clone(){
         Goal cloneGoal;

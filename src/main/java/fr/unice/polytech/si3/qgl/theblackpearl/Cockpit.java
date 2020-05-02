@@ -175,4 +175,8 @@ public class Cockpit implements ICockpit {
 	public List<String> getLogs() {
 		return logs;
 	}
+
+	public InitGame getParsedInitGame() {
+		return parsedInitGame;
+	}
 }

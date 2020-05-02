@@ -76,7 +76,6 @@ public class Calculator {
                 shape2.setOrientationCentre(((VisibleEntity) object2).getPosition().getOrientation());
             }
             else if (shape2 instanceof Polygone){
-                //System.out.println(((VisibleEntity) object2).getPosition());
                 ((Polygone) shape2).setPositionRelative(((VisibleEntity) object2).getPosition());
             }
         }
@@ -121,7 +120,7 @@ public class Calculator {
         return distanceCBCC <= (a.getRadius()+b.getRadius());
     }
 
-    public boolean collisionSegments(List<Point> Liste1, List<Point> Liste2){ // MODIFICATION A FAIRE : FAUX DANS LE CAS OU LE COEFF DIRECTEUR DE LA PENTE EST NEGATIF
+    public boolean collisionSegments(List<Point> Liste1, List<Point> Liste2){
         double a = 9999999, b = -9999999, c = 9999999, d = -9999999;
         for (Point point : Liste1) {
             if ((point.getY() + point.getX()) <= a) a = (point.getY() + point.getX());

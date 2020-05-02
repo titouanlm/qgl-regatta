@@ -24,12 +24,33 @@ public abstract class Entity {
     private int x;
     private int y;
     @JsonIgnore
-    protected boolean libre;
+    private boolean libre;
     @JsonCreator
     public Entity(@JsonProperty("x") int x, @JsonProperty("y") int y) {
         this.x = x;
         this.y = y;
         this.libre=true;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public boolean isLibre(){
+        return libre;
+    }
+
+    public void setLibre(boolean libre){
+        this.libre=libre;
+    }
+
+    @Override
+    public String toString() {
+        return "x : " + this.x +", y : " + this.y;
     }
 
     public static ArrayList<Entity> supprimerEntite(ArrayList<Entity> listeEntite, boolean marinPlaceGauche, boolean marinPlaceDroite, Marin m, MOVING moving){
@@ -45,42 +66,5 @@ public abstract class Entity {
             return listeEntite;
         }
         else return null;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public boolean isLibre(){
-        return libre;
-    }
-
-    public void setLibre(boolean libre){
-        this.libre=libre;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    @Override
-    public String toString() {
-        return "x : " + this.x +", y : " + this.y;
     }
 }

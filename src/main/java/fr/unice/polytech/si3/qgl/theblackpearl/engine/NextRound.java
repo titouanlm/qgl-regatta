@@ -18,7 +18,7 @@ public class NextRound {
     private Vent wind;
 
     @JsonCreator
-    NextRound(@JsonProperty("ship") Bateau ship, @JsonProperty("visibleEntities") List<VisibleEntity> visibleEntities, @JsonProperty("wind") Vent wind){
+    public NextRound(@JsonProperty("ship") Bateau ship, @JsonProperty("visibleEntities") List<VisibleEntity> visibleEntities, @JsonProperty("wind") Vent wind){
         this.ship = ship;
         this.wind = wind;
         this.visibleEntities = visibleEntities;
@@ -36,15 +36,6 @@ public class NextRound {
 
     public List<VisibleEntity> getVisibleEntities() {
         return visibleEntities;
-    }
-
-    @Override
-    public String toString() {
-        return "NextRound{" +
-                "ship=" + ship +
-                ", wind=" + wind +
-                ", visibleEntities=" + visibleEntities +
-                '}';
     }
 
     public NextRound clone(){

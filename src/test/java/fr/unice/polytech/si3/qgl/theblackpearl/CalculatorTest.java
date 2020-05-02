@@ -84,33 +84,23 @@ class CalculatorTest {
     void calculAnglesPossiblesEnFonctionDesRames() {
 
     }
-/*
-    /*@Test
+
+    @Test
     void calculNewPositionShip(){
         posBateau = new Position(0, 0,0);
-        System.out.println(posBateau);
         posBateau = calcul.calculNewPositionShip(100, 1, posBateau, 10);
-        System.out.println(posBateau);
+        assertEquals(10.0, posBateau.getX());
+        assertEquals(0.0, posBateau.getY());
+        assertEquals(0.1, posBateau.getOrientation());
         posBateau = calcul.calculNewPositionShip(100, 1, posBateau, 10);
-        System.out.println(posBateau);
+        assertEquals(19.950041652780257, posBateau.getX());
+        assertEquals(0.9983341664682815, posBateau.getY());
+        assertEquals(0.2, posBateau.getOrientation());
         posBateau = calcul.calculNewPositionShip(100, 1, posBateau, 10);
-        System.out.println(posBateau);
-        posBateau = calcul.calculNewPositionShip(100, 1, posBateau, 10);
-        System.out.println(posBateau);
-        posBateau = calcul.calculNewPositionShip(100, 1, posBateau, 10);
-        System.out.println(posBateau);
-        posBateau = calcul.calculNewPositionShip(100, 1, posBateau, 10);
-        System.out.println(posBateau);
-        posBateau = calcul.calculNewPositionShip(100, 1, posBateau, 10);
-        System.out.println(posBateau);
-        posBateau = calcul.calculNewPositionShip(100, 1, posBateau, 10);
-        System.out.println(posBateau);
-        posBateau = calcul.calculNewPositionShip(100, 1, posBateau, 10);
-        System.out.println(posBateau);
-        posBateau = calcul.calculNewPositionShip(100, 1, posBateau, 10);
-        System.out.println(posBateau);
-        posBateau = calcul.calculNewPositionShip(100, 1, posBateau, 10);
-    }*/
+        assertEquals(29.750707431192673, posBateau.getX());
+        assertEquals(2.9850274744188936, posBateau.getY());
+        assertEquals(0.30000000000000004, posBateau.getOrientation());
+    }
         /*
     @Test
     void calculateCoordinatesOfRectangleVertices(){
@@ -137,19 +127,22 @@ class CalculatorTest {
 
     }*/
 
-//    @Test
-//    void testPoints(){
-//        Rectangle s = new Rectangle(2, 10, 0);
-//        s.setCoordonneesCentre(new Position(0,0,0));
-//        Point BG = calcul.pointBasGauche(s);
-//        Point BD = calcul.pointBasDroit(s);
-//        Point HD = calcul.pointHautDroit(s);
-//        Point HG = calcul.pointHautGauche(s);
-//        //assertEquals();
-//        System.out.println(BG);
-//        System.out.println(BD);
-//        System.out.println(HD);
-//        System.out.println(HG);
-//    }
+    @Test
+    void testPoints(){
+        Rectangle s = new Rectangle(2, 10, 0);
+        s.setCoordonneesCentre(new Position(0,0,0));
+        Point BG = calcul.pointBasGauche(s);
+        Point BD = calcul.pointBasDroit(s);
+        Point HD = calcul.pointHautDroit(s);
+        Point HG = calcul.pointHautGauche(s);
+        assertEquals(-5 ,BG.getX());
+        assertEquals(-1 ,BG.getY());
+        assertEquals(5 ,BD.getX());
+        assertEquals(-1 ,BD.getY());
+        assertEquals(5 ,HD.getX());
+        assertEquals(1 ,HD.getY());
+        assertEquals(-5 ,HG.getX());
+        assertEquals(1,HG.getY());
+    }
 
 }

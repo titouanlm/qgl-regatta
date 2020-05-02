@@ -21,7 +21,7 @@ public class Polygone extends Shape {
         this.orientation = orientation;
         this.vertices = vertices;
     }
-    
+
     public double getOrientation() {
         return orientation;
     }

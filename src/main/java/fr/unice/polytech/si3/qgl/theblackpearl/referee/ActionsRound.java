@@ -14,7 +14,6 @@ public class ActionsRound {
         this.actionsRound = actionsRound;
     }
 
-
     public List<ActionRound> getActionsRound() {
         return actionsRound;
     }

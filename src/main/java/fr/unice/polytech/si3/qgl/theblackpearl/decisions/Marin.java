@@ -88,6 +88,10 @@ public class Marin {
         this.libre=true;
     }
 
+    public void setActionAFaire(String actionAFaire) {
+        this.actionAFaire = actionAFaire;
+    }
+
     public void moveSailor(int xdistance, int ydistance) {
         this.setX(this.x+xdistance);
         this.setY(this.y+ydistance);
