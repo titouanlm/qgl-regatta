@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.unice.polytech.si3.qgl.theblackpearl.Marin;
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.Goal;
+import fr.unice.polytech.si3.qgl.theblackpearl.goal.RegattaGoal;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.Bateau;
 
 import java.util.ArrayList;
@@ -39,6 +40,10 @@ public class InitGame {
         return sailors;
     }
 
+    public void setMarins(ArrayList<Marin> sailors) {
+        this.sailors = sailors;
+    }
+
     @Override
     public String toString() {
         return "Game{" +
@@ -49,4 +54,28 @@ public class InitGame {
                 '}';
     }
 
+
+    public InitGame clone(){
+        Goal cloneGoal;
+        if(goal instanceof RegattaGoal){
+            cloneGoal = ((RegattaGoal) goal).clone();
+        }else{
+            cloneGoal = goal;
+        }
+        Bateau cloneBateau = ship.clone();
+        ArrayList<Marin> cloneSailors = new ArrayList<>();
+        for(Marin m : sailors){
+            cloneSailors.add(m.clone());
+        }
+        return new InitGame(cloneGoal, shipCount, cloneBateau, cloneSailors);
+    }
+
+    public Marin getSailorById(int sailorId) {
+        for(Marin m : sailors){
+            if(m.getId() == sailorId){
+                return m;
+            }
+        }
+        return null;
+    }
 }

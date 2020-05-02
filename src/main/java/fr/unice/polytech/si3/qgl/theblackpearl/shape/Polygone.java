@@ -21,6 +21,13 @@ public class Polygone extends Shape {
         this.vertices = vertices;
     }
 
+
+    public double getOrientation() {
+        return orientation;
+    }
+
+    public ArrayList<Point> getVertices(){ return vertices; }
+
     @Override
     public String toString() {
         return "Polygone{" +

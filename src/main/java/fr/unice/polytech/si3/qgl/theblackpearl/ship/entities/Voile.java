@@ -13,6 +13,10 @@ public class Voile extends Entity {
         this.openned = openned;
     }
 
+    public Voile clone(){
+        return new Voile(this.getX(), this.getY(), this.openned);
+    }
+
     public boolean isOpenned() {
         return openned;
     }
@@ -21,4 +25,10 @@ public class Voile extends Entity {
         this.openned = isopenned;
     }
 
+    @Override
+    public String toString() {
+        return "Voile{" +
+                "openned=" + openned +
+                '}';
+    }
 }

@@ -29,4 +29,17 @@ public abstract class VisibleEntity {
         this.position = position;
         this.shape = shape;
     }
+
+    public Shape getShape(){
+        return shape;
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
 }

@@ -8,13 +8,16 @@ import fr.unice.polytech.si3.qgl.regatta.cockpit.ICockpit;
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.*;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.NextRound;
-import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
+import fr.unice.polytech.si3.qgl.theblackpearl.goal.RegattaGoal;
+import fr.unice.polytech.si3.qgl.theblackpearl.referee.Referee2;
 
 public class Cockpit implements ICockpit {
 	private InitGame parsedInitGame;
 	private NextRound parsedNextRound;
 	private ObjectMapper objectMapper;
+	private List<Action> actionsNextRound;
 	private List<String> logs;
+	private Referee2 ref;
 
 
 	public Cockpit(){
@@ -39,23 +42,96 @@ public class Cockpit implements ICockpit {
 			e.printStackTrace();
 		}
 
+		//Copie l'état du bateau et de toutes les entités avant de les modifier (utile dans détection de colision)
+		InitGame initGameDebutTour = parsedInitGame.clone();
+
+		resetMarinNouveauTour();
+		creerLogNouveautour();
+
 		Captain captain = new Captain(parsedInitGame, parsedNextRound.getWind());
 
-		StringBuilder log = new StringBuilder();
+		try {
+			actionsNextRound = captain.ordreCapitaine();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		tacheMarins(Objects.requireNonNull(actionsNextRound));
+		StringBuilder roundJSON=creationJson(Objects.requireNonNull(actionsNextRound));
+		StringBuilder saveRoundJSON = roundJSON;
+
+		while(true){
+			InitGame initGameClone = initGameDebutTour.clone();
+			ref = new Referee2(initGameClone, parsedNextRound.clone());
+			Calculator c = new Calculator();
+			try {
+				if (!ref.startRound(roundJSON.toString())){
+					RegattaGoal regatta = (RegattaGoal) parsedInitGame.getGoal();
+					if(ref.getGoThroughCheckpoint() && !c.shapeInCollision(initGameClone.getBateau(),regatta.getCheckpoints().get(0))){
+						roundJSON = modificationJsonRalentir();
+					}else{
+						break;
+					}
+				}else{
+					//collision
+					roundJSON = modificationJsonObstacles();
+				}
+			} catch (Exception e) {
+				roundJSON = saveRoundJSON;
+				break;
+			}
+			//System.exit(0);
+		}
+
+		return roundJSON.toString();
+	}
+
+	private StringBuilder modificationJsonRalentir() {
+		StringBuilder newRoundJson;
+		Action actionOARLeft =null;
+		Action actionOARRight = null;
+
+		for(Action a : actionsNextRound){
+			if(a instanceof OAR){
+				Marin sailorOAR = parsedInitGame.getSailorById(a.getSailorId());
+				if(actionOARLeft==null && sailorOAR.getY() == parsedInitGame.getBateau().getDeck().getWidth()-1){
+					actionOARLeft = a;
+				}
+				if(actionOARRight==null && sailorOAR.getY() == 0){
+					actionOARRight = a;
+				}
+			}
+		}
+		if(actionOARRight!=null && actionOARLeft!=null){
+			actionsNextRound.remove(actionOARRight);
+			actionsNextRound.remove(actionOARLeft);
+			newRoundJson = creationJson(actionsNextRound);
+		}else{
+			newRoundJson = null;
+		}
+		return newRoundJson;
+	}
+
+	public StringBuilder modificationJsonObstacles(){ // À faire
+		return null;
+	}
+
+	public void resetMarinNouveauTour(){
 		for (Marin marin : parsedInitGame.getMarins()) {
 			marin.resetMarinPourUnNouveauTour();
+		}
+	}
+
+	public void creerLogNouveautour(){
+		StringBuilder log = new StringBuilder();
+		for (Marin marin : parsedInitGame.getMarins()) {
 			log.append(marin.toString());
 		}
 		logs.add(log.toString());
+	}
 
-		for (Entity entite : parsedInitGame.getBateau().getEntities()){
-			entite.setLibre(true);
-		}
-
-		List<Action> actionsNextRound = captain.captainFaitLeJob(parsedInitGame);
+	public void tacheMarins(List<Action> actionsNextRound){
 		for(Marin m : parsedInitGame.getMarins()){
 			if (!m.isLibre()) {
-				//System.out.println(m.getId());
 				switch (m.getActionAFaire()) {
 					case "Ramer":
 						actionsNextRound.add(new OAR(m.getId()));
@@ -72,9 +148,6 @@ public class Cockpit implements ICockpit {
 				}
 			}
 		}
-
-		StringBuilder roundJSON=creationJson(actionsNextRound);
-		return roundJSON.toString();
 	}
 
 	public StringBuilder creationJson(List<Action> actionsNextRound){
@@ -98,14 +171,5 @@ public class Cockpit implements ICockpit {
 	@Override
 	public List<String> getLogs() {
 		return logs;
-	}
-
-	public InitGame getParsedInitGame() {
-		return parsedInitGame;
-	}
-
-
-	public NextRound getParsedNextRound() {
-		return parsedNextRound;
 	}
 }

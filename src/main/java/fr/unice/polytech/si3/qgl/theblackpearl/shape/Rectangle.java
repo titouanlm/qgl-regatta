@@ -8,15 +8,17 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 public class Rectangle extends Shape {
     private double width;
     private double height;
-    private double orientation;
+    private double orientationRectangle;
+    private double orientationObjecct;
+    //private double coordonneesCentre;
 
     @JsonCreator
     public Rectangle(@JsonProperty("width") double width,
-                     @JsonProperty("height") double height, @JsonProperty("orientation") double orientation) {
+                     @JsonProperty("height") double height, @JsonProperty("orientation") double orientationRectangle) {
         this.type = "rectangle";
         this.width = width;
         this.height = height;
-        this.orientation = orientation;
+        this.orientationRectangle = orientationRectangle;
     }
 
     public double getWidth() {
@@ -35,13 +37,14 @@ public class Rectangle extends Shape {
         this.height = height;
     }
 
-    public double getOrientation() {
-        return orientation;
+    public void setOrientationRectangle(double orientationObjecct) {
+        this.orientationObjecct = orientationObjecct;
     }
 
-    public void setOrientation(double orientation) {
-        this.orientation = orientation;
+    public double getOrientationRectangle() {
+        return orientationObjecct;
     }
+
 
     @Override
     public String toString() {
@@ -49,7 +52,7 @@ public class Rectangle extends Shape {
                 "type=" + this.getType() +
                 ",width=" + width +
                 ", height=" + height +
-                ", orientation=" + orientation +
+                ", orientation=" + orientationRectangle +
                 '}';
     }
 }

@@ -26,7 +26,7 @@ public class LiftSailReferee extends ActionRound{
                 if(m.isLibre() && parsedInitGameReferee.getBateau().isOnSailNotUsedNotOppened(m)){
                     m.setLibre(false);
                 }else{
-                    System.out.println("ERREUR : " + m.getId() + " NE PEUT PAS HISSER !");
+                    System.out.println("ERREUR : " + m.getId() + " NE PEUT PAS HISSER !" );
                 }
                 break;
             }

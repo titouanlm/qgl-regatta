@@ -89,38 +89,38 @@ class BateauTest {
     @Test
     void nombreMarinsBabordTribord(){
         int nombreMarinAplacer[];
-        nombreMarinAplacer = this.bateau.nombreMarinsBabordTribordRames(-Math.PI/2, bateau.getListRames());
+        nombreMarinAplacer = this.bateau.nombreMarinsRamesBabordTribordRames(-Math.PI/2, bateau.getListRames());
         assertEquals(3,nombreMarinAplacer[0]);
         assertEquals(0,nombreMarinAplacer[1]);
-        nombreMarinAplacer = this.bateau.nombreMarinsBabordTribordRames((-Math.PI/2 + Math.PI/6), bateau.getListRames());
+        nombreMarinAplacer = this.bateau.nombreMarinsRamesBabordTribordRames((-Math.PI/2 + Math.PI/6), bateau.getListRames());
         assertEquals(3,nombreMarinAplacer[0]);
         assertEquals(1,nombreMarinAplacer[1]);
-        nombreMarinAplacer = this.bateau.nombreMarinsBabordTribordRames((-Math.PI/2 + 2*Math.PI/6), bateau.getListRames());
+        nombreMarinAplacer = this.bateau.nombreMarinsRamesBabordTribordRames((-Math.PI/2 + 2*Math.PI/6), bateau.getListRames());
         assertEquals(3,nombreMarinAplacer[0]);
         assertEquals(2,nombreMarinAplacer[1]);
-        nombreMarinAplacer = this.bateau.nombreMarinsBabordTribordRames((-Math.PI/2 + 3*Math.PI/6), bateau.getListRames());
+        nombreMarinAplacer = this.bateau.nombreMarinsRamesBabordTribordRames((-Math.PI/2 + 3*Math.PI/6), bateau.getListRames());
         assertEquals(3,nombreMarinAplacer[0]);
         assertEquals(3,nombreMarinAplacer[1]);
-        nombreMarinAplacer = this.bateau.nombreMarinsBabordTribordRames((-Math.PI/2 + 4*Math.PI/6), bateau.getListRames());
+        nombreMarinAplacer = this.bateau.nombreMarinsRamesBabordTribordRames((-Math.PI/2 + 4*Math.PI/6), bateau.getListRames());
         assertEquals(2,nombreMarinAplacer[0]);
         assertEquals(3,nombreMarinAplacer[1]);
-        nombreMarinAplacer = this.bateau.nombreMarinsBabordTribordRames((-Math.PI/2 + 5*Math.PI/6), bateau.getListRames());
+        nombreMarinAplacer = this.bateau.nombreMarinsRamesBabordTribordRames((-Math.PI/2 + 5*Math.PI/6), bateau.getListRames());
         assertEquals(1,nombreMarinAplacer[0]);
         assertEquals(3,nombreMarinAplacer[1]);
-        nombreMarinAplacer = this.bateau.nombreMarinsBabordTribordRames((-Math.PI/2 + 6*Math.PI/6), bateau.getListRames());
+        nombreMarinAplacer = this.bateau.nombreMarinsRamesBabordTribordRames((-Math.PI/2 + 6*Math.PI/6), bateau.getListRames());
         assertEquals(0,nombreMarinAplacer[0]);
         assertEquals(3,nombreMarinAplacer[1]);
         ArrayList<Entity> listeRameEnlever = new ArrayList<>();
         listeRameEnlever.add(entities.get(4));
         listeRameEnlever.add(entities.get(5));
         entities.removeAll(listeRameEnlever);
-        nombreMarinAplacer = this.bateau.nombreMarinsBabordTribordRames((-Math.PI/2 + 1*Math.PI/6), bateau.getListRames());
+        nombreMarinAplacer = this.bateau.nombreMarinsRamesBabordTribordRames((-Math.PI/2 + 1*Math.PI/6), bateau.getListRames());
         assertNull(nombreMarinAplacer);
-        nombreMarinAplacer = this.bateau.nombreMarinsBabordTribordRames((-Math.PI/2 + 2*Math.PI/6), bateau.getListRames());
+        nombreMarinAplacer = this.bateau.nombreMarinsRamesBabordTribordRames((-Math.PI/2 + 2*Math.PI/6), bateau.getListRames());
         assertNull(nombreMarinAplacer);
-        nombreMarinAplacer = this.bateau.nombreMarinsBabordTribordRames((-Math.PI/2 + 4*Math.PI/6), bateau.getListRames());
+        nombreMarinAplacer = this.bateau.nombreMarinsRamesBabordTribordRames((-Math.PI/2 + 4*Math.PI/6), bateau.getListRames());
         assertNull(nombreMarinAplacer);
-        nombreMarinAplacer = this.bateau.nombreMarinsBabordTribordRames((-Math.PI/2 + 5*Math.PI/6), bateau.getListRames());
+        nombreMarinAplacer = this.bateau.nombreMarinsRamesBabordTribordRames((-Math.PI/2 + 5*Math.PI/6), bateau.getListRames());
         assertNull(nombreMarinAplacer);
     }
 

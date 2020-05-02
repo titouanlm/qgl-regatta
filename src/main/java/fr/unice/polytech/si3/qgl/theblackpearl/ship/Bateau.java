@@ -58,13 +58,24 @@ public class Bateau {
         return entities;
     }
 
+    public Bateau clone(){
+        ArrayList<Entity> cloneEntities = new ArrayList<>();
+        for(Entity e : entities){
+            if(e instanceof Voile){
+                cloneEntities.add(((Voile) e).clone());
+            }
+            cloneEntities.add(e);
+        }
+        return new Bateau(this.type, this.life , this.position.clone(), this.name, this.deck, cloneEntities, this.shape);
+    }
+
     public Gouvernail getGouvernail(){
         for (Entity e : this.getEntities()) if (e instanceof Gouvernail) return ((Gouvernail) e);
         return null;
     }
 
-    public ArrayList<Rame> getListRames(){
-        ArrayList<Rame> listRames = new ArrayList<>();
+    public List<Rame> getListRames(){
+        List<Rame> listRames = new ArrayList<>();
         for (Entity c : getEntities()){
             if (c instanceof Rame){
                 listRames.add((Rame) c);
@@ -73,7 +84,7 @@ public class Bateau {
         return listRames;
     }
 
-    public int[] nombreMarinsBabordTribordRames(double angle, ArrayList<Rame> nombreRames){
+    public int[] nombreMarinsRamesBabordTribordRames(double angle, List<Rame> nombreRames){
         double angleCalcule=-(Math.PI/2)-Math.PI/nombreRames.size();
         int i;
         for (i=-nombreRames.size()/2; ;i++){
