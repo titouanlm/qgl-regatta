@@ -15,6 +15,7 @@ public class Cockpit implements ICockpit {
 	private InitGame parsedInitGame;
 	private NextRound parsedNextRound;
 	private ObjectMapper objectMapper;
+	private List<Action> actionsNextRound;
 	private List<String> logs;
 	private Referee2 ref;
 
@@ -49,7 +50,6 @@ public class Cockpit implements ICockpit {
 
 		Captain captain = new Captain(parsedInitGame, parsedNextRound.getWind());
 
-		List<Action> actionsNextRound = null;
 		try {
 			actionsNextRound = captain.ordreCapitaine();
 		} catch (Exception e) {
@@ -57,7 +57,8 @@ public class Cockpit implements ICockpit {
 		}
 		tacheMarins(Objects.requireNonNull(actionsNextRound));
 		StringBuilder roundJSON=creationJson(Objects.requireNonNull(actionsNextRound));
-		String saveJSON = roundJSON.toString();
+		StringBuilder saveRoundJSON = roundJSON;
+
 		while(true){
 			InitGame initGameClone = initGameDebutTour.clone();
 			ref = new Referee2(initGameClone, parsedNextRound.clone());
@@ -65,30 +66,53 @@ public class Cockpit implements ICockpit {
 			try {
 				if (!ref.startRound(roundJSON.toString())){
 					RegattaGoal regatta = (RegattaGoal) parsedInitGame.getGoal();
-					if(c.calculDistanceEntreDeuxPoints(parsedNextRound.getBateau().getPosition(), regatta.getCheckpoints().get(0).getPosition()) <= c.calculDistanceEntreDeuxPoints(initGameClone.getBateau().getPosition(), regatta.getCheckpoints().get(0).getPosition())){
-						// Modifie ici le json pour ralentir
-						modificationJsonRalentir(roundJSON);
+					if(ref.getGoThroughCheckpoint() && !c.shapeInCollision(initGameClone.getBateau(),regatta.getCheckpoints().get(0))){
+						roundJSON = modificationJsonRalentir();
 					}else{
 						break;
 					}
+				}else{
+					//collision
+					roundJSON = modificationJsonObstacles();
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				roundJSON = saveRoundJSON;
+				break;
 			}
-			System.exit(0);
-			//ON CHANGE LE CAP ICI ** roundJSON a modifier **
-			modificationJsonObstacles(roundJSON);
+			//System.exit(0);
 		}
 
 		return roundJSON.toString();
 	}
 
-	private void modificationJsonRalentir(StringBuilder roundJSON) {
+	private StringBuilder modificationJsonRalentir() {
+		StringBuilder newRoundJson;
+		Action actionOARLeft =null;
+		Action actionOARRight = null;
 
+		for(Action a : actionsNextRound){
+			if(a instanceof OAR){
+				Marin sailorOAR = parsedInitGame.getSailorById(a.getSailorId());
+				if(actionOARLeft==null && sailorOAR.getY() == parsedInitGame.getBateau().getDeck().getWidth()-1){
+					actionOARLeft = a;
+				}
+				if(actionOARRight==null && sailorOAR.getY() == 0){
+					actionOARRight = a;
+				}
+			}
+		}
+		if(actionOARRight!=null && actionOARLeft!=null){
+			actionsNextRound.remove(actionOARRight);
+			actionsNextRound.remove(actionOARLeft);
+			newRoundJson = creationJson(actionsNextRound);
+		}else{
+			newRoundJson = null;
+		}
+		return newRoundJson;
 	}
 
-	public void modificationJsonObstacles(StringBuilder roundJson){ // À faire
-
+	public StringBuilder modificationJsonObstacles(){ // À faire
+		return null;
 	}
 
 	public void resetMarinNouveauTour(){
@@ -147,9 +171,5 @@ public class Cockpit implements ICockpit {
 	@Override
 	public List<String> getLogs() {
 		return logs;
-	}
-
-	public InitGame getParsedInitGame() {
-		return parsedInitGame;
 	}
 }

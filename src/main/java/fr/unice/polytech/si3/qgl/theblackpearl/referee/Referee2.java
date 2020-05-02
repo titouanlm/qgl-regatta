@@ -32,6 +32,7 @@ public class Referee2 {
     private ObjectMapper objectMapperReferee;
     private double rotationShip;
     private double speedShip;
+    private boolean goThroughCheckpoint;
 
     public Referee2(String initGame, String firstRound, Cockpit cockpit) {
         this.initGame = initGame;
@@ -46,6 +47,7 @@ public class Referee2 {
         this.parsedInitGameReferee = initGame;
         this.parsedNextRoundReferee = nextRound;
         this.objectMapperReferee = new ObjectMapper();
+        this.goThroughCheckpoint = false;
         this.c = new Calculator();
     }
 
@@ -224,8 +226,13 @@ public class Referee2 {
                 this.speedShip += c.calculVitesseVent(nbVoileOuverte,nbVoile,parsedNextRoundReferee.getWind(), parsedInitGameReferee.getBateau());
 
             Position positionShipThisStep = c.calculNewPositionShip(this.speedShip, this.rotationShip ,parsedInitGameReferee.getBateau().getPosition(), nbStep);
-            //System.out.println(positionShipThisStep);
             parsedInitGameReferee.getBateau().setPosition(positionShipThisStep);
+
+            //test si il est dans le checkpoint
+            RegattaGoal regatta = (RegattaGoal) parsedInitGameReferee.getGoal();
+            if(c.shapeInCollision(parsedInitGameReferee.getBateau(), regatta.getCheckpoints().get(0))){
+                this.goThroughCheckpoint = true;
+            }
             if(this.testCollision()){
                 System.out.println("Position bateau : " + parsedInitGameReferee.getBateau().getPosition());
                 return true;
@@ -259,5 +266,9 @@ public class Referee2 {
             e.printStackTrace();
         }
         //System.out.println(this.nextRound);
+    }
+
+    public boolean getGoThroughCheckpoint() {
+        return this.goThroughCheckpoint;
     }
 }

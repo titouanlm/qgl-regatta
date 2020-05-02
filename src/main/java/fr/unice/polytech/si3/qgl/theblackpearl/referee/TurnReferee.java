@@ -13,10 +13,6 @@ public class TurnReferee extends ActionRound {
         this.rotation = rotation;
     }
 
-    public double getRotation() {
-        return rotation;
-    }
-
     @Override
     public String toString() {
         return "TurnTest{" +

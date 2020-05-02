@@ -70,4 +70,12 @@ public class InitGame {
         return new InitGame(cloneGoal, shipCount, cloneBateau, cloneSailors);
     }
 
+    public Marin getSailorById(int sailorId) {
+        for(Marin m : sailors){
+            if(m.getId() == sailorId){
+                return m;
+            }
+        }
+        return null;
+    }
 }
