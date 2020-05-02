@@ -1,4 +1,5 @@
 package fr.unice.polytech.si3.qgl.theblackpearl;
+import fr.unice.polytech.si3.qgl.theblackpearl.decisions.Marin;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Rame;
 import org.junit.jupiter.api.BeforeEach;
@@ -6,7 +7,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 

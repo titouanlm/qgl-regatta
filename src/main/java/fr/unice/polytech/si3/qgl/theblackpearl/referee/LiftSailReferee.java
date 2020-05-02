@@ -2,7 +2,7 @@ package fr.unice.polytech.si3.qgl.theblackpearl.referee;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import fr.unice.polytech.si3.qgl.theblackpearl.Marin;
+import fr.unice.polytech.si3.qgl.theblackpearl.decisions.Marin;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
 
 @JsonTypeName("LIFT_SAIL")

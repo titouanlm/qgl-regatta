@@ -1,4 +1,4 @@
-package fr.unice.polytech.si3.qgl.theblackpearl;
+package fr.unice.polytech.si3.qgl.theblackpearl.decisions;
 
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.Checkpoint;
 import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.*;
@@ -49,22 +49,11 @@ public class Calculator {
         return Math.atan2(pos2.getY()-pos1.getY(),pos2.getX()-pos1.getX()) - pos1.getOrientation();
     }
 
-    public boolean pointIsInsideCheckpoint(Position point, Checkpoint checkpoint) {
-        double distanceCBCC = calculDistanceEntreDeuxPoints(point, checkpoint.getPosition());
-        if(checkpoint.getShape() instanceof Circle){
-            Circle circle = (Circle) checkpoint.getShape();
-            return distanceCBCC <= circle.getRadius();
-        }else{
-            Rectangle rectangle = (Rectangle) checkpoint.getShape();
-            return distanceCBCC <= rectangle.getWidth()/2;
-        }
-    }
-
     public boolean shapeInCollision(Bateau bateau, Checkpoint checkpoint) throws Exception { // Peut y avoir un probleme du à l'orientation du rectangle et du bateau
-        return shapescollide(bateau, checkpoint);
+        return shapesCollide(bateau, checkpoint);
     }
 
-    public boolean shapescollide(Object object1, Object object2) throws Exception {
+    public boolean shapesCollide(Object object1, Object object2) throws Exception {
         Shape shape1 =  getShape(object1);
         Shape shape2  = getShape(object2);
         if (shape1 == null || shape2 == null) return false;
@@ -231,31 +220,27 @@ public class Calculator {
 
     }
 
-    public Point pointBasGauche(Rectangle shape2){ // MODIFIÉ MAIS PAS SUR
+    public Point pointBasGauche(Rectangle shape2){
         double xModifie = Math.cos(shape2.getOrientationRectangle()+shape2.getCoordonneesCentre().getOrientation())*-shape2.getHeight()/2-Math.sin(shape2.getOrientationRectangle()+shape2.getCoordonneesCentre().getOrientation())*-shape2.getWidth()/2;
         double yModifie = Math.sin(shape2.getOrientationRectangle()+shape2.getCoordonneesCentre().getOrientation())*-shape2.getHeight()/2+Math.cos(shape2.getOrientationRectangle()+shape2.getCoordonneesCentre().getOrientation())*-shape2.getWidth()/2;
-        //System.out.println(" BAS GAUCHE : X " + xModifie + " Y " + yModifie);
         return new Point(xModifie+shape2.getCoordonneesCentre().getX(),yModifie+shape2.getCoordonneesCentre().getY());
     }
 
-    public Point pointBasDroit(Rectangle shape2){ // ici peut etre confusion avec height et width
+    public Point pointBasDroit(Rectangle shape2){
         double xModifie = Math.cos(shape2.getOrientationRectangle()+shape2.getCoordonneesCentre().getOrientation())*+shape2.getHeight()/2-Math.sin(shape2.getOrientationRectangle()+shape2.getCoordonneesCentre().getOrientation())*-shape2.getWidth()/2;
         double yModifie = Math.sin(shape2.getOrientationRectangle()+shape2.getCoordonneesCentre().getOrientation())*+shape2.getHeight()/2+Math.cos(shape2.getOrientationRectangle()+shape2.getCoordonneesCentre().getOrientation())*-shape2.getWidth()/2;
-        //System.out.println(" BAS DROIT : X " + xModifie + " Y " + yModifie);
         return new Point(xModifie+shape2.getCoordonneesCentre().getX(),yModifie+shape2.getCoordonneesCentre().getY());
     }
 
-    public Point pointHautGauche(Rectangle shape2){ // ici peut etre confusion avec height et width
+    public Point pointHautGauche(Rectangle shape2){
         double xModifie = Math.cos(shape2.getOrientationRectangle()+shape2.getCoordonneesCentre().getOrientation())*-shape2.getHeight()/2-Math.sin(shape2.getOrientationRectangle()+shape2.getCoordonneesCentre().getOrientation())*+shape2.getWidth()/2;
         double yModifie = Math.sin(shape2.getOrientationRectangle()+shape2.getCoordonneesCentre().getOrientation())*-shape2.getHeight()/2+Math.cos(shape2.getOrientationRectangle()+shape2.getCoordonneesCentre().getOrientation())*+shape2.getWidth()/2;
-        //System.out.println(" HAUT GAUCHE : X " + xModifie + " Y " + yModifie);
         return new Point(xModifie+shape2.getCoordonneesCentre().getX(),yModifie+shape2.getCoordonneesCentre().getY());
     }
 
-    public Point pointHautDroit(Rectangle shape2){ // ici peut etre confusion avec height et width
+    public Point pointHautDroit(Rectangle shape2){
         double xModifie = Math.cos(shape2.getOrientationRectangle()+shape2.getCoordonneesCentre().getOrientation())*+shape2.getHeight()/2-Math.sin(shape2.getOrientationRectangle()+shape2.getCoordonneesCentre().getOrientation())*+shape2.getWidth()/2;
         double yModifie = Math.sin(shape2.getOrientationRectangle()+shape2.getCoordonneesCentre().getOrientation())*+shape2.getHeight()/2+Math.cos(shape2.getOrientationRectangle()+shape2.getCoordonneesCentre().getOrientation())*+shape2.getWidth()/2;
-        //System.out.println(" HAUT DROIT : X " + xModifie + " Y " + yModifie);
         return new Point(xModifie+shape2.getCoordonneesCentre().getX(),yModifie+shape2.getCoordonneesCentre().getY());
     }
 
@@ -303,7 +288,6 @@ public class Calculator {
                     d = Math.sqrt(Math.pow(pointRectangle.getX()-shape.getCoordonneesCentre().getX(),2)+Math.pow(pointRectangle.getY()-shape.getCoordonneesCentre().getY(),2));
                 }
             }
-            //System.out.println(d);
         }
         else {
             for (Point pointPolygone : ((Polygone) shape2).getVertices()){

@@ -1,14 +1,10 @@
 package fr.unice.polytech.si3.qgl.theblackpearl;
 
+import fr.unice.polytech.si3.qgl.theblackpearl.decisions.Calculator;
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.Checkpoint;
-import fr.unice.polytech.si3.qgl.theblackpearl.shape.Circle;
-import fr.unice.polytech.si3.qgl.theblackpearl.shape.Point;
-import fr.unice.polytech.si3.qgl.theblackpearl.shape.Rectangle;
-import fr.unice.polytech.si3.qgl.theblackpearl.shape.Shape;
+import fr.unice.polytech.si3.qgl.theblackpearl.shape.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,7 +21,7 @@ class CalculatorTest {
         posCheckpoint = new Position(1000, 1000,0);
     }
 
-    /*@Test
+    @Test
     void calculDistanceEntreDeuxPoints() {
         assertEquals(calcul.calculDistanceEntreDeuxPoints(posBateau, posCheckpoint), 53.0);
         posBateau = new Position(853, 202,0);
@@ -38,6 +34,7 @@ class CalculatorTest {
         posCheckpoint = new Position(-4 , -1,0);
         assertEquals(calcul.calculDistanceEntreDeuxPoints(posBateau, posCheckpoint), 6.0);
     }
+
 
     @Test
     void calculAngleIdeal() {
@@ -59,17 +56,18 @@ class CalculatorTest {
 
     }
 
-    @Test
-    void pointIsInsideCheckpoint() {
-        checkpoint = new Checkpoint(posCheckpoint, new Circle(50));
-        assertFalse(calcul.shapeInCollision(posBateau, checkpoint));
-        posBateau = new Position(950, 1000,0);
-        assertTrue(calcul.shapeInCollision(posBateau, checkpoint));
-        posBateau = new Position(1000, 1000,0);
-        assertTrue(calcul.shapeInCollision(posBateau, checkpoint));
-        posBateau = new Position(958.3, 973.8,0);
-        assertTrue(calcul.shapeInCollision(posBateau, checkpoint));
-    }
+//    @Test
+//    void pointIsInsideCheckpoint() {
+//        checkpoint = new Checkpoint(posCheckpoint, new Circle(50));
+//        assertFalse(calcul.shapeInCollision(posBateau, checkpoint));
+//        posBateau = new Position(950, 1000,0);
+//        assertTrue(calcul.shapeInCollision(posBateau, checkpoint));
+//        posBateau = new Position(1000, 1000,0);
+//        assertTrue(calcul.shapeInCollision(posBateau, checkpoint));
+//        posBateau = new Position(958.3, 973.8,0);
+//        assertTrue(calcul.shapeInCollision(posBateau, checkpoint));
+//    }
+
 
 
     @Test
@@ -86,7 +84,7 @@ class CalculatorTest {
     void calculAnglesPossiblesEnFonctionDesRames() {
 
     }
-
+/*
     /*@Test
     void calculNewPositionShip(){
         posBateau = new Position(0, 0,0);
@@ -139,18 +137,19 @@ class CalculatorTest {
 
     }*/
 
-    @Test
-    void testPointGauche(){
-        Rectangle s = new Rectangle(2, 10, 0.78);
-        s.setCoordonneesCentre(new Position(0,0,0.78));
-        Point BG = calcul.pointBasGauche(s);
-        Point BD = calcul.pointBasDroit(s);
-        Point HD = calcul.pointHautDroit(s);
-        Point HG = calcul.pointHautGauche(s);
-        System.out.println(BG);
-        System.out.println(BD);
-        System.out.println(HD);
-        System.out.println(HG);
-    }
+//    @Test
+//    void testPoints(){
+//        Rectangle s = new Rectangle(2, 10, 0);
+//        s.setCoordonneesCentre(new Position(0,0,0));
+//        Point BG = calcul.pointBasGauche(s);
+//        Point BD = calcul.pointBasDroit(s);
+//        Point HD = calcul.pointHautDroit(s);
+//        Point HG = calcul.pointHautGauche(s);
+//        //assertEquals();
+//        System.out.println(BG);
+//        System.out.println(BD);
+//        System.out.println(HD);
+//        System.out.println(HG);
+//    }
 
 }

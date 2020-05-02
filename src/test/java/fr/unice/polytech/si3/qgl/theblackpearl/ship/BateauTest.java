@@ -1,7 +1,7 @@
 package fr.unice.polytech.si3.qgl.theblackpearl.ship;
 
-import fr.unice.polytech.si3.qgl.theblackpearl.Marin;
-import fr.unice.polytech.si3.qgl.theblackpearl.Position;
+import fr.unice.polytech.si3.qgl.theblackpearl.decisions.Marin;
+import fr.unice.polytech.si3.qgl.theblackpearl.shape.Position;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Shape;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
@@ -20,8 +20,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BateauTest {
-    private Position pos;
-    private Deck deck ;
     private ArrayList<Entity> entities;
     private Shape shape;
     private Bateau bateau;
@@ -46,8 +44,8 @@ class BateauTest {
         entities.add(new Rame(1,1));
         entities.add(new Rame(2,0));
         entities.add(new Rame(2,1));
-        pos = new Position(0,0,0);
-        deck = new Deck(2, 3);
+        Position pos = new Position(0, 0, 0);
+        Deck deck = new Deck(2, 3);
         shape = new Rectangle( 2, 3, 0 );
         bateau = new Bateau("ship", 100, pos, "Les copaings d'abord!", deck, entities, shape);
     }
@@ -202,7 +200,6 @@ class BateauTest {
         entities=null;
         assertNotNull(bateau.toString());
     }
-
 
 
 }

@@ -1,15 +1,15 @@
-package fr.unice.polytech.si3.qgl.theblackpearl;
+package fr.unice.polytech.si3.qgl.theblackpearl.decisions;
 
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.Action;
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.MOVING;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.RegattaGoal;
 import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.Vent;
+import fr.unice.polytech.si3.qgl.theblackpearl.shape.Position;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Gouvernail;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Voile;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,10 +33,6 @@ public class SalleDesCommandes {
         this.parsedInitGame =game;
         this.vent=vent;
         this.actionsNextRound=actionsNextRound;
-    }
-
-    public int[][] getTableauPositionMarinOriginale() {
-        return tableauPositionMarinOriginale;
     }
 
     public void creationTableauMarins(){
@@ -83,8 +79,8 @@ public class SalleDesCommandes {
         return calculateur;
     }
 
-    public void initConfigurationRames(int meilleurAngleRealisablePosition, List<Marin> marinsOccupés){
-        this.marinsOccupes =marinsOccupés;
+    public void initConfigurationRames(int meilleurAngleRealisablePosition, List<Marin> marinsOccupes){
+        this.marinsOccupes =marinsOccupes;
         this.meilleurAngleRealisablePosition=meilleurAngleRealisablePosition;
         creationTableauMarins();
         this.continuerConfigurationRames=true;
@@ -195,9 +191,23 @@ public class SalleDesCommandes {
                 Math.sqrt(Math.pow(2,game.getBateau().getPosition().getX()-((RegattaGoal) game.getGoal()).getCheckpoints().get(0).getPosition().getX()) + Math.pow(2,game.getBateau().getPosition().getY()-((RegattaGoal) game.getGoal()).getCheckpoints().get(0).getPosition().getY()));
     }
 
-    public boolean isThereARudder(){ for (Entity e : parsedInitGame.getBateau().getEntities()) if (e instanceof Gouvernail) return true; return false; }
+    public boolean isThereARudder(){
+        for (Entity e : parsedInitGame.getBateau().getEntities()) {
+            if (e instanceof Gouvernail){
+                return true;
+            }
+        }
+        return false;
+    }
 
-    public boolean isThereASail(){ for (Entity e : parsedInitGame.getBateau().getEntities()) if (e instanceof Voile) return true; return false; }
+    public boolean isThereASail(){
+        for (Entity e : parsedInitGame.getBateau().getEntities()) {
+            if (e instanceof Voile){
+                return true;
+            }
+        }
+        return false;
+    }
 
     public Marin configurationGouvernail(){
         for (Marin m : parsedInitGame.getMarins()){

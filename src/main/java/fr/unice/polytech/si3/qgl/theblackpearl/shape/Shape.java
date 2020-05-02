@@ -1,7 +1,6 @@
 package fr.unice.polytech.si3.qgl.theblackpearl.shape;
 
 import com.fasterxml.jackson.annotation.*;
-import fr.unice.polytech.si3.qgl.theblackpearl.Position;
 
 
 @JsonTypeInfo(

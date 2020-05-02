@@ -8,19 +8,7 @@ import java.util.ArrayList;
 
 @JsonTypeName("oar")
 public class Rame extends Entity{
-
-
     private boolean isUsed;
-
-    public int getNombreMarinsPouvantDeplacerIci() {
-        return nombreMarinsPouvantDeplacerIci;
-    }
-
-    public void setNombreMarinsPouvantDeplacerIci(int nombreMarinsPouvantDeplacerIci) {
-        this.nombreMarinsPouvantDeplacerIci = nombreMarinsPouvantDeplacerIci;
-    }
-
-    private int nombreMarinsPouvantDeplacerIci=9999;
 
     @JsonCreator
     public Rame(@JsonProperty("x") int x,@JsonProperty("y") int y) {

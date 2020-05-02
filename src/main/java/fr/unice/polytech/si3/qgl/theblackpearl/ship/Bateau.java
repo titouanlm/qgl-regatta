@@ -1,9 +1,9 @@
 package fr.unice.polytech.si3.qgl.theblackpearl.ship;
 
 import com.fasterxml.jackson.annotation.*;
-import fr.unice.polytech.si3.qgl.theblackpearl.Marin;
+import fr.unice.polytech.si3.qgl.theblackpearl.decisions.Marin;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
-import fr.unice.polytech.si3.qgl.theblackpearl.Position;
+import fr.unice.polytech.si3.qgl.theblackpearl.shape.Position;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Shape;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Gouvernail;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Rame;

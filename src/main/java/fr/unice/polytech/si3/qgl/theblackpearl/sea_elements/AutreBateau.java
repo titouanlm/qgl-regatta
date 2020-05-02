@@ -1,6 +1,6 @@
 package fr.unice.polytech.si3.qgl.theblackpearl.sea_elements;
 
-import fr.unice.polytech.si3.qgl.theblackpearl.Position;
+import fr.unice.polytech.si3.qgl.theblackpearl.shape.Position;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Shape;
 
 public class AutreBateau extends VisibleEntity {

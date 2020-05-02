@@ -1,11 +1,10 @@
-package fr.unice.polytech.si3.qgl.theblackpearl;
+package fr.unice.polytech.si3.qgl.theblackpearl.decisions;
 
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.Action;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.Checkpoint;
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.RegattaGoal;
 import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.Vent;
-import fr.unice.polytech.si3.qgl.theblackpearl.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Gouvernail;
 
 import java.util.ArrayList;

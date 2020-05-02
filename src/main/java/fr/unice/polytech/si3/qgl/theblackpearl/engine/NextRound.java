@@ -6,7 +6,6 @@ import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.Vent;
 import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.VisibleEntity;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.Bateau;
 
-import java.util.Arrays;
 import java.util.List;
 
 @JsonIgnoreProperties(value = { "bateau","vent"})

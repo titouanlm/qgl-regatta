@@ -2,10 +2,10 @@ package fr.unice.polytech.si3.qgl.theblackpearl.referee;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.unice.polytech.si3.qgl.theblackpearl.Calculator;
+import fr.unice.polytech.si3.qgl.theblackpearl.decisions.Calculator;
 import fr.unice.polytech.si3.qgl.theblackpearl.Cockpit;
-import fr.unice.polytech.si3.qgl.theblackpearl.Marin;
-import fr.unice.polytech.si3.qgl.theblackpearl.Position;
+import fr.unice.polytech.si3.qgl.theblackpearl.decisions.Marin;
+import fr.unice.polytech.si3.qgl.theblackpearl.shape.Position;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.NextRound;
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.Checkpoint;
@@ -14,11 +14,8 @@ import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.AutreBateau;
 import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.Courant;
 import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.Recif;
 import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.VisibleEntity;
-import fr.unice.polytech.si3.qgl.theblackpearl.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
-import org.w3c.dom.css.Rect;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Referee2 {
@@ -72,10 +69,9 @@ public class Referee2 {
         return this.crashTest();
     }
 
-    public void initGame() {
+    private void initGame() {
         try {
             parsedInitGameReferee = objectMapperReferee.readValue(initGame, InitGame.class);
-            RegattaGoal regatta =  (RegattaGoal) parsedInitGameReferee.getGoal();
             this.cockpit.initGame(initGame);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
@@ -113,8 +109,6 @@ public class Referee2 {
         RegattaGoal regatta =  (RegattaGoal) parsedInitGameReferee.getGoal();
         List<Checkpoint> checkpoints = regatta.getCheckpoints();
         if(c.shapeInCollision(parsedInitGameReferee.getBateau(), checkpoints.get(0))){
-            //System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" + parsedInitGameReferee.getBateau().getPosition() + "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-            //System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" + regatta.getCheckpoints().get(0).getPosition() + "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
             regatta.removeCheckpoint();
         }
         return regatta.getCheckpoints().isEmpty();
@@ -126,10 +120,6 @@ public class Referee2 {
             this.parsedActionsRound = objectMapperReferee.readValue(actionsRound, ActionsRound.class);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
-        }
-
-        for (ActionRound a : this.parsedActionsRound.getActionsRound()) {
-            //System.out.println(a);
         }
     }
 
@@ -174,7 +164,7 @@ public class Referee2 {
             //TEST COURANT
             for(VisibleEntity v : parsedNextRoundReferee.getVisibleEntities()){
                 if(v instanceof Courant){
-                    if(c.shapescollide(parsedInitGameReferee.getBateau(), v)){
+                    if(c.shapesCollide(parsedInitGameReferee.getBateau(), v)){
                         Position positionAfterStream = c.calculInfluenceOfStream(parsedInitGameReferee.getBateau().getPosition(), (Courant) v, nbStep);
                         parsedInitGameReferee.getBateau().setPosition(positionAfterStream);
                         //System.out.println("COURANT" + N + " : " + parsedInitGameReferee.getBateau().getPosition());
@@ -191,9 +181,6 @@ public class Referee2 {
             parsedInitGameReferee.getBateau().setPosition(positionShipThisStep);
             N++;
         }
-        //MAJ Orientation de la forme du bateau
-        //Rectangle shipShape = (Rectangle) parsedInitGameReferee.getBateau().getShape();
-        //shipShape.setOrientationRectangle(parsedInitGameReferee.getBateau().getPosition().getOrientation());
     }
 
     private boolean crashTest() throws Exception {
@@ -214,7 +201,7 @@ public class Referee2 {
             //TEST COURANT
             for(VisibleEntity v : parsedNextRoundReferee.getVisibleEntities()){
                 if(v instanceof Courant){
-                    if(c.shapescollide(parsedInitGameReferee.getBateau(), v)){
+                    if(c.shapesCollide(parsedInitGameReferee.getBateau(), v)){
                         Position positionAfterStream = c.calculInfluenceOfStream(parsedInitGameReferee.getBateau().getPosition(), (Courant) v, nbStep);
                         parsedInitGameReferee.getBateau().setPosition(positionAfterStream);
                     }
@@ -240,16 +227,13 @@ public class Referee2 {
             }
             N++;
         }
-        //MAJ Orientation de la forme du bateau
-        //Rectangle shipShape = (Rectangle) parsedInitGameReferee.getBateau().getShape();
-        //shipShape.setOrientationRectangle(parsedInitGameReferee.getBateau().getPosition().getOrientation());
         return false;
     }
 
     private boolean testCollision() throws Exception {
         for(VisibleEntity v : parsedNextRoundReferee.getVisibleEntities()){
             if(v instanceof Recif || v instanceof AutreBateau){
-                if (c.shapescollide(parsedInitGameReferee.getBateau(), v)){
+                if (c.shapesCollide(parsedInitGameReferee.getBateau(), v)){
                     System.out.println(" ******************************** COLLISION ******************************** ");
                     //System.out.println(v.getPosition() + " Height : " + ((Rectangle) v.getShape()).getHeight() + " Width : " + ((Rectangle) v.getShape()).getWidth());
                     return true;
@@ -266,7 +250,6 @@ public class Referee2 {
         }catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        //System.out.println(this.nextRound);
     }
 
     public boolean getGoThroughCheckpoint() {

@@ -1,7 +1,7 @@
 package fr.unice.polytech.si3.qgl.theblackpearl.ship.entities;
 
 import com.fasterxml.jackson.annotation.*;
-import fr.unice.polytech.si3.qgl.theblackpearl.Marin;
+import fr.unice.polytech.si3.qgl.theblackpearl.decisions.Marin;
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.MOVING;
 
 import java.util.ArrayList;

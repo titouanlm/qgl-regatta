@@ -1,4 +1,4 @@
-package fr.unice.polytech.si3.qgl.theblackpearl;
+package fr.unice.polytech.si3.qgl.theblackpearl.shape;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -33,10 +33,6 @@ public class Position {
 
     public double getOrientation() {
         return orientation;
-    }
-
-    public void setOrientation(double orientation) {
-        this.orientation = orientation;
     }
 
     @Override
