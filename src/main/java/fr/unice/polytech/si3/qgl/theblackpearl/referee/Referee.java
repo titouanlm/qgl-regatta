@@ -4,23 +4,23 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.unice.polytech.si3.qgl.theblackpearl.decisions.Calculator;
 import fr.unice.polytech.si3.qgl.theblackpearl.Cockpit;
-import fr.unice.polytech.si3.qgl.theblackpearl.decisions.Marin;
-import fr.unice.polytech.si3.qgl.theblackpearl.shape.Polygone;
+import fr.unice.polytech.si3.qgl.theblackpearl.decisions.Sailor;
+import fr.unice.polytech.si3.qgl.theblackpearl.shape.Polygon;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Position;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.NextRound;
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.Checkpoint;
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.RegattaGoal;
-import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.AutreBateau;
-import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.Courant;
-import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.Recif;
+import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.OtherShip;
+import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.Stream;
+import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.Reef;
 import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.VisibleEntity;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
 
 import java.util.List;
 
-public class Referee2 {
+public class Referee {
     private String initGame;
     private String nextRound;
     private Cockpit cockpit;
@@ -34,7 +34,7 @@ public class Referee2 {
     private double speedShip;
     private boolean goThroughCheckpoint;
 
-    public Referee2(String initGame, String firstRound, Cockpit cockpit) {
+    public Referee(String initGame, String firstRound, Cockpit cockpit) {
         this.initGame = initGame;
         this.nextRound = firstRound;
         this.cockpit = cockpit;
@@ -43,7 +43,7 @@ public class Referee2 {
         this.c = new Calculator();
     }
 
-    public Referee2(InitGame initGame, NextRound nextRound) {
+    public Referee(InitGame initGame, NextRound nextRound) {
         this.parsedInitGameReferee = initGame;
         this.parsedNextRoundReferee = nextRound;
         this.objectMapperReferee = new ObjectMapper();
@@ -81,7 +81,7 @@ public class Referee2 {
     }
 
     public void resetSailors() {
-        for (Marin m : parsedInitGameReferee.getMarins()) {
+        for (Sailor m : parsedInitGameReferee.getMarins()) {
             m.setCanMove(true);
             m.setLibre(true);
         }
@@ -122,7 +122,7 @@ public class Referee2 {
     public boolean getFinishGame() throws Exception {
         RegattaGoal regatta =  (RegattaGoal) parsedInitGameReferee.getGoal();
         List<Checkpoint> checkpoints = regatta.getCheckpoints();
-        if(c.bateauDansCheckpoint(parsedInitGameReferee.getBateau(), checkpoints.get(0))){
+        if(c.shipIsInsideCheckpoint(parsedInitGameReferee.getBateau(), checkpoints.get(0))){
             regatta.removeCheckpoint();
         }
         return regatta.getCheckpoints().isEmpty();
@@ -165,7 +165,7 @@ public class Referee2 {
         int nbRamesBabord = parsedInitGameReferee.getBateau().nbMarinRameBabord();
         int nbRamesTribord = parsedInitGameReferee.getBateau().nbMarinRameTribord();
         int nbRames = parsedInitGameReferee.getBateau().getNbRame();
-        this.rotationShip += c.calculRotationRamesTribordBabord(nbRamesBabord,nbRamesTribord, nbRames);
+        this.rotationShip += c.calculateOarsRotation(nbRamesBabord,nbRamesTribord, nbRames);
 
         //Calculs voiles
         int nbVoileOuverte = parsedInitGameReferee.getBateau().nbVoileOuverte();
@@ -177,9 +177,9 @@ public class Referee2 {
         while(N<nbStep){
             //TEST COURANT
             for(VisibleEntity v : parsedNextRoundReferee.getVisibleEntities()){
-                if(v instanceof Courant){
+                if(v instanceof Stream){
                     if(c.shapesCollide(parsedInitGameReferee.getBateau(), v)){
-                        Position positionAfterStream = c.calculInfluenceOfStream(parsedInitGameReferee.getBateau().getPosition(), (Courant) v, nbStep);
+                        Position positionAfterStream = c.calculateInfluenceOfStream(parsedInitGameReferee.getBateau().getPosition(), (Stream) v, nbStep);
                         parsedInitGameReferee.getBateau().setPosition(positionAfterStream);
                         //System.out.println("COURANT" + N + " : " + parsedInitGameReferee.getBateau().getPosition());
                     }
@@ -187,16 +187,16 @@ public class Referee2 {
             }
 
             this.speedShip=0.;
-            this.speedShip += c.calculVitesseRames(nbRamesBabord+nbRamesTribord,nbRames);
+            this.speedShip += c.calculateOarSpeed(nbRamesBabord+nbRamesTribord,nbRames);
             if(nbVoile>0)
-                this.speedShip += c.calculVitesseVent(nbVoileOuverte,nbVoile,parsedNextRoundReferee.getWind(), parsedInitGameReferee.getBateau());
+                this.speedShip += c.calculateWindSpeed(nbVoileOuverte,nbVoile,parsedNextRoundReferee.getWind(), parsedInitGameReferee.getBateau());
 
             Position positionShipThisStep = c.calculNewPositionShip(this.speedShip, this.rotationShip ,parsedInitGameReferee.getBateau().getPosition(), nbStep);
             parsedInitGameReferee.getBateau().setPosition(positionShipThisStep);
 
             if(this.cockpit==null){
                 RegattaGoal regatta = (RegattaGoal) parsedInitGameReferee.getGoal();
-                if(c.bateauDansCheckpoint(parsedInitGameReferee.getBateau(), regatta.getCheckpoints().get(0))){
+                if(c.shipIsInsideCheckpoint(parsedInitGameReferee.getBateau(), regatta.getCheckpoints().get(0))){
                     this.goThroughCheckpoint = true;
                 }
                 //parsedInitGameReferee.getBateau().setPosition(new Position(3191.19162022669,5360.3118055659015,0.018967404239899847));
@@ -216,13 +216,13 @@ public class Referee2 {
 
     public boolean testCollision() throws Exception {
         for(VisibleEntity v : parsedNextRoundReferee.getVisibleEntities()){
-            if(v instanceof Recif || v instanceof AutreBateau){
+            if(v instanceof Reef || v instanceof OtherShip){
                 if (c.shapesCollide(parsedInitGameReferee.getBateau(), v)){
                     System.out.println(" ******************************** COLLISION ******************************** ");
                     if (v.getShape() instanceof Rectangle)
                         System.out.println(v.getPosition() + " Height : " + ((Rectangle) v.getShape()).getHeight() + " Width : " + ((Rectangle) v.getShape()).getWidth());
-                    else if (v.getShape() instanceof Polygone)
-                        System.out.println("Recif : "+ v+" Polygone : "+ ((Polygone) v.getShape()).getVertices());
+                    else if (v.getShape() instanceof Polygon)
+                        System.out.println("Recif : "+ v+" Polygone : "+ ((Polygon) v.getShape()).getVertices());
                     return true;
                 }
             }

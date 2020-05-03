@@ -4,12 +4,12 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-public class Vent {
+public class Wind {
     private double orientation;
     private double strength;
 
     @JsonCreator
-    public Vent(@JsonProperty("orientation")double orientation,@JsonProperty("strength") double strength) {
+    public Wind(@JsonProperty("orientation")double orientation, @JsonProperty("strength") double strength) {
         this.orientation = orientation;
         this.strength = strength;
     }

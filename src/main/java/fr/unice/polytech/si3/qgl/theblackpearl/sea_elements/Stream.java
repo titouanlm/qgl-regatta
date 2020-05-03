@@ -7,11 +7,11 @@ import fr.unice.polytech.si3.qgl.theblackpearl.shape.Position;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Shape;
 
 @JsonTypeName("stream")
-public class Courant extends VisibleEntity {
+public class Stream extends VisibleEntity {
     private double strength;
     @JsonCreator
-    protected Courant(@JsonProperty("type") String type,@JsonProperty("position") Position position,
-                      @JsonProperty("shape") Shape shape,@JsonProperty("strength") double strength) {
+    protected Stream(@JsonProperty("type") String type, @JsonProperty("position") Position position,
+                     @JsonProperty("shape") Shape shape, @JsonProperty("strength") double strength) {
         super(type, position, shape);
         this.strength = strength;
     }

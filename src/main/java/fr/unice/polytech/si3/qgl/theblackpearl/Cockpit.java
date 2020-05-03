@@ -8,11 +8,11 @@ import fr.unice.polytech.si3.qgl.regatta.cockpit.ICockpit;
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.*;
 import fr.unice.polytech.si3.qgl.theblackpearl.decisions.Calculator;
 import fr.unice.polytech.si3.qgl.theblackpearl.decisions.Captain;
-import fr.unice.polytech.si3.qgl.theblackpearl.decisions.Marin;
+import fr.unice.polytech.si3.qgl.theblackpearl.decisions.Sailor;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.NextRound;
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.RegattaGoal;
-import fr.unice.polytech.si3.qgl.theblackpearl.referee.Referee2;
+import fr.unice.polytech.si3.qgl.theblackpearl.referee.Referee;
 
 public class Cockpit implements ICockpit {
 	private InitGame parsedInitGame;
@@ -20,7 +20,7 @@ public class Cockpit implements ICockpit {
 	private ObjectMapper objectMapper;
 	private List<Action> actionsNextRound;
 	private List<String> logs;
-	private Referee2 ref;
+	private Referee ref;
 
 
 	public Cockpit(){
@@ -60,28 +60,24 @@ public class Cockpit implements ICockpit {
 		tacheMarins(Objects.requireNonNull(actionsNextRound));
 		StringBuilder roundJSON=creationJson(Objects.requireNonNull(actionsNextRound));
 		StringBuilder saveRoundJSON = roundJSON;
-		correctionConfigurationBateau(roundJSON,saveRoundJSON,initGameDebutTour);
+		roundJSON = correctionConfigurationBateau(roundJSON,saveRoundJSON,initGameDebutTour);
 
 		return roundJSON.toString();
 	}
 
-	private void correctionConfigurationBateau(StringBuilder roundJSON, StringBuilder saveRoundJSON, InitGame initGameDebutTour){
+	private StringBuilder correctionConfigurationBateau(StringBuilder roundJSON, StringBuilder saveRoundJSON, InitGame initGameDebutTour){
 		while(true){
 			InitGame initGameClone = initGameDebutTour.clone();
-			ref = new Referee2(initGameClone, parsedNextRound.clone());
+			ref = new Referee(initGameClone, parsedNextRound.clone());
 			Calculator c = new Calculator();
 			try {
 				if (!ref.startRound(roundJSON.toString())){
 					RegattaGoal regatta = (RegattaGoal) parsedInitGame.getGoal();
-					if(ref.getGoThroughCheckpoint() && !c.bateauDansCheckpoint(initGameClone.getBateau(),regatta.getCheckpoints().get(0))){
+					if(ref.getGoThroughCheckpoint() && !c.shipIsInsideCheckpoint(initGameClone.getBateau(),regatta.getCheckpoints().get(0))){
 						roundJSON = modificationJsonRalentir();
 					}else{
 						break;
 					}
-				}else{
-					break;
-					/*System.exit(9);
-					roundJSON = modificationJsonObstacles(roundJSON);*/
 				}
 			} catch (Exception e) {
 				roundJSON = saveRoundJSON;
@@ -89,6 +85,7 @@ public class Cockpit implements ICockpit {
 			}
 			//System.exit(0);
 		}
+		return roundJSON;
 	}
 
 	private StringBuilder modificationJsonRalentir() {
@@ -98,7 +95,7 @@ public class Cockpit implements ICockpit {
 
 		for(Action a : actionsNextRound){
 			if(a instanceof OAR){
-				Marin sailorOAR = parsedInitGame.getSailorById(a.getSailorId());
+				Sailor sailorOAR = parsedInitGame.getSailorById(a.getSailorId());
 				if(actionOARLeft==null && sailorOAR.getY() == parsedInitGame.getBateau().getDeck().getWidth()-1){
 					actionOARLeft = a;
 				}
@@ -122,21 +119,21 @@ public class Cockpit implements ICockpit {
 	}
 
 	public void resetMarinNouveauTour(){
-		for (Marin marin : parsedInitGame.getMarins()) {
-			marin.resetMarinPourUnNouveauTour();
+		for (Sailor sailor : parsedInitGame.getMarins()) {
+			sailor.resetMarinPourUnNouveauTour();
 		}
 	}
 
 	public void creerLogNouveautour(){
 		StringBuilder log = new StringBuilder();
-		for (Marin marin : parsedInitGame.getMarins()) {
-			log.append(marin.toString());
+		for (Sailor sailor : parsedInitGame.getMarins()) {
+			log.append(sailor.toString());
 		}
 		logs.add(log.toString());
 	}
 
 	public void tacheMarins(List<Action> actionsNextRound){
-		for(Marin m : parsedInitGame.getMarins()){
+		for(Sailor m : parsedInitGame.getMarins()){
 			if (!m.isLibre()) {
 				switch (m.getActionAFaire()) {
 					case "Ramer":

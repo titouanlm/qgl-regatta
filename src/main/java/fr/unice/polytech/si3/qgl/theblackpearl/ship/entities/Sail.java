@@ -3,18 +3,18 @@ package fr.unice.polytech.si3.qgl.theblackpearl.ship.entities;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Voile extends Entity {
+public class Sail extends Entity {
     private boolean openned;
 
     @JsonCreator
-    public Voile(@JsonProperty("x") int x, @JsonProperty("y") int y, @JsonProperty("openned") boolean openned) {
+    public Sail(@JsonProperty("x") int x, @JsonProperty("y") int y, @JsonProperty("openned") boolean openned) {
         super(x, y);
         type = "sail";
         this.openned = openned;
     }
 
-    public Voile clone(){
-        return new Voile(this.getX(), this.getY(), this.openned);
+    public Sail clone(){
+        return new Sail(this.getX(), this.getY(), this.openned);
     }
 
     public boolean isOpenned() {
@@ -27,7 +27,7 @@ public class Voile extends Entity {
 
     @Override
     public String toString() {
-        return "Voile{" +
+        return "Sail{" +
                 "openned=" + openned +
                 '}';
     }

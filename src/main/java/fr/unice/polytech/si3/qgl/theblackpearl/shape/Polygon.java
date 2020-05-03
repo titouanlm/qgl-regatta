@@ -9,14 +9,14 @@ import java.util.Arrays;
 
 
 @JsonTypeName("polygon")
-public class Polygone extends Shape {
+public class Polygon extends Shape {
     private double orientation;
     private ArrayList<Point> vertices;
     private Position positionRelative;
 
 
     @JsonCreator
-    public Polygone(@JsonProperty("orientation") double orientation, @JsonProperty("vertices") ArrayList<Point> vertices) {
+    public Polygon(@JsonProperty("orientation") double orientation, @JsonProperty("vertices") ArrayList<Point> vertices) {
         this.type = "polygon";
         this.orientation = orientation;
         this.vertices = vertices;

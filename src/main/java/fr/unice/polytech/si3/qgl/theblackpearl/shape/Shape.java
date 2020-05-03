@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.*;
 @JsonSubTypes({
         @JsonSubTypes.Type(value = Circle.class, name = "circle"),
         @JsonSubTypes.Type(value = Rectangle.class, name = "rectangle"),
-        @JsonSubTypes.Type(value = Polygone.class, name = "polygon")
+        @JsonSubTypes.Type(value = Polygon.class, name = "polygon")
 })
 @JsonIgnoreProperties(value = { "type"})
 public abstract class Shape {

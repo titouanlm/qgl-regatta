@@ -3,7 +3,7 @@ package fr.unice.polytech.si3.qgl.theblackpearl.referee;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import fr.unice.polytech.si3.qgl.theblackpearl.decisions.Marin;
+import fr.unice.polytech.si3.qgl.theblackpearl.decisions.Sailor;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
 
 @JsonTypeName("MOVING")
@@ -38,7 +38,7 @@ public class MovingReferee extends ActionRound {
     }
 
     public void tryToMoveMarin(InitGame parsedInitGameReferee) {
-        for(Marin m : parsedInitGameReferee.getMarins()){
+        for(Sailor m : parsedInitGameReferee.getMarins()){
             if(m.getId()==this.getSailorId()){
                 int x = this.getXdistance()+m.getX();
                 int y = this.getYdistance()+m.getY();

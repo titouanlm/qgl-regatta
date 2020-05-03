@@ -2,10 +2,10 @@ package fr.unice.polytech.si3.qgl.theblackpearl.engine;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import fr.unice.polytech.si3.qgl.theblackpearl.decisions.Marin;
+import fr.unice.polytech.si3.qgl.theblackpearl.decisions.Sailor;
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.Goal;
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.RegattaGoal;
-import fr.unice.polytech.si3.qgl.theblackpearl.ship.Bateau;
+import fr.unice.polytech.si3.qgl.theblackpearl.ship.Ship;
 
 import java.util.ArrayList;
 
@@ -13,18 +13,18 @@ import java.util.ArrayList;
 public class InitGame {
     private Goal goal;
     private int shipCount;
-    private Bateau ship;
-    private ArrayList<Marin> sailors;
+    private Ship ship;
+    private ArrayList<Sailor> sailors;
 
     @JsonCreator
-    public InitGame(@JsonProperty("goal") Goal goal, @JsonProperty("shipCount") int shipCount, @JsonProperty("ship") Bateau ship, @JsonProperty("sailors") ArrayList<Marin> sailors){
+    public InitGame(@JsonProperty("goal") Goal goal, @JsonProperty("shipCount") int shipCount, @JsonProperty("ship") Ship ship, @JsonProperty("sailors") ArrayList<Sailor> sailors){
         this.goal = goal;
         this.shipCount  = shipCount;
         this.ship = ship;
         this.sailors = sailors;
     }
 
-    public Bateau getBateau() {
+    public Ship getBateau() {
         return this.ship;
     }
 
@@ -32,11 +32,11 @@ public class InitGame {
         return this.goal;
     }
 
-    public void setBateau(Bateau ship) {
+    public void setBateau(Ship ship) {
         this.ship = ship;
     }
 
-    public ArrayList<Marin> getMarins() {
+    public ArrayList<Sailor> getMarins() {
         return sailors;
     }
 
@@ -57,16 +57,16 @@ public class InitGame {
         }else{
             cloneGoal = goal;
         }
-        Bateau cloneBateau = ship.clone();
-        ArrayList<Marin> cloneSailors = new ArrayList<>();
-        for(Marin m : sailors){
+        Ship cloneShip = ship.clone();
+        ArrayList<Sailor> cloneSailors = new ArrayList<>();
+        for(Sailor m : sailors){
             cloneSailors.add(m.clone());
         }
-        return new InitGame(cloneGoal, shipCount, cloneBateau, cloneSailors);
+        return new InitGame(cloneGoal, shipCount, cloneShip, cloneSailors);
     }
 
-    public Marin getSailorById(int sailorId) {
-        for(Marin m : sailors){
+    public Sailor getSailorById(int sailorId) {
+        for(Sailor m : sailors){
             if(m.getId() == sailorId){
                 return m;
             }

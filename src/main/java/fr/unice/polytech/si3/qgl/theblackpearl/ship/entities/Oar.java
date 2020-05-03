@@ -7,11 +7,11 @@ import java.util.ArrayList;
 
 
 @JsonTypeName("oar")
-public class Rame extends Entity{
+public class Oar extends Entity{
     private boolean isUsed;
 
     @JsonCreator
-    public Rame(@JsonProperty("x") int x,@JsonProperty("y") int y) {
+    public Oar(@JsonProperty("x") int x, @JsonProperty("y") int y) {
         super(x, y);
         type = "oar";
         this.isUsed=false;
@@ -19,7 +19,7 @@ public class Rame extends Entity{
 
     @Override
     public String toString() {
-        return "Rame{" +
+        return "Oar{" +
                 "x=" + this.getX() + "," +
                 "y=" + this.getY() +
                 "}";
@@ -32,7 +32,7 @@ public class Rame extends Entity{
         for (Entity e : listeEntite){
             for (Entity e2 : listeEntiteUtilisees){
                 if (e==e2){
-                    ((Rame) e).setUsed(true);
+                    ((Oar) e).setUsed(true);
                 }
             }
         }

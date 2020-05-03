@@ -4,13 +4,13 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.MOVING;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
-import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Gouvernail;
-import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Rame;
-import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Voile;
+import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Rudder;
+import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Oar;
+import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Sail;
 
 import java.util.List;
 
-public class Marin {
+public class Sailor {
     private int id;
     private int x;
     private int y;
@@ -20,7 +20,7 @@ public class Marin {
     private boolean canMove;
 
     @JsonCreator
-    public Marin(@JsonProperty("id") int id,@JsonProperty("x") int x,@JsonProperty("y") int y,@JsonProperty("name") String name) {
+    public Sailor(@JsonProperty("id") int id, @JsonProperty("x") int x, @JsonProperty("y") int y, @JsonProperty("name") String name) {
         this.id = id;
         this.x = x;
         this.y = y;
@@ -29,8 +29,8 @@ public class Marin {
         this.canMove=true;
     }
 
-    public Marin clone(){
-        return new Marin(this.id, this.x, this.y, this.name);
+    public Sailor clone(){
+        return new Sailor(this.id, this.x, this.y, this.name);
     }
 
     public String getActionAFaire(){
@@ -101,7 +101,7 @@ public class Marin {
     public MOVING deplacementMarinGouvernail(List<Entity> Entities){
         int deplacementMarin;
         for (Entity entity : Entities) {
-            if (entity instanceof Gouvernail) {
+            if (entity instanceof Rudder) {
                 deplacementMarin = (Math.abs(entity.getX() - this.getX()) + Math.abs(entity.getY() - this.getY()));
                 if (deplacementMarin < 6 && this.libre) {
                     actionAFaire="tournerGouvernail";
@@ -116,7 +116,7 @@ public class Marin {
     public MOVING deplacementMarinVoile(List<Entity> Entities, boolean leverLaVoile){
         int deplacementMarin=0;
         for (Entity entity : Entities) {
-            if (entity instanceof Voile) {
+            if (entity instanceof Sail) {
                 if (this.libre) {
                     deplacementMarin = (Math.abs(entity.getX() - this.getX()) + Math.abs(entity.getY() - this.getY()));
                     if (deplacementMarin < 6) {
@@ -136,7 +136,7 @@ public class Marin {
         int deplacementMarin;
         int deplacementPlusCourt=6;
         for (int i=0;i<Entities.size();i++) {
-            if (Entities.get(i) instanceof Rame) {
+            if (Entities.get(i) instanceof Oar) {
                 deplacementMarin = (Math.abs(Entities.get(i).getX() - this.getX()) + Math.abs(Entities.get(i).getY() - this.getY()));
                 if (nombreDeMarinsManquantsAGauche > 0 && Entities.get(i).getY() == 0) { // la gauche du bateau est à y = 0
                     if (deplacementMarin < 6 && this.libre && deplacementMarin < deplacementPlusCourt) {

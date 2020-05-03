@@ -1,13 +1,13 @@
 package fr.unice.polytech.si3.qgl.theblackpearl.ship;
 
 import com.fasterxml.jackson.annotation.*;
-import fr.unice.polytech.si3.qgl.theblackpearl.decisions.Marin;
+import fr.unice.polytech.si3.qgl.theblackpearl.decisions.Sailor;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Position;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Shape;
-import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Gouvernail;
-import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Rame;
-import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Voile;
+import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Rudder;
+import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Oar;
+import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Sail;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,7 +16,7 @@ import java.util.List;
 
 @JsonIgnoreProperties(value = {"gouvernail","listRames", "nbRame"})
 @JsonTypeName("ship")
-public class Bateau {
+public class Ship {
 
     private String type;
     private int life;
@@ -27,8 +27,8 @@ public class Bateau {
     private Shape shape;
 
     @JsonCreator
-    public Bateau(@JsonProperty("type") String type, @JsonProperty("life") int life, @JsonProperty("position")  Position position,
-@JsonProperty("name")  String name, @JsonProperty("deck") Deck deck, @JsonProperty("entities") ArrayList<Entity> entities, @JsonProperty("shape")  Shape shape) {
+    public Ship(@JsonProperty("type") String type, @JsonProperty("life") int life, @JsonProperty("position")  Position position,
+                @JsonProperty("name")  String name, @JsonProperty("deck") Deck deck, @JsonProperty("entities") ArrayList<Entity> entities, @JsonProperty("shape")  Shape shape) {
         this.type = type;
         this.life = life;
         this.position = position;
@@ -58,46 +58,46 @@ public class Bateau {
         return entities;
     }
 
-    public Bateau clone(){
+    public Ship clone(){
         ArrayList<Entity> cloneEntities = new ArrayList<>();
         for(Entity e : entities){
-            if(e instanceof Voile){
-                cloneEntities.add(((Voile) e).clone());
+            if(e instanceof Sail){
+                cloneEntities.add(((Sail) e).clone());
             }
             cloneEntities.add(e);
         }
-        return new Bateau(this.type, this.life , this.position.clone(), this.name, this.deck, cloneEntities, this.shape);
+        return new Ship(this.type, this.life , this.position.clone(), this.name, this.deck, cloneEntities, this.shape);
     }
 
-    public Gouvernail getGouvernail(){
-        for (Entity e : this.getEntities()) if (e instanceof Gouvernail) return ((Gouvernail) e);
+    public Rudder getGouvernail(){
+        for (Entity e : this.getEntities()) if (e instanceof Rudder) return ((Rudder) e);
         return null;
     }
 
-    public List<Rame> getListRames(){
-        List<Rame> listRames = new ArrayList<>();
+    public List<Oar> getListRames(){
+        List<Oar> listOars = new ArrayList<>();
         for (Entity c : getEntities()){
-            if (c instanceof Rame){
-                listRames.add((Rame) c);
+            if (c instanceof Oar){
+                listOars.add((Oar) c);
             }
         }
-        return listRames;
+        return listOars;
     }
 
-    public int[] nombreMarinsRamesBabordTribordRames(double angle, List<Rame> nombreRames){
-        double angleCalcule=-(Math.PI/2)-Math.PI/nombreRames.size();
+    public int[] nombreMarinsRamesBabordTribordRames(double angle, List<Oar> nombreOars){
+        double angleCalcule=-(Math.PI/2)-Math.PI/ nombreOars.size();
         int i;
-        for (i=-nombreRames.size()/2; ;i++){
-            angleCalcule += Math.PI/nombreRames.size();
+        for (i=-nombreOars.size()/2; ; i++){
+            angleCalcule += Math.PI/ nombreOars.size();
             if (angleCalcule>=(angle - Math.pow(5.0, -6.0))  && angleCalcule<=(angle + Math.pow(5.0, -6.0))){
                 break;
             }
-            if (i>nombreRames.size()/2) return null;
+            if (i> nombreOars.size()/2) return null;
         }
         int[] nombreMarinsBabordTribord = new int[2];
         int b=0;
         if (i>0) {
-            while ( i < (nombreRames.size() / 2) ) {
+            while ( i < (nombreOars.size() / 2) ) {
                 i += 1;
                 b += 1;
             }
@@ -106,7 +106,7 @@ public class Bateau {
         }
         else if (i<0){
             i=-i;
-            while ( i < (nombreRames.size() / 2) ) {
+            while ( i < (nombreOars.size() / 2) ) {
                 i += 1;
                 b += 1;
             }
@@ -114,8 +114,8 @@ public class Bateau {
             nombreMarinsBabordTribord[1]=b;
         }
         else {
-            i=nombreRames.size()/2;
-            b=nombreRames.size()/2;
+            i= nombreOars.size()/2;
+            b= nombreOars.size()/2;
             nombreMarinsBabordTribord[0]=i;
             nombreMarinsBabordTribord[1]=b;
         }
@@ -164,9 +164,9 @@ public class Bateau {
 
 
     //////////////////////////Referee
-    public boolean isOnOarNotUsed(Marin m) {
+    public boolean isOnOarNotUsed(Sailor m) {
         for(Entity e: entities){
-            if(e instanceof Rame && e.isLibre()){
+            if(e instanceof Oar && e.isLibre()){
                 if(e.getX()==m.getX() && e.getY()==m.getY()){
                     e.setLibre(false);
                     return true;
@@ -176,9 +176,9 @@ public class Bateau {
         return false;
     }
 
-    public boolean isOnRudderNotUsed(Marin m) {
+    public boolean isOnRudderNotUsed(Sailor m) {
         for(Entity e: entities){
-            if(e instanceof Gouvernail && e.isLibre()){
+            if(e instanceof Rudder && e.isLibre()){
                 if(e.getX()==m.getX() && e.getY()==m.getY()){
                     e.setLibre(false);
                     return true;
@@ -191,7 +191,7 @@ public class Bateau {
     public int nbMarinRameTribord(){
         int nbMarinRameTribord=0;
         for(Entity e : entities){
-            if(e instanceof Rame && e.getY()==this.getDeck().getWidth()-1 && !e.isLibre()){
+            if(e instanceof Oar && e.getY()==this.getDeck().getWidth()-1 && !e.isLibre()){
                 nbMarinRameTribord++;
             }
         }
@@ -201,7 +201,7 @@ public class Bateau {
     public int nbMarinRameBabord(){
         int nbMarinRameBabord=0;
         for(Entity e : entities){
-            if(e instanceof Rame && e.getY()==0  && !e.isLibre()){
+            if(e instanceof Oar && e.getY()==0  && !e.isLibre()){
                 nbMarinRameBabord++;
             }
         }
@@ -211,7 +211,7 @@ public class Bateau {
     public int getNbRame() {
         int nbRame =0;
         for(Entity e : getEntities()){
-            if(e instanceof Rame){
+            if(e instanceof Oar){
                 nbRame++;
             }
         }
@@ -221,7 +221,7 @@ public class Bateau {
     public int nbVoile() {
         int nbVoile = 0;
         for(Entity e : getEntities()){
-            if(e instanceof Voile){
+            if(e instanceof Sail){
                 nbVoile++;
             }
         }
@@ -232,8 +232,8 @@ public class Bateau {
     public int nbVoileOuverte() {
         int nbVoileOuverte = 0;
         for(Entity e : getEntities()){
-            if(e instanceof Voile){
-                if(((Voile) e).isOpenned()){
+            if(e instanceof Sail){
+                if(((Sail) e).isOpenned()){
                     nbVoileOuverte++;
                 }
             }
@@ -241,12 +241,12 @@ public class Bateau {
         return nbVoileOuverte;
     }
 
-    public boolean isOnSailNotUsedNotOppened(Marin m) {
+    public boolean isOnSailNotUsedNotOppened(Sailor m) {
         for(Entity e: entities){
-            if(e instanceof Voile && e.isLibre()){
-                if(e.getX()==m.getX() && e.getY()==m.getY() && !((Voile) e).isOpenned()){
+            if(e instanceof Sail && e.isLibre()){
+                if(e.getX()==m.getX() && e.getY()==m.getY() && !((Sail) e).isOpenned()){
                     e.setLibre(false);
-                    ((Voile) e).setOpenned(true);
+                    ((Sail) e).setOpenned(true);
                     return true;
                 }
             }
@@ -254,12 +254,12 @@ public class Bateau {
         return false;
     }
 
-    public boolean isOnSailNotUsedOppened(Marin m) {
+    public boolean isOnSailNotUsedOppened(Sailor m) {
         for(Entity e: entities){
-            if(e instanceof Voile && e.isLibre()){
-                if(e.getX()==m.getX() && e.getY()==m.getY() && ((Voile) e).isOpenned()){
+            if(e instanceof Sail && e.isLibre()){
+                if(e.getX()==m.getX() && e.getY()==m.getY() && ((Sail) e).isOpenned()){
                     e.setLibre(false);
-                    ((Voile) e).setOpenned(false);
+                    ((Sail) e).setOpenned(false);
                     return true;
                 }
             }

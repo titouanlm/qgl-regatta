@@ -1,10 +1,10 @@
 package fr.unice.polytech.si3.qgl.theblackpearl.shape;
 
-public class VecteurCartesien {
+public class CartesianVector {
 
     private double x,y;
 
-    public VecteurCartesien(double x, double y){
+    public CartesianVector(double x, double y){
         this.x = x;
         this.y = y;
     }

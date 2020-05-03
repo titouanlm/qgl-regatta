@@ -1,8 +1,8 @@
 package fr.unice.polytech.si3.qgl.theblackpearl.referee;
 
-import fr.unice.polytech.si3.qgl.theblackpearl.decisions.Marin;
+import fr.unice.polytech.si3.qgl.theblackpearl.decisions.Sailor;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
-import fr.unice.polytech.si3.qgl.theblackpearl.ship.Bateau;
+import fr.unice.polytech.si3.qgl.theblackpearl.ship.Ship;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.Deck;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,21 +16,21 @@ import static org.mockito.Mockito.when;
 class MovingRefereeTest {
     private MovingReferee movingReferee;
     private InitGame initGame;
-    private Marin m1;
-    private Marin m2;
-    private Marin m3;
+    private Sailor m1;
+    private Sailor m2;
+    private Sailor m3;
 
     @BeforeEach
     void init() {
         movingReferee = new MovingReferee(2, 2,1);
-        ArrayList<Marin> marins = new ArrayList<>();
-        m1 = new Marin(1,0,0, "m1");
-        m2 = new Marin(2,1,1, "m2");
-        m3 = new Marin(3,2,0, "m3");
-        marins.add(m1);
-        marins.add(m2);
-        marins.add(m3);
-        initGame = new InitGame(null, 1, new Bateau(null,0,null, null,mock(Deck.class),null, null), marins);
+        ArrayList<Sailor> sailors = new ArrayList<>();
+        m1 = new Sailor(1,0,0, "m1");
+        m2 = new Sailor(2,1,1, "m2");
+        m3 = new Sailor(3,2,0, "m3");
+        sailors.add(m1);
+        sailors.add(m2);
+        sailors.add(m3);
+        initGame = new InitGame(null, 1, new Ship(null,0,null, null,mock(Deck.class),null, null), sailors);
     }
 
     @Test

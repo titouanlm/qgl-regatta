@@ -1,11 +1,11 @@
 package fr.unice.polytech.si3.qgl.theblackpearl.shape;
 
-public class VecteurPolaire {
+public class PolarVector {
 
     private double longeur;
     private double angle;
 
-    public VecteurPolaire(double longeur,double angle){
+    public PolarVector(double longeur, double angle){
         this.longeur=longeur;
         this.angle=angle;
     }

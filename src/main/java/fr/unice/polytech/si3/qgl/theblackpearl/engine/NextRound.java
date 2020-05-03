@@ -2,35 +2,35 @@ package fr.unice.polytech.si3.qgl.theblackpearl.engine;
 
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.Vent;
+import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.Wind;
 import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.VisibleEntity;
-import fr.unice.polytech.si3.qgl.theblackpearl.ship.Bateau;
+import fr.unice.polytech.si3.qgl.theblackpearl.ship.Ship;
 
 import java.util.List;
 
 @JsonIgnoreProperties(value = { "bateau","vent"})
 public class NextRound {
     @JsonSerialize
-    private Bateau ship;
+    private Ship ship;
     @JsonSerialize
     private List<VisibleEntity> visibleEntities;
     @JsonSerialize
-    private Vent wind;
+    private Wind wind;
 
     @JsonCreator
-    public NextRound(@JsonProperty("ship") Bateau ship, @JsonProperty("visibleEntities") List<VisibleEntity> visibleEntities, @JsonProperty("wind") Vent wind){
+    public NextRound(@JsonProperty("ship") Ship ship, @JsonProperty("visibleEntities") List<VisibleEntity> visibleEntities, @JsonProperty("wind") Wind wind){
         this.ship = ship;
         this.wind = wind;
         this.visibleEntities = visibleEntities;
     }
 
-    public Bateau getBateau() {
+    public Ship getBateau() {
         return this.ship;
     }
 
-    public Vent getWind() { return this.wind; }
+    public Wind getWind() { return this.wind; }
 
-    public void setShip(Bateau ship) {
+    public void setShip(Ship ship) {
         this.ship = ship;
     }
 

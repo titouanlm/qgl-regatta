@@ -1,0 +1,72 @@
+package fr.unice.polytech.si3.qgl.theblackpearl.decisions;
+import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
+import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Oar;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+public class SailorTest {
+
+    private Sailor sailor1 = mock(Sailor.class);
+    private Sailor sailor2 = new Sailor(2,0, 0, "Chef");
+    private Sailor sailor3 = new Sailor(3,0, 0, "General");
+    private Sailor sailor4 = new Sailor(4,0, 0, "Commandant");
+    private ArrayList<Entity> Entities = new ArrayList<>();
+    private Entity e1 = new Oar(1,0);
+    private Entity e2 = new Oar(0,1);
+    private Entity e3 = new Oar(1, 1);
+    private Entity e4 = new Oar(0, 0);
+
+    @BeforeEach
+    void setUp(){
+        when(sailor1.isLibre()).thenReturn(false);
+        Entities.add(e1);
+        Entities.add(e2);
+        Entities.add(e3);
+        Entities.add(e4);
+    }
+
+    @Test
+    public void planificationAllerRamerTest(){
+        assertFalse(sailor1.isLibre());
+        assertTrue(sailor2.isLibre());
+        assertTrue(sailor3.isLibre());
+        assertTrue(sailor4.isLibre());
+        assertNull(sailor1.deplacementMarinAllerRamer(Entities, 2,2,2));
+        assertNull(sailor2.deplacementMarinAllerRamer(Entities, 0,0,2));
+        assertNotNull(sailor2.deplacementMarinAllerRamer(Entities, 1,0,2));
+        assertNull(sailor2.deplacementMarinAllerRamer(Entities, 0,0,2));
+        assertNotNull(sailor3.deplacementMarinAllerRamer(Entities, 0,1,2));
+        sailor2.setLibre(true);
+        ArrayList<Entity> aucuneEntite = new ArrayList<>();
+        assertNull(sailor2.deplacementMarinAllerRamer(aucuneEntite, 1,0,2));
+        ArrayList<Entity> entitesPlaceLoin = new ArrayList<>();
+        entitesPlaceLoin.add(new Oar(6,0));
+        entitesPlaceLoin.add(new Oar(5, 1));
+        assertNull(sailor2.deplacementMarinAllerRamer(entitesPlaceLoin, 1,1,2));
+        ArrayList<Entity> entitesDistancesDifferentes = new ArrayList<>();
+        entitesDistancesDifferentes.add(new Oar(3,1));
+        entitesDistancesDifferentes.add(new Oar(3, 0));
+        assertEquals((sailor2.deplacementMarinAllerRamer(entitesDistancesDifferentes,1,1,2)).getYdistance(),0);
+        sailor2.setLibre(true);
+        entitesDistancesDifferentes.add(new Oar(1,1));
+        assertEquals((sailor2.deplacementMarinAllerRamer(entitesDistancesDifferentes,1,1,2)).getYdistance(),1);
+    }
+
+    @Test
+    public void deplacementMarinVoileTest(){
+
+    }
+
+    @Test
+    public void deplacementMarinGouvernailTest(){
+
+    }
+
+
+}

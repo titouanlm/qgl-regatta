@@ -11,9 +11,9 @@ import fr.unice.polytech.si3.qgl.theblackpearl.shape.Shape;
         visible = true
 )
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = AutreBateau.class, name = "ship"),
-        @JsonSubTypes.Type(value = Recif.class, name = "reef"),
-        @JsonSubTypes.Type(value = Courant.class, name = "stream")
+        @JsonSubTypes.Type(value = OtherShip.class, name = "ship"),
+        @JsonSubTypes.Type(value = Reef.class, name = "reef"),
+        @JsonSubTypes.Type(value = Stream.class, name = "stream")
 })
 
 // either our ship, our enemies' ship, a reef or the stream of the sea

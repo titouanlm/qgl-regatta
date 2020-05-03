@@ -1,7 +1,7 @@
 package fr.unice.polytech.si3.qgl.theblackpearl.referee;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import fr.unice.polytech.si3.qgl.theblackpearl.decisions.Marin;
+import fr.unice.polytech.si3.qgl.theblackpearl.decisions.Sailor;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
 
 public class TurnReferee extends ActionRound {
@@ -23,7 +23,7 @@ public class TurnReferee extends ActionRound {
     }
 
     public double tryToTurn(InitGame parsedInitGameReferee) {
-        for(Marin m : parsedInitGameReferee.getMarins()){
+        for(Sailor m : parsedInitGameReferee.getMarins()){
             if(m.getId()==this.getSailorId()){
                 if(m.isLibre() && parsedInitGameReferee.getBateau().isOnRudderNotUsed(m) && this.rotation<=Math.PI/4 && this.rotation>=-Math.PI/4){
                     //System.out.println(m.getId()+" peut faire tourner le bateau de " + this.rotation);
