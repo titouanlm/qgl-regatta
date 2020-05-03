@@ -174,29 +174,29 @@ public class Calculator {
     }
 
     private boolean shadowInCollisionPolygoneCercle(Shape shape, Shape shape2, CartesianVector vector) {
-        List<Point> Liste1 = new ArrayList<>();
-        List<Point> Liste2 = new ArrayList<>();
+        List<Point> list1 = new ArrayList<>();
+        List<Point> list2 = new ArrayList<>();
         if (shape instanceof Polygon) {
-            creationProjectedPointsPolygon((Polygon)shape, Liste1, vector);
-            creationProjectedPointsCircle((Circle)shape2, Liste2, vector);
+            creationProjectedPointsPolygon((Polygon)shape, list1, vector);
+            creationProjectedPointsCircle((Circle)shape2, list2, vector);
         }
         else {
-            creationProjectedPointsPolygon((Polygon) shape2, Liste2, vector);
-            creationProjectedPointsCircle((Circle)shape,Liste1, vector);
+            creationProjectedPointsPolygon((Polygon) shape2, list2, vector);
+            creationProjectedPointsCircle((Circle)shape,list1, vector);
         }
-        return collisionSegments(Liste1,Liste2,vector);
+        return collisionSegments(list1,list2,vector);
     }
 
     private boolean shadowInCollisionPolygoneRectangle(Shape shape, Shape shape2, CartesianVector vector) {
-        List<Point> Liste1 = new ArrayList<>();
-        List<Point> Liste2 = new ArrayList<>();
+        List<Point> list1 = new ArrayList<>();
+        List<Point> list2 = new ArrayList<>();
         if (shape instanceof Polygon){
-            creationProjectedPointsPolygon((Polygon) shape, Liste1, vector);
-            creationProjectedPointsRectangle((Rectangle) shape2, Liste2, vector);}
+            creationProjectedPointsPolygon((Polygon) shape, list1, vector);
+            creationProjectedPointsRectangle((Rectangle) shape2, list2, vector);}
         else {
-            creationProjectedPointsPolygon((Polygon) shape2, Liste2, vector);
-            creationProjectedPointsRectangle((Rectangle) shape, Liste1, vector);}
-        return collisionSegments(Liste1,Liste2,vector);
+            creationProjectedPointsPolygon((Polygon) shape2, list2, vector);
+            creationProjectedPointsRectangle((Rectangle) shape, list1, vector);}
+        return collisionSegments(list1,list2,vector);
     }
 
     private void creationProjectedPointsCircle(Circle circle, List<Point> points, CartesianVector vector){  // pas sur de la fonction
@@ -236,27 +236,27 @@ public class Calculator {
     }
 
     public Point calculateLowerLeftRectanglePoint(Rectangle rectangle){
-        double xModifie = Math.cos(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*-rectangle.getHeight()/2-Math.sin(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*-rectangle.getWidth()/2;
-        double yModifie = Math.sin(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*-rectangle.getHeight()/2+Math.cos(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*-rectangle.getWidth()/2;
-        return new Point(xModifie+rectangle.getCenterCoordinates().getX(),yModifie+rectangle.getCenterCoordinates().getY());
+        double modifiedX = Math.cos(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*-rectangle.getHeight()/2-Math.sin(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*-rectangle.getWidth()/2;
+        double modifiedY = Math.sin(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*-rectangle.getHeight()/2+Math.cos(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*-rectangle.getWidth()/2;
+        return new Point(modifiedX+rectangle.getCenterCoordinates().getX(),modifiedY+rectangle.getCenterCoordinates().getY());
     }
 
     public Point calculateLowerRightRectanglePoint(Rectangle rectangle){
-        double xModifie = Math.cos(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*+rectangle.getHeight()/2-Math.sin(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*-rectangle.getWidth()/2;
-        double yModifie = Math.sin(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*+rectangle.getHeight()/2+Math.cos(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*-rectangle.getWidth()/2;
-        return new Point(xModifie+rectangle.getCenterCoordinates().getX(),yModifie+rectangle.getCenterCoordinates().getY());
+        double modifiedX = Math.cos(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*+rectangle.getHeight()/2-Math.sin(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*-rectangle.getWidth()/2;
+        double modifiedY = Math.sin(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*+rectangle.getHeight()/2+Math.cos(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*-rectangle.getWidth()/2;
+        return new Point(modifiedX+rectangle.getCenterCoordinates().getX(),modifiedY+rectangle.getCenterCoordinates().getY());
     }
 
     public Point calculateUpperLeftRectanglePoint(Rectangle rectangle){
-        double xModifie = Math.cos(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*-rectangle.getHeight()/2-Math.sin(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*+rectangle.getWidth()/2;
-        double yModifie = Math.sin(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*-rectangle.getHeight()/2+Math.cos(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*+rectangle.getWidth()/2;
-        return new Point(xModifie+rectangle.getCenterCoordinates().getX(),yModifie+rectangle.getCenterCoordinates().getY());
+        double modifiedX = Math.cos(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*-rectangle.getHeight()/2-Math.sin(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*+rectangle.getWidth()/2;
+        double modifiedY = Math.sin(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*-rectangle.getHeight()/2+Math.cos(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*+rectangle.getWidth()/2;
+        return new Point(modifiedX+rectangle.getCenterCoordinates().getX(),modifiedY+rectangle.getCenterCoordinates().getY());
     }
 
     public Point calculateUpperRightRectanglePoint(Rectangle rectangle){
-        double xModifie = Math.cos(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*+rectangle.getHeight()/2-Math.sin(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*+rectangle.getWidth()/2;
-        double yModifie = Math.sin(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*+rectangle.getHeight()/2+Math.cos(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*+rectangle.getWidth()/2;
-        return new Point(xModifie+rectangle.getCenterCoordinates().getX(),yModifie+rectangle.getCenterCoordinates().getY());
+        double modifiedX = Math.cos(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*+rectangle.getHeight()/2-Math.sin(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*+rectangle.getWidth()/2;
+        double modifiedY = Math.sin(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*+rectangle.getHeight()/2+Math.cos(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*+rectangle.getWidth()/2;
+        return new Point(modifiedX+rectangle.getCenterCoordinates().getX(),modifiedY+rectangle.getCenterCoordinates().getY());
     }
 
 
@@ -291,13 +291,13 @@ public class Calculator {
     private CartesianVector vectorDirectorProjectionCircleAxis(Circle circle, Shape shape2) throws Exception {
         Point point = null;
         double d = 9999999.999;
-        List<Point> liste = new ArrayList<>();
+        List<Point> pointList = new ArrayList<>();
         if (shape2 instanceof Rectangle){
-            liste.add(calculateLowerLeftRectanglePoint((Rectangle) shape2));
-            liste.add(calculateLowerRightRectanglePoint((Rectangle) shape2));
-            liste.add(calculateUpperLeftRectanglePoint((Rectangle) shape2));
-            liste.add( calculateUpperRightRectanglePoint((Rectangle) shape2));
-            for (Point pointRectangle : liste){
+            pointList.add(calculateLowerLeftRectanglePoint((Rectangle) shape2));
+            pointList.add(calculateLowerRightRectanglePoint((Rectangle) shape2));
+            pointList.add(calculateUpperLeftRectanglePoint((Rectangle) shape2));
+            pointList.add( calculateUpperRightRectanglePoint((Rectangle) shape2));
+            for (Point pointRectangle : pointList){
                 if (Math.sqrt(Math.pow(pointRectangle.getX()-circle.getCenterCoordinates().getX(),2)+Math.pow(pointRectangle.getY()-circle.getCenterCoordinates().getY(),2)) < d){
                     point=pointRectangle;
                     d = Math.sqrt(Math.pow(pointRectangle.getX()-circle.getCenterCoordinates().getX(),2)+Math.pow(pointRectangle.getY()-circle.getCenterCoordinates().getY(),2));

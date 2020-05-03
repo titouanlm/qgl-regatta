@@ -27,7 +27,7 @@ public class Rudder extends Entity{
         else if (angleToDO > 0 && angleToDO > 45 * Math.PI / 180) return 45 * Math.PI / 180;
         else if (angleToDO > 0) return angleToDO % (45 * Math.PI / 180);
         else if (angleToDO < 0 && angleToDO < -45 * Math.PI / 180) return -45 * Math.PI / 180;
-        else return -angleToDO % (45 * Math.PI / 180);
+        else return angleToDO % (45 * Math.PI / 180);
     }
 
 }

@@ -45,7 +45,7 @@ public class Cockpit implements ICockpit {
 			e.printStackTrace();
 		}
 
-		InitGame initGameDebutTour = parsedInitGame.clone();
+		InitGame roundBeginInitGame = parsedInitGame.clone();
 
 		resetSailorsNewRound();
 		createNewRoundLog();
@@ -60,14 +60,14 @@ public class Cockpit implements ICockpit {
 		sailorsTasks(Objects.requireNonNull(actionsNextRound));
 		StringBuilder roundJSON=creationJson(Objects.requireNonNull(actionsNextRound));
 		StringBuilder saveRoundJSON = roundJSON;
-		roundJSON = shipConfigurationCorrection(roundJSON,saveRoundJSON,initGameDebutTour);
+		roundJSON = shipConfigurationCorrection(roundJSON,saveRoundJSON,roundBeginInitGame);
 
 		return roundJSON.toString();
 	}
 
-	private StringBuilder shipConfigurationCorrection(StringBuilder roundJSON, StringBuilder saveRoundJSON, InitGame initGameDebutTour){
+	private StringBuilder shipConfigurationCorrection(StringBuilder roundJSON, StringBuilder saveRoundJSON, InitGame roundBeginInitGame){
 		while(true){
-			InitGame initGameClone = initGameDebutTour.clone();
+			InitGame initGameClone = roundBeginInitGame.clone();
 			ref = new Referee(initGameClone, parsedNextRound.clone());
 			Calculator c = new Calculator();
 			try {
