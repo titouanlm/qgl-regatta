@@ -13,9 +13,6 @@ import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.NextRound;
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.RegattaGoal;
 import fr.unice.polytech.si3.qgl.theblackpearl.referee.Referee2;
-import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.Recif;
-import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.VisibleEntity;
-import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
 
 public class Cockpit implements ICockpit {
 	private InitGame parsedInitGame;
@@ -48,16 +45,12 @@ public class Cockpit implements ICockpit {
 			e.printStackTrace();
 		}
 
-		//Copie l'état du bateau et de toutes les entités avant de les modifier (utile dans détection de colision)
 		InitGame initGameDebutTour = parsedInitGame.clone();
 
 		resetMarinNouveauTour();
 		creerLogNouveautour();
 
 		Captain captain = new Captain(parsedInitGame, parsedNextRound.getWind());
-		/*for (VisibleEntity e : parsedNextRound.getVisibleEntities()){
-			if (e instanceof Recif) System.out.println(e);
-		}*/
 
 		try {
 			actionsNextRound = captain.ordreCapitaine();
@@ -67,8 +60,12 @@ public class Cockpit implements ICockpit {
 		tacheMarins(Objects.requireNonNull(actionsNextRound));
 		StringBuilder roundJSON=creationJson(Objects.requireNonNull(actionsNextRound));
 		StringBuilder saveRoundJSON = roundJSON;
-		//System.exit(-1);
+		correctionConfigurationBateau(roundJSON,saveRoundJSON,initGameDebutTour);
 
+		return roundJSON.toString();
+	}
+
+	private void correctionConfigurationBateau(StringBuilder roundJSON, StringBuilder saveRoundJSON, InitGame initGameDebutTour){
 		while(true){
 			InitGame initGameClone = initGameDebutTour.clone();
 			ref = new Referee2(initGameClone, parsedNextRound.clone());
@@ -84,7 +81,7 @@ public class Cockpit implements ICockpit {
 				}else{
 					//collision
 					System.exit(9);
-					roundJSON = modificationJsonObstacles();
+					roundJSON = modificationJsonObstacles(roundJSON);
 				}
 			} catch (Exception e) {
 				roundJSON = saveRoundJSON;
@@ -92,8 +89,6 @@ public class Cockpit implements ICockpit {
 			}
 			//System.exit(0);
 		}
-
-		return roundJSON.toString();
 	}
 
 	private StringBuilder modificationJsonRalentir() {
@@ -122,7 +117,8 @@ public class Cockpit implements ICockpit {
 		return newRoundJson;
 	}
 
-	public StringBuilder modificationJsonObstacles(){ // À faire
+	public StringBuilder modificationJsonObstacles(StringBuilder roundJson){ // À faire
+
 		return null;
 	}
 

@@ -1,4 +1,4 @@
-package fr.unice.polytech.si3.qgl.theblackpearl;
+package fr.unice.polytech.si3.qgl.theblackpearl.decisions;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

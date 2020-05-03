@@ -1,4 +1,4 @@
-package fr.unice.polytech.si3.qgl.theblackpearl;
+package fr.unice.polytech.si3.qgl.theblackpearl.decisions;
 
 import fr.unice.polytech.si3.qgl.theblackpearl.decisions.Calculator;
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.Checkpoint;

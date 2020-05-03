@@ -120,7 +120,11 @@ public class Calculator {
         return distanceCBCC <= (a.getRadius()+b.getRadius());
     }
 
-    public boolean collisionSegments(List<Point> Liste1, List<Point> Liste2){
+    public boolean collisionSegments(List<Point> Liste1, List<Point> Liste2, VecteurCartesien vecteurCartesien){
+        if (vecteurCartesien.getY()/vecteurCartesien.getX() <= 0){
+            for (Point point : Liste1) point.setX(-point.getX());
+            for (Point point : Liste2) point.setX(-point.getX());
+        }
         double a = 9999999, b = -9999999, c = 9999999, d = -9999999;
         for (Point point : Liste1) {
             if ((point.getY() + point.getX()) <= a) a = (point.getY() + point.getX());
@@ -144,7 +148,7 @@ public class Calculator {
         List<Point> Liste2 = new ArrayList<>();
         creationPointsProjetesPolygone((Polygone)shape, Liste1, vecteur);
         creationPointsProjetesPolygone((Polygone)shape2, Liste2, vecteur);
-        return collisionSegments(Liste1,Liste2);
+        return collisionSegments(Liste1,Liste2,vecteur);
     }
 
     public boolean shadowInCollisionRectangleRectangle(Shape shape, Shape shape2, VecteurCartesien vecteur){
@@ -152,7 +156,7 @@ public class Calculator {
         List<Point> Liste2 = new ArrayList<>();
         creationPointsProjetesRectangle((Rectangle)shape, Liste1, vecteur);
         creationPointsProjetesRectangle((Rectangle)shape2, Liste2, vecteur);
-        return collisionSegments(Liste1,Liste2);
+        return collisionSegments(Liste1,Liste2,vecteur);
     }
 
     public boolean shadowInCollisionRectangleCercle(Shape shape, Shape shape2, VecteurCartesien vecteur) {
@@ -166,7 +170,7 @@ public class Calculator {
             creationPointsProjetesRectangle((Rectangle) shape2, Liste2, vecteur);
             creationPointsProjetesCercle((Circle)shape, Liste1, vecteur);
         }
-        return collisionSegments(Liste1,Liste2);
+        return collisionSegments(Liste1,Liste2,vecteur);
     }
 
     public boolean shadowInCollisionPolygoneCercle(Shape shape, Shape shape2, VecteurCartesien vecteur) {
@@ -180,7 +184,7 @@ public class Calculator {
             creationPointsProjetesPolygone((Polygone) shape2, Liste2, vecteur);
             creationPointsProjetesCercle((Circle)shape,Liste1, vecteur);
         }
-        return collisionSegments(Liste1,Liste2);
+        return collisionSegments(Liste1,Liste2,vecteur);
     }
 
     public boolean shadowInCollisionPolygoneRectangle(Shape shape, Shape shape2, VecteurCartesien vecteur) {
@@ -192,7 +196,7 @@ public class Calculator {
         else {
             creationPointsProjetesPolygone((Polygone) shape2, Liste2, vecteur);
             creationPointsProjetesRectangle((Rectangle) shape, Liste1, vecteur);}
-        return collisionSegments(Liste1,Liste2);
+        return collisionSegments(Liste1,Liste2,vecteur);
     }
 
     public void creationPointsProjetesCercle(Circle shape, List<Point> liste, VecteurCartesien vecteur){  // pas sur de la fonction
@@ -347,13 +351,8 @@ public class Calculator {
         if (shape instanceof Rectangle) {
             VecteurCartesien vecteur = new VecteurCartesien(Math.cos(((Rectangle) shape).getOrientationRectangle()+shape.getCoordonneesCentre().getOrientation()),Math.sin(((Rectangle) shape).getOrientationRectangle()+shape.getCoordonneesCentre().getOrientation()));
             vecteur=vecteurUnitaireVecteur(vecteur);
-            /*double a=vecteur.getX();
-            vecteur.setX(vecteur.getY());
-            vecteur.setY(a);*/
-
             VecteurCartesien vecteur2 = new VecteurCartesien(Math.cos(((Rectangle) shape).getOrientationRectangle()+Math.PI/2+shape.getCoordonneesCentre().getOrientation()),Math.sin(((Rectangle) shape).getOrientationRectangle()+Math.PI/2+shape.getCoordonneesCentre().getOrientation()));
             vecteur2=vecteurUnitaireVecteur(vecteur2);
-
             myList.add(vecteur);
             myList.add(vecteur2);
         }

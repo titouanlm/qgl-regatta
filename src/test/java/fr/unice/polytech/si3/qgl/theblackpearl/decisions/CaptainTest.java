@@ -1,4 +1,4 @@
-package fr.unice.polytech.si3.qgl.theblackpearl;
+package fr.unice.polytech.si3.qgl.theblackpearl.decisions;
 
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.MOVING;
 import fr.unice.polytech.si3.qgl.theblackpearl.decisions.Captain;
