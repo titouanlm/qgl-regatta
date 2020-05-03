@@ -1,11 +1,10 @@
 package fr.unice.polytech.si3.qgl.theblackpearl.shape;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+public class VecteurCartesien {
 
-public class Point {
-    private double x, y;
+    private double x,y;
 
-    public Point(@JsonProperty("x") double x, @JsonProperty("y") double y) {
+    public VecteurCartesien(double x, double y){
         this.x = x;
         this.y = y;
     }
@@ -14,12 +13,12 @@ public class Point {
         return x;
     }
 
-    public double getY() {
-        return y;
-    }
-
     public void setX(double x) {
         this.x = x;
+    }
+
+    public double getY() {
+        return y;
     }
 
     public void setY(double y) {
@@ -28,9 +27,9 @@ public class Point {
 
     @Override
     public String toString() {
-        return "Point(" +
-                  x +
-                ", " + y +
-                ')';
+        return "VecteurCartesien{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
     }
 }

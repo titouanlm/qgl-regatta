@@ -1,7 +1,7 @@
 package fr.unice.polytech.si3.qgl.theblackpearl.sea_elements;
 
 import com.fasterxml.jackson.annotation.*;
-import fr.unice.polytech.si3.qgl.theblackpearl.Position;
+import fr.unice.polytech.si3.qgl.theblackpearl.shape.Position;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Shape;
 
 @JsonTypeInfo(
@@ -28,5 +28,26 @@ public abstract class VisibleEntity {
         this.type = type;
         this.position = position;
         this.shape = shape;
+    }
+
+    public Shape getShape(){
+        return shape;
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
+    @Override
+    public String toString() {
+        return "VisibleEntity{" +
+                "type='" + type + '\'' +
+                ", position=" + position +
+                ", shape=" + shape +
+                '}';
     }
 }

@@ -2,7 +2,7 @@ package fr.unice.polytech.si3.qgl.theblackpearl.goal;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import fr.unice.polytech.si3.qgl.theblackpearl.Position;
+import fr.unice.polytech.si3.qgl.theblackpearl.shape.Position;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Shape;
 
 public class Checkpoint {
@@ -38,4 +38,5 @@ public class Checkpoint {
                 ", shape=" + shape +
                 '}';
     }
+
 }

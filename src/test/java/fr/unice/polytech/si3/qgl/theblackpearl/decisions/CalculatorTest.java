@@ -1,9 +1,13 @@
 package fr.unice.polytech.si3.qgl.theblackpearl.decisions;
 
+<<<<<<< HEAD:src/test/java/fr/unice/polytech/si3/qgl/theblackpearl/CalculatorTest.java
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.NextRound;
+=======
+import fr.unice.polytech.si3.qgl.theblackpearl.decisions.Calculator;
+>>>>>>> master:src/test/java/fr/unice/polytech/si3/qgl/theblackpearl/decisions/CalculatorTest.java
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.Checkpoint;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -68,6 +72,23 @@ class CalculatorTest {
 
     }
 
+<<<<<<< HEAD:src/test/java/fr/unice/polytech/si3/qgl/theblackpearl/CalculatorTest.java
+=======
+//    @Test
+//    void pointIsInsideCheckpoint() {
+//        checkpoint = new Checkpoint(posCheckpoint, new Circle(50));
+//        assertFalse(calcul.shapeInCollision(posBateau, checkpoint));
+//        posBateau = new Position(950, 1000,0);
+//        assertTrue(calcul.shapeInCollision(posBateau, checkpoint));
+//        posBateau = new Position(1000, 1000,0);
+//        assertTrue(calcul.shapeInCollision(posBateau, checkpoint));
+//        posBateau = new Position(958.3, 973.8,0);
+//        assertTrue(calcul.shapeInCollision(posBateau, checkpoint));
+//    }
+
+
+
+>>>>>>> master:src/test/java/fr/unice/polytech/si3/qgl/theblackpearl/decisions/CalculatorTest.java
     @Test
     void calculRotationRamesTribordBabord() {
         assertEquals(-2*Math.PI/6, calcul.calculRotationRamesTribordBabord(3,1,6));
@@ -86,6 +107,7 @@ class CalculatorTest {
     @Test
     void calculNewPositionShip(){
         posBateau = new Position(0, 0,0);
+<<<<<<< HEAD:src/test/java/fr/unice/polytech/si3/qgl/theblackpearl/CalculatorTest.java
         posBateau = calcul.calculNewPositionShip(100, 1, posBateau, 10);
         assertEquals(10.0, posBateau.getX());
         assertEquals(0.0, posBateau.getY());
@@ -95,10 +117,22 @@ class CalculatorTest {
         assertEquals(0.9983341664682815, posBateau.getY());
         assertEquals(0.2, posBateau.getOrientation());
         posBateau = calcul.calculNewPositionShip(100, 1, posBateau, 10);
+=======
+        posBateau = calcul.calculNewPositionShip(100, 1, posBateau, 10);
+        assertEquals(10.0, posBateau.getX());
+        assertEquals(0.0, posBateau.getY());
+        assertEquals(0.1, posBateau.getOrientation());
+        posBateau = calcul.calculNewPositionShip(100, 1, posBateau, 10);
+        assertEquals(19.950041652780257, posBateau.getX());
+        assertEquals(0.9983341664682815, posBateau.getY());
+        assertEquals(0.2, posBateau.getOrientation());
+        posBateau = calcul.calculNewPositionShip(100, 1, posBateau, 10);
+>>>>>>> master:src/test/java/fr/unice/polytech/si3/qgl/theblackpearl/decisions/CalculatorTest.java
         assertEquals(29.750707431192673, posBateau.getX());
         assertEquals(2.9850274744188936, posBateau.getY());
         assertEquals(0.30000000000000004, posBateau.getOrientation());
     }
+<<<<<<< HEAD:src/test/java/fr/unice/polytech/si3/qgl/theblackpearl/CalculatorTest.java
 
     @Test
     public void bateauDansCheckpointnTest() throws Exception {
@@ -186,14 +220,49 @@ class CalculatorTest {
 
     }
 
+=======
+        /*
+    @Test
+    void calculateCoordinatesOfRectangleVertices(){
+        shape = new Rectangle(50,100, 0);
+        checkpoint = new Checkpoint(posCheckpoint,shape);
+        System.out.println(Arrays.toString(calcul.calculateCoordinatesOfRectangleVertices(checkpoint).toArray()));
+        // rotation de pi/4 de la position du checkpoint
+        posCheckpoint  =  new Position(500, -500, Math.PI/4);
+        checkpoint = new Checkpoint(posCheckpoint,shape);
+        System.out.println(Arrays.toString(calcul.calculateCoordinatesOfRectangleVertices(checkpoint).toArray()));
+        // rotation globale superieure à pi/2
+        shape = new Rectangle(50, 100, Math.PI/2);
+        checkpoint = new Checkpoint(posCheckpoint,shape);
+        System.out.println(Arrays.toString(calcul.calculateCoordinatesOfRectangleVertices(checkpoint).toArray()));
+        // rotation de la position du checkpoint superieure à pi/2
+        posCheckpoint  =  new Position(-1000, 0, (2*Math.PI)/3);
+        checkpoint = new Checkpoint(posCheckpoint,shape);
+        System.out.println(Arrays.toString(calcul.calculateCoordinatesOfRectangleVertices(checkpoint).toArray()));
+        // rotations de la forme du checkpoint et de  sa position supérieure chacune à pi/2
+        posCheckpoint  =  new Position(-1000, 0, (2*Math.PI)/3);
+        shape = new Rectangle(50, 100, Math.PI);
+        checkpoint = new Checkpoint(posCheckpoint,shape);
+        System.out.println(Arrays.toString(calcul.calculateCoordinatesOfRectangleVertices(checkpoint).toArray()));
+
+    }*/
+
+>>>>>>> master:src/test/java/fr/unice/polytech/si3/qgl/theblackpearl/decisions/CalculatorTest.java
     @Test
     void testPoints(){
         Rectangle s = new Rectangle(2, 10, 0);
         s.setCoordonneesCentre(new Position(0,0,0));
+<<<<<<< HEAD:src/test/java/fr/unice/polytech/si3/qgl/theblackpearl/CalculatorTest.java
         Point BG = calcul.pointBasGaucheTriangle(s);
         Point BD = calcul.pointBasDroitTriangle(s);
         Point HD = calcul.pointHautDroitTriangle(s);
         Point HG = calcul.pointHautGaucheTriangle(s);
+=======
+        Point BG = calcul.pointBasGauche(s);
+        Point BD = calcul.pointBasDroit(s);
+        Point HD = calcul.pointHautDroit(s);
+        Point HG = calcul.pointHautGauche(s);
+>>>>>>> master:src/test/java/fr/unice/polytech/si3/qgl/theblackpearl/decisions/CalculatorTest.java
         assertEquals(-5 ,BG.getX());
         assertEquals(-1 ,BG.getY());
         assertEquals(5 ,BD.getX());

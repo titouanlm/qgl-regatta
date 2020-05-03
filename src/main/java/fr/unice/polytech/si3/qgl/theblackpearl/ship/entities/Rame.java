@@ -8,8 +8,6 @@ import java.util.ArrayList;
 
 @JsonTypeName("oar")
 public class Rame extends Entity{
-
-
     private boolean isUsed;
 
     @JsonCreator

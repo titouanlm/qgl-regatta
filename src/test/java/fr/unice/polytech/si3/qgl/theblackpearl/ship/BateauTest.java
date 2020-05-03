@@ -1,7 +1,7 @@
 package fr.unice.polytech.si3.qgl.theblackpearl.ship;
 
-import fr.unice.polytech.si3.qgl.theblackpearl.Marin;
-import fr.unice.polytech.si3.qgl.theblackpearl.Position;
+import fr.unice.polytech.si3.qgl.theblackpearl.decisions.Marin;
+import fr.unice.polytech.si3.qgl.theblackpearl.shape.Position;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Shape;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
@@ -20,8 +20,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BateauTest {
-    private Position pos;
-    private Deck deck ;
     private ArrayList<Entity> entities;
     private Shape shape;
     private Bateau bateau;
@@ -46,8 +44,8 @@ class BateauTest {
         entities.add(new Rame(1,1));
         entities.add(new Rame(2,0));
         entities.add(new Rame(2,1));
-        pos = new Position(0,0,0);
-        deck = new Deck(2, 3);
+        Position pos = new Position(0, 0, 0);
+        Deck deck = new Deck(2, 3);
         shape = new Rectangle( 2, 3, 0 );
         bateau = new Bateau("ship", 100, pos, "Les copaings d'abord!", deck, entities, shape);
     }
@@ -89,38 +87,38 @@ class BateauTest {
     @Test
     void nombreMarinsBabordTribord(){
         int nombreMarinAplacer[];
-        nombreMarinAplacer = this.bateau.nombreMarinsBabordTribordRames(-Math.PI/2, bateau.getListRames());
+        nombreMarinAplacer = this.bateau.nombreMarinsRamesBabordTribordRames(-Math.PI/2, bateau.getListRames());
         assertEquals(3,nombreMarinAplacer[0]);
         assertEquals(0,nombreMarinAplacer[1]);
-        nombreMarinAplacer = this.bateau.nombreMarinsBabordTribordRames((-Math.PI/2 + Math.PI/6), bateau.getListRames());
+        nombreMarinAplacer = this.bateau.nombreMarinsRamesBabordTribordRames((-Math.PI/2 + Math.PI/6), bateau.getListRames());
         assertEquals(3,nombreMarinAplacer[0]);
         assertEquals(1,nombreMarinAplacer[1]);
-        nombreMarinAplacer = this.bateau.nombreMarinsBabordTribordRames((-Math.PI/2 + 2*Math.PI/6), bateau.getListRames());
+        nombreMarinAplacer = this.bateau.nombreMarinsRamesBabordTribordRames((-Math.PI/2 + 2*Math.PI/6), bateau.getListRames());
         assertEquals(3,nombreMarinAplacer[0]);
         assertEquals(2,nombreMarinAplacer[1]);
-        nombreMarinAplacer = this.bateau.nombreMarinsBabordTribordRames((-Math.PI/2 + 3*Math.PI/6), bateau.getListRames());
+        nombreMarinAplacer = this.bateau.nombreMarinsRamesBabordTribordRames((-Math.PI/2 + 3*Math.PI/6), bateau.getListRames());
         assertEquals(3,nombreMarinAplacer[0]);
         assertEquals(3,nombreMarinAplacer[1]);
-        nombreMarinAplacer = this.bateau.nombreMarinsBabordTribordRames((-Math.PI/2 + 4*Math.PI/6), bateau.getListRames());
+        nombreMarinAplacer = this.bateau.nombreMarinsRamesBabordTribordRames((-Math.PI/2 + 4*Math.PI/6), bateau.getListRames());
         assertEquals(2,nombreMarinAplacer[0]);
         assertEquals(3,nombreMarinAplacer[1]);
-        nombreMarinAplacer = this.bateau.nombreMarinsBabordTribordRames((-Math.PI/2 + 5*Math.PI/6), bateau.getListRames());
+        nombreMarinAplacer = this.bateau.nombreMarinsRamesBabordTribordRames((-Math.PI/2 + 5*Math.PI/6), bateau.getListRames());
         assertEquals(1,nombreMarinAplacer[0]);
         assertEquals(3,nombreMarinAplacer[1]);
-        nombreMarinAplacer = this.bateau.nombreMarinsBabordTribordRames((-Math.PI/2 + 6*Math.PI/6), bateau.getListRames());
+        nombreMarinAplacer = this.bateau.nombreMarinsRamesBabordTribordRames((-Math.PI/2 + 6*Math.PI/6), bateau.getListRames());
         assertEquals(0,nombreMarinAplacer[0]);
         assertEquals(3,nombreMarinAplacer[1]);
         ArrayList<Entity> listeRameEnlever = new ArrayList<>();
         listeRameEnlever.add(entities.get(4));
         listeRameEnlever.add(entities.get(5));
         entities.removeAll(listeRameEnlever);
-        nombreMarinAplacer = this.bateau.nombreMarinsBabordTribordRames((-Math.PI/2 + 1*Math.PI/6), bateau.getListRames());
+        nombreMarinAplacer = this.bateau.nombreMarinsRamesBabordTribordRames((-Math.PI/2 + 1*Math.PI/6), bateau.getListRames());
         assertNull(nombreMarinAplacer);
-        nombreMarinAplacer = this.bateau.nombreMarinsBabordTribordRames((-Math.PI/2 + 2*Math.PI/6), bateau.getListRames());
+        nombreMarinAplacer = this.bateau.nombreMarinsRamesBabordTribordRames((-Math.PI/2 + 2*Math.PI/6), bateau.getListRames());
         assertNull(nombreMarinAplacer);
-        nombreMarinAplacer = this.bateau.nombreMarinsBabordTribordRames((-Math.PI/2 + 4*Math.PI/6), bateau.getListRames());
+        nombreMarinAplacer = this.bateau.nombreMarinsRamesBabordTribordRames((-Math.PI/2 + 4*Math.PI/6), bateau.getListRames());
         assertNull(nombreMarinAplacer);
-        nombreMarinAplacer = this.bateau.nombreMarinsBabordTribordRames((-Math.PI/2 + 5*Math.PI/6), bateau.getListRames());
+        nombreMarinAplacer = this.bateau.nombreMarinsRamesBabordTribordRames((-Math.PI/2 + 5*Math.PI/6), bateau.getListRames());
         assertNull(nombreMarinAplacer);
     }
 
@@ -202,7 +200,6 @@ class BateauTest {
         entities=null;
         assertNotNull(bateau.toString());
     }
-
 
 
 }

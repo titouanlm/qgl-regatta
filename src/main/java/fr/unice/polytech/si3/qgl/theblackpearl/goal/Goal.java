@@ -14,14 +14,10 @@ import com.fasterxml.jackson.annotation.*;
 
 
 public abstract class Goal {
-    protected String mode;
+    String mode;
 
     public String getMode() {
         return mode;
-    }
-
-    public void setMode(String mode) {
-        this.mode = mode;
     }
 
     @Override

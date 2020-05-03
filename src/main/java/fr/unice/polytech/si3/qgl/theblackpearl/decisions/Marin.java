@@ -1,7 +1,6 @@
-package fr.unice.polytech.si3.qgl.theblackpearl;
+package fr.unice.polytech.si3.qgl.theblackpearl.decisions;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.MOVING;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
@@ -30,12 +29,73 @@ public class Marin {
         this.canMove=true;
     }
 
+    public Marin clone(){
+        return new Marin(this.id, this.x, this.y, this.name);
+    }
+
+    public String getActionAFaire(){
+        return actionAFaire;
+    }
+
+    public boolean isLibre(){
+        return libre;
+    }
+
+    public void setLibre(boolean libre){
+        this.libre=libre;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public void setCanMove(boolean b) {
+        this.canMove=b;
+    }
+
+    public boolean canMove() {
+        return canMove;
+    }
+
+    @Override
+    public String toString() {
+        return "Marin{" +
+                "x=" + x +
+                ", y=" + y +
+                ", id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
     public void resetMarinPourUnNouveauTour() {
         this.actionAFaire="";
         this.libre=true;
     }
-    public String getActionAFaire(){
-        return actionAFaire;
+
+    public void setActionAFaire(String actionAFaire) {
+        this.actionAFaire = actionAFaire;
+    }
+
+    public void moveSailor(int xdistance, int ydistance) {
+        this.setX(this.x+xdistance);
+        this.setY(this.y+ydistance);
+        this.canMove=false;
     }
 
     public MOVING deplacementMarinGouvernail(List<Entity> Entities){
@@ -59,11 +119,11 @@ public class Marin {
             if (entity instanceof Voile) {
                 if (this.libre) {
                     deplacementMarin = (Math.abs(entity.getX() - this.getX()) + Math.abs(entity.getY() - this.getY()));
-                        if (deplacementMarin < 6) {
-                            if (leverLaVoile) actionAFaire = "HisserVoile";
-                            else actionAFaire = "BaisserLaVoile";
-                            this.libre = false;
-                            return new MOVING(getId(), "MOVING", entity.getX() - this.getX(), entity.getY() - this.getY());
+                    if (deplacementMarin < 6) {
+                        if (leverLaVoile) actionAFaire = "HisserVoile";
+                        else actionAFaire = "BaisserLaVoile";
+                        this.libre = false;
+                        return new MOVING(getId(), "MOVING", entity.getX() - this.getX(), entity.getY() - this.getY());
                     }
                 }
             }
@@ -95,64 +155,10 @@ public class Marin {
             this.libre=false;
             this.actionAFaire="Ramer";
             return new MOVING(getId(),"MOVING",Entities.get(entiteRecoitMarin).getX() - this.getX(),Entities.get(entiteRecoitMarin).getY() - this.getY());
-
         }
-        else
+        else{
             return null;
-    }
-
-
-    public boolean isLibre(){
-        return libre;
-    }
-
-    public void setLibre(boolean libre){
-        this.libre=libre;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-
-    @Override
-    public String toString() {
-        return "Marin{" +
-                "x=" + x +
-                ", y=" + y +
-                ", id=" + id +
-                ", name='" + name + '\'' +
-                '}';
-    }
-
-    public void moveSailor(int xdistance, int ydistance) {
-        this.setX(this.x+xdistance);
-        this.setY(this.y+ydistance);
-        this.canMove=false;
-    }
-
-    public void setCanMove(boolean b) {
-        this.canMove=b;
-    }
-
-    public boolean canMove() {
-        return canMove;
+        }
     }
 
 }

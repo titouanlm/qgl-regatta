@@ -6,19 +6,19 @@ import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.Vent;
 import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.VisibleEntity;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.Bateau;
 
-import java.util.Arrays;
+import java.util.List;
 
 @JsonIgnoreProperties(value = { "bateau","vent"})
 public class NextRound {
     @JsonSerialize
     private Bateau ship;
     @JsonSerialize
-    private VisibleEntity[] visibleEntities;
+    private List<VisibleEntity> visibleEntities;
     @JsonSerialize
     private Vent wind;
 
     @JsonCreator
-    NextRound(@JsonProperty("ship") Bateau ship, @JsonProperty("visibleEntities") VisibleEntity[] visibleEntities, @JsonProperty("wind") Vent wind){
+    public NextRound(@JsonProperty("ship") Bateau ship, @JsonProperty("visibleEntities") List<VisibleEntity> visibleEntities, @JsonProperty("wind") Vent wind){
         this.ship = ship;
         this.wind = wind;
         this.visibleEntities = visibleEntities;
@@ -34,16 +34,11 @@ public class NextRound {
         this.ship = ship;
     }
 
-    public void setVisibleEntities(VisibleEntity[] visibleEntities) {
-        this.visibleEntities = visibleEntities;
+    public List<VisibleEntity> getVisibleEntities() {
+        return visibleEntities;
     }
 
-    @Override
-    public String toString() {
-        return "NextRound{" +
-                "ship=" + ship +
-                ", wind=" + wind +
-                ", visibleEntities=" + Arrays.toString(visibleEntities) +
-                '}';
+    public NextRound clone(){
+        return new NextRound(this.ship.clone(), this.visibleEntities, this.wind);
     }
 }

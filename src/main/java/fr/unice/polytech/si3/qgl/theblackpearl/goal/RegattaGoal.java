@@ -2,6 +2,7 @@ package fr.unice.polytech.si3.qgl.theblackpearl.goal;
 
 import com.fasterxml.jackson.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @JsonTypeName("REGATTA")
@@ -33,4 +34,9 @@ public class RegattaGoal extends Goal {
                 '}';
     }
 
+    public RegattaGoal clone(){
+        ArrayList<Checkpoint> cloneCheckpoints = new ArrayList<>(checkpoints);
+        return new RegattaGoal(cloneCheckpoints);
+
+    }
 }

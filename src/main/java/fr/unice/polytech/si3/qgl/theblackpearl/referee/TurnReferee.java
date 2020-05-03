@@ -1,7 +1,7 @@
 package fr.unice.polytech.si3.qgl.theblackpearl.referee;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import fr.unice.polytech.si3.qgl.theblackpearl.Marin;
+import fr.unice.polytech.si3.qgl.theblackpearl.decisions.Marin;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
 
 public class TurnReferee extends ActionRound {
@@ -11,10 +11,6 @@ public class TurnReferee extends ActionRound {
         this.type = "TURN";
         this.sailorId=sailorId;
         this.rotation = rotation;
-    }
-
-    public double getRotation() {
-        return rotation;
     }
 
     @Override
