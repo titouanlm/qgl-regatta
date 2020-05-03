@@ -37,7 +37,7 @@ class OarRefereeTest {
     }
 
     @Test
-    void tryToOar() {
+    void testTryToOar() {
         when(initGame.getShip().isOnOarNotUsed(m2)).thenReturn(true);
         assertTrue(m2.isAvailable());
         oarReferee.tryToOar(initGame);

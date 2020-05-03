@@ -42,7 +42,7 @@ public class ControlRoomTest {
 
 
     @Test
-    public void priseEnComptePositionMarinsTest(){
+    public void testTakeIntoAccountSailorPosition(){
         controlRoom.takeIntoAccountSailorPosition();
         assertEquals(parsedInitGame.getSailors().get(0).getX(),0);
         assertEquals(parsedInitGame.getSailors().get(0).getY(),0);
@@ -59,7 +59,7 @@ public class ControlRoomTest {
     }
 
     @Test
-    public void restaurationPositionMarinsTest(){
+    public void testResetSailorPosition(){
         controlRoom.takeIntoAccountSailorPosition();
         for (Sailor m : parsedInitGame.getSailors()){
             m.setX(456);m.setY(789);
@@ -80,7 +80,7 @@ public class ControlRoomTest {
     }
 
     @Test
-    public void preConfigurationRamesBateauTest() {
+    public void testOarsPreConfiguration() {
         ArrayList<Sailor> marinsOccupes = new ArrayList<>();
         Calculator calculateur = new Calculator();
         calculateur.setNumberSailorsToPlace(parsedInitGame.getShip().nbSailorAndOarConfiguration(meilleurAngleRealisable.get(0), parsedInitGame.getShip().getListRames()));
@@ -101,7 +101,7 @@ public class ControlRoomTest {
     }
 
     @Test
-    public void configurationGouvernailTest(){
+    public void testRudderConfiguration(){
         controlRoom.rudderConfiguration();
         assertEquals((actionsNextRound.get(0)).getSailorId(),0);
         assertEquals((actionsNextRound.get(0)).getType(),"MOVING");
@@ -111,7 +111,7 @@ public class ControlRoomTest {
     }
 
     @Test
-    public void utilisationVoileTest(){
+    public void testSailUsage(){
         wind.setOrientation(Math.PI);
         controlRoom.useSail();
         assertEquals(((MOVING) actionsNextRound.get(0)).getYDistance(),1);
@@ -120,24 +120,24 @@ public class ControlRoomTest {
     }
 
     @Test
-    public void utilisationVoileOuiNon(){
+    public void testuseSailDecisionning(){
         assertFalse(controlRoom.useSailDecisionning(parsedInitGame));
         wind.setOrientation(Math.PI);
         assertTrue(controlRoom.useSailDecisionning(parsedInitGame));
     }
 
     @Test
-    public void configurationRamesTest(){
+    public void testOarConfig(){
 
     }
 
     @Test
-    public void hisserLaVoileTest(){
+    public void testOpenSail(){
 
     }
 
     @Test
-    public void useSailDecisionningTest(){
+    public void testOpenSailDecisionning(){
 
     }
 

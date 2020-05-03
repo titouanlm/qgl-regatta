@@ -49,7 +49,7 @@ class InitGameTest {
     }
 
     @Test
-    void getSailorByIdTest() {
+    void testGetSailorByID() {
         initGame = new InitGame(null, 1, mock(Ship.class), sailors);
         assertEquals(m2,initGame.getSailorById(2));
         assertEquals(m3,initGame.getSailorById(3));

@@ -8,7 +8,7 @@ class EntityTest {
     private Entity e = new Entity(2, 1) {};
 
     @Test
-    void entityToString() {
+    void testEntityToString() {
         assertEquals( "x : 2, y : 1", e.toString());
     }
 

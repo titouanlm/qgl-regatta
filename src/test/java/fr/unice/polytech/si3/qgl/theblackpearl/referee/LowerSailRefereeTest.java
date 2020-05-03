@@ -38,7 +38,7 @@ class LowerSailRefereeTest {
     }
 
     @Test
-    void tryToLowerSail() {
+    void testTryToLowerSail() {
         when(initGame.getShip().isOnSailNotUsedOppened(m2)).thenReturn(true);
         assertTrue(m2.isAvailable());
         lowerSailReferee.tryToLowerSail(initGame);

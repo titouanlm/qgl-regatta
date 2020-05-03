@@ -34,12 +34,12 @@ class MovingRefereeTest {
     }
 
     @Test
-    void getXdistance() {
+    void testGetXdistance() {
         assertEquals(2, movingReferee.getXdistance());
     }
 
     @Test
-    void getYdistance() {
+    void testGetYdistance() {
         assertEquals(1, movingReferee.getYdistance());
     }
 
@@ -49,7 +49,7 @@ class MovingRefereeTest {
     }
 
     @Test
-    void tryToMoveMarin() {
+    void testTryToMoveMarin() {
         when(initGame.getShip().getDeck().getWidth()).thenReturn(3);
         when(initGame.getShip().getDeck().getLength()).thenReturn(6);
         assertEquals(1,m2.getX());

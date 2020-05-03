@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 class RegattaGoalTest {
 
     @Test
-    public void removeCheckpointTest(){
+    public void testRemoveCheckPoint(){
 
     }
 

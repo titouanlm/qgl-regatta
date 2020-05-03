@@ -14,12 +14,12 @@ class ActionRoundTest {
     }
 
     @Test
-    void getSailorId() {
+    void testGetSailorId() {
         assertEquals(2, actionRound.getSailorId());
     }
 
     @Test
-    void getType() {
+    void testGetType() {
         assertEquals("OAR", actionRound.getType());
     }
 }

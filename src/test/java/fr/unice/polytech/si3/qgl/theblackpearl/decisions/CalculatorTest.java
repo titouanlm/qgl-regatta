@@ -37,7 +37,7 @@ class CalculatorTest {
     }
 
     @Test
-    void calculDistanceEntreDeuxPoints() {
+    void testCalculateDistanceBetween2Points() {
         assertEquals(53.0,calcul.calculateDistanceBetween2Points(posBateau, posCheckpoint));
         posBateau = new Position(853, 202,0);
         posCheckpoint = new Position(32, -627,0);
@@ -52,7 +52,7 @@ class CalculatorTest {
 
 
     @Test
-    void calculAngleIdeal() {
+    void testCalculateIdealAngle() {
         assertEquals(calcul.calculateIdealAngle(posBateau, posCheckpoint), 0.0);
         posBateau = new Position(0, 0,0);
         posCheckpoint = new Position(1000, 1000,0);
@@ -84,7 +84,7 @@ class CalculatorTest {
 
 
     @Test
-    void calculRotationRamesTribordBabord() {
+    void testCalculateOarsRotation() {
         assertEquals(-2*Math.PI/6, calcul.calculateOarsRotation(3,1,6));
         assertEquals(Math.PI/2, calcul.calculateOarsRotation(0,3,6));
         assertEquals(-Math.PI/2, calcul.calculateOarsRotation(18,0,36));
@@ -94,12 +94,12 @@ class CalculatorTest {
     }
 
     @Test
-    void calculAnglesPossiblesEnFonctionDesRames() {
+    void testCalculateAchievableAngles() {
 
     }
 
     @Test
-    void calculNewPositionShip(){
+    void testCalculateNewPositionShip(){
         posBateau = new Position(0, 0,0);
         posBateau = calcul.calculateNewPositionShip(100, 1, posBateau, 10);
         assertEquals(10.0, posBateau.getX());
@@ -116,7 +116,7 @@ class CalculatorTest {
     }
 
     @Test
-    public void bateauDansCheckpointnTest() throws Exception {
+    public void testShipIsInsideCheckpoint() throws Exception {
         parsedNextRound.getShip().setPosition(new Position(10,5,9));
         assertTrue(calcul.shipIsInsideCheckpoint(parsedNextRound.getShip(),new Checkpoint(new Position(48,32,0),new Circle(50))));
         parsedNextRound.getShip().setPosition(new Position(30,25,9));
@@ -132,7 +132,7 @@ class CalculatorTest {
     }
 
     @Test
-    public void shapesCollideTest() throws Exception {
+    public void testShapesCollide() throws Exception {
         parsedNextRound.getShip().setPosition(new Position(2012.9130229585658,4116.056423252195,1.5794560650965999));
         assertTrue(calcul.shapesCollide(parsedNextRound.getShip(),parsedNextRound.getVisibleEntities().get(6)));
         parsedNextRound.getShip().setPosition(new Position(2128.58646,3892.33699,1.5794560650965999));
@@ -151,7 +151,7 @@ class CalculatorTest {
 
 
     @Test
-    public void calculateOarSpeed(){
+    public void testCalculateOarSpeed(){
         Calculator c = new Calculator();
         assertEquals(165.0, c.calculateOarSpeed(2,2));
         assertEquals(0, c.calculateOarSpeed(0,2));
@@ -160,7 +160,7 @@ class CalculatorTest {
 
 
     @Test
-    public void calculVitesseVentTest(){
+    public void testCalculateWindSpeed(){
         Calculator c = new Calculator();
         Position shipPos = new Position(0, 0, Math.PI/4);
         assertEquals(0, c.calculateWindSpeed(0,0,null, null));
@@ -170,7 +170,7 @@ class CalculatorTest {
     }
 
     @Test
-    public void calculInfluenceOfStreamTest(){
+    public void testCalculateInfluenceOfStream(){
         Calculator c = new Calculator();
         Position p = c.calculateInfluenceOfStream(new Position(0, 0, Math.PI/4), new Stream("", new Position(0,0, Math.PI), null, 90), 10);
         assertEquals(-9.0, p.getX());

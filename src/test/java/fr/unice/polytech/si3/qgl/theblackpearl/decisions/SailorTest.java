@@ -32,7 +32,7 @@ public class SailorTest {
     }
 
     @Test
-    public void planificationAllerRamerTest(){
+    public void testMoveSailorToOarPlanification(){
         assertFalse(sailor1.isAvailable());
         assertTrue(sailor2.isAvailable());
         assertTrue(sailor3.isAvailable());

@@ -52,7 +52,7 @@ class RefereeTest {
     }
 
     @Test
-    void resetSailors() {
+    void testResetSailors() {
         initGame = new InitGame(null, 1, null, sailors);
         ref = new Referee(initGame,null);
         ref.resetSailors();
@@ -63,7 +63,7 @@ class RefereeTest {
     }
 
     @Test
-    void resetEntities(){
+    void testResetEntities(){
         ArrayList<Entity> entities = new ArrayList<>();
         entities.add(new Oar(0,0));
         entities.add(new Oar(1,0));
@@ -114,7 +114,7 @@ class RefereeTest {
 
 
     @Test
-    void startRoundTrue() throws Exception {
+    void testStartRoundTrue() throws Exception {
         ArrayList<Checkpoint> checkpoints = new ArrayList<>();
         checkpoints.add(new Checkpoint(new Position(100, 0, 0), new Circle(10)));
         Goal goal = new RegattaGoal(checkpoints);
@@ -143,7 +143,7 @@ class RefereeTest {
     }
 
     @Test
-    void getFinishGame() throws Exception {
+    void testGetFinishGame() throws Exception {
         Referee ref = new Referee(gameString, firstRound, new Cockpit());
         ref.initGame();
         assertFalse(ref.getFinishGame());

@@ -38,7 +38,7 @@ public class CaptainTest {
     }
 
     @Test
-    public void supprimerEntiteTest(){
+    public void testDeleteEntity(){
         Sailor sailor = new Sailor(1, 5 ,6,"Edward Teach");
         MOVING moving = new MOVING(1,"MOVING",2,2);
         assertEquals((deleteEntity(listeEntite,false,true, sailor,moving).size()),5);

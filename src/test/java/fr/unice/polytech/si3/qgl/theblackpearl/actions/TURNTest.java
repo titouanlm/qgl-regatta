@@ -8,7 +8,7 @@ class TURNTest {
     private Action turn = new TURN(2, 1.9);
 
     @Test
-    void turnToString() {
+    void testTurnToString() {
         assertEquals( "{\"sailorId\":2,\"type\":\"TURN\",\"rotation\":1.9}", turn.toString());
     }
 }
