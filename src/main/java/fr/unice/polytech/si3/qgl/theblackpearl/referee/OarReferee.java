@@ -25,7 +25,6 @@ public class OarReferee extends ActionRound {
         for(Sailor m : parsedInitGameReferee.getSailors()){
             if(m.getId()==this.getSailorId()){
                 if(m.isAvailable() && parsedInitGameReferee.getShip().isOnOarNotUsed(m)){
-                    //System.out.println(m.getId()+" peut ramer.");
                     m.setAvailable(false);
                 }else{
                     System.out.println("ERREUR : " + m.getId() + " NE PEUT PAS RAMER !");

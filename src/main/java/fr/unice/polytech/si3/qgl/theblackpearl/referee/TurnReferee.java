@@ -26,7 +26,6 @@ public class TurnReferee extends ActionRound {
         for(Sailor m : parsedInitGameReferee.getSailors()){
             if(m.getId()==this.getSailorId()){
                 if(m.isAvailable() && parsedInitGameReferee.getShip().isOnRudderNotUsed(m) && this.rotation<=Math.PI/4 && this.rotation>=-Math.PI/4){
-                    //System.out.println(m.getId()+" peut faire tourner le bateau de " + this.rotation);
                     m.setAvailable(false);
                     return this.rotation;
                 }else{

@@ -12,10 +12,6 @@ public class Wind {
         this.strength = strength;
     }
 
-    public void setStrength(double strength) {
-        this.strength = strength;
-    }
-
     public void setOrientation(double orientation){
         this.orientation=orientation;
     }

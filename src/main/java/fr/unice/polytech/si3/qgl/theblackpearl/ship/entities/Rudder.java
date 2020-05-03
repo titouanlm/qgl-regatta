@@ -30,5 +30,4 @@ public class Rudder extends Entity{
         else return -angleToDO % (45 * Math.PI / 180);
     }
 
-
 }

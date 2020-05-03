@@ -9,7 +9,7 @@ import fr.unice.polytech.si3.qgl.theblackpearl.shape.*;
 public class Reef extends VisibleEntity {
 
     @JsonCreator
-    Reef(@JsonProperty("type") String type, @JsonProperty("position") Position position, @JsonProperty("shape") Shape shape){
+    public Reef(@JsonProperty("type") String type, @JsonProperty("position") Position position, @JsonProperty("shape") Shape shape){
         super(type, position,shape);
     }
 

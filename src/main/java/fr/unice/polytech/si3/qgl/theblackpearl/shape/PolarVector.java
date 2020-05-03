@@ -14,10 +14,6 @@ public class PolarVector {
         return length;
     }
 
-    public void setLength(double length) {
-        this.length = length;
-    }
-
     public double getAngle() {
         return angle;
     }

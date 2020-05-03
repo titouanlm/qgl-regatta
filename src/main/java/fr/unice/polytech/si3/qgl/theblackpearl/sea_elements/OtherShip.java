@@ -10,8 +10,4 @@ public class OtherShip extends VisibleEntity {
         super(type, position, shape);
         this.life = life;
     }
-
-    public int getLife() {
-        return life;
-    }
 }

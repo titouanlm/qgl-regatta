@@ -1,6 +1,5 @@
 package fr.unice.polytech.si3.qgl.theblackpearl.actions;
 
-import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

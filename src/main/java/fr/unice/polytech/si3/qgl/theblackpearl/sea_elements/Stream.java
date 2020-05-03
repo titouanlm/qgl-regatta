@@ -20,8 +20,4 @@ public class Stream extends VisibleEntity {
         return strength;
     }
 
-    public void setStrength(double strength) {
-        this.strength = strength;
-    }
-
 }

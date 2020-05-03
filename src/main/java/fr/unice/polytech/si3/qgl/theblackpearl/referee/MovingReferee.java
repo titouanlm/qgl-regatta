@@ -51,7 +51,6 @@ public class MovingReferee extends ActionRound {
                     System.out.println("MOVINGX : " + this.getXdistance() + " \nMOVINGY : " + this.getYdistance());
                     System.out.println("XBEFORE : " + m.getX() + " \nYBEFORE : " + m.getY());
                     System.out.println("X : " + x + " \nY : " + y);
-
                 }
                 break;
             }

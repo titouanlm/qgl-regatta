@@ -58,15 +58,5 @@ public class SailorTest {
         assertEquals((sailor2.moveSailorToOar(entitesDistancesDifferentes,1,1,2)).getYDistance(),1);
     }
 
-    @Test
-    public void deplacementMarinVoileTest(){
-
-    }
-
-    @Test
-    public void deplacementMarinGouvernailTest(){
-
-    }
-
 
 }

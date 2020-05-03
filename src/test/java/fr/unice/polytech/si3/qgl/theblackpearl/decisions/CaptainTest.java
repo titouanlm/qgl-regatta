@@ -37,7 +37,7 @@ public class CaptainTest {
         listeSailors.add(new Sailor(5,0,0,"Edward New Gate"));
     }
 
-    @Test //Test D'une autre classe
+    @Test
     public void supprimerEntiteTest(){
         Sailor sailor = new Sailor(1, 5 ,6,"Edward Teach");
         MOVING moving = new MOVING(1,"MOVING",2,2);
@@ -46,17 +46,6 @@ public class CaptainTest {
         assertEquals((deleteEntity(listeEntite,false,true, sailor,moving).size()),5);
         ArrayList<Entity> listeNulle = new ArrayList<>();
         assertEquals((deleteEntity(listeNulle,false,true, sailor,moving)).size(),0);
-    }
-
-
-    @Test
-    public void determinerCheckpointViserTest(){
-
-    }
-
-    @Test
-    public void meilleurAngleRealisableTest(){
-
     }
 
 

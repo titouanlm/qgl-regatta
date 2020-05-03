@@ -22,10 +22,6 @@ public class Polygon extends Shape {
         this.vertices = vertices;
     }
 
-    public double getOrientation() {
-        return orientation;
-    }
-
     public ArrayList<Point> getVertices(){ return vertices; }
 
     public Position getPositionRelative() {

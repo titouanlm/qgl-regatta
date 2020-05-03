@@ -71,15 +71,6 @@ class CockpitTest {
     }
 
     @Test
-    void initGame() {
-
-    }
-
-    @Test
-    void nextRound() {
-    }
-
-    @Test
     public void modificationJsonRalentir(){
         List<Action> actions = new ArrayList<>();
         c.setActionsNextRound(actions);
