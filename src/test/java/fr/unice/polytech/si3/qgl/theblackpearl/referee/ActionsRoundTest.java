@@ -26,7 +26,7 @@ class ActionsRoundTest {
     }
 
     @Test
-    void getActionsRound() {
+    void testGetActionsRound() {
         List<ActionRound> aR2 = new ArrayList<>();
         aR2.add(a1);
         aR2.add(a2);

@@ -16,7 +16,7 @@ public class RudderTest {
 
 
     @Test
-    public void rudderAngleTest(){
+    public void testRudderAngle(){
         assertEquals(0.0,rudder.rudderAngle(0.0));
         assertEquals(45 * Math.PI / 180,rudder.rudderAngle(70*Math.PI/180));
         assertEquals(40 * Math.PI / 180,rudder.rudderAngle(40*Math.PI/180));

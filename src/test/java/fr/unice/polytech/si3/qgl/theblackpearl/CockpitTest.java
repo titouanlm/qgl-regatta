@@ -42,7 +42,7 @@ class CockpitTest {
     }
 
     @Test
-    public void supprimerEntiteTest(){
+    public void testDeleteEntity(){
         boolean True=false;
         boolean True2=true;
         boolean True3=false;
@@ -56,7 +56,7 @@ class CockpitTest {
     }
 
     @Test
-    void tacheMarins() {
+    void testSailorsTasks() {
         c.getParsedInitGame().getSailors().get(0).setActionToDo("Ramer");
         c.getParsedInitGame().getSailors().get(1).setActionToDo("tournerGouvernail");
         c.getParsedInitGame().getSailors().get(2).setActionToDo("HisserVoile");
@@ -71,7 +71,7 @@ class CockpitTest {
     }
 
     @Test
-    public void modificationJsonRalentir(){
+    public void testSlowJSonModification(){
         List<Action> actions = new ArrayList<>();
         c.setActionsNextRound(actions);
         assertNull(c.slowJSonModification());
@@ -82,7 +82,7 @@ class CockpitTest {
     }
 
     @Test
-    void creationJson() {
+    void testCreationJson() {
         List<Action> actions = new ArrayList<>();
         assertEquals( "[]", c.creationJson(actions).toString());
         actions.add(new OAR(2));
@@ -91,7 +91,7 @@ class CockpitTest {
     }
 
     @Test
-    void resetMarinNouveauTour() {
+    void testResetSailorNewRound() {
         c.getParsedInitGame().getSailors().get(0).setActionToDo("Ramer");
         c.getParsedInitGame().getSailors().get(0).setAvailable(false);
         assertEquals("Ramer",c.getParsedInitGame().getSailors().get(0).getActionToDo());
@@ -102,7 +102,7 @@ class CockpitTest {
     }
 
     @Test
-    public void creerLogNouveautour(){
+    public void testCreateNewRoundLog(){
         assertEquals("[]", c.getLogs().toString());
         c.createNewRoundLog();
         assertEquals("[Marin{x=0, y=0, id=0, name='Jack Pouce'}Marin{x=0, y=1, id=1, name='Tom Pouce'}Marin{x=0, y=2, id=2, name='Tom Pouce'}Marin{x=1, y=0, id=3, name='Edward Pouce'}]" , c.getLogs().toString());

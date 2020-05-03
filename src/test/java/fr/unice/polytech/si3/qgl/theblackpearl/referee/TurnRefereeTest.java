@@ -37,7 +37,7 @@ class TurnRefereeTest {
     }
 
     @Test
-    void tryToTurn() {
+    void testTryToTurn() {
         when(initGame.getShip().isOnRudderNotUsed(m2)).thenReturn(true);
         assertTrue(m2.isAvailable());
         turnReferee.tryToTurn(initGame);

@@ -64,17 +64,17 @@ class ShipTest {
     }
 
     @Test
-    void getNbRame() {
+    void testGetNbRame() {
         assertEquals(6 , ship.getNbRame());
     }
 
     @Test
-    void getNbVoile() {
+    void testGetNbVoile() {
         assertEquals(0 , ship.nbSail());
     }
 
     @Test
-    void getNbVoileOuverte() {
+    void testGetNbVoileOuverte() {
         assertEquals(0 , ship.nbSail());
         Sail v = new Sail(0,0, false);
         entities.add(v);
@@ -85,7 +85,7 @@ class ShipTest {
     }
 
     @Test
-    void nombreMarinsBabordTribord(){
+    void testNbSailorAndOarConfiguration(){
         int nombreMarinAplacer[];
         nombreMarinAplacer = this.ship.nbSailorAndOarConfiguration(-Math.PI/2, ship.getListRames());
         assertEquals(3,nombreMarinAplacer[0]);
@@ -124,14 +124,14 @@ class ShipTest {
 
 
     @Test
-    void getGouvernail(){
+    void testGetGouvernail(){
          assertNull(ship.getGouvernail());
          entities.add(new Rudder(0,2));
          assertNotNull(ship.getGouvernail());
     }
 
     @Test
-    void isOnRudderNotUsed(){
+    void testIsOnRudderNotUsed(){
         entities.add(new Rudder(0,2));
         assertFalse(ship.isOnRudderNotUsed(listeSailors.get(0)));
         assertTrue(ship.isOnRudderNotUsed(listeSailors.get(1)));
@@ -140,14 +140,14 @@ class ShipTest {
 
 
     @Test
-    void isOnOarNotUsedTest(){
+    void testIsOnOarNotUsed(){
         assertFalse(ship.isOnOarNotUsed(listeSailors.get(5)));
         assertTrue(ship.isOnOarNotUsed(listeSailors.get(0)));
         assertFalse(ship.isOnOarNotUsed(listeSailors.get(2)));
     }
 
     @Test
-    void isOnSailNotUsedNotOppenedTest(){
+    void testIsOnSailNotUsedNotOppened(){
         assertFalse(ship.isOnSailNotUsedNotOppened(listeSailors.get(0)));
         Sail v = new Sail(9,0, true);
         entities.add(v);
@@ -158,7 +158,7 @@ class ShipTest {
     }
 
     @Test
-    void isOnSailNotUsedOppenedTest(){
+    void testIsOnSailNotUsedOppened(){
         assertFalse(ship.isOnSailNotUsedOppened(listeSailors.get(0)));
         Sail v = new Sail(9,0, false);
         entities.add(v);
@@ -170,27 +170,27 @@ class ShipTest {
 
 
     @Test
-    void nbMarinRameTribord(){
+    void testNbSailorsOnStarBoard(){
         assertEquals(0, ship.nbSailorsOnStarBoard());
         entities.add(new Rudder(8,8));
         for(Entity e : entities){
-            e.setAvailable(false); // Marin dessus
+            e.setAvailable(false);
         }
         assertEquals(3, ship.nbSailorsOnStarBoard());
     }
 
     @Test
-    void nbMarinRameBabord(){
+    void testNbSailorsOnPort(){
         assertEquals(0, ship.nbSailorsOnPort());
         entities.add(new Rudder(8,8));
         for(Entity e : entities){
-            e.setAvailable(false); // Marin dessus
+            e.setAvailable(false);
         }
         assertEquals(3, ship.nbSailorsOnPort());
     }
 
     @Test
-    void getterSetter(){
+    void testGetterSetter(){
         assertEquals(shape, ship.getShape());
         assertEquals("ship", ship.getType());
         ship.setType("");

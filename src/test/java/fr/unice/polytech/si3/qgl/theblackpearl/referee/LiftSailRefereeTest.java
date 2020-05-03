@@ -39,7 +39,7 @@ class LiftSailRefereeTest {
     }
 
     @Test
-    void tryToLiftSail() {
+    void testTryToLiftSail() {
         when(initGame.getShip().isOnSailNotUsedNotOppened(m2)).thenReturn(true);
         assertTrue(m2.isAvailable());
         liftSailReferee.tryToLiftSail(initGame);

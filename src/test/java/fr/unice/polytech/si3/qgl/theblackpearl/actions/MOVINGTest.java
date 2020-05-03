@@ -8,7 +8,7 @@ class MOVINGTest {
     private Action move = new MOVING(2, "MOVING", 4,8);
 
     @Test
-    void movingToString() {
+    void testMovingToString() {
         assertEquals( "{\"sailorId\": 2\",type\": MOVING\",xdistance\": 4\",ydistance\": 8}", move.toString());
     }
 }
