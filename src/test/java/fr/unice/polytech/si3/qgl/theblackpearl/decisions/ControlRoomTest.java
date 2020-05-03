@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.Action;
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.MOVING;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
-import fr.unice.polytech.si3.qgl.theblackpearl.engine.NextRound;
 import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.Wind;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -124,21 +123,6 @@ public class ControlRoomTest {
         assertFalse(controlRoom.useSailDecisionning(parsedInitGame));
         wind.setOrientation(Math.PI);
         assertTrue(controlRoom.useSailDecisionning(parsedInitGame));
-    }
-
-    @Test
-    public void configurationRamesTest(){
-
-    }
-
-    @Test
-    public void hisserLaVoileTest(){
-
-    }
-
-    @Test
-    public void useSailDecisionningTest(){
-
     }
 
     @Test

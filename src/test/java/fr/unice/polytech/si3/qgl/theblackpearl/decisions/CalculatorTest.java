@@ -70,19 +70,6 @@ class CalculatorTest {
         assertEquals(-3.3347460433357368, calcul.calculateIdealAngle(posBateau, posCheckpoint));
     }
 
-//    @Test
-//    void pointIsInsideCheckpoint() {
-//        checkpoint = new Checkpoint(posCheckpoint, new Circle(50));
-//        assertFalse(calcul.shapeInCollision(posBateau, checkpoint));
-//        posBateau = new Position(950, 1000,0);
-//        assertTrue(calcul.shapeInCollision(posBateau, checkpoint));
-//        posBateau = new Position(1000, 1000,0);
-//        assertTrue(calcul.shapeInCollision(posBateau, checkpoint));
-//        posBateau = new Position(958.3, 973.8,0);
-//        assertTrue(calcul.shapeInCollision(posBateau, checkpoint));
-//    }
-
-
     @Test
     void calculRotationRamesTribordBabord() {
         assertEquals(-2*Math.PI/6, calcul.calculateOarsRotation(3,1,6));
@@ -91,11 +78,6 @@ class CalculatorTest {
         assertEquals(Math.PI/4, calcul.calculateOarsRotation(1,2,4));
         assertEquals(0.0, calcul.calculateOarsRotation(2,2,4));
         assertEquals(Math.PI/4, calcul.calculateOarsRotation(1,2,4));
-    }
-
-    @Test
-    void calculAnglesPossiblesEnFonctionDesRames() {
-
     }
 
     @Test

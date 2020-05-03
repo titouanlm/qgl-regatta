@@ -24,8 +24,6 @@ public class RudderTest {
         assertEquals(17 * Math.PI / 180,rudder.rudderAngle(17*Math.PI/180));
         assertEquals(-17 * Math.PI / 180,rudder.rudderAngle(-17*Math.PI/180));
         assertEquals(-45 * Math.PI / 180,rudder.rudderAngle(-70*Math.PI/180));
-
-
     }
 
 
