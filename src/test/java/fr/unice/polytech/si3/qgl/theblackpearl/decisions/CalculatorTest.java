@@ -179,31 +179,6 @@ class CalculatorTest {
         assertEquals(0, p.getX());
         assertEquals(0, p.getY());
     }
-     /*
-    @Test
-    void calculateCoordinatesOfRectangleVertices(){
-        shape = new Rectangle(50,100, 0);
-        checkpoint = new Checkpoint(posCheckpoint,shape);
-        System.out.println(Arrays.toString(calcul.calculateCoordinatesOfRectangleVertices(checkpoint).toArray()));
-        // rotation de pi/4 de la position du checkpoint
-        posCheckpoint  =  new Position(500, -500, Math.PI/4);
-        checkpoint = new Checkpoint(posCheckpoint,shape);
-        System.out.println(Arrays.toString(calcul.calculateCoordinatesOfRectangleVertices(checkpoint).toArray()));
-        // rotation globale superieure à pi/2
-        shape = new Rectangle(50, 100, Math.PI/2);
-        checkpoint = new Checkpoint(posCheckpoint,shape);
-        System.out.println(Arrays.toString(calcul.calculateCoordinatesOfRectangleVertices(checkpoint).toArray()));
-        // rotation de la position du checkpoint superieure à pi/2
-        posCheckpoint  =  new Position(-1000, 0, (2*Math.PI)/3);
-        checkpoint = new Checkpoint(posCheckpoint,shape);
-        System.out.println(Arrays.toString(calcul.calculateCoordinatesOfRectangleVertices(checkpoint).toArray()));
-        // rotations de la forme du checkpoint et de  sa position supérieure chacune à pi/2
-        posCheckpoint  =  new Position(-1000, 0, (2*Math.PI)/3);
-        shape = new Rectangle(50, 100, Math.PI);
-        checkpoint = new Checkpoint(posCheckpoint,shape);
-        System.out.println(Arrays.toString(calcul.calculateCoordinatesOfRectangleVertices(checkpoint).toArray()));
-
-    }*/
 
     @Test
     void testPoints(){

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.Action;
 import fr.unice.polytech.si3.qgl.theblackpearl.actions.MOVING;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
+import fr.unice.polytech.si3.qgl.theblackpearl.engine.NextRound;
 import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.Wind;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -118,15 +119,6 @@ public class ControlRoomTest {
         assertEquals(actionsNextRound.size(),1);
     }
 
-//    @Test
-//    public void utilisationVoileTest2(){
-//        vent.setOrientation(0);
-//        salleDesCommandes.utilisationVoile();
-//        assertEquals(((MOVING) actionsNextRound.get(0)).getYdistance(),0);
-//        assertEquals(((MOVING) actionsNextRound.get(0)).getXdistance(),2);
-//        assertEquals(actionsNextRound.size(),1);
-//    }
-
     @Test
     public void utilisationVoileOuiNon(){
         assertFalse(controlRoom.useSailDecisionning(parsedInitGame));
@@ -145,6 +137,11 @@ public class ControlRoomTest {
     }
 
     @Test
+    public void useSailDecisionningTest(){
+
+    }
+
+    @Test
     public void isThereARudder(){
         assertTrue(controlRoom.isThereARudder());
     }
@@ -153,6 +150,7 @@ public class ControlRoomTest {
     public void isThereASail(){
         assertTrue(controlRoom.isThereASail());
     }
+
 
 
     private String gameString = "{\n" +
