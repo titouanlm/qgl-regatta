@@ -50,8 +50,8 @@ class MovingRefereeTest {
 
     @Test
     void tryToMoveMarin() {
-        when(initGame.getBateau().getDeck().getWidth()).thenReturn(3);
-        when(initGame.getBateau().getDeck().getLength()).thenReturn(6);
+        when(initGame.getShip().getDeck().getWidth()).thenReturn(3);
+        when(initGame.getShip().getDeck().getLength()).thenReturn(6);
         assertEquals(1,m2.getX());
         assertEquals(1,m2.getY());
         movingReferee.tryToMoveMarin(initGame);

@@ -25,10 +25,10 @@ public class Oar extends Entity{
                 "}";
     }
 
-    public static void setRamesUsed(InitGame game, ArrayList<Entity> listeEntiteCopie){
-        ArrayList<Entity> listeEntiteUtilisees = ((ArrayList<Entity>) game.getBateau().getEntities().clone());
-        listeEntiteUtilisees.removeAll(listeEntiteCopie); //rames utilisées
-        ArrayList<Entity> listeEntite = game.getBateau().getEntities();
+    public static void setOarsUsed(InitGame game, ArrayList<Entity> copyEntityList){
+        ArrayList<Entity> listeEntiteUtilisees = ((ArrayList<Entity>) game.getShip().getEntities().clone());
+        listeEntiteUtilisees.removeAll(copyEntityList); //rames utilisées
+        ArrayList<Entity> listeEntite = game.getShip().getEntities();
         for (Entity e : listeEntite){
             for (Entity e2 : listeEntiteUtilisees){
                 if (e==e2){

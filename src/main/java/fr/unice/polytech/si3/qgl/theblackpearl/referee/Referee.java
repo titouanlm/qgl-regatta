@@ -75,15 +75,15 @@ public class Referee {
     }
 
     public void resetEntities() {
-        for (Entity e : parsedInitGameReferee.getBateau().getEntities()) {
-            e.setLibre(true);
+        for (Entity e : parsedInitGameReferee.getShip().getEntities()) {
+            e.setAvailable(true);
         }
     }
 
     public void resetSailors() {
-        for (Sailor m : parsedInitGameReferee.getMarins()) {
+        for (Sailor m : parsedInitGameReferee.getSailors()) {
             m.setCanMove(true);
-            m.setLibre(true);
+            m.setAvailable(true);
         }
     }
 
@@ -105,7 +105,7 @@ public class Referee {
 
     public void nextRound(int nbTour) throws Exception {
         while (!this.getFinishGame() && this.tour < nbTour) {
-            System.out.println(this.tour + " : " + parsedInitGameReferee.getBateau().getPosition());
+            System.out.println(this.tour + " : " + parsedInitGameReferee.getShip().getPosition());
             this.rotationShip=0.;
             this.speedShip=0.0;
             this.resetEntities();
@@ -122,7 +122,7 @@ public class Referee {
     public boolean getFinishGame() throws Exception {
         RegattaGoal regatta =  (RegattaGoal) parsedInitGameReferee.getGoal();
         List<Checkpoint> checkpoints = regatta.getCheckpoints();
-        if(c.shipIsInsideCheckpoint(parsedInitGameReferee.getBateau(), checkpoints.get(0))){
+        if(c.shipIsInsideCheckpoint(parsedInitGameReferee.getShip(), checkpoints.get(0))){
             regatta.removeCheckpoint();
         }
         return regatta.getCheckpoints().isEmpty();
@@ -162,14 +162,14 @@ public class Referee {
 
     public boolean moveShip() throws Exception {
         //Calculs rames
-        int nbRamesBabord = parsedInitGameReferee.getBateau().nbMarinRameBabord();
-        int nbRamesTribord = parsedInitGameReferee.getBateau().nbMarinRameTribord();
-        int nbRames = parsedInitGameReferee.getBateau().getNbRame();
+        int nbRamesBabord = parsedInitGameReferee.getShip().nbMarinRameBabord();
+        int nbRamesTribord = parsedInitGameReferee.getShip().nbMarinRameTribord();
+        int nbRames = parsedInitGameReferee.getShip().getNbRame();
         this.rotationShip += c.calculateOarsRotation(nbRamesBabord,nbRamesTribord, nbRames);
 
         //Calculs voiles
-        int nbVoileOuverte = parsedInitGameReferee.getBateau().nbVoileOuverte();
-        int nbVoile = parsedInitGameReferee.getBateau().nbVoile();
+        int nbVoileOuverte = parsedInitGameReferee.getShip().nbVoileOuverte();
+        int nbVoile = parsedInitGameReferee.getShip().nbVoile();
 
         int N=0;
         int nbStep=100;
@@ -178,9 +178,9 @@ public class Referee {
             //TEST COURANT
             for(VisibleEntity v : parsedNextRoundReferee.getVisibleEntities()){
                 if(v instanceof Stream){
-                    if(c.shapesCollide(parsedInitGameReferee.getBateau(), v)){
-                        Position positionAfterStream = c.calculateInfluenceOfStream(parsedInitGameReferee.getBateau().getPosition(), (Stream) v, nbStep);
-                        parsedInitGameReferee.getBateau().setPosition(positionAfterStream);
+                    if(c.shapesCollide(parsedInitGameReferee.getShip(), v)){
+                        Position positionAfterStream = c.calculateInfluenceOfStream(parsedInitGameReferee.getShip().getPosition(), (Stream) v, nbStep);
+                        parsedInitGameReferee.getShip().setPosition(positionAfterStream);
                         //System.out.println("COURANT" + N + " : " + parsedInitGameReferee.getBateau().getPosition());
                     }
                 }
@@ -189,21 +189,21 @@ public class Referee {
             this.speedShip=0.;
             this.speedShip += c.calculateOarSpeed(nbRamesBabord+nbRamesTribord,nbRames);
             if(nbVoile>0)
-                this.speedShip += c.calculateWindSpeed(nbVoileOuverte,nbVoile,parsedNextRoundReferee.getWind(), parsedInitGameReferee.getBateau());
+                this.speedShip += c.calculateWindSpeed(nbVoileOuverte,nbVoile,parsedNextRoundReferee.getWind(), parsedInitGameReferee.getShip());
 
-            Position positionShipThisStep = c.calculNewPositionShip(this.speedShip, this.rotationShip ,parsedInitGameReferee.getBateau().getPosition(), nbStep);
-            parsedInitGameReferee.getBateau().setPosition(positionShipThisStep);
+            Position positionShipThisStep = c.calculNewPositionShip(this.speedShip, this.rotationShip ,parsedInitGameReferee.getShip().getPosition(), nbStep);
+            parsedInitGameReferee.getShip().setPosition(positionShipThisStep);
 
             if(this.cockpit==null){
                 RegattaGoal regatta = (RegattaGoal) parsedInitGameReferee.getGoal();
-                if(c.shipIsInsideCheckpoint(parsedInitGameReferee.getBateau(), regatta.getCheckpoints().get(0))){
+                if(c.shipIsInsideCheckpoint(parsedInitGameReferee.getShip(), regatta.getCheckpoints().get(0))){
                     this.goThroughCheckpoint = true;
                 }
                 //parsedInitGameReferee.getBateau().setPosition(new Position(3191.19162022669,5360.3118055659015,0.018967404239899847));
                 //parsedInitGameReferee.getBateau().setPosition(new Position(2017.56669,4115.77745,1.5793935739345006));
                 //parsedInitGameReferee.getBateau().setPosition(new Position(3191.19162022669,5360.3118055659015,-0.018967404239899847));
                 if(this.testCollision()){
-                    System.out.println("Position bateau : " + parsedInitGameReferee.getBateau().getPosition());
+                    System.out.println("Position bateau : " + parsedInitGameReferee.getShip().getPosition());
                     return true;
                 }
                 //parsedInitGameReferee.getBateau().setPosition(positionShipThisStep);
@@ -217,7 +217,7 @@ public class Referee {
     public boolean testCollision() throws Exception {
         for(VisibleEntity v : parsedNextRoundReferee.getVisibleEntities()){
             if(v instanceof Reef || v instanceof OtherShip){
-                if (c.shapesCollide(parsedInitGameReferee.getBateau(), v)){
+                if (c.shapesCollide(parsedInitGameReferee.getShip(), v)){
                     System.out.println(" ******************************** COLLISION ******************************** ");
                     if (v.getShape() instanceof Rectangle)
                         System.out.println(v.getPosition() + " Height : " + ((Rectangle) v.getShape()).getHeight() + " Width : " + ((Rectangle) v.getShape()).getWidth());
@@ -231,7 +231,7 @@ public class Referee {
     }
 
     public void updateNextRound() {
-        parsedNextRoundReferee.setShip(parsedInitGameReferee.getBateau());
+        parsedNextRoundReferee.setShip(parsedInitGameReferee.getShip());
         try {
             this.nextRound =objectMapperReferee.writeValueAsString(parsedNextRoundReferee);
         }catch (JsonProcessingException e) {

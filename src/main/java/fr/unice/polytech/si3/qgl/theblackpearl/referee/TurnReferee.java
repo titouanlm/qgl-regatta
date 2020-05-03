@@ -23,11 +23,11 @@ public class TurnReferee extends ActionRound {
     }
 
     public double tryToTurn(InitGame parsedInitGameReferee) {
-        for(Sailor m : parsedInitGameReferee.getMarins()){
+        for(Sailor m : parsedInitGameReferee.getSailors()){
             if(m.getId()==this.getSailorId()){
-                if(m.isLibre() && parsedInitGameReferee.getBateau().isOnRudderNotUsed(m) && this.rotation<=Math.PI/4 && this.rotation>=-Math.PI/4){
+                if(m.isAvailable() && parsedInitGameReferee.getShip().isOnRudderNotUsed(m) && this.rotation<=Math.PI/4 && this.rotation>=-Math.PI/4){
                     //System.out.println(m.getId()+" peut faire tourner le bateau de " + this.rotation);
-                    m.setLibre(false);
+                    m.setAvailable(false);
                     return this.rotation;
                 }else{
                     System.out.println("ERREUR : " + m.getId() + " Impossible de tourner.");

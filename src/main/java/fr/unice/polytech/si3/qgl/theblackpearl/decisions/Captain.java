@@ -14,10 +14,10 @@ public class Captain {
 
     private Calculator calculator;
     private ArrayList<Action> actionsNextRound = new ArrayList<>();
-    private double angleParfaitVersCheckpoint;
-    private Checkpoint checkpointAViser;
+    private double perfectAngleToCheckpoint;
+    private Checkpoint aimingCheckpoint;
     private ControlRoom controlRoom;
-    private List<Sailor> marinsOccupes = new ArrayList<>();
+    private List<Sailor> busySailors = new ArrayList<>();
     private InitGame parsedInitGame;
 
     public Captain(InitGame game, Wind wind) {
@@ -26,50 +26,45 @@ public class Captain {
         controlRoom = new ControlRoom(game, wind,actionsNextRound);
     }
 
-    public ArrayList<Action> ordreCapitaine() throws Exception {
-        if (this.determinerCheckpointAViser()){
+    public ArrayList<Action> captainOrder() throws Exception {
+        if (this.determineTargetCheckpoint()){
             if (controlRoom.isThereASail())
-                marinsOccupes.add(controlRoom.utilisationVoile());
+                busySailors.add(controlRoom.utilisationVoile());
             if (controlRoom.isThereARudder())
-                marinsOccupes.add(controlRoom.configurationGouvernail());
-            double angleRealiseRames = controlRoom.configurationRames(this.meilleurAngleRealisable(), 0, marinsOccupes);
+                busySailors.add(controlRoom.configurationGouvernail());
+            double angleRealiseRames = controlRoom.configurationRames(this.bestAchievableAngle(), 0, busySailors);
             if (controlRoom.isThereARudder()) {
-                double resteAngleARealiser = this.angleParfaitVersCheckpoint - angleRealiseRames;
-                Rudder rudder = parsedInitGame.getBateau().getGouvernail();
-                rudder.setAngleRealise(rudder.angleGouvernail(resteAngleARealiser));
+                double resteAngleARealiser = this.perfectAngleToCheckpoint - angleRealiseRames;
+                Rudder rudder = parsedInitGame.getShip().getGouvernail();
+                rudder.setAngleAchieved(rudder.rudderAngle(resteAngleARealiser));
             }
             return actionsNextRound;
         }
         else return null;
     }
 
-    public boolean determinerCheckpointAViser() throws Exception {
-        //1. Tester si on a atteint le check point (et si on a finit la course) ==> supprime le checkpoint
+    public boolean determineTargetCheckpoint() throws Exception {
         if(parsedInitGame.getGoal() instanceof RegattaGoal){
             RegattaGoal regatta = (RegattaGoal) parsedInitGame.getGoal();
             Calculator c = new Calculator();
-            if (c.shipIsInsideCheckpoint(parsedInitGame.getBateau(),regatta.getCheckpoints().get(0))){
+            if (c.shipIsInsideCheckpoint(parsedInitGame.getShip(),regatta.getCheckpoints().get(0))){
                 regatta.removeCheckpoint();
             }
-
-            //Checkpoint à viser
             if (regatta.getCheckpoints().size() != 0){
-                checkpointAViser = regatta.getCheckpoints().get(0);
+                aimingCheckpoint = regatta.getCheckpoints().get(0);
                 return true;
             }
         }
         return false;
     }
 
-    public List<Double> meilleurAngleRealisable(){
-        List<Double> meilleurAngleRealisable = new ArrayList<>();
-        //2. Calculer l'orientation du bateau pour qu'il soit dans l'axe du prochain checkpoint
-        if(checkpointAViser!=null){
-            //3. Calculer la solution la plus optimale pour orienter correctement le bateau (tout en avancant si possible) avec les éléments à notre disposition
-            angleParfaitVersCheckpoint=calculator.calculateIdealAngle(parsedInitGame.getBateau().getPosition(), checkpointAViser.getPosition());
-            meilleurAngleRealisable = parsedInitGame.getBateau().meilleurAngleRealisable(angleParfaitVersCheckpoint);
+    public List<Double> bestAchievableAngle(){
+        List<Double> bestAchievableAngles = new ArrayList<>();
+        if(aimingCheckpoint !=null){
+            perfectAngleToCheckpoint =calculator.calculateIdealAngle(parsedInitGame.getShip().getPosition(), aimingCheckpoint.getPosition());
+            bestAchievableAngles = parsedInitGame.getShip().meilleurAngleRealisable(perfectAngleToCheckpoint);
         }
-        return meilleurAngleRealisable;
+        return bestAchievableAngles;
     }
 
 }

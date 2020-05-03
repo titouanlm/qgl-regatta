@@ -22,11 +22,11 @@ public class OarReferee extends ActionRound {
     }
 
     public void tryToOar(InitGame parsedInitGameReferee) {
-        for(Sailor m : parsedInitGameReferee.getMarins()){
+        for(Sailor m : parsedInitGameReferee.getSailors()){
             if(m.getId()==this.getSailorId()){
-                if(m.isLibre() && parsedInitGameReferee.getBateau().isOnOarNotUsed(m)){
+                if(m.isAvailable() && parsedInitGameReferee.getShip().isOnOarNotUsed(m)){
                     //System.out.println(m.getId()+" peut ramer.");
-                    m.setLibre(false);
+                    m.setAvailable(false);
                 }else{
                     System.out.println("ERREUR : " + m.getId() + " NE PEUT PAS RAMER !");
                 }

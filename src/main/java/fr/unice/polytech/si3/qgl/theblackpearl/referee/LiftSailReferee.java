@@ -21,10 +21,10 @@ public class LiftSailReferee extends ActionRound{
     }
 
     public void tryToLiftSail(InitGame parsedInitGameReferee) {
-        for(Sailor m : parsedInitGameReferee.getMarins()){
+        for(Sailor m : parsedInitGameReferee.getSailors()){
             if(m.getId()==this.getSailorId()){
-                if(m.isLibre() && parsedInitGameReferee.getBateau().isOnSailNotUsedNotOppened(m)){
-                    m.setLibre(false);
+                if(m.isAvailable() && parsedInitGameReferee.getShip().isOnSailNotUsedNotOppened(m)){
+                    m.setAvailable(false);
                 }else{
                     System.out.println("ERREUR : " + m.getId() + " NE PEUT PAS HISSER !" );
                 }

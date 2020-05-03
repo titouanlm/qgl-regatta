@@ -39,8 +39,8 @@ public class Cockpit implements ICockpit {
 	public String nextRound(String round) { //reinitialiser toutes les actions à faire des marins
 		try {
 			parsedNextRound = objectMapper.readValue(round, NextRound.class);
-			parsedInitGame.setBateau(parsedNextRound.getBateau());
-			logs.add(parsedInitGame.getBateau().getPosition().toString());
+			parsedInitGame.setShip(parsedNextRound.getShip());
+			logs.add(parsedInitGame.getShip().getPosition().toString());
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
@@ -53,7 +53,7 @@ public class Cockpit implements ICockpit {
 		Captain captain = new Captain(parsedInitGame, parsedNextRound.getWind());
 
 		try {
-			actionsNextRound = captain.ordreCapitaine();
+			actionsNextRound = captain.captainOrder();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -73,7 +73,7 @@ public class Cockpit implements ICockpit {
 			try {
 				if (!ref.startRound(roundJSON.toString())){
 					RegattaGoal regatta = (RegattaGoal) parsedInitGame.getGoal();
-					if(ref.getGoThroughCheckpoint() && !c.shipIsInsideCheckpoint(initGameClone.getBateau(),regatta.getCheckpoints().get(0))){
+					if(ref.getGoThroughCheckpoint() && !c.shipIsInsideCheckpoint(initGameClone.getShip(),regatta.getCheckpoints().get(0))){
 						roundJSON = modificationJsonRalentir();
 					}else{
 						break;
@@ -96,7 +96,7 @@ public class Cockpit implements ICockpit {
 		for(Action a : actionsNextRound){
 			if(a instanceof OAR){
 				Sailor sailorOAR = parsedInitGame.getSailorById(a.getSailorId());
-				if(actionOARLeft==null && sailorOAR.getY() == parsedInitGame.getBateau().getDeck().getWidth()-1){
+				if(actionOARLeft==null && sailorOAR.getY() == parsedInitGame.getShip().getDeck().getWidth()-1){
 					actionOARLeft = a;
 				}
 				if(actionOARRight==null && sailorOAR.getY() == 0){
@@ -119,28 +119,28 @@ public class Cockpit implements ICockpit {
 	}
 
 	public void resetMarinNouveauTour(){
-		for (Sailor sailor : parsedInitGame.getMarins()) {
+		for (Sailor sailor : parsedInitGame.getSailors()) {
 			sailor.resetMarinPourUnNouveauTour();
 		}
 	}
 
 	public void creerLogNouveautour(){
 		StringBuilder log = new StringBuilder();
-		for (Sailor sailor : parsedInitGame.getMarins()) {
+		for (Sailor sailor : parsedInitGame.getSailors()) {
 			log.append(sailor.toString());
 		}
 		logs.add(log.toString());
 	}
 
 	public void tacheMarins(List<Action> actionsNextRound){
-		for(Sailor m : parsedInitGame.getMarins()){
-			if (!m.isLibre()) {
-				switch (m.getActionAFaire()) {
+		for(Sailor m : parsedInitGame.getSailors()){
+			if (!m.isAvailable()) {
+				switch (m.getActionToDo()) {
 					case "Ramer":
 						actionsNextRound.add(new OAR(m.getId()));
 						break;
 					case "tournerGouvernail":
-						actionsNextRound.add(new TURN(m.getId(), parsedInitGame.getBateau().getGouvernail().getAngleRealise()));
+						actionsNextRound.add(new TURN(m.getId(), parsedInitGame.getShip().getGouvernail().getAngleAchieved()));
 						break;
 					case "HisserVoile":
 						actionsNextRound.add(new LIFT_SAIL(m.getId()));

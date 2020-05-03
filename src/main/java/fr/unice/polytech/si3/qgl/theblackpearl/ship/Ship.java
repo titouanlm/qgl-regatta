@@ -166,9 +166,9 @@ public class Ship {
     //////////////////////////Referee
     public boolean isOnOarNotUsed(Sailor m) {
         for(Entity e: entities){
-            if(e instanceof Oar && e.isLibre()){
+            if(e instanceof Oar && e.isAvailable()){
                 if(e.getX()==m.getX() && e.getY()==m.getY()){
-                    e.setLibre(false);
+                    e.setAvailable(false);
                     return true;
                 }
             }
@@ -178,9 +178,9 @@ public class Ship {
 
     public boolean isOnRudderNotUsed(Sailor m) {
         for(Entity e: entities){
-            if(e instanceof Rudder && e.isLibre()){
+            if(e instanceof Rudder && e.isAvailable()){
                 if(e.getX()==m.getX() && e.getY()==m.getY()){
-                    e.setLibre(false);
+                    e.setAvailable(false);
                     return true;
                 }
             }
@@ -191,7 +191,7 @@ public class Ship {
     public int nbMarinRameTribord(){
         int nbMarinRameTribord=0;
         for(Entity e : entities){
-            if(e instanceof Oar && e.getY()==this.getDeck().getWidth()-1 && !e.isLibre()){
+            if(e instanceof Oar && e.getY()==this.getDeck().getWidth()-1 && !e.isAvailable()){
                 nbMarinRameTribord++;
             }
         }
@@ -201,7 +201,7 @@ public class Ship {
     public int nbMarinRameBabord(){
         int nbMarinRameBabord=0;
         for(Entity e : entities){
-            if(e instanceof Oar && e.getY()==0  && !e.isLibre()){
+            if(e instanceof Oar && e.getY()==0  && !e.isAvailable()){
                 nbMarinRameBabord++;
             }
         }
@@ -243,9 +243,9 @@ public class Ship {
 
     public boolean isOnSailNotUsedNotOppened(Sailor m) {
         for(Entity e: entities){
-            if(e instanceof Sail && e.isLibre()){
+            if(e instanceof Sail && e.isAvailable()){
                 if(e.getX()==m.getX() && e.getY()==m.getY() && !((Sail) e).isOpenned()){
-                    e.setLibre(false);
+                    e.setAvailable(false);
                     ((Sail) e).setOpenned(true);
                     return true;
                 }
@@ -256,9 +256,9 @@ public class Ship {
 
     public boolean isOnSailNotUsedOppened(Sailor m) {
         for(Entity e: entities){
-            if(e instanceof Sail && e.isLibre()){
+            if(e instanceof Sail && e.isAvailable()){
                 if(e.getX()==m.getX() && e.getY()==m.getY() && ((Sail) e).isOpenned()){
-                    e.setLibre(false);
+                    e.setAvailable(false);
                     ((Sail) e).setOpenned(false);
                     return true;
                 }

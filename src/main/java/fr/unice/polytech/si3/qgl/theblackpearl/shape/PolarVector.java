@@ -2,20 +2,20 @@ package fr.unice.polytech.si3.qgl.theblackpearl.shape;
 
 public class PolarVector {
 
-    private double longeur;
+    private double length;
     private double angle;
 
-    public PolarVector(double longeur, double angle){
-        this.longeur=longeur;
+    public PolarVector(double length, double angle){
+        this.length = length;
         this.angle=angle;
     }
 
-    public double getLongeur() {
-        return longeur;
+    public double getLength() {
+        return length;
     }
 
-    public void setLongeur(double longeur) {
-        this.longeur = longeur;
+    public void setLength(double length) {
+        this.length = length;
     }
 
     public double getAngle() {
@@ -28,8 +28,8 @@ public class PolarVector {
 
     @Override
     public String toString() {
-        return "VecteurPolaire{" +
-                "longeur=" + longeur +
+        return "PolarVector{" +
+                "length=" + length +
                 ", angle=" + angle +
                 '}';
     }

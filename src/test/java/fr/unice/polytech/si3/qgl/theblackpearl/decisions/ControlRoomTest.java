@@ -35,54 +35,54 @@ public class ControlRoomTest {
         controlRoom = new ControlRoom(parsedInitGame, wind, actionsNextRound);
         controlRoom.creationTableauMarins();
         Captain captain = new Captain(parsedInitGame, wind);
-        captain.determinerCheckpointAViser();
-        meilleurAngleRealisable = captain.meilleurAngleRealisable();
+        captain.determineTargetCheckpoint();
+        meilleurAngleRealisable = captain.bestAchievableAngle();
     }
 
 
     @Test
     public void priseEnComptePositionMarinsTest(){
         controlRoom.priseEnComptePositionMarins();
-        assertEquals(parsedInitGame.getMarins().get(0).getX(),0);
-        assertEquals(parsedInitGame.getMarins().get(0).getY(),0);
-        assertEquals(parsedInitGame.getMarins().get(1).getX(),0);
-        assertEquals(parsedInitGame.getMarins().get(1).getY(),1);
-        assertEquals(parsedInitGame.getMarins().get(2).getX(),0);
-        assertEquals(parsedInitGame.getMarins().get(2).getY(),2);
-        assertEquals(parsedInitGame.getMarins().get(3).getX(),1);
-        assertEquals(parsedInitGame.getMarins().get(3).getY(),0);
-        assertEquals(parsedInitGame.getMarins().get(4).getX(),1);
-        assertEquals(parsedInitGame.getMarins().get(4).getY(),1);
-        assertEquals(parsedInitGame.getMarins().get(5).getX(),1);
-        assertEquals(parsedInitGame.getMarins().get(5).getY(),2);
+        assertEquals(parsedInitGame.getSailors().get(0).getX(),0);
+        assertEquals(parsedInitGame.getSailors().get(0).getY(),0);
+        assertEquals(parsedInitGame.getSailors().get(1).getX(),0);
+        assertEquals(parsedInitGame.getSailors().get(1).getY(),1);
+        assertEquals(parsedInitGame.getSailors().get(2).getX(),0);
+        assertEquals(parsedInitGame.getSailors().get(2).getY(),2);
+        assertEquals(parsedInitGame.getSailors().get(3).getX(),1);
+        assertEquals(parsedInitGame.getSailors().get(3).getY(),0);
+        assertEquals(parsedInitGame.getSailors().get(4).getX(),1);
+        assertEquals(parsedInitGame.getSailors().get(4).getY(),1);
+        assertEquals(parsedInitGame.getSailors().get(5).getX(),1);
+        assertEquals(parsedInitGame.getSailors().get(5).getY(),2);
     }
 
     @Test
     public void restaurationPositionMarinsTest(){
         controlRoom.priseEnComptePositionMarins();
-        for (Sailor m : parsedInitGame.getMarins()){
+        for (Sailor m : parsedInitGame.getSailors()){
             m.setX(456);m.setY(789);
         }
         controlRoom.restaurationPositionMarins();
-        assertEquals(parsedInitGame.getMarins().get(0).getX(),0);
-        assertEquals(parsedInitGame.getMarins().get(0).getY(),0);
-        assertEquals(parsedInitGame.getMarins().get(1).getX(),0);
-        assertEquals(parsedInitGame.getMarins().get(1).getY(),1);
-        assertEquals(parsedInitGame.getMarins().get(2).getX(),0);
-        assertEquals(parsedInitGame.getMarins().get(2).getY(),2);
-        assertEquals(parsedInitGame.getMarins().get(3).getX(),1);
-        assertEquals(parsedInitGame.getMarins().get(3).getY(),0);
-        assertEquals(parsedInitGame.getMarins().get(4).getX(),1);
-        assertEquals(parsedInitGame.getMarins().get(4).getY(),1);
-        assertEquals(parsedInitGame.getMarins().get(5).getX(),1);
-        assertEquals(parsedInitGame.getMarins().get(5).getY(),2);
+        assertEquals(parsedInitGame.getSailors().get(0).getX(),0);
+        assertEquals(parsedInitGame.getSailors().get(0).getY(),0);
+        assertEquals(parsedInitGame.getSailors().get(1).getX(),0);
+        assertEquals(parsedInitGame.getSailors().get(1).getY(),1);
+        assertEquals(parsedInitGame.getSailors().get(2).getX(),0);
+        assertEquals(parsedInitGame.getSailors().get(2).getY(),2);
+        assertEquals(parsedInitGame.getSailors().get(3).getX(),1);
+        assertEquals(parsedInitGame.getSailors().get(3).getY(),0);
+        assertEquals(parsedInitGame.getSailors().get(4).getX(),1);
+        assertEquals(parsedInitGame.getSailors().get(4).getY(),1);
+        assertEquals(parsedInitGame.getSailors().get(5).getX(),1);
+        assertEquals(parsedInitGame.getSailors().get(5).getY(),2);
     }
 
     @Test
     public void preConfigurationRamesBateauTest() {
         ArrayList<Sailor> marinsOccupes = new ArrayList<>();
         Calculator calculateur = new Calculator();
-        calculateur.setNumberSailorsToPlace(parsedInitGame.getBateau().nombreMarinsRamesBabordTribordRames(meilleurAngleRealisable.get(0), parsedInitGame.getBateau().getListRames()));
+        calculateur.setNumberSailorsToPlace(parsedInitGame.getShip().nombreMarinsRamesBabordTribordRames(meilleurAngleRealisable.get(0), parsedInitGame.getShip().getListRames()));
         calculateur.setNumberSailorsToPlaceCopy(calculateur.getNumberSailorsToPlace().clone());
         controlRoom.preConfigurationRamesBateau(true, 0, calculateur.getNumberSailorsToPlaceCopy(), meilleurAngleRealisable, calculateur, controlRoom.meilleurAngleRealisablePosition,marinsOccupes);
         assertEquals(controlRoom.meilleurAngleRealisablePosition, 0);
@@ -104,8 +104,8 @@ public class ControlRoomTest {
         controlRoom.configurationGouvernail();
         assertEquals((actionsNextRound.get(0)).getSailorId(),0);
         assertEquals((actionsNextRound.get(0)).getType(),"MOVING");
-        assertEquals(((MOVING) actionsNextRound.get(0)).getYdistance(),0);
-        assertEquals(((MOVING) actionsNextRound.get(0)).getXdistance(),5);
+        assertEquals(((MOVING) actionsNextRound.get(0)).getYDistance(),0);
+        assertEquals(((MOVING) actionsNextRound.get(0)).getXDistance(),5);
         assertEquals(actionsNextRound.size(),1);
     }
 
@@ -113,8 +113,8 @@ public class ControlRoomTest {
     public void utilisationVoileTest(){
         wind.setOrientation(Math.PI);
         controlRoom.utilisationVoile();
-        assertEquals(((MOVING) actionsNextRound.get(0)).getYdistance(),1);
-        assertEquals(((MOVING) actionsNextRound.get(0)).getXdistance(),2);
+        assertEquals(((MOVING) actionsNextRound.get(0)).getYDistance(),1);
+        assertEquals(((MOVING) actionsNextRound.get(0)).getXDistance(),2);
         assertEquals(actionsNextRound.size(),1);
     }
 

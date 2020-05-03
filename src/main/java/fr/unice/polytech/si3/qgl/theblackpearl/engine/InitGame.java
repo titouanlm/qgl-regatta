@@ -9,7 +9,6 @@ import fr.unice.polytech.si3.qgl.theblackpearl.ship.Ship;
 
 import java.util.ArrayList;
 
-
 public class InitGame {
     private Goal goal;
     private int shipCount;
@@ -24,7 +23,7 @@ public class InitGame {
         this.sailors = sailors;
     }
 
-    public Ship getBateau() {
+    public Ship getShip() {
         return this.ship;
     }
 
@@ -32,11 +31,11 @@ public class InitGame {
         return this.goal;
     }
 
-    public void setBateau(Ship ship) {
+    public void setShip(Ship ship) {
         this.ship = ship;
     }
 
-    public ArrayList<Sailor> getMarins() {
+    public ArrayList<Sailor> getSailors() {
         return sailors;
     }
 

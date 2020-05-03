@@ -38,37 +38,37 @@ class TurnRefereeTest {
 
     @Test
     void tryToTurn() {
-        when(initGame.getBateau().isOnRudderNotUsed(m2)).thenReturn(true);
-        assertTrue(m2.isLibre());
+        when(initGame.getShip().isOnRudderNotUsed(m2)).thenReturn(true);
+        assertTrue(m2.isAvailable());
         turnReferee.tryToTurn(initGame);
-        assertFalse(m2.isLibre());
+        assertFalse(m2.isAvailable());
 
-        m2.setLibre(true);
-        when(initGame.getBateau().isOnRudderNotUsed(m2)).thenReturn(false);
+        m2.setAvailable(true);
+        when(initGame.getShip().isOnRudderNotUsed(m2)).thenReturn(false);
         turnReferee = new TurnReferee(2, -Math.PI/4);
-        assertTrue(m2.isLibre());
+        assertTrue(m2.isAvailable());
         turnReferee.tryToTurn(initGame);
-        assertTrue(m2.isLibre());
+        assertTrue(m2.isAvailable());
 
-        m2.setLibre(true);
-        when(initGame.getBateau().isOnRudderNotUsed(m2)).thenReturn(true);
+        m2.setAvailable(true);
+        when(initGame.getShip().isOnRudderNotUsed(m2)).thenReturn(true);
         turnReferee = new TurnReferee(2, Math.PI/4);
-        assertTrue(m2.isLibre());
+        assertTrue(m2.isAvailable());
         turnReferee.tryToTurn(initGame);
-        assertFalse(m2.isLibre());
+        assertFalse(m2.isAvailable());
 
-        m2.setLibre(true);
-        when(initGame.getBateau().isOnRudderNotUsed(m2)).thenReturn(true);
+        m2.setAvailable(true);
+        when(initGame.getShip().isOnRudderNotUsed(m2)).thenReturn(true);
         turnReferee = new TurnReferee(2, 0.0);
-        assertTrue(m2.isLibre());
+        assertTrue(m2.isAvailable());
         assertEquals(0.0,turnReferee.tryToTurn(initGame));
-        assertFalse(m2.isLibre());
+        assertFalse(m2.isAvailable());
 
-        m2.setLibre(true);
-        when(initGame.getBateau().isOnRudderNotUsed(m2)).thenReturn(true);
+        m2.setAvailable(true);
+        when(initGame.getShip().isOnRudderNotUsed(m2)).thenReturn(true);
         turnReferee = new TurnReferee(2, -Math.PI/4);
-        assertTrue(m2.isLibre());
+        assertTrue(m2.isAvailable());
         turnReferee.tryToTurn(initGame);
-        assertFalse(m2.isLibre());
+        assertFalse(m2.isAvailable());
     }
 }

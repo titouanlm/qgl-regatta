@@ -7,15 +7,15 @@ public class MOVING extends Action{
 
     public MOVING(int sailorId, String type, int xdistance, int ydistance){
         super(sailorId,type);
-        this.xdistance=xdistance;
-        this.ydistance=ydistance;
+        this.xdistance = xdistance;
+        this.ydistance = ydistance;
     }
 
-    public int getXdistance(){
+    public int getXDistance(){
         return xdistance;
     }
 
-    public int getYdistance(){
+    public int getYDistance(){
         return ydistance;
     }
 

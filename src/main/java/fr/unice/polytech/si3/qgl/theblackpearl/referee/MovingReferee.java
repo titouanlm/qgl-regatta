@@ -38,12 +38,12 @@ public class MovingReferee extends ActionRound {
     }
 
     public void tryToMoveMarin(InitGame parsedInitGameReferee) {
-        for(Sailor m : parsedInitGameReferee.getMarins()){
+        for(Sailor m : parsedInitGameReferee.getSailors()){
             if(m.getId()==this.getSailorId()){
                 int x = this.getXdistance()+m.getX();
                 int y = this.getYdistance()+m.getY();
-                int largeur=parsedInitGameReferee.getBateau().getDeck().getWidth();
-                int longueur=parsedInitGameReferee.getBateau().getDeck().getLength();
+                int largeur=parsedInitGameReferee.getShip().getDeck().getWidth();
+                int longueur=parsedInitGameReferee.getShip().getDeck().getLength();
                 if(5>=(Math.abs(this.getXdistance())+Math.abs(this.getYdistance())) && 0<=y && y<=largeur-1 && 0<=x && x<=longueur-1 && m.canMove()){
                     m.moveSailor(this.getXdistance(), this.getYdistance());
                 }else{

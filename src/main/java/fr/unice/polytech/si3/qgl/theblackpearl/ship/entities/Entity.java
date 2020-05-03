@@ -24,12 +24,12 @@ public abstract class Entity {
     private int x;
     private int y;
     @JsonIgnore
-    private boolean libre;
+    private boolean available;
     @JsonCreator
     public Entity(@JsonProperty("x") int x, @JsonProperty("y") int y) {
         this.x = x;
         this.y = y;
-        this.libre=true;
+        this.available =true;
     }
 
     public int getX() {
@@ -40,12 +40,12 @@ public abstract class Entity {
         return y;
     }
 
-    public boolean isLibre(){
-        return libre;
+    public boolean isAvailable(){
+        return available;
     }
 
-    public void setLibre(boolean libre){
-        this.libre=libre;
+    public void setAvailable(boolean available){
+        this.available = available;
     }
 
     @Override
@@ -53,17 +53,17 @@ public abstract class Entity {
         return "x : " + this.x +", y : " + this.y;
     }
 
-    public static ArrayList<Entity> supprimerEntite(ArrayList<Entity> listeEntite, boolean marinPlaceGauche, boolean marinPlaceDroite, Sailor m, MOVING moving){
-        if (listeEntite!=null) {
-            for (int b = 0; b < listeEntite.size(); b++) { // supprimer la rame utilisée pour cette configuration
-                if (listeEntite.get(b) instanceof Oar && (marinPlaceGauche || marinPlaceDroite)) {
-                    if ((listeEntite.get(b).getY() - m.getY()) == moving.getYdistance() && (listeEntite.get(b).getX() - m.getX()) == moving.getXdistance()) {
-                        listeEntite.remove(b);
+    public static ArrayList<Entity> deleteEntity(ArrayList<Entity> entities, boolean sailorLeftPlace, boolean sailorRightPlace, Sailor sailor, MOVING moving){
+        if (entities!=null) {
+            for (int b = 0; b < entities.size(); b++) { // supprimer la rame utilisée pour cette configuration
+                if (entities.get(b) instanceof Oar && (sailorLeftPlace || sailorRightPlace)) {
+                    if ((entities.get(b).getY() - sailor.getY()) == moving.getYDistance() && (entities.get(b).getX() - sailor.getX()) == moving.getXDistance()) {
+                        entities.remove(b);
                         break;
                     }
                 }
             }
-            return listeEntite;
+            return entities;
         }
         else return null;
     }

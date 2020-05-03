@@ -38,7 +38,7 @@ public class Polygon extends Shape {
 
     @Override
     public String toString() {
-        return "Polygone{" +
+        return "Polygon{" +
                 "orientation=" + orientation +
                 ", vertices=" + Arrays.toString(vertices.toArray()) +
                 '}';

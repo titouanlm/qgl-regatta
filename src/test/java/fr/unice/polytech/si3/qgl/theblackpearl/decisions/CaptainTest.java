@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity.supprimerEntite;
+import static fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity.deleteEntity;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CaptainTest {
@@ -41,11 +41,11 @@ public class CaptainTest {
     public void supprimerEntiteTest(){
         Sailor sailor = new Sailor(1, 5 ,6,"Edward Teach");
         MOVING moving = new MOVING(1,"MOVING",2,2);
-        assertEquals((supprimerEntite(listeEntite,false,true, sailor,moving).size()),5);
-        assertEquals((supprimerEntite(listeEntite,false,true, sailor,moving).size()),5);
-        assertEquals((supprimerEntite(listeEntite,false,true, sailor,moving).size()),5);
+        assertEquals((deleteEntity(listeEntite,false,true, sailor,moving).size()),5);
+        assertEquals((deleteEntity(listeEntite,false,true, sailor,moving).size()),5);
+        assertEquals((deleteEntity(listeEntite,false,true, sailor,moving).size()),5);
         ArrayList<Entity> listeNulle = new ArrayList<>();
-        assertEquals((supprimerEntite(listeNulle,false,true, sailor,moving)).size(),0);
+        assertEquals((deleteEntity(listeNulle,false,true, sailor,moving)).size(),0);
     }
 
 

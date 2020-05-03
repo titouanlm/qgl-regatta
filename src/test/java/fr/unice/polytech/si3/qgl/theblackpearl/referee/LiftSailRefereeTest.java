@@ -40,15 +40,15 @@ class LiftSailRefereeTest {
 
     @Test
     void tryToLiftSail() {
-        when(initGame.getBateau().isOnSailNotUsedNotOppened(m2)).thenReturn(true);
-        assertTrue(m2.isLibre());
+        when(initGame.getShip().isOnSailNotUsedNotOppened(m2)).thenReturn(true);
+        assertTrue(m2.isAvailable());
         liftSailReferee.tryToLiftSail(initGame);
-        assertFalse(m2.isLibre());
+        assertFalse(m2.isAvailable());
 
-        m2.setLibre(true);
-        when(initGame.getBateau().isOnSailNotUsedNotOppened(m2)).thenReturn(false);
-        assertTrue(m2.isLibre());
+        m2.setAvailable(true);
+        when(initGame.getShip().isOnSailNotUsedNotOppened(m2)).thenReturn(false);
+        assertTrue(m2.isAvailable());
         liftSailReferee.tryToLiftSail(initGame);
-        assertTrue(m2.isLibre());
+        assertTrue(m2.isAvailable());
     }
 }

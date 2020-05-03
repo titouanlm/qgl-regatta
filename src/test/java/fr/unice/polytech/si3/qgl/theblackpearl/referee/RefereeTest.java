@@ -43,7 +43,7 @@ class RefereeTest {
         ref.resetSailors();
         for(Sailor m : sailors){
             assertTrue(m.canMove());
-            assertTrue(m.isLibre());
+            assertTrue(m.isAvailable());
         }
     }
 
@@ -57,7 +57,7 @@ class RefereeTest {
         ref = new Referee(initGame,null);
         ref.resetEntities();
         for(Entity e : entities){
-            assertTrue(e.isLibre());
+            assertTrue(e.isAvailable());
         }
     }
 
@@ -65,7 +65,7 @@ class RefereeTest {
     void initGame() {
         Referee ref = new Referee(gameString, firstRound, new Cockpit());
         ref.initGame();
-        assertEquals("ship", ref.getParsedInitGameReferee().getBateau().getType());
+        assertEquals("ship", ref.getParsedInitGameReferee().getShip().getType());
         assertEquals( 80.0,ref.getParsedNextRoundReferee().getWind().getStrength());
     }
 

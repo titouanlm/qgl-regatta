@@ -21,10 +21,10 @@ public class LowerSailReferee extends ActionRound {
     }
 
     public void tryToLowerSail(InitGame parsedInitGameReferee) {
-        for(Sailor m : parsedInitGameReferee.getMarins()){
+        for(Sailor m : parsedInitGameReferee.getSailors()){
             if(m.getId()==this.getSailorId()){
-                if(m.isLibre() && parsedInitGameReferee.getBateau().isOnSailNotUsedOppened(m)){
-                    m.setLibre(false);
+                if(m.isAvailable() && parsedInitGameReferee.getShip().isOnSailNotUsedOppened(m)){
+                    m.setAvailable(false);
                 }else{
                     System.out.println("ERREUR : " + m.getId() + " NE PEUT PAS AFFALER !");
                 }

@@ -39,15 +39,15 @@ class LowerSailRefereeTest {
 
     @Test
     void tryToLowerSail() {
-        when(initGame.getBateau().isOnSailNotUsedOppened(m2)).thenReturn(true);
-        assertTrue(m2.isLibre());
+        when(initGame.getShip().isOnSailNotUsedOppened(m2)).thenReturn(true);
+        assertTrue(m2.isAvailable());
         lowerSailReferee.tryToLowerSail(initGame);
-        assertFalse(m2.isLibre());
+        assertFalse(m2.isAvailable());
 
-        m2.setLibre(true);
-        when(initGame.getBateau().isOnSailNotUsedOppened(m2)).thenReturn(false);
-        assertTrue(m2.isLibre());
+        m2.setAvailable(true);
+        when(initGame.getShip().isOnSailNotUsedOppened(m2)).thenReturn(false);
+        assertTrue(m2.isAvailable());
         lowerSailReferee.tryToLowerSail(initGame);
-        assertTrue(m2.isLibre());
+        assertTrue(m2.isAvailable());
     }
 }

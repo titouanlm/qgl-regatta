@@ -70,9 +70,9 @@ public class Calculator {
         if (object2 instanceof OtherShip ||object2 instanceof Reef || object2 instanceof Stream){
             shape2 = ((VisibleEntity) object2).getShape();
             if (shape2 instanceof Circle)
-                shape2.setCoordonneesCentre(((VisibleEntity) object2).getPosition());
+                shape2.setCenterCoordinates(((VisibleEntity) object2).getPosition());
             else if (shape2 instanceof Rectangle){
-                shape2.setCoordonneesCentre(((VisibleEntity) object2).getPosition());
+                shape2.setCenterCoordinates(((VisibleEntity) object2).getPosition());
                 shape2.setOrientationCentre(((VisibleEntity) object2).getPosition().getOrientation());
             }
             else if (shape2 instanceof Polygon){
@@ -82,9 +82,9 @@ public class Calculator {
         else if (object2 instanceof Checkpoint){
             shape2 = ((Checkpoint) object2).getShape();
             if (shape2 instanceof Circle)
-                shape2.setCoordonneesCentre(((Checkpoint) object2).getPosition());
+                shape2.setCenterCoordinates(((Checkpoint) object2).getPosition());
             else if (shape2 instanceof Rectangle){
-                shape2.setCoordonneesCentre(((Checkpoint) object2).getPosition());
+                shape2.setCenterCoordinates(((Checkpoint) object2).getPosition());
                 shape2.setOrientationCentre(((Checkpoint) object2).getPosition().getOrientation());
             }
             else if (shape2 instanceof Polygon){
@@ -94,7 +94,7 @@ public class Calculator {
         else if (object2 instanceof Ship){
             shape2 = ((Ship) object2).getShape();
             if (shape2 instanceof Rectangle){
-                shape2.setCoordonneesCentre(((Ship) object2).getPosition());
+                shape2.setCenterCoordinates(((Ship) object2).getPosition());
                 shape2.setOrientationCentre(((Ship) object2).getPosition().getOrientation());
             }
         }
@@ -116,7 +116,7 @@ public class Calculator {
     }
 
     private boolean collisionCircles(Circle a, Circle b) {
-        double distanceCBCC = calculateDistanceBetween2Points(a.getCoordonneesCentre(),b.getCoordonneesCentre());
+        double distanceCBCC = calculateDistanceBetween2Points(a.getCenterCoordinates(),b.getCenterCoordinates());
         return distanceCBCC <= (a.getRadius()+b.getRadius());
     }
 
@@ -200,7 +200,7 @@ public class Calculator {
     }
 
     private void creationProjectedPointsCircle(Circle circle, List<Point> points, CartesianVector vector){  // pas sur de la fonction
-        calculateCoordinatesProjectedPointsCircle(points, vector,0,0,circle.getCoordonneesCentre().getX() , circle.getCoordonneesCentre().getY(), circle);
+        calculateCoordinatesProjectedPointsCircle(points, vector,0,0,circle.getCenterCoordinates().getX() , circle.getCenterCoordinates().getY(), circle);
     }
 
     private void creationProjectedPointsPolygon(Polygon polygon, List<Point> points, CartesianVector vector) { // PAS ENCORE GÉRÉ LA ROTATION DES POLYGONES + pas sur de la fonction
@@ -216,7 +216,7 @@ public class Calculator {
         Point point = polygon.getVertices().get(i);
         PolarVector polarVector = new PolarVector(Math.sqrt(Math.pow(point.getX(),2)+Math.pow(point.getY(),2)),Math.atan2(point.getY(),point.getX()));
         polarVector.setAngle(polarVector.getAngle()+polygon.getPositionRelative().getOrientation());
-        return new Point(polarVector.getLongeur()*Math.cos(polarVector.getAngle())+polygon.getPositionRelative().getX(), polarVector.getLongeur()*Math.sin(polarVector.getAngle())+polygon.getPositionRelative().getY());
+        return new Point(polarVector.getLength()*Math.cos(polarVector.getAngle())+polygon.getPositionRelative().getX(), polarVector.getLength()*Math.sin(polarVector.getAngle())+polygon.getPositionRelative().getY());
     }
 
     private void creationProjectedPointsRectangle(Rectangle rectangle, List<Point> points, CartesianVector vector){ // Pas sur de la fonction
@@ -236,27 +236,27 @@ public class Calculator {
     }
 
     public Point calculateLowerLeftRectanglePoint(Rectangle rectangle){
-        double xModifie = Math.cos(rectangle.getOrientationRectangle()+rectangle.getCoordonneesCentre().getOrientation())*-rectangle.getHeight()/2-Math.sin(rectangle.getOrientationRectangle()+rectangle.getCoordonneesCentre().getOrientation())*-rectangle.getWidth()/2;
-        double yModifie = Math.sin(rectangle.getOrientationRectangle()+rectangle.getCoordonneesCentre().getOrientation())*-rectangle.getHeight()/2+Math.cos(rectangle.getOrientationRectangle()+rectangle.getCoordonneesCentre().getOrientation())*-rectangle.getWidth()/2;
-        return new Point(xModifie+rectangle.getCoordonneesCentre().getX(),yModifie+rectangle.getCoordonneesCentre().getY());
+        double xModifie = Math.cos(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*-rectangle.getHeight()/2-Math.sin(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*-rectangle.getWidth()/2;
+        double yModifie = Math.sin(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*-rectangle.getHeight()/2+Math.cos(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*-rectangle.getWidth()/2;
+        return new Point(xModifie+rectangle.getCenterCoordinates().getX(),yModifie+rectangle.getCenterCoordinates().getY());
     }
 
     public Point calculateLowerRightRectanglePoint(Rectangle rectangle){
-        double xModifie = Math.cos(rectangle.getOrientationRectangle()+rectangle.getCoordonneesCentre().getOrientation())*+rectangle.getHeight()/2-Math.sin(rectangle.getOrientationRectangle()+rectangle.getCoordonneesCentre().getOrientation())*-rectangle.getWidth()/2;
-        double yModifie = Math.sin(rectangle.getOrientationRectangle()+rectangle.getCoordonneesCentre().getOrientation())*+rectangle.getHeight()/2+Math.cos(rectangle.getOrientationRectangle()+rectangle.getCoordonneesCentre().getOrientation())*-rectangle.getWidth()/2;
-        return new Point(xModifie+rectangle.getCoordonneesCentre().getX(),yModifie+rectangle.getCoordonneesCentre().getY());
+        double xModifie = Math.cos(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*+rectangle.getHeight()/2-Math.sin(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*-rectangle.getWidth()/2;
+        double yModifie = Math.sin(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*+rectangle.getHeight()/2+Math.cos(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*-rectangle.getWidth()/2;
+        return new Point(xModifie+rectangle.getCenterCoordinates().getX(),yModifie+rectangle.getCenterCoordinates().getY());
     }
 
     public Point calculateUpperLeftRectanglePoint(Rectangle rectangle){
-        double xModifie = Math.cos(rectangle.getOrientationRectangle()+rectangle.getCoordonneesCentre().getOrientation())*-rectangle.getHeight()/2-Math.sin(rectangle.getOrientationRectangle()+rectangle.getCoordonneesCentre().getOrientation())*+rectangle.getWidth()/2;
-        double yModifie = Math.sin(rectangle.getOrientationRectangle()+rectangle.getCoordonneesCentre().getOrientation())*-rectangle.getHeight()/2+Math.cos(rectangle.getOrientationRectangle()+rectangle.getCoordonneesCentre().getOrientation())*+rectangle.getWidth()/2;
-        return new Point(xModifie+rectangle.getCoordonneesCentre().getX(),yModifie+rectangle.getCoordonneesCentre().getY());
+        double xModifie = Math.cos(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*-rectangle.getHeight()/2-Math.sin(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*+rectangle.getWidth()/2;
+        double yModifie = Math.sin(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*-rectangle.getHeight()/2+Math.cos(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*+rectangle.getWidth()/2;
+        return new Point(xModifie+rectangle.getCenterCoordinates().getX(),yModifie+rectangle.getCenterCoordinates().getY());
     }
 
     public Point calculateUpperRightRectanglePoint(Rectangle rectangle){
-        double xModifie = Math.cos(rectangle.getOrientationRectangle()+rectangle.getCoordonneesCentre().getOrientation())*+rectangle.getHeight()/2-Math.sin(rectangle.getOrientationRectangle()+rectangle.getCoordonneesCentre().getOrientation())*+rectangle.getWidth()/2;
-        double yModifie = Math.sin(rectangle.getOrientationRectangle()+rectangle.getCoordonneesCentre().getOrientation())*+rectangle.getHeight()/2+Math.cos(rectangle.getOrientationRectangle()+rectangle.getCoordonneesCentre().getOrientation())*+rectangle.getWidth()/2;
-        return new Point(xModifie+rectangle.getCoordonneesCentre().getX(),yModifie+rectangle.getCoordonneesCentre().getY());
+        double xModifie = Math.cos(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*+rectangle.getHeight()/2-Math.sin(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*+rectangle.getWidth()/2;
+        double yModifie = Math.sin(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*+rectangle.getHeight()/2+Math.cos(rectangle.getOrientationRectangle()+rectangle.getCenterCoordinates().getOrientation())*+rectangle.getWidth()/2;
+        return new Point(xModifie+rectangle.getCenterCoordinates().getX(),yModifie+rectangle.getCenterCoordinates().getY());
     }
 
 
@@ -275,15 +275,15 @@ public class Calculator {
         List<CartesianVector> cartesianVectors = new ArrayList<>();
         if (shape1 instanceof Circle) {
             cartesianVectors.add(vectorDirectorProjectionCircleAxis((Circle) shape1, shape2));
-            cartesianVectors=vecteurDirecteurPourProjectionAxe(shape2,cartesianVectors);
+            cartesianVectors= directorVectorForAxisProjection(shape2,cartesianVectors);
         }
         else if (shape2 instanceof Circle) {
             cartesianVectors.add(vectorDirectorProjectionCircleAxis((Circle) shape2, shape1));
-            cartesianVectors=vecteurDirecteurPourProjectionAxe(shape1,cartesianVectors);
+            cartesianVectors= directorVectorForAxisProjection(shape1,cartesianVectors);
         }
         else {
-            cartesianVectors=vecteurDirecteurPourProjectionAxe(shape1,cartesianVectors);
-            cartesianVectors=vecteurDirecteurPourProjectionAxe(shape2,cartesianVectors);
+            cartesianVectors= directorVectorForAxisProjection(shape1,cartesianVectors);
+            cartesianVectors= directorVectorForAxisProjection(shape2,cartesianVectors);
         }
         return cartesianVectors;
     }
@@ -298,76 +298,76 @@ public class Calculator {
             liste.add(calculateUpperLeftRectanglePoint((Rectangle) shape2));
             liste.add( calculateUpperRightRectanglePoint((Rectangle) shape2));
             for (Point pointRectangle : liste){
-                if (Math.sqrt(Math.pow(pointRectangle.getX()-circle.getCoordonneesCentre().getX(),2)+Math.pow(pointRectangle.getY()-circle.getCoordonneesCentre().getY(),2)) < d){
+                if (Math.sqrt(Math.pow(pointRectangle.getX()-circle.getCenterCoordinates().getX(),2)+Math.pow(pointRectangle.getY()-circle.getCenterCoordinates().getY(),2)) < d){
                     point=pointRectangle;
-                    d = Math.sqrt(Math.pow(pointRectangle.getX()-circle.getCoordonneesCentre().getX(),2)+Math.pow(pointRectangle.getY()-circle.getCoordonneesCentre().getY(),2));
+                    d = Math.sqrt(Math.pow(pointRectangle.getX()-circle.getCenterCoordinates().getX(),2)+Math.pow(pointRectangle.getY()-circle.getCenterCoordinates().getY(),2));
                 }
             }
         }
         else {
             for (Point pointPolygone : ((Polygon) shape2).getVertices()){
-                if (Math.sqrt(Math.pow(pointPolygone.getX()-circle.getCoordonneesCentre().getX(),2)+Math.pow(pointPolygone.getY()-circle.getCoordonneesCentre().getY(),2)) < d){
+                if (Math.sqrt(Math.pow(pointPolygone.getX()-circle.getCenterCoordinates().getX(),2)+Math.pow(pointPolygone.getY()-circle.getCenterCoordinates().getY(),2)) < d){
                     point=pointPolygone;
-                    d = Math.sqrt(Math.pow(pointPolygone.getX()-circle.getCoordonneesCentre().getX(),2)+Math.pow(pointPolygone.getY()-circle.getCoordonneesCentre().getY(),2));
+                    d = Math.sqrt(Math.pow(pointPolygone.getX()-circle.getCenterCoordinates().getX(),2)+Math.pow(pointPolygone.getY()-circle.getCenterCoordinates().getY(),2));
                 }
             }
         }
-        return vecteurUnitairePourCerclePoint(circle, point);
+        return unitVectorForCirclePoint(circle, point);
     }
 
-    private CartesianVector vecteurUnitairePourCerclePoint(Circle shape, Point point) throws Exception {
+    private CartesianVector unitVectorForCirclePoint(Circle circle, Point point) throws Exception {
         if (point!=null){
-            CartesianVector vecteur = new CartesianVector((shape.getCoordonneesCentre().getX()-point.getX()),shape.getCoordonneesCentre().getY()-point.getY());
-            double normeVecteur = Math.sqrt(Math.pow(vecteur.getX(),2)+Math.pow(vecteur.getY(),2));
-            if (normeVecteur !=0){
-                return new CartesianVector(vecteur.getX()/normeVecteur,vecteur.getY()/normeVecteur);
+            CartesianVector vector = new CartesianVector((circle.getCenterCoordinates().getX()-point.getX()),circle.getCenterCoordinates().getY()-point.getY());
+            double vectorNorm = Math.sqrt(Math.pow(vector.getX(),2)+Math.pow(vector.getY(),2));
+            if (vectorNorm !=0){
+                return new CartesianVector(vector.getX()/vectorNorm,vector.getY()/vectorNorm);
             }
             else throw new Exception("Can't divide by zero");
         }
         else throw new Exception("Point is null");
     }
 
-    public CartesianVector vecteurUnitaireVecteur(CartesianVector vecteur) throws Exception {
-        double normeVecteur = Math.sqrt(Math.pow(vecteur.getX(),2)+Math.pow(vecteur.getY(),2));
-        if (normeVecteur != 0)
-            return new CartesianVector(vecteur.getX()/normeVecteur,vecteur.getY()/normeVecteur);
+    public CartesianVector vectorUnitVector(CartesianVector vector) throws Exception {
+        double vectorNorm = Math.sqrt(Math.pow(vector.getX(),2)+Math.pow(vector.getY(),2));
+        if (vectorNorm != 0)
+            return new CartesianVector(vector.getX()/vectorNorm,vector.getY()/vectorNorm);
         else throw new Exception("Can't divide by zero");
     }
 
-    public PolarVector convertionVecteurCartesienPolaire (CartesianVector cartesianVector){
+    public PolarVector cartesianPolarVectorConversion(CartesianVector cartesianVector){
         return new PolarVector(Math.sqrt(Math.pow(cartesianVector.getX(),2)+Math.pow(cartesianVector.getY(),2)),Math.atan2(cartesianVector.getY(), cartesianVector.getX()));
     }
 
-    public CartesianVector convertionVecteurPolaireCartesien (PolarVector polarVector){
-        return new CartesianVector(polarVector.getLongeur()*Math.cos(polarVector.getAngle()), polarVector.getLongeur()*Math.sin(polarVector.getAngle()));
+    public CartesianVector polarCartesianVectorConversion(PolarVector polarVector){
+        return new CartesianVector(polarVector.getLength()*Math.cos(polarVector.getAngle()), polarVector.getLength()*Math.sin(polarVector.getAngle()));
     }
 
-    private List<CartesianVector> vecteurDirecteurPourProjectionAxe(Shape shape, List<CartesianVector> vectors) throws Exception { // MODIFIER POLYGONE
+    private List<CartesianVector> directorVectorForAxisProjection(Shape shape, List<CartesianVector> vectors) throws Exception {
         if (shape instanceof Rectangle) {
-            CartesianVector vecteur = new CartesianVector(Math.cos(((Rectangle) shape).getOrientationRectangle()+shape.getCoordonneesCentre().getOrientation()),Math.sin(((Rectangle) shape).getOrientationRectangle()+shape.getCoordonneesCentre().getOrientation()));
-            vecteur=vecteurUnitaireVecteur(vecteur);
-            CartesianVector vecteur2 = new CartesianVector(Math.cos(((Rectangle) shape).getOrientationRectangle()+Math.PI/2+shape.getCoordonneesCentre().getOrientation()),Math.sin(((Rectangle) shape).getOrientationRectangle()+Math.PI/2+shape.getCoordonneesCentre().getOrientation()));
-            vecteur2=vecteurUnitaireVecteur(vecteur2);
-            vectors.add(vecteur);
-            vectors.add(vecteur2);
+            CartesianVector vector = new CartesianVector(Math.cos(((Rectangle) shape).getOrientationRectangle()+shape.getCenterCoordinates().getOrientation()),Math.sin(((Rectangle) shape).getOrientationRectangle()+shape.getCenterCoordinates().getOrientation()));
+            vector= vectorUnitVector(vector);
+            CartesianVector vector2 = new CartesianVector(Math.cos(((Rectangle) shape).getOrientationRectangle()+Math.PI/2+shape.getCenterCoordinates().getOrientation()),Math.sin(((Rectangle) shape).getOrientationRectangle()+Math.PI/2+shape.getCenterCoordinates().getOrientation()));
+            vector2= vectorUnitVector(vector2);
+            vectors.add(vector);
+            vectors.add(vector2);
         }
         if (shape instanceof Polygon) {
             for (int i = 0; i < ((Polygon) shape).getVertices().size(); i++) {
                 if (i != (((Polygon) shape).getVertices().size()-1) ){
-                    CartesianVector vecteur = new CartesianVector(polygonPointRotation((Polygon) shape,i+1).getX() - polygonPointRotation((Polygon) shape,i).getX(),(polygonPointRotation((Polygon) shape,i+1).getY() - polygonPointRotation((Polygon) shape,i).getY()));
-                    vecteur=vecteurUnitaireVecteur(vecteur);
-                    PolarVector vecteurbis=convertionVecteurCartesienPolaire(vecteur);
-                    vecteurbis.setAngle(vecteurbis.getAngle()+Math.PI/2);
-                    vecteur=convertionVecteurPolaireCartesien(vecteurbis);
-                    vectors.add(vecteur);
+                    CartesianVector cartesianVector = new CartesianVector(polygonPointRotation((Polygon) shape,i+1).getX() - polygonPointRotation((Polygon) shape,i).getX(),(polygonPointRotation((Polygon) shape,i+1).getY() - polygonPointRotation((Polygon) shape,i).getY()));
+                    cartesianVector= vectorUnitVector(cartesianVector);
+                    PolarVector polarVector = cartesianPolarVectorConversion(cartesianVector);
+                    polarVector.setAngle(polarVector.getAngle()+Math.PI/2);
+                    cartesianVector= polarCartesianVectorConversion(polarVector);
+                    vectors.add(cartesianVector);
                 }
                 else{
-                    CartesianVector vecteur = new CartesianVector(polygonPointRotation((Polygon) shape,i).getX() - polygonPointRotation((Polygon) shape,0).getX(), polygonPointRotation((Polygon) shape,i).getY() - polygonPointRotation((Polygon) shape,0).getY());
-                    vecteur=vecteurUnitaireVecteur(vecteur);
-                    PolarVector vecteurbis=convertionVecteurCartesienPolaire(vecteur);
-                    vecteurbis.setAngle(vecteurbis.getAngle()+Math.PI/2);
-                    vecteur=convertionVecteurPolaireCartesien(vecteurbis);
-                    vectors.add(vecteur);
+                    CartesianVector cartesianVector = new CartesianVector(polygonPointRotation((Polygon) shape,i).getX() - polygonPointRotation((Polygon) shape,0).getX(), polygonPointRotation((Polygon) shape,i).getY() - polygonPointRotation((Polygon) shape,0).getY());
+                    cartesianVector= vectorUnitVector(cartesianVector);
+                    PolarVector polarVector= cartesianPolarVectorConversion(cartesianVector);
+                    polarVector.setAngle(polarVector.getAngle()+Math.PI/2);
+                    cartesianVector= polarCartesianVectorConversion(polarVector);
+                    vectors.add(cartesianVector);
                 }
             }
         }

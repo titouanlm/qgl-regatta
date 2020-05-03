@@ -9,8 +9,6 @@ public class Rectangle extends Shape {
     private double width;
     private double height;
     private double orientationRectangle;
-    private double orientationObjecct;
-    //private double coordonneesCentre;
 
     @JsonCreator
     public Rectangle(@JsonProperty("width") double width,
@@ -25,24 +23,12 @@ public class Rectangle extends Shape {
         return width;
     }
 
-    public void setWidth(double width) {
-        this.width = width;
-    }
-
     public double getHeight() {
         return height;
     }
 
-    public void setHeight(double height) {
-        this.height = height;
-    }
-
-    public void setOrientationRectangle(double orientationObjecct) {
-        this.orientationObjecct = orientationObjecct;
-    }
-
     public double getOrientationRectangle() {
-        return orientationObjecct;
+        return orientationRectangle;
     }
 
 

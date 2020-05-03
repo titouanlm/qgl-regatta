@@ -14,8 +14,8 @@ import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Sail;
 import java.util.ArrayList;
 import java.util.List;
 
-import static fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity.supprimerEntite;
-import static fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Oar.setRamesUsed;
+import static fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity.deleteEntity;
+import static fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Oar.setOarsUsed;
 
 public class ControlRoom {
 
@@ -36,18 +36,18 @@ public class ControlRoom {
     }
 
     public void creationTableauMarins(){
-        tableauPositionMarinOriginale = new int[parsedInitGame.getMarins().size()][2];
+        tableauPositionMarinOriginale = new int[parsedInitGame.getSailors().size()][2];
     }
     public void priseEnComptePositionMarins(){
-        for (int b = 0; b< parsedInitGame.getMarins().size(); b++){
-            tableauPositionMarinOriginale[b][0] = parsedInitGame.getMarins().get(b).getX();
-            tableauPositionMarinOriginale[b][1] = parsedInitGame.getMarins().get(b).getY();
+        for (int b = 0; b< parsedInitGame.getSailors().size(); b++){
+            tableauPositionMarinOriginale[b][0] = parsedInitGame.getSailors().get(b).getX();
+            tableauPositionMarinOriginale[b][1] = parsedInitGame.getSailors().get(b).getY();
         }
     }
 
     public void restaurationPositionMarins(){
         int positionnementMarins =0;
-        for (Sailor sailor : parsedInitGame.getMarins()) {
+        for (Sailor sailor : parsedInitGame.getSailors()) {
             sailor.setX(tableauPositionMarinOriginale[positionnementMarins][0]);
             sailor.setY(tableauPositionMarinOriginale[positionnementMarins][1]);
             positionnementMarins++;
@@ -59,14 +59,14 @@ public class ControlRoom {
             if (this.meilleurAngleRealisablePosition < meilleurAngleRealisable.size() - 1) {
                 if (!neMarchePasPourLePremiertour) {
                     restaurationPositionMarins();
-                    for (Sailor m : parsedInitGame.getMarins()) if (!marinsOccupes.contains(m)) m.setLibre(true);
+                    for (Sailor m : parsedInitGame.getSailors()) if (!marinsOccupes.contains(m)) m.setAvailable(true);
                     calculateur.setNumberSailorsToPlace(nombreMarinAplacerCopie.clone());
                     calculateur.decrementNumberSailorsToPlace(nombreTour, true, true);
                 }
                 if (calculateur.getNumberSailorsToPlace()[0] < 0 || calculateur.getNumberSailorsToPlace()[1] < 0) {
                     ++meilleurAngleRealisablePosition;
                     this.meilleurAngleRealisablePosition = meilleurAngleRealisablePosition;
-                    calculateur.setNumberSailorsToPlace(parsedInitGame.getBateau().nombreMarinsRamesBabordTribordRames(meilleurAngleRealisable.get(meilleurAngleRealisablePosition), parsedInitGame.getBateau().getListRames()));
+                    calculateur.setNumberSailorsToPlace(parsedInitGame.getShip().nombreMarinsRamesBabordTribordRames(meilleurAngleRealisable.get(meilleurAngleRealisablePosition), parsedInitGame.getShip().getListRames()));
                 } else this.continuerConfigurationRames = false;
             }
         }
@@ -74,7 +74,7 @@ public class ControlRoom {
 
     private Calculator configurationCalculateur(List<Double> meilleurAngleRealisable){
         Calculator calculateur = new Calculator();
-        calculateur.setNumberSailorsToPlace(parsedInitGame.getBateau().nombreMarinsRamesBabordTribordRames(meilleurAngleRealisable.get(0), parsedInitGame.getBateau().getListRames()));
+        calculateur.setNumberSailorsToPlace(parsedInitGame.getShip().nombreMarinsRamesBabordTribordRames(meilleurAngleRealisable.get(0), parsedInitGame.getShip().getListRames()));
         calculateur.setNumberSailorsToPlaceCopy(calculateur.getNumberSailorsToPlace().clone());
         return calculateur;
     }
@@ -94,7 +94,7 @@ public class ControlRoom {
         Calculator calculateur = configurationCalculateur(meilleurAngleRealisable);
         meilleurPositionnementMarins(calculateur,meilleurAngleRealisable);
         actionsNextRound.addAll(actionsNextRoundTemporaire);
-        setRamesUsed(parsedInitGame,listeEntiteCopie);//vérifier si ca marche
+        setOarsUsed(parsedInitGame,listeEntiteCopie);//vérifier si ca marche
         return meilleurAngleRealisable.get(this.meilleurAngleRealisablePosition);
     }
 
@@ -106,22 +106,22 @@ public class ControlRoom {
             boolean marinPlaceDroite=false;
             actionsNextRoundTemporaire = new ArrayList<>();
             preConfigurationRamesBateau(neMarchePasPourLePremiertour,nombreTour,calculateur.getNumberSailorsToPlaceCopy(),meilleurAngleRealisable,calculateur,this.meilleurAngleRealisablePosition, marinsOccupes);
-            listeEntiteCopie = (ArrayList<Entity>) parsedInitGame.getBateau().getEntities().clone();
-            for (Sailor m : parsedInitGame.getMarins()){
-                if (m.isLibre()) {
-                    MOVING moving = m.deplacementMarinAllerRamer(listeEntiteCopie, calculateur.getNumberSailorsToPlace()[0], calculateur.getNumberSailorsToPlace()[1], (int) ((Rectangle) parsedInitGame.getBateau().getShape()).getWidth());
+            listeEntiteCopie = (ArrayList<Entity>) parsedInitGame.getShip().getEntities().clone();
+            for (Sailor m : parsedInitGame.getSailors()){
+                if (m.isAvailable()) {
+                    MOVING moving = m.deplacementMarinAllerRamer(listeEntiteCopie, calculateur.getNumberSailorsToPlace()[0], calculateur.getNumberSailorsToPlace()[1], (int) ((Rectangle) parsedInitGame.getShip().getShape()).getWidth());
                     if (moving != null && (calculateur.getNumberSailorsToPlace()[0] != 0 || calculateur.getNumberSailorsToPlace()[1] != 0)) {
-                        if (moving.getYdistance() + m.getY() <= (parsedInitGame.getBateau().getDeck().getWidth()/2-1) && calculateur.getNumberSailorsToPlace()[0] > 0) { //marin placé à Tribord
+                        if (moving.getYDistance() + m.getY() <= (parsedInitGame.getShip().getDeck().getWidth()/2-1) && calculateur.getNumberSailorsToPlace()[0] > 0) { //marin placé à Tribord
                             calculateur.decrementNumberSailorsToPlace(1,true,false);
                             actionsNextRoundTemporaire.add(moving);marinPlaceGauche = true;
-                            listeEntiteCopie=supprimerEntite(listeEntiteCopie, marinPlaceGauche, marinPlaceDroite, m, moving);
-                            m.setX(moving.getXdistance() + m.getX());m.setY(moving.getYdistance() + m.getY());
+                            listeEntiteCopie= deleteEntity(listeEntiteCopie, marinPlaceGauche, marinPlaceDroite, m, moving);
+                            m.setX(moving.getXDistance() + m.getX());m.setY(moving.getYDistance() + m.getY());
 
-                        } else if (moving.getYdistance() + m.getY() >= (parsedInitGame.getBateau().getDeck().getWidth()/2-1) && calculateur.getNumberSailorsToPlace()[1] > 0) { //marin placé à Babord
+                        } else if (moving.getYDistance() + m.getY() >= (parsedInitGame.getShip().getDeck().getWidth()/2-1) && calculateur.getNumberSailorsToPlace()[1] > 0) { //marin placé à Babord
                             calculateur.decrementNumberSailorsToPlace(1,false,true);
                             actionsNextRoundTemporaire.add(moving);marinPlaceDroite = true;
-                            listeEntiteCopie=supprimerEntite(listeEntiteCopie, marinPlaceGauche, marinPlaceDroite, m, moving);
-                            m.setX(moving.getXdistance() + m.getX());m.setY(moving.getYdistance() + m.getY());
+                            listeEntiteCopie= deleteEntity(listeEntiteCopie, marinPlaceGauche, marinPlaceDroite, m, moving);
+                            m.setX(moving.getXDistance() + m.getX());m.setY(moving.getYDistance() + m.getY());
 
                         } else{
                             m.resetMarinPourUnNouveauTour();
@@ -134,18 +134,18 @@ public class ControlRoom {
     }
 
     public Sailor hisserLaVoile(){
-        for (Sailor sailor : parsedInitGame.getMarins()) {
-            if (sailor.isLibre()) { //calcul nouvelle postion du bateau si l'on utilise la voile, si pas rentable on ne la prend pas
-                for (Entity e : parsedInitGame.getBateau().getEntities()) {
+        for (Sailor sailor : parsedInitGame.getSailors()) {
+            if (sailor.isAvailable()) { //calcul nouvelle postion du bateau si l'on utilise la voile, si pas rentable on ne la prend pas
+                for (Entity e : parsedInitGame.getShip().getEntities()) {
                     if (e instanceof Sail) {
                         if (!((Sail) e).isOpenned()) {
-                            MOVING moving = sailor.deplacementMarinVoile(parsedInitGame.getBateau().getEntities(), true);
+                            MOVING moving = sailor.deplacementMarinVoile(parsedInitGame.getShip().getEntities(), true);
                             if (moving != null) {
                                 actionsNextRound.add(moving);
-                                sailor.setX(moving.getXdistance() + sailor.getX());
-                                sailor.setY(moving.getYdistance() + sailor.getY());
+                                sailor.setX(moving.getXDistance() + sailor.getX());
+                                sailor.setY(moving.getYDistance() + sailor.getY());
                                 ((Sail) e).setOpenned(true);
-                                parsedInitGame.getBateau().setPosition(new Position(this.parsedInitGame.getBateau().getPosition().getX() + wind.getStrength() * Math.cos(wind.getOrientation()), this.parsedInitGame.getBateau().getPosition().getY() + wind.getStrength() * Math.sin(wind.getOrientation()), parsedInitGame.getBateau().getPosition().getOrientation()));
+                                parsedInitGame.getShip().setPosition(new Position(this.parsedInitGame.getShip().getPosition().getX() + wind.getStrength() * Math.cos(wind.getOrientation()), this.parsedInitGame.getShip().getPosition().getY() + wind.getStrength() * Math.sin(wind.getOrientation()), parsedInitGame.getShip().getPosition().getOrientation()));
                                 return sailor;
                             }
                         }
@@ -157,16 +157,16 @@ public class ControlRoom {
     }
 
     public Sailor affaisserLaVoile(){
-        for (Sailor sailor : parsedInitGame.getMarins()) {
-            if (sailor.isLibre()) { //calcul nouvelle postion du bateau si l'on utilise la voile, si pas rentable on ne la prend pas
-                for (Entity e : parsedInitGame.getBateau().getEntities()) {
+        for (Sailor sailor : parsedInitGame.getSailors()) {
+            if (sailor.isAvailable()) { //calcul nouvelle postion du bateau si l'on utilise la voile, si pas rentable on ne la prend pas
+                for (Entity e : parsedInitGame.getShip().getEntities()) {
                     if (e instanceof Sail) {
                         if (((Sail) e).isOpenned()) {
-                            MOVING moving = sailor.deplacementMarinVoile(parsedInitGame.getBateau().getEntities(), false);
+                            MOVING moving = sailor.deplacementMarinVoile(parsedInitGame.getShip().getEntities(), false);
                             if (moving != null) {
                                 actionsNextRound.add(moving);
-                                sailor.setX(moving.getXdistance() + sailor.getX());
-                                sailor.setY(moving.getYdistance() + sailor.getY());
+                                sailor.setX(moving.getXDistance() + sailor.getX());
+                                sailor.setY(moving.getYDistance() + sailor.getY());
                                 ((Sail) e).setOpenned(false);
                                 return sailor;
                             }
@@ -184,15 +184,15 @@ public class ControlRoom {
     }
 
     public boolean utilisationVoileOuiNon(InitGame game){
-        double xAvecVoile=game.getBateau().getPosition().getX() + wind.getStrength()*Math.cos(wind.getOrientation());
-        double yAvecVoile=game.getBateau().getPosition().getY() + wind.getStrength()*Math.sin(wind.getOrientation());
-        Position positionSiRameactive = new Position(xAvecVoile,yAvecVoile, game.getBateau().getPosition().getOrientation());
+        double xAvecVoile=game.getShip().getPosition().getX() + wind.getStrength()*Math.cos(wind.getOrientation());
+        double yAvecVoile=game.getShip().getPosition().getY() + wind.getStrength()*Math.sin(wind.getOrientation());
+        Position positionSiRameactive = new Position(xAvecVoile,yAvecVoile, game.getShip().getPosition().getOrientation());
         return Math.sqrt(Math.pow(2,positionSiRameactive.getX()-((RegattaGoal) game.getGoal()).getCheckpoints().get(0).getPosition().getX()) + Math.pow(2,positionSiRameactive.getY()-((RegattaGoal) game.getGoal()).getCheckpoints().get(0).getPosition().getY())) <=
-                Math.sqrt(Math.pow(2,game.getBateau().getPosition().getX()-((RegattaGoal) game.getGoal()).getCheckpoints().get(0).getPosition().getX()) + Math.pow(2,game.getBateau().getPosition().getY()-((RegattaGoal) game.getGoal()).getCheckpoints().get(0).getPosition().getY()));
+                Math.sqrt(Math.pow(2,game.getShip().getPosition().getX()-((RegattaGoal) game.getGoal()).getCheckpoints().get(0).getPosition().getX()) + Math.pow(2,game.getShip().getPosition().getY()-((RegattaGoal) game.getGoal()).getCheckpoints().get(0).getPosition().getY()));
     }
 
     public boolean isThereARudder(){
-        for (Entity e : parsedInitGame.getBateau().getEntities()) {
+        for (Entity e : parsedInitGame.getShip().getEntities()) {
             if (e instanceof Rudder){
                 return true;
             }
@@ -201,7 +201,7 @@ public class ControlRoom {
     }
 
     public boolean isThereASail(){
-        for (Entity e : parsedInitGame.getBateau().getEntities()) {
+        for (Entity e : parsedInitGame.getShip().getEntities()) {
             if (e instanceof Sail){
                 return true;
             }
@@ -210,13 +210,13 @@ public class ControlRoom {
     }
 
     public Sailor configurationGouvernail(){
-        for (Sailor m : parsedInitGame.getMarins()){
-            if (m.isLibre()){
-                MOVING moving = m.deplacementMarinGouvernail(parsedInitGame.getBateau().getEntities());
+        for (Sailor m : parsedInitGame.getSailors()){
+            if (m.isAvailable()){
+                MOVING moving = m.deplacementMarinGouvernail(parsedInitGame.getShip().getEntities());
                 if (moving!=null){
                     actionsNextRound.add(moving);
-                    m.setX(moving.getXdistance() + m.getX());
-                    m.setY(moving.getYdistance() + m.getY());
+                    m.setX(moving.getXDistance() + m.getX());
+                    m.setY(moving.getYDistance() + m.getY());
                     return m;
                 }
             }

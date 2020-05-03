@@ -174,7 +174,7 @@ class ShipTest {
         assertEquals(0, ship.nbMarinRameTribord());
         entities.add(new Rudder(8,8));
         for(Entity e : entities){
-            e.setLibre(false); // Marin dessus
+            e.setAvailable(false); // Marin dessus
         }
         assertEquals(3, ship.nbMarinRameTribord());
     }
@@ -184,7 +184,7 @@ class ShipTest {
         assertEquals(0, ship.nbMarinRameBabord());
         entities.add(new Rudder(8,8));
         for(Entity e : entities){
-            e.setLibre(false); // Marin dessus
+            e.setAvailable(false); // Marin dessus
         }
         assertEquals(3, ship.nbMarinRameBabord());
     }

@@ -38,15 +38,15 @@ class OarRefereeTest {
 
     @Test
     void tryToOar() {
-        when(initGame.getBateau().isOnOarNotUsed(m2)).thenReturn(true);
-        assertTrue(m2.isLibre());
+        when(initGame.getShip().isOnOarNotUsed(m2)).thenReturn(true);
+        assertTrue(m2.isAvailable());
         oarReferee.tryToOar(initGame);
-        assertFalse(m2.isLibre());
+        assertFalse(m2.isAvailable());
 
-        m2.setLibre(true);
-        when(initGame.getBateau().isOnOarNotUsed(m2)).thenReturn(false);
-        assertTrue(m2.isLibre());
+        m2.setAvailable(true);
+        when(initGame.getShip().isOnOarNotUsed(m2)).thenReturn(false);
+        assertTrue(m2.isAvailable());
         oarReferee.tryToOar(initGame);
-        assertTrue(m2.isLibre());
+        assertTrue(m2.isAvailable());
     }
 }

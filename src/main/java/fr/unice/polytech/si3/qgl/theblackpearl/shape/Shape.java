@@ -16,13 +16,13 @@ import com.fasterxml.jackson.annotation.*;
 @JsonIgnoreProperties(value = { "type"})
 public abstract class Shape {
     protected String type;
-    Position coordonneesCentre; // utile que pour le rectangle et le cercle
+    private Position centerCoordinates;
 
-    public Position getCoordonneesCentre() { return coordonneesCentre; }
+    public Position getCenterCoordinates() { return centerCoordinates; }
 
-    public void setCoordonneesCentre(Position coordonneesCentre) { this.coordonneesCentre = coordonneesCentre; }
+    public void setCenterCoordinates(Position centerCoordinates) { this.centerCoordinates = centerCoordinates; }
 
-    public void setOrientationCentre(double orientationCentre) { this.coordonneesCentre = new Position(coordonneesCentre.getX(),coordonneesCentre.getY(),orientationCentre); }
+    public void setOrientationCentre(double orientationCentre) { this.centerCoordinates = new Position(centerCoordinates.getX(), centerCoordinates.getY(),orientationCentre); }
 
     public String getType() {
         return type;

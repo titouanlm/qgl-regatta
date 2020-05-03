@@ -15,8 +15,8 @@ public class Sailor {
     private int x;
     private int y;
     private String name;
-    private boolean libre;
-    private String actionAFaire="";
+    private boolean available;
+    private String actionToDo="";
     private boolean canMove;
 
     @JsonCreator
@@ -25,7 +25,7 @@ public class Sailor {
         this.x = x;
         this.y = y;
         this.name = name;
-        this.libre=true;
+        this.available =true;
         this.canMove=true;
     }
 
@@ -33,16 +33,16 @@ public class Sailor {
         return new Sailor(this.id, this.x, this.y, this.name);
     }
 
-    public String getActionAFaire(){
-        return actionAFaire;
+    public String getActionToDo(){
+        return actionToDo;
     }
 
-    public boolean isLibre(){
-        return libre;
+    public boolean isAvailable(){
+        return available;
     }
 
-    public void setLibre(boolean libre){
-        this.libre=libre;
+    public void setAvailable(boolean available){
+        this.available = available;
     }
 
     public int getId() {
@@ -84,12 +84,12 @@ public class Sailor {
     }
 
     public void resetMarinPourUnNouveauTour() {
-        this.actionAFaire="";
-        this.libre=true;
+        this.actionToDo ="";
+        this.available =true;
     }
 
-    public void setActionAFaire(String actionAFaire) {
-        this.actionAFaire = actionAFaire;
+    public void setActionToDo(String actionToDo) {
+        this.actionToDo = actionToDo;
     }
 
     public void moveSailor(int xdistance, int ydistance) {
@@ -103,9 +103,9 @@ public class Sailor {
         for (Entity entity : Entities) {
             if (entity instanceof Rudder) {
                 deplacementMarin = (Math.abs(entity.getX() - this.getX()) + Math.abs(entity.getY() - this.getY()));
-                if (deplacementMarin < 6 && this.libre) {
-                    actionAFaire="tournerGouvernail";
-                    this.libre=false;
+                if (deplacementMarin < 6 && this.available) {
+                    actionToDo ="tournerGouvernail";
+                    this.available =false;
                     return new MOVING(getId(), "MOVING", entity.getX() - this.getX(), entity.getY() - this.getY());
                 }
             }
@@ -114,15 +114,15 @@ public class Sailor {
     }
 
     public MOVING deplacementMarinVoile(List<Entity> Entities, boolean leverLaVoile){
-        int deplacementMarin=0;
+        int deplacementMarin;
         for (Entity entity : Entities) {
             if (entity instanceof Sail) {
-                if (this.libre) {
+                if (this.available) {
                     deplacementMarin = (Math.abs(entity.getX() - this.getX()) + Math.abs(entity.getY() - this.getY()));
                     if (deplacementMarin < 6) {
-                        if (leverLaVoile) actionAFaire = "HisserVoile";
-                        else actionAFaire = "BaisserLaVoile";
-                        this.libre = false;
+                        if (leverLaVoile) actionToDo = "HisserVoile";
+                        else actionToDo = "BaisserLaVoile";
+                        this.available = false;
                         return new MOVING(getId(), "MOVING", entity.getX() - this.getX(), entity.getY() - this.getY());
                     }
                 }
@@ -139,12 +139,12 @@ public class Sailor {
             if (Entities.get(i) instanceof Oar) {
                 deplacementMarin = (Math.abs(Entities.get(i).getX() - this.getX()) + Math.abs(Entities.get(i).getY() - this.getY()));
                 if (nombreDeMarinsManquantsAGauche > 0 && Entities.get(i).getY() == 0) { // la gauche du bateau est à y = 0
-                    if (deplacementMarin < 6 && this.libre && deplacementMarin < deplacementPlusCourt) {
+                    if (deplacementMarin < 6 && this.available && deplacementMarin < deplacementPlusCourt) {
                         entiteRecoitMarin = i;
                         deplacementPlusCourt = deplacementMarin;
                     }
                 } else if (nombreDeMarinsManquantsADroite > 0 && Entities.get(i).getY() == largeurBateau - 1 /*ici normalement */) {
-                    if (deplacementMarin < 6 && this.libre && deplacementMarin < deplacementPlusCourt) {
+                    if (deplacementMarin < 6 && this.available && deplacementMarin < deplacementPlusCourt) {
                         entiteRecoitMarin = i;
                         deplacementPlusCourt = deplacementMarin;
                     }
@@ -152,8 +152,8 @@ public class Sailor {
             }
         }
         if (entiteRecoitMarin!=-1) {
-            this.libre=false;
-            this.actionAFaire="Ramer";
+            this.available =false;
+            this.actionToDo ="Ramer";
             return new MOVING(getId(),"MOVING",Entities.get(entiteRecoitMarin).getX() - this.getX(),Entities.get(entiteRecoitMarin).getY() - this.getY());
         }
         else{

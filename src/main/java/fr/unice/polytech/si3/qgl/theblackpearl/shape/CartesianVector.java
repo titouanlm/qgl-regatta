@@ -27,7 +27,7 @@ public class CartesianVector {
 
     @Override
     public String toString() {
-        return "VecteurCartesien{" +
+        return "CartesianVector{" +
                 "x=" + x +
                 ", y=" + y +
                 '}';

@@ -15,9 +15,6 @@ import fr.unice.polytech.si3.qgl.theblackpearl.shape.Shape;
         @JsonSubTypes.Type(value = Reef.class, name = "reef"),
         @JsonSubTypes.Type(value = Stream.class, name = "stream")
 })
-
-// either our ship, our enemies' ship, a reef or the stream of the sea
-
 public abstract class VisibleEntity {
     protected String type;
     protected Position position;

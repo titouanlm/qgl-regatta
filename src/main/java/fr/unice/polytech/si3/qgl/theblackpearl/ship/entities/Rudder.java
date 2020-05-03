@@ -10,24 +10,24 @@ public class Rudder extends Entity{
         super(x, y);
         type = "rudder";
     }
-    private double angleRealise;
+    private double angleAchieved;
 
-    public double getAngleRealise() {
-        return angleRealise;
+    public double getAngleAchieved() {
+        return angleAchieved;
     }
 
-    public void setAngleRealise(double angleRealise) {
-        this.angleRealise = angleRealise;
+    public void setAngleAchieved(double angleAchieved) {
+        this.angleAchieved = angleAchieved;
     }
 
-    public double angleGouvernail(double angleAFaire) {
-        if (angleAFaire == 0) return 0.0;
-        else if ((angleAFaire == Math.PI/2) || (angleAFaire == Math.PI)) return 45 * Math.PI / 180;
-        else if (angleAFaire == -Math.PI/2) return -45 * Math.PI / 180;
-        else if (angleAFaire > 0 && angleAFaire > 45 * Math.PI / 180) return 45 * Math.PI / 180;
-        else if (angleAFaire > 0) return angleAFaire % (45 * Math.PI / 180);
-        else if (angleAFaire < 0 && angleAFaire < -45 * Math.PI / 180) return -45 * Math.PI / 180;
-        else return -angleAFaire % (45 * Math.PI / 180);
+    public double rudderAngle(double angleToDO) {
+        if (angleToDO == 0) return 0.0;
+        else if ((angleToDO == Math.PI/2) || (angleToDO == Math.PI)) return 45 * Math.PI / 180;
+        else if (angleToDO == -Math.PI/2) return -45 * Math.PI / 180;
+        else if (angleToDO > 0 && angleToDO > 45 * Math.PI / 180) return 45 * Math.PI / 180;
+        else if (angleToDO > 0) return angleToDO % (45 * Math.PI / 180);
+        else if (angleToDO < 0 && angleToDO < -45 * Math.PI / 180) return -45 * Math.PI / 180;
+        else return -angleToDO % (45 * Math.PI / 180);
     }
 
 

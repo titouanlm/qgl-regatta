@@ -24,7 +24,7 @@ public class SailorTest {
 
     @BeforeEach
     void setUp(){
-        when(sailor1.isLibre()).thenReturn(false);
+        when(sailor1.isAvailable()).thenReturn(false);
         Entities.add(e1);
         Entities.add(e2);
         Entities.add(e3);
@@ -33,16 +33,16 @@ public class SailorTest {
 
     @Test
     public void planificationAllerRamerTest(){
-        assertFalse(sailor1.isLibre());
-        assertTrue(sailor2.isLibre());
-        assertTrue(sailor3.isLibre());
-        assertTrue(sailor4.isLibre());
+        assertFalse(sailor1.isAvailable());
+        assertTrue(sailor2.isAvailable());
+        assertTrue(sailor3.isAvailable());
+        assertTrue(sailor4.isAvailable());
         assertNull(sailor1.deplacementMarinAllerRamer(Entities, 2,2,2));
         assertNull(sailor2.deplacementMarinAllerRamer(Entities, 0,0,2));
         assertNotNull(sailor2.deplacementMarinAllerRamer(Entities, 1,0,2));
         assertNull(sailor2.deplacementMarinAllerRamer(Entities, 0,0,2));
         assertNotNull(sailor3.deplacementMarinAllerRamer(Entities, 0,1,2));
-        sailor2.setLibre(true);
+        sailor2.setAvailable(true);
         ArrayList<Entity> aucuneEntite = new ArrayList<>();
         assertNull(sailor2.deplacementMarinAllerRamer(aucuneEntite, 1,0,2));
         ArrayList<Entity> entitesPlaceLoin = new ArrayList<>();
@@ -52,10 +52,10 @@ public class SailorTest {
         ArrayList<Entity> entitesDistancesDifferentes = new ArrayList<>();
         entitesDistancesDifferentes.add(new Oar(3,1));
         entitesDistancesDifferentes.add(new Oar(3, 0));
-        assertEquals((sailor2.deplacementMarinAllerRamer(entitesDistancesDifferentes,1,1,2)).getYdistance(),0);
-        sailor2.setLibre(true);
+        assertEquals((sailor2.deplacementMarinAllerRamer(entitesDistancesDifferentes,1,1,2)).getYDistance(),0);
+        sailor2.setAvailable(true);
         entitesDistancesDifferentes.add(new Oar(1,1));
-        assertEquals((sailor2.deplacementMarinAllerRamer(entitesDistancesDifferentes,1,1,2)).getYdistance(),1);
+        assertEquals((sailor2.deplacementMarinAllerRamer(entitesDistancesDifferentes,1,1,2)).getYDistance(),1);
     }
 
     @Test

@@ -115,36 +115,36 @@ class CalculatorTest {
 
     @Test
     public void bateauDansCheckpointnTest() throws Exception {
-        parsedNextRound.getBateau().setPosition(new Position(10,5,9));
-        assertTrue(calcul.shipIsInsideCheckpoint(parsedNextRound.getBateau(),new Checkpoint(new Position(48,32,0),new Circle(50))));
-        parsedNextRound.getBateau().setPosition(new Position(30,25,9));
-        assertTrue(calcul.shipIsInsideCheckpoint(parsedNextRound.getBateau(),new Checkpoint(new Position(48,32,0),new Circle(50))));
-        parsedNextRound.getBateau().setPosition(new Position(50,8,9));
-        assertTrue(calcul.shipIsInsideCheckpoint(parsedNextRound.getBateau(),new Checkpoint(new Position(48,32,0),new Circle(50))));
-        parsedNextRound.getBateau().setPosition(new Position(15,56,9));
-        assertTrue(calcul.shipIsInsideCheckpoint(parsedNextRound.getBateau(),new Checkpoint(new Position(48,32,0),new Circle(50))));
-        parsedNextRound.getBateau().setPosition(new Position(7,20,9));
-        assertTrue(calcul.shipIsInsideCheckpoint(parsedNextRound.getBateau(),new Checkpoint(new Position(48,32,0),new Circle(50))));
-        parsedNextRound.getBateau().setPosition(new Position(20,30,9));
-        assertTrue(calcul.shipIsInsideCheckpoint(parsedNextRound.getBateau(),new Checkpoint(new Position(48,32,0),new Circle(50))));
+        parsedNextRound.getShip().setPosition(new Position(10,5,9));
+        assertTrue(calcul.shipIsInsideCheckpoint(parsedNextRound.getShip(),new Checkpoint(new Position(48,32,0),new Circle(50))));
+        parsedNextRound.getShip().setPosition(new Position(30,25,9));
+        assertTrue(calcul.shipIsInsideCheckpoint(parsedNextRound.getShip(),new Checkpoint(new Position(48,32,0),new Circle(50))));
+        parsedNextRound.getShip().setPosition(new Position(50,8,9));
+        assertTrue(calcul.shipIsInsideCheckpoint(parsedNextRound.getShip(),new Checkpoint(new Position(48,32,0),new Circle(50))));
+        parsedNextRound.getShip().setPosition(new Position(15,56,9));
+        assertTrue(calcul.shipIsInsideCheckpoint(parsedNextRound.getShip(),new Checkpoint(new Position(48,32,0),new Circle(50))));
+        parsedNextRound.getShip().setPosition(new Position(7,20,9));
+        assertTrue(calcul.shipIsInsideCheckpoint(parsedNextRound.getShip(),new Checkpoint(new Position(48,32,0),new Circle(50))));
+        parsedNextRound.getShip().setPosition(new Position(20,30,9));
+        assertTrue(calcul.shipIsInsideCheckpoint(parsedNextRound.getShip(),new Checkpoint(new Position(48,32,0),new Circle(50))));
     }
 
     @Test
     public void shapesCollideTest() throws Exception {
-        parsedNextRound.getBateau().setPosition(new Position(2012.9130229585658,4116.056423252195,1.5794560650965999));
-        assertTrue(calcul.shapesCollide(parsedNextRound.getBateau(),parsedNextRound.getVisibleEntities().get(6)));
-        parsedNextRound.getBateau().setPosition(new Position(2128.58646,3892.33699,1.5794560650965999));
-        assertTrue(calcul.shapesCollide(parsedNextRound.getBateau(),parsedNextRound.getVisibleEntities().get(6)));
-        parsedNextRound.getBateau().setPosition(new Position(2120.23487,3838.0516,1.5794560650965999));
-        assertTrue(calcul.shapesCollide(parsedNextRound.getBateau(),parsedNextRound.getVisibleEntities().get(6)));
-        parsedNextRound.getBateau().setPosition(new Position(2003.31248,4261.89523,1.5794560650965999));
-        assertTrue(calcul.shapesCollide(parsedNextRound.getBateau(),parsedNextRound.getVisibleEntities().get(6)));
-        parsedNextRound.getBateau().setPosition(new Position(2241.3330,4401.78451,1.5794560650965999));
-        assertTrue(calcul.shapesCollide(parsedNextRound.getBateau(),parsedNextRound.getVisibleEntities().get(6)));
-        parsedNextRound.getBateau().setPosition(new Position(2270.5636,4165.85185,1.5794560650965999));
-        assertTrue(calcul.shapesCollide(parsedNextRound.getBateau(),parsedNextRound.getVisibleEntities().get(6)));
-        parsedNextRound.getBateau().setPosition(new Position(2262.2120,43969.58928,1.5794560650965999));
-        assertFalse(calcul.shapesCollide(parsedNextRound.getBateau(),parsedNextRound.getVisibleEntities().get(6)));
+        parsedNextRound.getShip().setPosition(new Position(2012.9130229585658,4116.056423252195,1.5794560650965999));
+        assertTrue(calcul.shapesCollide(parsedNextRound.getShip(),parsedNextRound.getVisibleEntities().get(6)));
+        parsedNextRound.getShip().setPosition(new Position(2128.58646,3892.33699,1.5794560650965999));
+        assertTrue(calcul.shapesCollide(parsedNextRound.getShip(),parsedNextRound.getVisibleEntities().get(6)));
+        parsedNextRound.getShip().setPosition(new Position(2120.23487,3838.0516,1.5794560650965999));
+        assertTrue(calcul.shapesCollide(parsedNextRound.getShip(),parsedNextRound.getVisibleEntities().get(6)));
+        parsedNextRound.getShip().setPosition(new Position(2003.31248,4261.89523,1.5794560650965999));
+        assertTrue(calcul.shapesCollide(parsedNextRound.getShip(),parsedNextRound.getVisibleEntities().get(6)));
+        parsedNextRound.getShip().setPosition(new Position(2241.3330,4401.78451,1.5794560650965999));
+        assertTrue(calcul.shapesCollide(parsedNextRound.getShip(),parsedNextRound.getVisibleEntities().get(6)));
+        parsedNextRound.getShip().setPosition(new Position(2270.5636,4165.85185,1.5794560650965999));
+        assertTrue(calcul.shapesCollide(parsedNextRound.getShip(),parsedNextRound.getVisibleEntities().get(6)));
+        parsedNextRound.getShip().setPosition(new Position(2262.2120,43969.58928,1.5794560650965999));
+        assertFalse(calcul.shapesCollide(parsedNextRound.getShip(),parsedNextRound.getVisibleEntities().get(6)));
 
         // FAIRE AU MOINS ENCORE 50 LIGNES
     }
@@ -227,7 +227,7 @@ class CalculatorTest {
     @Test
     void testPoints(){
         Rectangle s = new Rectangle(2, 10, 0);
-        s.setCoordonneesCentre(new Position(0,0,0));
+        s.setCenterCoordinates(new Position(0,0,0));
         Point BG = calcul.calculateLowerLeftRectanglePoint(s);
         Point BD = calcul.calculateLowerRightRectanglePoint(s);
         Point HD = calcul.calculateUpperRightRectanglePoint(s);
