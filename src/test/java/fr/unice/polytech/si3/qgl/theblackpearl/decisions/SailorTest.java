@@ -37,25 +37,25 @@ public class SailorTest {
         assertTrue(sailor2.isAvailable());
         assertTrue(sailor3.isAvailable());
         assertTrue(sailor4.isAvailable());
-        assertNull(sailor1.deplacementMarinAllerRamer(Entities, 2,2,2));
-        assertNull(sailor2.deplacementMarinAllerRamer(Entities, 0,0,2));
-        assertNotNull(sailor2.deplacementMarinAllerRamer(Entities, 1,0,2));
-        assertNull(sailor2.deplacementMarinAllerRamer(Entities, 0,0,2));
-        assertNotNull(sailor3.deplacementMarinAllerRamer(Entities, 0,1,2));
+        assertNull(sailor1.moveSailorToOar(Entities, 2,2,2));
+        assertNull(sailor2.moveSailorToOar(Entities, 0,0,2));
+        assertNotNull(sailor2.moveSailorToOar(Entities, 1,0,2));
+        assertNull(sailor2.moveSailorToOar(Entities, 0,0,2));
+        assertNotNull(sailor3.moveSailorToOar(Entities, 0,1,2));
         sailor2.setAvailable(true);
         ArrayList<Entity> aucuneEntite = new ArrayList<>();
-        assertNull(sailor2.deplacementMarinAllerRamer(aucuneEntite, 1,0,2));
+        assertNull(sailor2.moveSailorToOar(aucuneEntite, 1,0,2));
         ArrayList<Entity> entitesPlaceLoin = new ArrayList<>();
         entitesPlaceLoin.add(new Oar(6,0));
         entitesPlaceLoin.add(new Oar(5, 1));
-        assertNull(sailor2.deplacementMarinAllerRamer(entitesPlaceLoin, 1,1,2));
+        assertNull(sailor2.moveSailorToOar(entitesPlaceLoin, 1,1,2));
         ArrayList<Entity> entitesDistancesDifferentes = new ArrayList<>();
         entitesDistancesDifferentes.add(new Oar(3,1));
         entitesDistancesDifferentes.add(new Oar(3, 0));
-        assertEquals((sailor2.deplacementMarinAllerRamer(entitesDistancesDifferentes,1,1,2)).getYDistance(),0);
+        assertEquals((sailor2.moveSailorToOar(entitesDistancesDifferentes,1,1,2)).getYDistance(),0);
         sailor2.setAvailable(true);
         entitesDistancesDifferentes.add(new Oar(1,1));
-        assertEquals((sailor2.deplacementMarinAllerRamer(entitesDistancesDifferentes,1,1,2)).getYDistance(),1);
+        assertEquals((sailor2.moveSailorToOar(entitesDistancesDifferentes,1,1,2)).getYDistance(),1);
     }
 
     @Test

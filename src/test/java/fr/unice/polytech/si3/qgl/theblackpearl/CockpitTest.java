@@ -66,7 +66,7 @@ class CockpitTest {
         c.getParsedInitGame().getSailors().get(2).setAvailable(false);
         c.getParsedInitGame().getSailors().get(3).setAvailable(false);
         List<Action> actionsNextRound = new ArrayList<>();
-        c.tacheMarins(actionsNextRound);
+        c.sailorsTasks(actionsNextRound);
         assertEquals(4, actionsNextRound.size());
     }
 
@@ -83,11 +83,11 @@ class CockpitTest {
     public void modificationJsonRalentir(){
         List<Action> actions = new ArrayList<>();
         c.setActionsNextRound(actions);
-        assertNull(c.modificationJsonRalentir());
+        assertNull(c.slowJSonModification());
         actions.add(new OAR(2));
         actions.add(new OAR(0));
         actions.add(new OAR(1));
-        assertEquals("[{\"sailorId\":1,\"type\":\"OAR\"}]" ,c.modificationJsonRalentir().toString());
+        assertEquals("[{\"sailorId\":1,\"type\":\"OAR\"}]" ,c.slowJSonModification().toString());
     }
 
     @Test
@@ -105,7 +105,7 @@ class CockpitTest {
         c.getParsedInitGame().getSailors().get(0).setAvailable(false);
         assertEquals("Ramer",c.getParsedInitGame().getSailors().get(0).getActionToDo());
         assertFalse(c.getParsedInitGame().getSailors().get(0).isAvailable());
-        c.resetMarinNouveauTour();
+        c.resetSailorsNewRound();
         assertEquals("",c.getParsedInitGame().getSailors().get(0).getActionToDo());
         assertTrue(c.getParsedInitGame().getSailors().get(0).isAvailable());
     }
@@ -113,7 +113,7 @@ class CockpitTest {
     @Test
     public void creerLogNouveautour(){
         assertEquals("[]", c.getLogs().toString());
-        c.creerLogNouveautour();
+        c.createNewRoundLog();
         assertEquals("[Marin{x=0, y=0, id=0, name='Jack Pouce'}Marin{x=0, y=1, id=1, name='Tom Pouce'}Marin{x=0, y=2, id=2, name='Tom Pouce'}Marin{x=1, y=0, id=3, name='Edward Pouce'}]" , c.getLogs().toString());
     }
 

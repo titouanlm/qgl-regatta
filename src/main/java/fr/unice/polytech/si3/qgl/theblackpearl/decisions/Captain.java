@@ -29,10 +29,10 @@ public class Captain {
     public ArrayList<Action> captainOrder() throws Exception {
         if (this.determineTargetCheckpoint()){
             if (controlRoom.isThereASail())
-                busySailors.add(controlRoom.utilisationVoile());
+                busySailors.add(controlRoom.useSail());
             if (controlRoom.isThereARudder())
-                busySailors.add(controlRoom.configurationGouvernail());
-            double angleRealiseRames = controlRoom.configurationRames(this.bestAchievableAngle(), 0, busySailors);
+                busySailors.add(controlRoom.rudderConfiguration());
+            double angleRealiseRames = controlRoom.OarConfiguration(this.bestAchievableAngle(), 0, busySailors);
             if (controlRoom.isThereARudder()) {
                 double resteAngleARealiser = this.perfectAngleToCheckpoint - angleRealiseRames;
                 Rudder rudder = parsedInitGame.getShip().getGouvernail();
@@ -62,7 +62,7 @@ public class Captain {
         List<Double> bestAchievableAngles = new ArrayList<>();
         if(aimingCheckpoint !=null){
             perfectAngleToCheckpoint =calculator.calculateIdealAngle(parsedInitGame.getShip().getPosition(), aimingCheckpoint.getPosition());
-            bestAchievableAngles = parsedInitGame.getShip().meilleurAngleRealisable(perfectAngleToCheckpoint);
+            bestAchievableAngles = parsedInitGame.getShip().optimizedAchievableAngle(perfectAngleToCheckpoint);
         }
         return bestAchievableAngles;
     }

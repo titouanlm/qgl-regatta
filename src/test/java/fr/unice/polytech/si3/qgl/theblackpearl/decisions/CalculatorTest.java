@@ -101,15 +101,15 @@ class CalculatorTest {
     @Test
     void calculNewPositionShip(){
         posBateau = new Position(0, 0,0);
-        posBateau = calcul.calculNewPositionShip(100, 1, posBateau, 10);
+        posBateau = calcul.calculateNewPositionShip(100, 1, posBateau, 10);
         assertEquals(10.0, posBateau.getX());
         assertEquals(0.0, posBateau.getY());
         assertEquals(0.1, posBateau.getOrientation());
-        posBateau = calcul.calculNewPositionShip(100, 1, posBateau, 10);
+        posBateau = calcul.calculateNewPositionShip(100, 1, posBateau, 10);
         assertEquals(19.950041652780257, posBateau.getX());
         assertEquals(0.9983341664682815, posBateau.getY());
         assertEquals(0.2, posBateau.getOrientation());
-        posBateau = calcul.calculNewPositionShip(100, 1, posBateau, 10);
+        posBateau = calcul.calculateNewPositionShip(100, 1, posBateau, 10);
         assertEquals(29.750707431192673, posBateau.getX());
         assertEquals(2.9850274744188936, posBateau.getY());
         assertEquals(0.30000000000000004, posBateau.getOrientation());

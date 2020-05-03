@@ -34,17 +34,17 @@ public class ControlRoom {
         this.actionsNextRound=actionsNextRound;
     }
 
-    public void creationTableauMarins(){
+    public void createSailorArray(){
         tableauPositionMarinOriginale = new int[parsedInitGame.getSailors().size()][2];
     }
-    public void priseEnComptePositionMarins(){
+    public void takeIntoAccountSailorPosition(){
         for (int b = 0; b< parsedInitGame.getSailors().size(); b++){
             tableauPositionMarinOriginale[b][0] = parsedInitGame.getSailors().get(b).getX();
             tableauPositionMarinOriginale[b][1] = parsedInitGame.getSailors().get(b).getY();
         }
     }
 
-    public void restaurationPositionMarins(){
+    public void resetSailorsPosition(){
         int positionnementMarins =0;
         for (Sailor sailor : parsedInitGame.getSailors()) {
             sailor.setX(tableauPositionMarinOriginale[positionnementMarins][0]);
@@ -53,61 +53,61 @@ public class ControlRoom {
         }
     }
 
-    public void preConfigurationRamesBateau(boolean neMarchePasPourLePremiertour, int nombreTour, int[] nombreMarinAplacerCopie, List<Double> meilleurAngleRealisable, Calculator calculateur, int meilleurAngleRealisablePosition, List<Sailor> marinsOccupes) {
-        if (nombreTour != 0) {
-            if (this.meilleurAngleRealisablePosition < meilleurAngleRealisable.size() - 1) {
-                if (!neMarchePasPourLePremiertour) {
-                    restaurationPositionMarins();
-                    for (Sailor m : parsedInitGame.getSailors()) if (!marinsOccupes.contains(m)) m.setAvailable(true);
-                    calculateur.setNumberSailorsToPlace(nombreMarinAplacerCopie.clone());
-                    calculateur.decrementNumberSailorsToPlace(nombreTour, true, true);
+    public void oarsPreConfiguration(boolean doesNotWorkFirstRound, int nbRounds, int[] nbSailorsToPlaceCopy, List<Double> optimizedAchievableAngle, Calculator calculator, int optimzedAchievableAnglePosition, List<Sailor> busySailors) {
+        if (nbRounds != 0) {
+            if (this.meilleurAngleRealisablePosition < optimizedAchievableAngle.size() - 1) {
+                if (!doesNotWorkFirstRound) {
+                    resetSailorsPosition();
+                    for (Sailor m : parsedInitGame.getSailors()) if (!busySailors.contains(m)) m.setAvailable(true);
+                    calculator.setNumberSailorsToPlace(nbSailorsToPlaceCopy.clone());
+                    calculator.decrementNumberSailorsToPlace(nbRounds, true, true);
                 }
-                if (calculateur.getNumberSailorsToPlace()[0] < 0 || calculateur.getNumberSailorsToPlace()[1] < 0) {
-                    ++meilleurAngleRealisablePosition;
-                    this.meilleurAngleRealisablePosition = meilleurAngleRealisablePosition;
-                    calculateur.setNumberSailorsToPlace(parsedInitGame.getShip().nombreMarinsRamesBabordTribordRames(meilleurAngleRealisable.get(meilleurAngleRealisablePosition), parsedInitGame.getShip().getListRames()));
+                if (calculator.getNumberSailorsToPlace()[0] < 0 || calculator.getNumberSailorsToPlace()[1] < 0) {
+                    ++optimzedAchievableAnglePosition;
+                    this.meilleurAngleRealisablePosition = optimzedAchievableAnglePosition;
+                    calculator.setNumberSailorsToPlace(parsedInitGame.getShip().nbSailorAndOarConfiguration(optimizedAchievableAngle.get(optimzedAchievableAnglePosition), parsedInitGame.getShip().getListRames()));
                 } else this.continuerConfigurationRames = false;
             }
         }
     }
 
-    private Calculator configurationCalculateur(List<Double> meilleurAngleRealisable){
+    private Calculator calculatorConfiguration(List<Double> optimizedAchievableAngle){
         Calculator calculateur = new Calculator();
-        calculateur.setNumberSailorsToPlace(parsedInitGame.getShip().nombreMarinsRamesBabordTribordRames(meilleurAngleRealisable.get(0), parsedInitGame.getShip().getListRames()));
+        calculateur.setNumberSailorsToPlace(parsedInitGame.getShip().nbSailorAndOarConfiguration(optimizedAchievableAngle.get(0), parsedInitGame.getShip().getListRames()));
         calculateur.setNumberSailorsToPlaceCopy(calculateur.getNumberSailorsToPlace().clone());
         return calculateur;
     }
 
-    private void initConfigurationRames(int meilleurAngleRealisablePosition, List<Sailor> marinsOccupes){
+    private void initializeOarConfiguration(int meilleurAngleRealisablePosition, List<Sailor> marinsOccupes){
         this.marinsOccupes =marinsOccupes;
         this.meilleurAngleRealisablePosition=meilleurAngleRealisablePosition;
-        creationTableauMarins();
+        createSailorArray();
         this.continuerConfigurationRames=true;
-        priseEnComptePositionMarins();
+        takeIntoAccountSailorPosition();
         listeEntiteCopie = new ArrayList<>();
         actionsNextRoundTemporaire = new ArrayList<>();
     }
 
-    public double configurationRames(List<Double> meilleurAngleRealisable, int meilleurAngleRealisablePosition, List<Sailor> marinsOccupes){
-        initConfigurationRames(meilleurAngleRealisablePosition,marinsOccupes);
-        Calculator calculateur = configurationCalculateur(meilleurAngleRealisable);
-        meilleurPositionnementMarins(calculateur,meilleurAngleRealisable);
+    public double OarConfiguration(List<Double> meilleurAngleRealisable, int meilleurAngleRealisablePosition, List<Sailor> marinsOccupes){
+        initializeOarConfiguration(meilleurAngleRealisablePosition,marinsOccupes);
+        Calculator calculateur = calculatorConfiguration(meilleurAngleRealisable);
+        optimizedSailorPositionning(calculateur,meilleurAngleRealisable);
         actionsNextRound.addAll(actionsNextRoundTemporaire);
         return meilleurAngleRealisable.get(this.meilleurAngleRealisablePosition);
     }
 
-    public void meilleurPositionnementMarins(Calculator calculateur ,List<Double> meilleurAngleRealisable){
+    public void optimizedSailorPositionning(Calculator calculateur , List<Double> meilleurAngleRealisable){
         boolean neMarchePasPourLePremiertour = true;
         int nombreTour=0;
         do {
             boolean marinPlaceGauche=false;
             boolean marinPlaceDroite=false;
             actionsNextRoundTemporaire = new ArrayList<>();
-            preConfigurationRamesBateau(neMarchePasPourLePremiertour,nombreTour,calculateur.getNumberSailorsToPlaceCopy(),meilleurAngleRealisable,calculateur,this.meilleurAngleRealisablePosition, marinsOccupes);
+            oarsPreConfiguration(neMarchePasPourLePremiertour,nombreTour,calculateur.getNumberSailorsToPlaceCopy(),meilleurAngleRealisable,calculateur,this.meilleurAngleRealisablePosition, marinsOccupes);
             listeEntiteCopie = (ArrayList<Entity>) parsedInitGame.getShip().getEntities().clone();
             for (Sailor m : parsedInitGame.getSailors()){
                 if (m.isAvailable()) {
-                    MOVING moving = m.deplacementMarinAllerRamer(listeEntiteCopie, calculateur.getNumberSailorsToPlace()[0], calculateur.getNumberSailorsToPlace()[1], (int) ((Rectangle) parsedInitGame.getShip().getShape()).getWidth());
+                    MOVING moving = m.moveSailorToOar(listeEntiteCopie, calculateur.getNumberSailorsToPlace()[0], calculateur.getNumberSailorsToPlace()[1], (int) ((Rectangle) parsedInitGame.getShip().getShape()).getWidth());
                     if (moving != null && (calculateur.getNumberSailorsToPlace()[0] != 0 || calculateur.getNumberSailorsToPlace()[1] != 0)) {
                         if (moving.getYDistance() + m.getY() <= (parsedInitGame.getShip().getDeck().getWidth()/2-1) && calculateur.getNumberSailorsToPlace()[0] > 0) { //marin placé à Tribord
                             calculateur.decrementNumberSailorsToPlace(1,true,false);
@@ -122,7 +122,7 @@ public class ControlRoom {
                             m.setX(moving.getXDistance() + m.getX());m.setY(moving.getYDistance() + m.getY());
 
                         } else{
-                            m.resetMarinPourUnNouveauTour();
+                            m.newRoundSailorReset();
                         }
                     }
                 }
@@ -131,13 +131,13 @@ public class ControlRoom {
         } while ((calculateur.getNumberSailorsToPlace()[0] != 0 || calculateur.getNumberSailorsToPlace()[1] != 0) && this.continuerConfigurationRames);
     }
 
-    public Sailor hisserLaVoile(){
+    public Sailor openSail(){
         for (Sailor sailor : parsedInitGame.getSailors()) {
             if (sailor.isAvailable()) {
                 for (Entity e : parsedInitGame.getShip().getEntities()) {
                     if (e instanceof Sail) {
                         if (!((Sail) e).isOpenned()) {
-                            MOVING moving = sailor.deplacementMarinVoile(parsedInitGame.getShip().getEntities(), true);
+                            MOVING moving = sailor.moveSailorToSail(parsedInitGame.getShip().getEntities(), true);
                             if (moving != null) {
                                 actionsNextRound.add(moving);
                                 sailor.setX(moving.getXDistance() + sailor.getX());
@@ -154,13 +154,13 @@ public class ControlRoom {
         return null;
     }
 
-    public Sailor affaisserLaVoile(){
+    public Sailor closeSail(){
         for (Sailor sailor : parsedInitGame.getSailors()) {
             if (sailor.isAvailable()) {
                 for (Entity e : parsedInitGame.getShip().getEntities()) {
                     if (e instanceof Sail) {
                         if (((Sail) e).isOpenned()) {
-                            MOVING moving = sailor.deplacementMarinVoile(parsedInitGame.getShip().getEntities(), false);
+                            MOVING moving = sailor.moveSailorToSail(parsedInitGame.getShip().getEntities(), false);
                             if (moving != null) {
                                 actionsNextRound.add(moving);
                                 sailor.setX(moving.getXDistance() + sailor.getX());
@@ -176,12 +176,12 @@ public class ControlRoom {
         return null;
     }
 
-    public Sailor utilisationVoile(){
-        if (utilisationVoileOuiNon(parsedInitGame)) return hisserLaVoile();
-        else return affaisserLaVoile();
+    public Sailor useSail(){
+        if (useSailDecisionning(parsedInitGame)) return openSail();
+        else return closeSail();
     }
 
-    public boolean utilisationVoileOuiNon(InitGame game){
+    public boolean useSailDecisionning(InitGame game){
         double xAvecVoile=game.getShip().getPosition().getX() + wind.getStrength()*Math.cos(wind.getOrientation());
         double yAvecVoile=game.getShip().getPosition().getY() + wind.getStrength()*Math.sin(wind.getOrientation());
         Position positionSiRameactive = new Position(xAvecVoile,yAvecVoile, game.getShip().getPosition().getOrientation());
@@ -207,10 +207,10 @@ public class ControlRoom {
         return false;
     }
 
-    public Sailor configurationGouvernail(){
+    public Sailor rudderConfiguration(){
         for (Sailor m : parsedInitGame.getSailors()){
             if (m.isAvailable()){
-                MOVING moving = m.deplacementMarinGouvernail(parsedInitGame.getShip().getEntities());
+                MOVING moving = m.moveSailorToRudder(parsedInitGame.getShip().getEntities());
                 if (moving!=null){
                     actionsNextRound.add(moving);
                     m.setX(moving.getXDistance() + m.getX());

@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.unice.polytech.si3.qgl.theblackpearl.decisions.Calculator;
 import fr.unice.polytech.si3.qgl.theblackpearl.Cockpit;
 import fr.unice.polytech.si3.qgl.theblackpearl.decisions.Sailor;
-import fr.unice.polytech.si3.qgl.theblackpearl.shape.Polygon;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Position;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.NextRound;
@@ -15,7 +14,6 @@ import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.OtherShip;
 import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.Stream;
 import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.Reef;
 import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.VisibleEntity;
-import fr.unice.polytech.si3.qgl.theblackpearl.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
 
 import java.util.List;
@@ -161,13 +159,15 @@ public class Referee {
     }
 
     public boolean moveShip() throws Exception {
-        int nbRamesBabord = parsedInitGameReferee.getShip().nbMarinRameBabord();
-        int nbRamesTribord = parsedInitGameReferee.getShip().nbMarinRameTribord();
+        //Calculs rames
+        int nbRamesBabord = parsedInitGameReferee.getShip().nbSailorsOnPort();
+        int nbRamesTribord = parsedInitGameReferee.getShip().nbSailorsOnStarBoard();
         int nbRames = parsedInitGameReferee.getShip().getNbRame();
         this.rotationShip += c.calculateOarsRotation(nbRamesBabord,nbRamesTribord, nbRames);
 
-        int nbVoileOuverte = parsedInitGameReferee.getShip().nbVoileOuverte();
-        int nbVoile = parsedInitGameReferee.getShip().nbVoile();
+        //Calculs voiles
+        int nbVoileOuverte = parsedInitGameReferee.getShip().nbOpennedSail();
+        int nbVoile = parsedInitGameReferee.getShip().nbSail();
 
         int N=0;
         int nbStep=100;
@@ -187,7 +187,7 @@ public class Referee {
             if(nbVoile>0)
                 this.speedShip += c.calculateWindSpeed(nbVoileOuverte,nbVoile,parsedNextRoundReferee.getWind(), parsedInitGameReferee.getShip());
 
-            Position positionShipThisStep = c.calculNewPositionShip(this.speedShip, this.rotationShip ,parsedInitGameReferee.getShip().getPosition(), nbStep);
+            Position positionShipThisStep = c.calculateNewPositionShip(this.speedShip, this.rotationShip ,parsedInitGameReferee.getShip().getPosition(), nbStep);
             parsedInitGameReferee.getShip().setPosition(positionShipThisStep);
 
             if(this.cockpit==null){

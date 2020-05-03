@@ -47,8 +47,8 @@ public class Cockpit implements ICockpit {
 
 		InitGame initGameDebutTour = parsedInitGame.clone();
 
-		resetMarinNouveauTour();
-		creerLogNouveautour();
+		resetSailorsNewRound();
+		createNewRoundLog();
 
 		Captain captain = new Captain(parsedInitGame, parsedNextRound.getWind());
 
@@ -57,15 +57,15 @@ public class Cockpit implements ICockpit {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		tacheMarins(Objects.requireNonNull(actionsNextRound));
+		sailorsTasks(Objects.requireNonNull(actionsNextRound));
 		StringBuilder roundJSON=creationJson(Objects.requireNonNull(actionsNextRound));
 		StringBuilder saveRoundJSON = roundJSON;
-		roundJSON = correctionConfigurationBateau(roundJSON,saveRoundJSON,initGameDebutTour);
+		roundJSON = shipConfigurationCorrection(roundJSON,saveRoundJSON,initGameDebutTour);
 
 		return roundJSON.toString();
 	}
 
-	private StringBuilder correctionConfigurationBateau(StringBuilder roundJSON, StringBuilder saveRoundJSON, InitGame initGameDebutTour){
+	private StringBuilder shipConfigurationCorrection(StringBuilder roundJSON, StringBuilder saveRoundJSON, InitGame initGameDebutTour){
 		while(true){
 			InitGame initGameClone = initGameDebutTour.clone();
 			ref = new Referee(initGameClone, parsedNextRound.clone());
@@ -74,7 +74,7 @@ public class Cockpit implements ICockpit {
 				if (!ref.startRound(roundJSON.toString())){
 					RegattaGoal regatta = (RegattaGoal) parsedInitGame.getGoal();
 					if(ref.getGoThroughCheckpoint() && !c.shipIsInsideCheckpoint(initGameClone.getShip(),regatta.getCheckpoints().get(0))){
-						roundJSON = modificationJsonRalentir();
+						roundJSON = slowJSonModification();
 					}else{
 						break;
 					}
@@ -87,7 +87,7 @@ public class Cockpit implements ICockpit {
 		return roundJSON;
 	}
 
-	public StringBuilder modificationJsonRalentir() {
+	public StringBuilder slowJSonModification() {
 		StringBuilder newRoundJson;
 		Action actionOARLeft =null;
 		Action actionOARRight = null;
@@ -113,13 +113,14 @@ public class Cockpit implements ICockpit {
 		return newRoundJson;
 	}
 
-	public void resetMarinNouveauTour(){
+
+	public void resetSailorsNewRound(){
 		for (Sailor sailor : parsedInitGame.getSailors()) {
-			sailor.resetMarinPourUnNouveauTour();
+			sailor.newRoundSailorReset();
 		}
 	}
 
-	public void creerLogNouveautour(){
+	public void createNewRoundLog(){
 		StringBuilder log = new StringBuilder();
 		for (Sailor sailor : parsedInitGame.getSailors()) {
 			log.append(sailor.toString());
@@ -127,7 +128,7 @@ public class Cockpit implements ICockpit {
 		logs.add(log.toString());
 	}
 
-	public void tacheMarins(List<Action> actionsNextRound){
+	public void sailorsTasks(List<Action> actionsNextRound){
 		for(Sailor m : parsedInitGame.getSailors()){
 			if (!m.isAvailable()) {
 				switch (m.getActionToDo()) {

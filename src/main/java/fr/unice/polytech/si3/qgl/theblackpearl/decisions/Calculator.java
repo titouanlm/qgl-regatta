@@ -388,7 +388,7 @@ public class Calculator {
         return (165*(double)nbActivesOars)/nbOars;
     }
 
-    public Position calculNewPositionShip(double shipSpeed , double rotationSpeed, Position shipPosition, int nbSteps){
+    public Position calculateNewPositionShip(double shipSpeed , double rotationSpeed, Position shipPosition, int nbSteps){
         double speed = shipSpeed/nbSteps;
         double rotation = rotationSpeed/nbSteps;
         double newX = Math.cos(shipPosition.getOrientation())*speed;
