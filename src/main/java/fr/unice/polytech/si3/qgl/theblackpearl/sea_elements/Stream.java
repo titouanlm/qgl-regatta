@@ -10,7 +10,7 @@ import fr.unice.polytech.si3.qgl.theblackpearl.shape.Shape;
 public class Stream extends VisibleEntity {
     private double strength;
     @JsonCreator
-    protected Stream(@JsonProperty("type") String type, @JsonProperty("position") Position position,
+    public Stream(@JsonProperty("type") String type, @JsonProperty("position") Position position,
                      @JsonProperty("shape") Shape shape, @JsonProperty("strength") double strength) {
         super(type, position, shape);
         this.strength = strength;

@@ -19,10 +19,6 @@ public class RegattaGoal extends Goal {
         return checkpoints;
     }
 
-    public void setCheckpoints(List<Checkpoint> checkpoints) {
-        this.checkpoints = checkpoints;
-    }
-
     public void removeCheckpoint() {
         this.checkpoints.remove(0);
     }

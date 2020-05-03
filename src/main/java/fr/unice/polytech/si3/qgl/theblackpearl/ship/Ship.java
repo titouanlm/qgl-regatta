@@ -162,8 +162,6 @@ public class Ship {
         this.position = position;
     }
 
-
-    //////////////////////////Referee
     public boolean isOnOarNotUsed(Sailor m) {
         for(Entity e: entities){
             if(e instanceof Oar && e.isAvailable()){

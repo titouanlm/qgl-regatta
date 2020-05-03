@@ -161,13 +161,11 @@ public class Referee {
     }
 
     public boolean moveShip() throws Exception {
-        //Calculs rames
         int nbRamesBabord = parsedInitGameReferee.getShip().nbMarinRameBabord();
         int nbRamesTribord = parsedInitGameReferee.getShip().nbMarinRameTribord();
         int nbRames = parsedInitGameReferee.getShip().getNbRame();
         this.rotationShip += c.calculateOarsRotation(nbRamesBabord,nbRamesTribord, nbRames);
 
-        //Calculs voiles
         int nbVoileOuverte = parsedInitGameReferee.getShip().nbVoileOuverte();
         int nbVoile = parsedInitGameReferee.getShip().nbVoile();
 
@@ -175,13 +173,11 @@ public class Referee {
         int nbStep=100;
 
         while(N<nbStep){
-            //TEST COURANT
             for(VisibleEntity v : parsedNextRoundReferee.getVisibleEntities()){
                 if(v instanceof Stream){
                     if(c.shapesCollide(parsedInitGameReferee.getShip(), v)){
                         Position positionAfterStream = c.calculateInfluenceOfStream(parsedInitGameReferee.getShip().getPosition(), (Stream) v, nbStep);
                         parsedInitGameReferee.getShip().setPosition(positionAfterStream);
-                        //System.out.println("COURANT" + N + " : " + parsedInitGameReferee.getBateau().getPosition());
                     }
                 }
             }
@@ -199,16 +195,10 @@ public class Referee {
                 if(c.shipIsInsideCheckpoint(parsedInitGameReferee.getShip(), regatta.getCheckpoints().get(0))){
                     this.goThroughCheckpoint = true;
                 }
-                //parsedInitGameReferee.getBateau().setPosition(new Position(3191.19162022669,5360.3118055659015,0.018967404239899847));
-                //parsedInitGameReferee.getBateau().setPosition(new Position(2017.56669,4115.77745,1.5793935739345006));
-                //parsedInitGameReferee.getBateau().setPosition(new Position(3191.19162022669,5360.3118055659015,-0.018967404239899847));
                 if(this.testCollision()){
-                    System.out.println("Position bateau : " + parsedInitGameReferee.getShip().getPosition());
                     return true;
                 }
-                //parsedInitGameReferee.getBateau().setPosition(positionShipThisStep);
             }
-
             N++;
         }
         return false;
@@ -218,11 +208,6 @@ public class Referee {
         for(VisibleEntity v : parsedNextRoundReferee.getVisibleEntities()){
             if(v instanceof Reef || v instanceof OtherShip){
                 if (c.shapesCollide(parsedInitGameReferee.getShip(), v)){
-                    System.out.println(" ******************************** COLLISION ******************************** ");
-                    if (v.getShape() instanceof Rectangle)
-                        System.out.println(v.getPosition() + " Height : " + ((Rectangle) v.getShape()).getHeight() + " Width : " + ((Rectangle) v.getShape()).getWidth());
-                    else if (v.getShape() instanceof Polygon)
-                        System.out.println("Recif : "+ v+" Polygone : "+ ((Polygon) v.getShape()).getVertices());
                     return true;
                 }
             }

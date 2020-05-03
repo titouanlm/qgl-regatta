@@ -55,7 +55,7 @@ public abstract class Entity {
 
     public static ArrayList<Entity> deleteEntity(ArrayList<Entity> entities, boolean sailorLeftPlace, boolean sailorRightPlace, Sailor sailor, MOVING moving){
         if (entities!=null) {
-            for (int b = 0; b < entities.size(); b++) { // supprimer la rame utilisée pour cette configuration
+            for (int b = 0; b < entities.size(); b++) {
                 if (entities.get(b) instanceof Oar && (sailorLeftPlace || sailorRightPlace)) {
                     if ((entities.get(b).getY() - sailor.getY()) == moving.getYDistance() && (entities.get(b).getX() - sailor.getX()) == moving.getXDistance()) {
                         entities.remove(b);

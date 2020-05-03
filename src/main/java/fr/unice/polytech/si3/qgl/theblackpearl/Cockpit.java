@@ -83,12 +83,11 @@ public class Cockpit implements ICockpit {
 				roundJSON = saveRoundJSON;
 				break;
 			}
-			//System.exit(0);
 		}
 		return roundJSON;
 	}
 
-	private StringBuilder modificationJsonRalentir() {
+	public StringBuilder modificationJsonRalentir() {
 		StringBuilder newRoundJson;
 		Action actionOARLeft =null;
 		Action actionOARRight = null;
@@ -112,10 +111,6 @@ public class Cockpit implements ICockpit {
 			newRoundJson = null;
 		}
 		return newRoundJson;
-	}
-
-	public StringBuilder modificationJsonObstacles(StringBuilder roundJson){ // À faire
-		return null;
 	}
 
 	public void resetMarinNouveauTour(){
@@ -178,5 +173,9 @@ public class Cockpit implements ICockpit {
 
 	public InitGame getParsedInitGame() {
 		return parsedInitGame;
+	}
+
+	public void setActionsNextRound(List<Action> actionsNextRound) {
+		this.actionsNextRound = actionsNextRound;
 	}
 }

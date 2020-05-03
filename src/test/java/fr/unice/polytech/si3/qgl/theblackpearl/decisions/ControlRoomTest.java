@@ -145,13 +145,13 @@ public class ControlRoomTest {
     }
 
     @Test
-    public void affaisserLaVoileTest(){
-
+    public void isThereARudder(){
+        assertTrue(controlRoom.isThereARudder());
     }
 
     @Test
-    public void configurationGouvernail(){
-
+    public void isThereASail(){
+        assertTrue(controlRoom.isThereASail());
     }
 
 

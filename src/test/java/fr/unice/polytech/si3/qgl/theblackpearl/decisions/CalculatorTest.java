@@ -5,7 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.NextRound;
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.Checkpoint;
+import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.Stream;
+import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.Wind;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.*;
+import fr.unice.polytech.si3.qgl.theblackpearl.ship.Ship;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -35,16 +38,16 @@ class CalculatorTest {
 
     @Test
     void calculDistanceEntreDeuxPoints() {
-        assertEquals(calcul.calculateDistanceBetween2Points(posBateau, posCheckpoint), 53.0);
+        assertEquals(53.0,calcul.calculateDistanceBetween2Points(posBateau, posCheckpoint));
         posBateau = new Position(853, 202,0);
         posCheckpoint = new Position(32, -627,0);
-        assertEquals(calcul.calculateDistanceBetween2Points(posBateau, posCheckpoint), 1166.7399024632696);
+        assertEquals(1166.7399024632696, calcul.calculateDistanceBetween2Points(posBateau, posCheckpoint) );
         posBateau = new Position(0, 0,0);
         posCheckpoint = new Position(0, 0,0);
-        assertEquals(calcul.calculateDistanceBetween2Points(posBateau, posCheckpoint), 0);
+        assertEquals(0,calcul.calculateDistanceBetween2Points(posBateau, posCheckpoint));
         posBateau = new Position(2, -1,0);
         posCheckpoint = new Position(-4 , -1,0);
-        assertEquals(calcul.calculateDistanceBetween2Points(posBateau, posCheckpoint), 6.0);
+        assertEquals(6.0, calcul.calculateDistanceBetween2Points(posBateau, posCheckpoint));
     }
 
 
@@ -64,8 +67,7 @@ class CalculatorTest {
         assertEquals(calcul.calculateIdealAngle(posBateau, posCheckpoint), -Math.PI);
         posBateau = new Position(853, 202,0.9834);
         posCheckpoint = new Position(32, -627,0);
-        //assertEquals(calcul.calculAngleIdeal(posBateau, posCheckpoint), 0);
-
+        assertEquals(-3.3347460433357368, calcul.calculateIdealAngle(posBateau, posCheckpoint));
     }
 
 //    @Test
@@ -145,58 +147,37 @@ class CalculatorTest {
         assertTrue(calcul.shapesCollide(parsedNextRound.getShip(),parsedNextRound.getVisibleEntities().get(6)));
         parsedNextRound.getShip().setPosition(new Position(2262.2120,43969.58928,1.5794560650965999));
         assertFalse(calcul.shapesCollide(parsedNextRound.getShip(),parsedNextRound.getVisibleEntities().get(6)));
-
-        // FAIRE AU MOINS ENCORE 50 LIGNES
     }
+
 
     @Test
-    public void pointBasGaucheTriangleTest(){
-
+    public void calculateOarSpeed(){
+        Calculator c = new Calculator();
+        assertEquals(165.0, c.calculateOarSpeed(2,2));
+        assertEquals(0, c.calculateOarSpeed(0,2));
+        assertEquals(82.5, c.calculateOarSpeed(1,2));
     }
 
-    @Test
-    public void pointBasDroitTriangleTest(){
-
-    }
-
-    @Test
-    public void pointHautGaucheTriangleTest(){
-
-    }
-
-    @Test
-    public void pointHautDroitTriangleTest(){
-
-    }
-
-    @Test
-    public void convertionVecteurCartesienPolaireTest(){
-
-    }
-
-    @Test
-    public void convertionVecteurPolaireCartesien(){
-
-    }
-
-    @Test
-    public void calculRotationRamesTribordBabordTest(){
-
-    }
-
-    @Test
-    public void calculNewPositionShipTest(){
-
-    }
 
     @Test
     public void calculVitesseVentTest(){
-
+        Calculator c = new Calculator();
+        Position shipPos = new Position(0, 0, Math.PI/4);
+        assertEquals(0, c.calculateWindSpeed(0,0,null, null));
+        assertEquals(4.898587196589413E-15, c.calculateWindSpeed(2,2,new Wind((3*Math.PI)/4, 80), new Ship("ship", 100, shipPos, "", null, null, null) ));
+        assertEquals(0, c.calculateWindSpeed(0,2,new Wind((3*Math.PI)/4, 80), new Ship("ship", 100, shipPos, "", null, null, null) ));
+        assertEquals(0, c.calculateWindSpeed(2,2,new Wind((3*Math.PI)/4, 0), new Ship("ship", 100, shipPos, "", null, null, null) ));
     }
 
     @Test
     public void calculInfluenceOfStreamTest(){
-
+        Calculator c = new Calculator();
+        Position p = c.calculateInfluenceOfStream(new Position(0, 0, Math.PI/4), new Stream("", new Position(0,0, Math.PI), null, 90), 10);
+        assertEquals(-9.0, p.getX());
+        assertEquals(1.102182119232618E-15, p.getY());
+        p = c.calculateInfluenceOfStream(new Position(0, 0, Math.PI/4), new Stream("", new Position(0,0, Math.PI), null, 0), 10);
+        assertEquals(0, p.getX());
+        assertEquals(0, p.getY());
     }
      /*
     @Test

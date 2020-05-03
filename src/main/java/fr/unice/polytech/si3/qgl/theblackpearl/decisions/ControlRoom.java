@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity.deleteEntity;
-import static fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Oar.setOarsUsed;
 
 public class ControlRoom {
 
@@ -94,7 +93,6 @@ public class ControlRoom {
         Calculator calculateur = configurationCalculateur(meilleurAngleRealisable);
         meilleurPositionnementMarins(calculateur,meilleurAngleRealisable);
         actionsNextRound.addAll(actionsNextRoundTemporaire);
-        setOarsUsed(parsedInitGame,listeEntiteCopie);//vérifier si ca marche
         return meilleurAngleRealisable.get(this.meilleurAngleRealisablePosition);
     }
 
@@ -135,7 +133,7 @@ public class ControlRoom {
 
     public Sailor hisserLaVoile(){
         for (Sailor sailor : parsedInitGame.getSailors()) {
-            if (sailor.isAvailable()) { //calcul nouvelle postion du bateau si l'on utilise la voile, si pas rentable on ne la prend pas
+            if (sailor.isAvailable()) {
                 for (Entity e : parsedInitGame.getShip().getEntities()) {
                     if (e instanceof Sail) {
                         if (!((Sail) e).isOpenned()) {
@@ -158,7 +156,7 @@ public class ControlRoom {
 
     public Sailor affaisserLaVoile(){
         for (Sailor sailor : parsedInitGame.getSailors()) {
-            if (sailor.isAvailable()) { //calcul nouvelle postion du bateau si l'on utilise la voile, si pas rentable on ne la prend pas
+            if (sailor.isAvailable()) {
                 for (Entity e : parsedInitGame.getShip().getEntities()) {
                     if (e instanceof Sail) {
                         if (((Sail) e).isOpenned()) {
