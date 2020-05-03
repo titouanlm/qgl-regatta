@@ -64,7 +64,7 @@ class CockpitTest {
         c.getParsedInitGame().getSailors().get(2).setAvailable(false);
         c.getParsedInitGame().getSailors().get(3).setAvailable(false);
         List<Action> actionsNextRound = new ArrayList<>();
-        c.tacheMarins(actionsNextRound);
+        c.sailorsTasks(actionsNextRound);
         assertEquals(4, actionsNextRound.size());
     }
 

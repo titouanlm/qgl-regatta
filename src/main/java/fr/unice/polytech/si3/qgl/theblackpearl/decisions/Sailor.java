@@ -83,7 +83,7 @@ public class Sailor {
                 '}';
     }
 
-    public void resetMarinPourUnNouveauTour() {
+    public void newRoundSailorReset() {
         this.actionToDo ="";
         this.available =true;
     }
@@ -98,7 +98,7 @@ public class Sailor {
         this.canMove=false;
     }
 
-    public MOVING deplacementMarinGouvernail(List<Entity> Entities){
+    public MOVING moveSailorToRudder(List<Entity> Entities){
         int deplacementMarin;
         for (Entity entity : Entities) {
             if (entity instanceof Rudder) {
@@ -113,7 +113,7 @@ public class Sailor {
         return null;
     }
 
-    public MOVING deplacementMarinVoile(List<Entity> Entities, boolean leverLaVoile){
+    public MOVING moveSailorToSail(List<Entity> Entities, boolean leverLaVoile){
         int deplacementMarin;
         for (Entity entity : Entities) {
             if (entity instanceof Sail) {
@@ -131,19 +131,19 @@ public class Sailor {
         return null;
     }
 
-    public MOVING deplacementMarinAllerRamer(List<Entity> Entities, int nombreDeMarinsManquantsAGauche, int nombreDeMarinsManquantsADroite, int largeurBateau){
+    public MOVING moveSailorToOar(List<Entity> Entities, int nbMissingSailorsOnLeft, int nbMissingSailorsOnRight, int shipWidth){
         int entiteRecoitMarin=-1;
         int deplacementMarin;
         int deplacementPlusCourt=6;
         for (int i=0;i<Entities.size();i++) {
             if (Entities.get(i) instanceof Oar) {
                 deplacementMarin = (Math.abs(Entities.get(i).getX() - this.getX()) + Math.abs(Entities.get(i).getY() - this.getY()));
-                if (nombreDeMarinsManquantsAGauche > 0 && Entities.get(i).getY() == 0) { // la gauche du bateau est à y = 0
+                if (nbMissingSailorsOnLeft > 0 && Entities.get(i).getY() == 0) { // la gauche du bateau est à y = 0
                     if (deplacementMarin < 6 && this.available && deplacementMarin < deplacementPlusCourt) {
                         entiteRecoitMarin = i;
                         deplacementPlusCourt = deplacementMarin;
                     }
-                } else if (nombreDeMarinsManquantsADroite > 0 && Entities.get(i).getY() == largeurBateau - 1 /*ici normalement */) {
+                } else if (nbMissingSailorsOnRight > 0 && Entities.get(i).getY() == shipWidth - 1 /*ici normalement */) {
                     if (deplacementMarin < 6 && this.available && deplacementMarin < deplacementPlusCourt) {
                         entiteRecoitMarin = i;
                         deplacementPlusCourt = deplacementMarin;

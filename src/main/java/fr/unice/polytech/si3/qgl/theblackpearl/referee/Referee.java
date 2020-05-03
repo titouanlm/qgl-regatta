@@ -162,14 +162,14 @@ public class Referee {
 
     public boolean moveShip() throws Exception {
         //Calculs rames
-        int nbRamesBabord = parsedInitGameReferee.getShip().nbMarinRameBabord();
-        int nbRamesTribord = parsedInitGameReferee.getShip().nbMarinRameTribord();
+        int nbRamesBabord = parsedInitGameReferee.getShip().nbSailorsOnPort();
+        int nbRamesTribord = parsedInitGameReferee.getShip().nbSailorsOnStarBoard();
         int nbRames = parsedInitGameReferee.getShip().getNbRame();
         this.rotationShip += c.calculateOarsRotation(nbRamesBabord,nbRamesTribord, nbRames);
 
         //Calculs voiles
-        int nbVoileOuverte = parsedInitGameReferee.getShip().nbVoileOuverte();
-        int nbVoile = parsedInitGameReferee.getShip().nbVoile();
+        int nbVoileOuverte = parsedInitGameReferee.getShip().nbOpennedSail();
+        int nbVoile = parsedInitGameReferee.getShip().nbSail();
 
         int N=0;
         int nbStep=100;
@@ -191,7 +191,7 @@ public class Referee {
             if(nbVoile>0)
                 this.speedShip += c.calculateWindSpeed(nbVoileOuverte,nbVoile,parsedNextRoundReferee.getWind(), parsedInitGameReferee.getShip());
 
-            Position positionShipThisStep = c.calculNewPositionShip(this.speedShip, this.rotationShip ,parsedInitGameReferee.getShip().getPosition(), nbStep);
+            Position positionShipThisStep = c.calculateNewPositionShip(this.speedShip, this.rotationShip ,parsedInitGameReferee.getShip().getPosition(), nbStep);
             parsedInitGameReferee.getShip().setPosition(positionShipThisStep);
 
             if(this.cockpit==null){

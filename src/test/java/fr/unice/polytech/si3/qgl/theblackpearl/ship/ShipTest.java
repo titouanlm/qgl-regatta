@@ -60,7 +60,7 @@ class ShipTest {
         anglesPossibles.add(Math.PI/2);
         anglesPossibles.add(-Math.PI/2);
         anglesPossibles.add(0.0);
-        assertThat(ship.anglesPossiblesAvecRames(), is(anglesPossibles));
+        assertThat(ship.achievableAnglesWithOars(), is(anglesPossibles));
     }
 
     @Test
@@ -70,55 +70,55 @@ class ShipTest {
 
     @Test
     void getNbVoile() {
-        assertEquals(0 , ship.nbVoile());
+        assertEquals(0 , ship.nbSail());
     }
 
     @Test
     void getNbVoileOuverte() {
-        assertEquals(0 , ship.nbVoile());
+        assertEquals(0 , ship.nbSail());
         Sail v = new Sail(0,0, false);
         entities.add(v);
-        assertEquals(1, ship.nbVoile());
-        assertEquals(0, ship.nbVoileOuverte());
+        assertEquals(1, ship.nbSail());
+        assertEquals(0, ship.nbOpennedSail());
         v.setOpenned(true);
-        assertEquals(1, ship.nbVoileOuverte());
+        assertEquals(1, ship.nbOpennedSail());
     }
 
     @Test
     void nombreMarinsBabordTribord(){
         int nombreMarinAplacer[];
-        nombreMarinAplacer = this.ship.nombreMarinsRamesBabordTribordRames(-Math.PI/2, ship.getListRames());
+        nombreMarinAplacer = this.ship.nbSailorAndOarConfiguration(-Math.PI/2, ship.getListRames());
         assertEquals(3,nombreMarinAplacer[0]);
         assertEquals(0,nombreMarinAplacer[1]);
-        nombreMarinAplacer = this.ship.nombreMarinsRamesBabordTribordRames((-Math.PI/2 + Math.PI/6), ship.getListRames());
+        nombreMarinAplacer = this.ship.nbSailorAndOarConfiguration((-Math.PI/2 + Math.PI/6), ship.getListRames());
         assertEquals(3,nombreMarinAplacer[0]);
         assertEquals(1,nombreMarinAplacer[1]);
-        nombreMarinAplacer = this.ship.nombreMarinsRamesBabordTribordRames((-Math.PI/2 + 2*Math.PI/6), ship.getListRames());
+        nombreMarinAplacer = this.ship.nbSailorAndOarConfiguration((-Math.PI/2 + 2*Math.PI/6), ship.getListRames());
         assertEquals(3,nombreMarinAplacer[0]);
         assertEquals(2,nombreMarinAplacer[1]);
-        nombreMarinAplacer = this.ship.nombreMarinsRamesBabordTribordRames((-Math.PI/2 + 3*Math.PI/6), ship.getListRames());
+        nombreMarinAplacer = this.ship.nbSailorAndOarConfiguration((-Math.PI/2 + 3*Math.PI/6), ship.getListRames());
         assertEquals(3,nombreMarinAplacer[0]);
         assertEquals(3,nombreMarinAplacer[1]);
-        nombreMarinAplacer = this.ship.nombreMarinsRamesBabordTribordRames((-Math.PI/2 + 4*Math.PI/6), ship.getListRames());
+        nombreMarinAplacer = this.ship.nbSailorAndOarConfiguration((-Math.PI/2 + 4*Math.PI/6), ship.getListRames());
         assertEquals(2,nombreMarinAplacer[0]);
         assertEquals(3,nombreMarinAplacer[1]);
-        nombreMarinAplacer = this.ship.nombreMarinsRamesBabordTribordRames((-Math.PI/2 + 5*Math.PI/6), ship.getListRames());
+        nombreMarinAplacer = this.ship.nbSailorAndOarConfiguration((-Math.PI/2 + 5*Math.PI/6), ship.getListRames());
         assertEquals(1,nombreMarinAplacer[0]);
         assertEquals(3,nombreMarinAplacer[1]);
-        nombreMarinAplacer = this.ship.nombreMarinsRamesBabordTribordRames((-Math.PI/2 + 6*Math.PI/6), ship.getListRames());
+        nombreMarinAplacer = this.ship.nbSailorAndOarConfiguration((-Math.PI/2 + 6*Math.PI/6), ship.getListRames());
         assertEquals(0,nombreMarinAplacer[0]);
         assertEquals(3,nombreMarinAplacer[1]);
         ArrayList<Entity> listeRameEnlever = new ArrayList<>();
         listeRameEnlever.add(entities.get(4));
         listeRameEnlever.add(entities.get(5));
         entities.removeAll(listeRameEnlever);
-        nombreMarinAplacer = this.ship.nombreMarinsRamesBabordTribordRames((-Math.PI/2 + 1*Math.PI/6), ship.getListRames());
+        nombreMarinAplacer = this.ship.nbSailorAndOarConfiguration((-Math.PI/2 + 1*Math.PI/6), ship.getListRames());
         assertNull(nombreMarinAplacer);
-        nombreMarinAplacer = this.ship.nombreMarinsRamesBabordTribordRames((-Math.PI/2 + 2*Math.PI/6), ship.getListRames());
+        nombreMarinAplacer = this.ship.nbSailorAndOarConfiguration((-Math.PI/2 + 2*Math.PI/6), ship.getListRames());
         assertNull(nombreMarinAplacer);
-        nombreMarinAplacer = this.ship.nombreMarinsRamesBabordTribordRames((-Math.PI/2 + 4*Math.PI/6), ship.getListRames());
+        nombreMarinAplacer = this.ship.nbSailorAndOarConfiguration((-Math.PI/2 + 4*Math.PI/6), ship.getListRames());
         assertNull(nombreMarinAplacer);
-        nombreMarinAplacer = this.ship.nombreMarinsRamesBabordTribordRames((-Math.PI/2 + 5*Math.PI/6), ship.getListRames());
+        nombreMarinAplacer = this.ship.nbSailorAndOarConfiguration((-Math.PI/2 + 5*Math.PI/6), ship.getListRames());
         assertNull(nombreMarinAplacer);
     }
 
@@ -171,22 +171,22 @@ class ShipTest {
 
     @Test
     void nbMarinRameTribord(){
-        assertEquals(0, ship.nbMarinRameTribord());
+        assertEquals(0, ship.nbSailorsOnStarBoard());
         entities.add(new Rudder(8,8));
         for(Entity e : entities){
             e.setAvailable(false); // Marin dessus
         }
-        assertEquals(3, ship.nbMarinRameTribord());
+        assertEquals(3, ship.nbSailorsOnStarBoard());
     }
 
     @Test
     void nbMarinRameBabord(){
-        assertEquals(0, ship.nbMarinRameBabord());
+        assertEquals(0, ship.nbSailorsOnPort());
         entities.add(new Rudder(8,8));
         for(Entity e : entities){
             e.setAvailable(false); // Marin dessus
         }
-        assertEquals(3, ship.nbMarinRameBabord());
+        assertEquals(3, ship.nbSailorsOnPort());
     }
 
     @Test

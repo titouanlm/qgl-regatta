@@ -33,7 +33,7 @@ public class ControlRoomTest {
             e.printStackTrace();
         }
         controlRoom = new ControlRoom(parsedInitGame, wind, actionsNextRound);
-        controlRoom.creationTableauMarins();
+        controlRoom.createSailorArray();
         Captain captain = new Captain(parsedInitGame, wind);
         captain.determineTargetCheckpoint();
         meilleurAngleRealisable = captain.bestAchievableAngle();
@@ -42,7 +42,7 @@ public class ControlRoomTest {
 
     @Test
     public void priseEnComptePositionMarinsTest(){
-        controlRoom.priseEnComptePositionMarins();
+        controlRoom.takeIntoAccountSailorPosition();
         assertEquals(parsedInitGame.getSailors().get(0).getX(),0);
         assertEquals(parsedInitGame.getSailors().get(0).getY(),0);
         assertEquals(parsedInitGame.getSailors().get(1).getX(),0);
@@ -59,11 +59,11 @@ public class ControlRoomTest {
 
     @Test
     public void restaurationPositionMarinsTest(){
-        controlRoom.priseEnComptePositionMarins();
+        controlRoom.takeIntoAccountSailorPosition();
         for (Sailor m : parsedInitGame.getSailors()){
             m.setX(456);m.setY(789);
         }
-        controlRoom.restaurationPositionMarins();
+        controlRoom.resetSailorsPosition();
         assertEquals(parsedInitGame.getSailors().get(0).getX(),0);
         assertEquals(parsedInitGame.getSailors().get(0).getY(),0);
         assertEquals(parsedInitGame.getSailors().get(1).getX(),0);
@@ -82,26 +82,26 @@ public class ControlRoomTest {
     public void preConfigurationRamesBateauTest() {
         ArrayList<Sailor> marinsOccupes = new ArrayList<>();
         Calculator calculateur = new Calculator();
-        calculateur.setNumberSailorsToPlace(parsedInitGame.getShip().nombreMarinsRamesBabordTribordRames(meilleurAngleRealisable.get(0), parsedInitGame.getShip().getListRames()));
+        calculateur.setNumberSailorsToPlace(parsedInitGame.getShip().nbSailorAndOarConfiguration(meilleurAngleRealisable.get(0), parsedInitGame.getShip().getListRames()));
         calculateur.setNumberSailorsToPlaceCopy(calculateur.getNumberSailorsToPlace().clone());
-        controlRoom.preConfigurationRamesBateau(true, 0, calculateur.getNumberSailorsToPlaceCopy(), meilleurAngleRealisable, calculateur, controlRoom.meilleurAngleRealisablePosition,marinsOccupes);
+        controlRoom.oarsPreConfiguration(true, 0, calculateur.getNumberSailorsToPlaceCopy(), meilleurAngleRealisable, calculateur, controlRoom.meilleurAngleRealisablePosition,marinsOccupes);
         assertEquals(controlRoom.meilleurAngleRealisablePosition, 0);
         assertEquals(calculateur.getNumberSailorsToPlace()[0], 3);
         assertEquals(calculateur.getNumberSailorsToPlace()[1], 0);
         calculateur.setNumberSailorsToPlace(new int[]{3, -1});
-        controlRoom.preConfigurationRamesBateau(true, 0, calculateur.getNumberSailorsToPlaceCopy(), meilleurAngleRealisable, calculateur, controlRoom.meilleurAngleRealisablePosition,marinsOccupes);
+        controlRoom.oarsPreConfiguration(true, 0, calculateur.getNumberSailorsToPlaceCopy(), meilleurAngleRealisable, calculateur, controlRoom.meilleurAngleRealisablePosition,marinsOccupes);
         assertEquals(controlRoom.meilleurAngleRealisablePosition, 0);
         assertEquals(calculateur.getNumberSailorsToPlace()[0],3);
         calculateur.setNumberSailorsToPlace(new int[]{3, 2});
         calculateur.setNumberSailorsToPlaceCopy(new int[]{3, 2});
-        controlRoom.preConfigurationRamesBateau(false, 1, calculateur.getNumberSailorsToPlaceCopy(), meilleurAngleRealisable, calculateur, controlRoom.meilleurAngleRealisablePosition,marinsOccupes);
+        controlRoom.oarsPreConfiguration(false, 1, calculateur.getNumberSailorsToPlaceCopy(), meilleurAngleRealisable, calculateur, controlRoom.meilleurAngleRealisablePosition,marinsOccupes);
         assertEquals(calculateur.getNumberSailorsToPlace()[0],2);
         assertEquals(calculateur.getNumberSailorsToPlace()[1],1);
     }
 
     @Test
     public void configurationGouvernailTest(){
-        controlRoom.configurationGouvernail();
+        controlRoom.rudderConfiguration();
         assertEquals((actionsNextRound.get(0)).getSailorId(),0);
         assertEquals((actionsNextRound.get(0)).getType(),"MOVING");
         assertEquals(((MOVING) actionsNextRound.get(0)).getYDistance(),0);
@@ -112,7 +112,7 @@ public class ControlRoomTest {
     @Test
     public void utilisationVoileTest(){
         wind.setOrientation(Math.PI);
-        controlRoom.utilisationVoile();
+        controlRoom.useSail();
         assertEquals(((MOVING) actionsNextRound.get(0)).getYDistance(),1);
         assertEquals(((MOVING) actionsNextRound.get(0)).getXDistance(),2);
         assertEquals(actionsNextRound.size(),1);
@@ -129,9 +129,9 @@ public class ControlRoomTest {
 
     @Test
     public void utilisationVoileOuiNon(){
-        assertFalse(controlRoom.utilisationVoileOuiNon(parsedInitGame));
+        assertFalse(controlRoom.useSailDecisionning(parsedInitGame));
         wind.setOrientation(Math.PI);
-        assertTrue(controlRoom.utilisationVoileOuiNon(parsedInitGame));
+        assertTrue(controlRoom.useSailDecisionning(parsedInitGame));
     }
 
     @Test
