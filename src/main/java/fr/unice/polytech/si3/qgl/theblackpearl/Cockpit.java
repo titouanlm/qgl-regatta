@@ -73,15 +73,15 @@ public class Cockpit implements ICockpit {
 			try {
 				if (!ref.startRound(roundJSON.toString())){
 					RegattaGoal regatta = (RegattaGoal) parsedInitGame.getGoal();
-					if(ref.getGoThroughCheckpoint() && !c.shapeInCollision(initGameClone.getBateau(),regatta.getCheckpoints().get(0))){
+					if(ref.getGoThroughCheckpoint() && !c.bateauDansCheckpoint(initGameClone.getBateau(),regatta.getCheckpoints().get(0))){
 						roundJSON = modificationJsonRalentir();
 					}else{
 						break;
 					}
 				}else{
-					//collision
-					System.exit(9);
-					roundJSON = modificationJsonObstacles(roundJSON);
+					break;
+					/*System.exit(9);
+					roundJSON = modificationJsonObstacles(roundJSON);*/
 				}
 			} catch (Exception e) {
 				roundJSON = saveRoundJSON;
@@ -118,7 +118,6 @@ public class Cockpit implements ICockpit {
 	}
 
 	public StringBuilder modificationJsonObstacles(StringBuilder roundJson){ // À faire
-
 		return null;
 	}
 

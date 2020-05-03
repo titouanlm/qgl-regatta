@@ -52,12 +52,7 @@ public class CaptainTest {
 
 
     @Test
-    public void captainFaitLeJobTest(){
-
-    }
-
-    @Test
-    public void utilisationVoileTest(){
+    public void determinerCheckpointViserTest(){
 
     }
 
@@ -66,18 +61,5 @@ public class CaptainTest {
 
     }
 
-    @Test
-    public void utilisationRameOuiNon(){
 
-    }
-
-    @Test
-    public void estUnePositionRentableTest(){
-
-    }
-
-    @Test
-    public void possibiliteSeRendreVoileTest(){
-
-    }
 }

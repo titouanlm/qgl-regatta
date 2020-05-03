@@ -35,29 +35,6 @@ class InitGameTest {
         marins.add(m3);
         initGame = new InitGame(null, 1, mock(Bateau.class), marins);
     }
-    @Test
-    void getBateau() {
-    }
-
-    @Test
-    void getGoal() {
-    }
-
-    @Test
-    void setBateau() {
-    }
-
-    @Test
-    void getMarins() {
-    }
-
-    @Test
-    void setMarins() {
-    }
-
-    @Test
-    void testToString() {
-    }
 
     @Test
     void testClone() {
@@ -73,7 +50,7 @@ class InitGameTest {
     }
 
     @Test
-    void getSailorById() {
+    void getSailorByIdTest() {
         initGame = new InitGame(null, 1, mock(Bateau.class), marins);
         assertEquals(m2,initGame.getSailorById(2));
         assertEquals(m3,initGame.getSailorById(3));

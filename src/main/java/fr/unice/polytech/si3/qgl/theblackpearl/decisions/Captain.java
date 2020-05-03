@@ -49,7 +49,7 @@ public class Captain {
         if(parsedInitGame.getGoal() instanceof RegattaGoal){
             RegattaGoal regatta = (RegattaGoal) parsedInitGame.getGoal();
             Calculator c = new Calculator();
-            if (c.shapeInCollision(parsedInitGame.getBateau(),regatta.getCheckpoints().get(0))){
+            if (c.bateauDansCheckpoint(parsedInitGame.getBateau(),regatta.getCheckpoints().get(0))){
                 regatta.removeCheckpoint();
             }
 

@@ -72,14 +72,14 @@ public class SalleDesCommandes {
         }
     }
 
-    public Calculator configurationCalculateur(List<Double> meilleurAngleRealisable){
+    private Calculator configurationCalculateur(List<Double> meilleurAngleRealisable){
         Calculator calculateur = new Calculator();
         calculateur.setNombreMarinAplacer(parsedInitGame.getBateau().nombreMarinsRamesBabordTribordRames(meilleurAngleRealisable.get(0), parsedInitGame.getBateau().getListRames()));
         calculateur.setNombreMarinAplacerCopie(calculateur.getNombreMarinAplacer().clone());
         return calculateur;
     }
 
-    public void initConfigurationRames(int meilleurAngleRealisablePosition, List<Marin> marinsOccupes){
+    private void initConfigurationRames(int meilleurAngleRealisablePosition, List<Marin> marinsOccupes){
         this.marinsOccupes =marinsOccupes;
         this.meilleurAngleRealisablePosition=meilleurAngleRealisablePosition;
         creationTableauMarins();

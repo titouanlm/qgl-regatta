@@ -52,27 +52,6 @@ class CockpitTest {
     }
 
     @Test
-    void initGame() {
-
-    }
-
-    @Test
-    void nextRound() {
-    }
-
-    @Test
-    void modificationJsonObstacles() {
-    }
-
-    @Test
-    void resetMarinNouveauTour() {
-    }
-
-    @Test
-    void creerLogNouveautour() {
-    }
-
-    @Test
     void tacheMarins() {
         Cockpit c = new Cockpit();
         c.initGame("{\"goal\":{\"mode\":\"REGATTA\",\"checkpoints\":[{\"position\":{\"x\":50.0,\"y\":1000.0,\"orientation\":0.0},\"shape\":{\"type\":\"circle\",\"radius\":50.0}},{\"position\":{\"x\":500.0,\"y\":-200.0,\"orientation\":0.0},\"shape\":{\"type\":\"circle\",\"radius\":50.0}},{\"position\":{\"x\":-500.0,\"y\":1250.0,\"orientation\":0.0},\"shape\":{\"type\":\"circle\",\"radius\":60.0}}]},\"ship\":{\"type\":\"ship\",\"position\":{\"x\":0.0,\"y\":0.0,\"orientation\":0.0},\"name\":\"Péquod\",\"deck\":{\"width\":3,\"length\":4},\"entities\":[{\"x\":0,\"y\":0,\"type\":\"oar\"},{\"x\":0,\"y\":2,\"type\":\"oar\"},{\"x\":1,\"y\":0,\"type\":\"oar\"},{\"x\":1,\"y\":2,\"type\":\"oar\"},{\"x\":2,\"y\":0,\"type\":\"oar\"},{\"x\":2,\"y\":2,\"type\":\"oar\"},{\"x\":3,\"y\":1,\"type\":\"rudder\"}],\"life\":300,\"shape\":{\"type\":\"rectangle\",\"width\":3.0,\"height\":4.0,\"orientation\":0.0}},\"sailors\":[{\"x\":0,\"y\":0,\"id\":0,\"name\":\"Jack Pouce\"},{\"x\":0,\"y\":1,\"id\":1,\"name\":\"Tom Pouce\"},{\"x\":0,\"y\":2,\"id\":2,\"name\":\"Tom Pouce\"},{\"x\":1,\"y\":0,\"id\":3,\"name\":\"Edward Pouce\"}],\"shipCount\":1}");
@@ -90,10 +69,32 @@ class CockpitTest {
     }
 
     @Test
-    void creationJson() {
+    void initGame() {
+
     }
 
     @Test
-    void getLogs() {
+    void nextRound() {
     }
+
+    @Test
+    public void correctionConfigurationBateau(){
+
+    }
+
+    @Test
+    void creationJson() {
+
+    }
+
+    @Test
+    void modificationJsonObstacles() {
+
+    }
+
+    @Test
+    public void modificationJsonRalentirTest(){
+
+    }
+
 }

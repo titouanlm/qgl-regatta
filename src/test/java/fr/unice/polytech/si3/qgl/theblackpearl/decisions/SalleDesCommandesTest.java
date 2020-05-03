@@ -40,11 +40,6 @@ public class SalleDesCommandesTest {
         meilleurAngleRealisable = captain.meilleurAngleRealisable();
     }
 
-    @Test
-    public void creationTableauMarinsTest(){
-        //assertEquals(salleDesCommandes.getTableauPositionMarinOriginale().length,6);
-    }
-
 
     @Test
     public void priseEnComptePositionMarinsTest(){
@@ -84,72 +79,84 @@ public class SalleDesCommandesTest {
         assertEquals(parsedInitGame.getMarins().get(5).getY(),2);
     }
 
-//    @Test
-//    public void preConfigurationRamesBateauTest() {
-//        ArrayList<Marin> marinsOccupes = new ArrayList<>();
-//        Calculator calculateur = new Calculator();
-//        calculateur.setNombreMarinAplacer(parsedInitGame.getBateau().nombreMarinsRamesBabordTribordRames(meilleurAngleRealisable.get(0), parsedInitGame.getBateau().getListRames()));
-//        calculateur.setNombreMarinAplacerCopie(calculateur.getNombreMarinAplacer().clone());
-//        salleDesCommandes.preConfigurationRamesBateau(true, 0, calculateur.getNombreMarinAplacerCopie(), meilleurAngleRealisable, calculateur, salleDesCommandes.meilleurAngleRealisablePosition,marinsOccupes);
-//        //assertEquals(salleDesCommandes.meilleurAngleRealisablePosition, 0);
-//        assertEquals(calculateur.getNombreMarinAplacer()[0], 3);
-//        assertEquals(calculateur.getNombreMarinAplacer()[1], 0);
-//        calculateur.setNombreMarinAplacer(new int[]{3, -1});
-//        salleDesCommandes.preConfigurationRamesBateau(true, 0, calculateur.getNombreMarinAplacerCopie(), meilleurAngleRealisable, calculateur, salleDesCommandes.meilleurAngleRealisablePosition,marinsOccupes);
-//        //assertEquals(salleDesCommandes.meilleurAngleRealisablePosition, 0);
-//        assertEquals(calculateur.getNombreMarinAplacer()[0],3);
-//        calculateur.setNombreMarinAplacer(new int[]{3, 2});
-//        calculateur.setNombreMarinAplacerCopie(new int[]{3, 2});
-//        salleDesCommandes.preConfigurationRamesBateau(false, 1, calculateur.getNombreMarinAplacerCopie(), meilleurAngleRealisable, calculateur, salleDesCommandes.meilleurAngleRealisablePosition,marinsOccupes);
-//        assertEquals(calculateur.getNombreMarinAplacer()[0],2);
-//        assertEquals(calculateur.getNombreMarinAplacer()[1],1);
-//
-//    }
-
     @Test
-    public void configurationRamesTest(){
-
+    public void preConfigurationRamesBateauTest() {
+        ArrayList<Marin> marinsOccupes = new ArrayList<>();
+        Calculator calculateur = new Calculator();
+        calculateur.setNombreMarinAplacer(parsedInitGame.getBateau().nombreMarinsRamesBabordTribordRames(meilleurAngleRealisable.get(0), parsedInitGame.getBateau().getListRames()));
+        calculateur.setNombreMarinAplacerCopie(calculateur.getNombreMarinAplacer().clone());
+        salleDesCommandes.preConfigurationRamesBateau(true, 0, calculateur.getNombreMarinAplacerCopie(), meilleurAngleRealisable, calculateur, salleDesCommandes.meilleurAngleRealisablePosition,marinsOccupes);
+        assertEquals(salleDesCommandes.meilleurAngleRealisablePosition, 0);
+        assertEquals(calculateur.getNombreMarinAplacer()[0], 3);
+        assertEquals(calculateur.getNombreMarinAplacer()[1], 0);
+        calculateur.setNombreMarinAplacer(new int[]{3, -1});
+        salleDesCommandes.preConfigurationRamesBateau(true, 0, calculateur.getNombreMarinAplacerCopie(), meilleurAngleRealisable, calculateur, salleDesCommandes.meilleurAngleRealisablePosition,marinsOccupes);
+        assertEquals(salleDesCommandes.meilleurAngleRealisablePosition, 0);
+        assertEquals(calculateur.getNombreMarinAplacer()[0],3);
+        calculateur.setNombreMarinAplacer(new int[]{3, 2});
+        calculateur.setNombreMarinAplacerCopie(new int[]{3, 2});
+        salleDesCommandes.preConfigurationRamesBateau(false, 1, calculateur.getNombreMarinAplacerCopie(), meilleurAngleRealisable, calculateur, salleDesCommandes.meilleurAngleRealisablePosition,marinsOccupes);
+        assertEquals(calculateur.getNombreMarinAplacer()[0],2);
+        assertEquals(calculateur.getNombreMarinAplacer()[1],1);
     }
-
 
     @Test
     public void configurationGouvernailTest(){
         salleDesCommandes.configurationGouvernail();
         assertEquals((actionsNextRound.get(0)).getSailorId(),0);
-        assertEquals(( actionsNextRound.get(0)).getType(),"MOVING");
+        assertEquals((actionsNextRound.get(0)).getType(),"MOVING");
         assertEquals(((MOVING) actionsNextRound.get(0)).getYdistance(),0);
         assertEquals(((MOVING) actionsNextRound.get(0)).getXdistance(),5);
         assertEquals(actionsNextRound.size(),1);
     }
 
-//    @Test
-//    public void utilisationVoileTest(){
-//        vent.setOrientation(Math.PI);
-//        salleDesCommandes.utilisationVoile(parsedInitGame,actionsNextRound);
-//        assertEquals(((MOVING) actionsNextRound.get(0)).getYdistance(),1);
-//        assertEquals(((MOVING) actionsNextRound.get(0)).getXdistance(),2);
-//        assertEquals(actionsNextRound.size(),1);
-//        actionsNextRound = new ArrayList<>();
-//        salleDesCommandes.utilisationVoile(parsedInitGame,actionsNextRound);
-//        assertEquals(actionsNextRound.size(),0);
-//        vent.setOrientation(0);
-//        actionsNextRound = new ArrayList<>();
-//        parsedInitGame.getBateau().getVoile().setOpenned(true);
-//        salleDesCommandes.utilisationVoile(parsedInitGame,actionsNextRound);
-//        assertEquals(((MOVING) actionsNextRound.get(0)).getYdistance(),0);
-//        assertEquals(((MOVING) actionsNextRound.get(0)).getXdistance(),2);
-//        assertEquals(actionsNextRound.size(),1);
-//        actionsNextRound = new ArrayList<>();
-//        salleDesCommandes.utilisationVoile(parsedInitGame,actionsNextRound);
-//        assertEquals(actionsNextRound.size(),0);
-//
-//    }
+    @Test
+    public void utilisationVoileTest(){
+        vent.setOrientation(Math.PI);
+       salleDesCommandes.utilisationVoile();
+        assertEquals(((MOVING) actionsNextRound.get(0)).getYdistance(),1);
+        assertEquals(((MOVING) actionsNextRound.get(0)).getXdistance(),2);
+        assertEquals(actionsNextRound.size(),1);
+        actionsNextRound = new ArrayList<>();
+        salleDesCommandes.utilisationVoile();
+        assertEquals(actionsNextRound.size(),0);
+        vent.setOrientation(0);
+        actionsNextRound = new ArrayList<>();
+        salleDesCommandes.utilisationVoile();
+        assertEquals(((MOVING) actionsNextRound.get(0)).getYdistance(),0);
+        assertEquals(((MOVING) actionsNextRound.get(0)).getXdistance(),2);
+        assertEquals(actionsNextRound.size(),1);
+        actionsNextRound = new ArrayList<>();
+        salleDesCommandes.utilisationVoile();
+        assertEquals(actionsNextRound.size(),0);
+
+    }
 
     @Test
     public void utilisationVoileOuiNon(){
         assertFalse(salleDesCommandes.utilisationVoileOuiNon(parsedInitGame));
         vent.setOrientation(Math.PI);
         assertTrue(salleDesCommandes.utilisationVoileOuiNon(parsedInitGame));
+    }
+
+    @Test
+    public void configurationRamesTest(){
+
+    }
+
+    @Test
+    public void hisserLaVoileTest(){
+
+    }
+
+    @Test
+    public void affaisserLaVoileTest(){
+
+    }
+
+    @Test
+    public void configurationGouvernail(){
+
     }
 
 

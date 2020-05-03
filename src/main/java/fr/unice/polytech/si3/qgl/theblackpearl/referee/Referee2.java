@@ -122,7 +122,7 @@ public class Referee2 {
     public boolean getFinishGame() throws Exception {
         RegattaGoal regatta =  (RegattaGoal) parsedInitGameReferee.getGoal();
         List<Checkpoint> checkpoints = regatta.getCheckpoints();
-        if(c.shapeInCollision(parsedInitGameReferee.getBateau(), checkpoints.get(0))){
+        if(c.bateauDansCheckpoint(parsedInitGameReferee.getBateau(), checkpoints.get(0))){
             regatta.removeCheckpoint();
         }
         return regatta.getCheckpoints().isEmpty();
@@ -196,7 +196,7 @@ public class Referee2 {
 
             if(this.cockpit==null){
                 RegattaGoal regatta = (RegattaGoal) parsedInitGameReferee.getGoal();
-                if(c.shapeInCollision(parsedInitGameReferee.getBateau(), regatta.getCheckpoints().get(0))){
+                if(c.bateauDansCheckpoint(parsedInitGameReferee.getBateau(), regatta.getCheckpoints().get(0))){
                     this.goThroughCheckpoint = true;
                 }
                 //parsedInitGameReferee.getBateau().setPosition(new Position(3191.19162022669,5360.3118055659015,0.018967404239899847));
