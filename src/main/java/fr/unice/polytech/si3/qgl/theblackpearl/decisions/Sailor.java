@@ -98,12 +98,12 @@ public class Sailor {
         this.canMove=false;
     }
 
-    public MOVING moveSailorToRudder(List<Entity> Entities){
-        int deplacementMarin;
-        for (Entity entity : Entities) {
+    public MOVING moveSailorToRudder(List<Entity> entities){
+        int sailorMovements;
+        for (Entity entity : entities) {
             if (entity instanceof Rudder) {
-                deplacementMarin = (Math.abs(entity.getX() - this.getX()) + Math.abs(entity.getY() - this.getY()));
-                if (deplacementMarin < 6 && this.available) {
+                sailorMovements = (Math.abs(entity.getX() - this.getX()) + Math.abs(entity.getY() - this.getY()));
+                if (sailorMovements < 6 && this.available) {
                     actionToDo ="tournerGouvernail";
                     this.available =false;
                     return new MOVING(getId(), "MOVING", entity.getX() - this.getX(), entity.getY() - this.getY());
@@ -113,14 +113,14 @@ public class Sailor {
         return null;
     }
 
-    public MOVING moveSailorToSail(List<Entity> Entities, boolean leverLaVoile){
-        int deplacementMarin;
-        for (Entity entity : Entities) {
+    public MOVING moveSailorToSail(List<Entity> entities, boolean openSail){
+        int sailorMovements;
+        for (Entity entity : entities) {
             if (entity instanceof Sail) {
                 if (this.available) {
-                    deplacementMarin = (Math.abs(entity.getX() - this.getX()) + Math.abs(entity.getY() - this.getY()));
-                    if (deplacementMarin < 6) {
-                        if (leverLaVoile) actionToDo = "HisserVoile";
+                    sailorMovements = (Math.abs(entity.getX() - this.getX()) + Math.abs(entity.getY() - this.getY()));
+                    if (sailorMovements < 6) {
+                        if (openSail) actionToDo = "HisserVoile";
                         else actionToDo = "BaisserLaVoile";
                         this.available = false;
                         return new MOVING(getId(), "MOVING", entity.getX() - this.getX(), entity.getY() - this.getY());
@@ -132,29 +132,29 @@ public class Sailor {
     }
 
     public MOVING moveSailorToOar(List<Entity> Entities, int nbMissingSailorsOnLeft, int nbMissingSailorsOnRight, int shipWidth){
-        int entiteRecoitMarin=-1;
-        int deplacementMarin;
-        int deplacementPlusCourt=6;
+        int entityReceivesSailor=-1;
+        int sailorMovements;
+        int shorterMovement=6;
         for (int i=0;i<Entities.size();i++) {
             if (Entities.get(i) instanceof Oar) {
-                deplacementMarin = (Math.abs(Entities.get(i).getX() - this.getX()) + Math.abs(Entities.get(i).getY() - this.getY()));
+                sailorMovements = (Math.abs(Entities.get(i).getX() - this.getX()) + Math.abs(Entities.get(i).getY() - this.getY()));
                 if (nbMissingSailorsOnLeft > 0 && Entities.get(i).getY() == 0) { // la gauche du bateau est à y = 0
-                    if (deplacementMarin < 6 && this.available && deplacementMarin < deplacementPlusCourt) {
-                        entiteRecoitMarin = i;
-                        deplacementPlusCourt = deplacementMarin;
+                    if (sailorMovements < 6 && this.available && sailorMovements < shorterMovement) {
+                        entityReceivesSailor = i;
+                        shorterMovement = sailorMovements;
                     }
                 } else if (nbMissingSailorsOnRight > 0 && Entities.get(i).getY() == shipWidth - 1 /*ici normalement */) {
-                    if (deplacementMarin < 6 && this.available && deplacementMarin < deplacementPlusCourt) {
-                        entiteRecoitMarin = i;
-                        deplacementPlusCourt = deplacementMarin;
+                    if (sailorMovements < 6 && this.available && sailorMovements < shorterMovement) {
+                        entityReceivesSailor = i;
+                        shorterMovement = sailorMovements;
                     }
                 }
             }
         }
-        if (entiteRecoitMarin!=-1) {
+        if (entityReceivesSailor!=-1) {
             this.available =false;
             this.actionToDo ="Ramer";
-            return new MOVING(getId(),"MOVING",Entities.get(entiteRecoitMarin).getX() - this.getX(),Entities.get(entiteRecoitMarin).getY() - this.getY());
+            return new MOVING(getId(),"MOVING",Entities.get(entityReceivesSailor).getX() - this.getX(),Entities.get(entityReceivesSailor).getY() - this.getY());
         }
         else{
             return null;

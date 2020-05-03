@@ -85,24 +85,24 @@ public class Ship {
     }
 
     public int[] nbSailorAndOarConfiguration(double angle, List<Oar> nombreOars){
-        double angleCalcule=-(Math.PI/2)-Math.PI/ nombreOars.size();
+        double calculateAngles=-(Math.PI/2)-Math.PI/ nombreOars.size();
         int i;
         for (i=-nombreOars.size()/2; ; i++){
-            angleCalcule += Math.PI/ nombreOars.size();
-            if (angleCalcule>=(angle - Math.pow(5.0, -6.0))  && angleCalcule<=(angle + Math.pow(5.0, -6.0))){
+            calculateAngles += Math.PI/ nombreOars.size();
+            if (calculateAngles>=(angle - Math.pow(5.0, -6.0))  && calculateAngles<=(angle + Math.pow(5.0, -6.0))){
                 break;
             }
             if (i> nombreOars.size()/2) return null;
         }
-        int[] nombreMarinsBabordTribord = new int[2];
+        int[] nbSailorsOnPortStarBoard = new int[2];
         int b=0;
         if (i>0) {
             while ( i < (nombreOars.size() / 2) ) {
                 i += 1;
                 b += 1;
             }
-            nombreMarinsBabordTribord[0]=b;
-            nombreMarinsBabordTribord[1]=i;
+            nbSailorsOnPortStarBoard[0]=b;
+            nbSailorsOnPortStarBoard[1]=i;
         }
         else if (i<0){
             i=-i;
@@ -110,16 +110,16 @@ public class Ship {
                 i += 1;
                 b += 1;
             }
-            nombreMarinsBabordTribord[0]=i;
-            nombreMarinsBabordTribord[1]=b;
+            nbSailorsOnPortStarBoard[0]=i;
+            nbSailorsOnPortStarBoard[1]=b;
         }
         else {
             i= nombreOars.size()/2;
             b= nombreOars.size()/2;
-            nombreMarinsBabordTribord[0]=i;
-            nombreMarinsBabordTribord[1]=b;
+            nbSailorsOnPortStarBoard[0]=i;
+            nbSailorsOnPortStarBoard[1]=b;
         }
-        return nombreMarinsBabordTribord;
+        return nbSailorsOnPortStarBoard;
     }
 
     public Shape getShape() {
@@ -140,22 +140,22 @@ public class Ship {
     }
 
     public List<Double> achievableAnglesWithOars() {
-        List<Double> anglesRealisables = new ArrayList<>();
-        int nbRames = getNbRame();
-        for( int i=1 ; i<=nbRames/2 ; i++){
-            anglesRealisables.add(i*Math.PI/nbRames);
-            anglesRealisables.add(i*-Math.PI/nbRames);
+        List<Double> achievableAngles = new ArrayList<>();
+        int nbOars = getNbRame();
+        for( int i=1 ; i<=nbOars/2 ; i++){
+            achievableAngles.add(i*Math.PI/nbOars);
+            achievableAngles.add(i*-Math.PI/nbOars);
         }
-        anglesRealisables.add(0.0);
-        return anglesRealisables;
+        achievableAngles.add(0.0);
+        return achievableAngles;
     }
 
     public List<Double> optimizedAchievableAngle(double idealAngleTowardsCheckPoint){
-        List<Double> meilleursAnglesRealisables = achievableAnglesWithOars();
+        List<Double> optimizedAchievableAngles = achievableAnglesWithOars();
 
-        meilleursAnglesRealisables.sort(Comparator.comparingDouble( angle -> Math.abs(idealAngleTowardsCheckPoint-angle)));
+        optimizedAchievableAngles.sort(Comparator.comparingDouble( angle -> Math.abs(idealAngleTowardsCheckPoint-angle)));
 
-        return meilleursAnglesRealisables;
+        return optimizedAchievableAngles;
     }
 
     public void setPosition(Position position) {
@@ -187,23 +187,23 @@ public class Ship {
     }
 
     public int nbSailorsOnStarBoard(){
-        int nbMarinRameTribord=0;
+        int nbSailorsStarBoard=0;
         for(Entity e : entities){
             if(e instanceof Oar && e.getY()==this.getDeck().getWidth()-1 && !e.isAvailable()){
-                nbMarinRameTribord++;
+                nbSailorsStarBoard++;
             }
         }
-        return nbMarinRameTribord;
+        return nbSailorsStarBoard;
     }
 
     public int nbSailorsOnPort(){
-        int nbMarinRameBabord=0;
+        int nbSailorsOnPort=0;
         for(Entity e : entities){
             if(e instanceof Oar && e.getY()==0  && !e.isAvailable()){
-                nbMarinRameBabord++;
+                nbSailorsOnPort++;
             }
         }
-        return nbMarinRameBabord;
+        return nbSailorsOnPort;
     }
 
     public int getNbRame() {
@@ -217,26 +217,26 @@ public class Ship {
     }
 
     public int nbSail() {
-        int nbVoile = 0;
+        int nbSail = 0;
         for(Entity e : getEntities()){
             if(e instanceof Sail){
-                nbVoile++;
+                nbSail++;
             }
         }
-        return nbVoile;
+        return nbSail;
     }
 
 
     public int nbOpennedSail() {
-        int nbVoileOuverte = 0;
+        int nbOpenSail = 0;
         for(Entity e : getEntities()){
             if(e instanceof Sail){
                 if(((Sail) e).isOpenned()){
-                    nbVoileOuverte++;
+                    nbOpenSail++;
                 }
             }
         }
-        return nbVoileOuverte;
+        return nbOpenSail;
     }
 
     public boolean isOnSailNotUsedNotOppened(Sailor m) {

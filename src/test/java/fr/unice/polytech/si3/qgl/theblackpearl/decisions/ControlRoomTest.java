@@ -85,17 +85,17 @@ public class ControlRoomTest {
         Calculator calculateur = new Calculator();
         calculateur.setNumberSailorsToPlace(parsedInitGame.getShip().nbSailorAndOarConfiguration(meilleurAngleRealisable.get(0), parsedInitGame.getShip().getListRames()));
         calculateur.setNumberSailorsToPlaceCopy(calculateur.getNumberSailorsToPlace().clone());
-        controlRoom.oarsPreConfiguration(true, 0, calculateur.getNumberSailorsToPlaceCopy(), meilleurAngleRealisable, calculateur, controlRoom.meilleurAngleRealisablePosition,marinsOccupes);
-        assertEquals(controlRoom.meilleurAngleRealisablePosition, 0);
+        controlRoom.oarsPreConfiguration(true, 0, calculateur.getNumberSailorsToPlaceCopy(), meilleurAngleRealisable, calculateur, controlRoom.optimizedAchievableAnglePosition,marinsOccupes);
+        assertEquals(controlRoom.optimizedAchievableAnglePosition, 0);
         assertEquals(calculateur.getNumberSailorsToPlace()[0], 3);
         assertEquals(calculateur.getNumberSailorsToPlace()[1], 0);
         calculateur.setNumberSailorsToPlace(new int[]{3, -1});
-        controlRoom.oarsPreConfiguration(true, 0, calculateur.getNumberSailorsToPlaceCopy(), meilleurAngleRealisable, calculateur, controlRoom.meilleurAngleRealisablePosition,marinsOccupes);
-        assertEquals(controlRoom.meilleurAngleRealisablePosition, 0);
+        controlRoom.oarsPreConfiguration(true, 0, calculateur.getNumberSailorsToPlaceCopy(), meilleurAngleRealisable, calculateur, controlRoom.optimizedAchievableAnglePosition,marinsOccupes);
+        assertEquals(controlRoom.optimizedAchievableAnglePosition, 0);
         assertEquals(calculateur.getNumberSailorsToPlace()[0],3);
         calculateur.setNumberSailorsToPlace(new int[]{3, 2});
         calculateur.setNumberSailorsToPlaceCopy(new int[]{3, 2});
-        controlRoom.oarsPreConfiguration(false, 1, calculateur.getNumberSailorsToPlaceCopy(), meilleurAngleRealisable, calculateur, controlRoom.meilleurAngleRealisablePosition,marinsOccupes);
+        controlRoom.oarsPreConfiguration(false, 1, calculateur.getNumberSailorsToPlaceCopy(), meilleurAngleRealisable, calculateur, controlRoom.optimizedAchievableAnglePosition,marinsOccupes);
         assertEquals(calculateur.getNumberSailorsToPlace()[0],2);
         assertEquals(calculateur.getNumberSailorsToPlace()[1],1);
     }

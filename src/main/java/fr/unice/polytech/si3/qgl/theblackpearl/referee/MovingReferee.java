@@ -37,7 +37,7 @@ public class MovingReferee extends ActionRound {
                 '}';
     }
 
-    public void tryToMoveMarin(InitGame parsedInitGameReferee) {
+    public void tryToMoveSailor(InitGame parsedInitGameReferee) {
         for(Sailor m : parsedInitGameReferee.getSailors()){
             if(m.getId()==this.getSailorId()){
                 int x = this.getXdistance()+m.getX();

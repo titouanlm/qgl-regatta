@@ -54,12 +54,12 @@ class MovingRefereeTest {
         when(initGame.getShip().getDeck().getLength()).thenReturn(6);
         assertEquals(1,m2.getX());
         assertEquals(1,m2.getY());
-        movingReferee.tryToMoveMarin(initGame);
+        movingReferee.tryToMoveSailor(initGame);
         assertEquals(3,m2.getX());
         assertEquals(2,m2.getY());
 
         movingReferee = new MovingReferee(2, -22,-21);
-        movingReferee.tryToMoveMarin(initGame);
+        movingReferee.tryToMoveSailor(initGame);
         assertEquals(3,m2.getX());
         assertEquals(2,m2.getY());
     }

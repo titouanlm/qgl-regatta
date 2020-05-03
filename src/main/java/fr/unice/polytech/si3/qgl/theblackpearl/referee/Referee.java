@@ -138,7 +138,7 @@ public class Referee {
     public void executeActions() {
         for (ActionRound a : this.parsedActionsRound.getActionsRound()) {
             if (a instanceof MovingReferee) {
-                ((MovingReferee) a).tryToMoveMarin(parsedInitGameReferee);
+                ((MovingReferee) a).tryToMoveSailor(parsedInitGameReferee);
             }
         }
 
@@ -160,34 +160,34 @@ public class Referee {
 
     public boolean moveShip() throws Exception {
         //Calculs rames
-        int nbRamesBabord = parsedInitGameReferee.getShip().nbSailorsOnPort();
-        int nbRamesTribord = parsedInitGameReferee.getShip().nbSailorsOnStarBoard();
-        int nbRames = parsedInitGameReferee.getShip().getNbRame();
-        this.rotationShip += c.calculateOarsRotation(nbRamesBabord,nbRamesTribord, nbRames);
+        int nbOarOnPort = parsedInitGameReferee.getShip().nbSailorsOnPort();
+        int nbOarOnStarBoard = parsedInitGameReferee.getShip().nbSailorsOnStarBoard();
+        int nbOars = parsedInitGameReferee.getShip().getNbRame();
+        this.rotationShip += c.calculateOarsRotation(nbOarOnPort,nbOarOnStarBoard, nbOars);
 
         //Calculs voiles
-        int nbVoileOuverte = parsedInitGameReferee.getShip().nbOpennedSail();
-        int nbVoile = parsedInitGameReferee.getShip().nbSail();
+        int nbOpenSail = parsedInitGameReferee.getShip().nbOpennedSail();
+        int nbSail = parsedInitGameReferee.getShip().nbSail();
 
         int N=0;
-        int nbStep=100;
+        int nbSteps=100;
 
-        while(N<nbStep){
+        while(N<nbSteps){
             for(VisibleEntity v : parsedNextRoundReferee.getVisibleEntities()){
                 if(v instanceof Stream){
                     if(c.shapesCollide(parsedInitGameReferee.getShip(), v)){
-                        Position positionAfterStream = c.calculateInfluenceOfStream(parsedInitGameReferee.getShip().getPosition(), (Stream) v, nbStep);
+                        Position positionAfterStream = c.calculateInfluenceOfStream(parsedInitGameReferee.getShip().getPosition(), (Stream) v, nbSteps);
                         parsedInitGameReferee.getShip().setPosition(positionAfterStream);
                     }
                 }
             }
 
             this.speedShip=0.;
-            this.speedShip += c.calculateOarSpeed(nbRamesBabord+nbRamesTribord,nbRames);
-            if(nbVoile>0)
-                this.speedShip += c.calculateWindSpeed(nbVoileOuverte,nbVoile,parsedNextRoundReferee.getWind(), parsedInitGameReferee.getShip());
+            this.speedShip += c.calculateOarSpeed(nbOarOnPort+nbOarOnStarBoard,nbOars);
+            if(nbSail>0)
+                this.speedShip += c.calculateWindSpeed(nbOpenSail,nbSail,parsedNextRoundReferee.getWind(), parsedInitGameReferee.getShip());
 
-            Position positionShipThisStep = c.calculateNewPositionShip(this.speedShip, this.rotationShip ,parsedInitGameReferee.getShip().getPosition(), nbStep);
+            Position positionShipThisStep = c.calculateNewPositionShip(this.speedShip, this.rotationShip ,parsedInitGameReferee.getShip().getPosition(), nbSteps);
             parsedInitGameReferee.getShip().setPosition(positionShipThisStep);
 
             if(this.cockpit==null){
