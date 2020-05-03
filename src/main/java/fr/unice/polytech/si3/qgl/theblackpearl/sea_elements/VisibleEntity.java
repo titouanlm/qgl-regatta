@@ -42,4 +42,12 @@ public abstract class VisibleEntity {
         this.position = position;
     }
 
+    @Override
+    public String toString() {
+        return "VisibleEntity{" +
+                "type='" + type + '\'' +
+                ", position=" + position +
+                ", shape=" + shape +
+                '}';
+    }
 }

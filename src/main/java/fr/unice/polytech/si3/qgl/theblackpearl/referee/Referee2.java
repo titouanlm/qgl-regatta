@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.unice.polytech.si3.qgl.theblackpearl.decisions.Calculator;
 import fr.unice.polytech.si3.qgl.theblackpearl.Cockpit;
 import fr.unice.polytech.si3.qgl.theblackpearl.decisions.Marin;
+import fr.unice.polytech.si3.qgl.theblackpearl.shape.Polygone;
 import fr.unice.polytech.si3.qgl.theblackpearl.shape.Position;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.NextRound;
@@ -14,6 +15,7 @@ import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.AutreBateau;
 import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.Courant;
 import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.Recif;
 import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.VisibleEntity;
+import fr.unice.polytech.si3.qgl.theblackpearl.shape.Rectangle;
 import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
 
 import java.util.List;
@@ -197,10 +199,16 @@ public class Referee2 {
                 if(c.shapeInCollision(parsedInitGameReferee.getBateau(), regatta.getCheckpoints().get(0))){
                     this.goThroughCheckpoint = true;
                 }
+                //parsedInitGameReferee.getBateau().setPosition(new Position(3191.19162022669,5360.3118055659015,0.018967404239899847));
+                //parsedInitGameReferee.getBateau().setPosition(new Position(2017.56669,4115.77745,1.5793935739345006));
+                //parsedInitGameReferee.getBateau().setPosition(new Position(3191.19162022669,5360.3118055659015,-0.018967404239899847));
                 if(this.testCollision()){
+                    System.out.println("Position bateau : " + parsedInitGameReferee.getBateau().getPosition());
                     return true;
                 }
+                //parsedInitGameReferee.getBateau().setPosition(positionShipThisStep);
             }
+
             N++;
         }
         return false;
@@ -211,6 +219,10 @@ public class Referee2 {
             if(v instanceof Recif || v instanceof AutreBateau){
                 if (c.shapesCollide(parsedInitGameReferee.getBateau(), v)){
                     System.out.println(" ******************************** COLLISION ******************************** ");
+                    if (v.getShape() instanceof Rectangle)
+                        System.out.println(v.getPosition() + " Height : " + ((Rectangle) v.getShape()).getHeight() + " Width : " + ((Rectangle) v.getShape()).getWidth());
+                    else if (v.getShape() instanceof Polygone)
+                        System.out.println("Recif : "+ v+" Polygone : "+ ((Polygone) v.getShape()).getVertices());
                     return true;
                 }
             }

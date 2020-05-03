@@ -14,5 +14,11 @@ public class Recif extends VisibleEntity {
         super(type, position,shape);
     }
 
-
+    @Override
+    public String toString() {
+        return "Recif{ "+
+                " position=" + position +
+                ", shape=" + shape +
+                '}';
+    }
 }

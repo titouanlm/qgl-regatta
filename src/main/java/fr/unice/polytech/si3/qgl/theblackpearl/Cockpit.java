@@ -13,6 +13,9 @@ import fr.unice.polytech.si3.qgl.theblackpearl.engine.InitGame;
 import fr.unice.polytech.si3.qgl.theblackpearl.engine.NextRound;
 import fr.unice.polytech.si3.qgl.theblackpearl.goal.RegattaGoal;
 import fr.unice.polytech.si3.qgl.theblackpearl.referee.Referee2;
+import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.Recif;
+import fr.unice.polytech.si3.qgl.theblackpearl.sea_elements.VisibleEntity;
+import fr.unice.polytech.si3.qgl.theblackpearl.ship.entities.Entity;
 
 public class Cockpit implements ICockpit {
 	private InitGame parsedInitGame;
@@ -52,6 +55,9 @@ public class Cockpit implements ICockpit {
 		creerLogNouveautour();
 
 		Captain captain = new Captain(parsedInitGame, parsedNextRound.getWind());
+		/*for (VisibleEntity e : parsedNextRound.getVisibleEntities()){
+			if (e instanceof Recif) System.out.println(e);
+		}*/
 
 		try {
 			actionsNextRound = captain.ordreCapitaine();
@@ -61,6 +67,7 @@ public class Cockpit implements ICockpit {
 		tacheMarins(Objects.requireNonNull(actionsNextRound));
 		StringBuilder roundJSON=creationJson(Objects.requireNonNull(actionsNextRound));
 		StringBuilder saveRoundJSON = roundJSON;
+		//System.exit(-1);
 
 		while(true){
 			InitGame initGameClone = initGameDebutTour.clone();
@@ -76,6 +83,7 @@ public class Cockpit implements ICockpit {
 					}
 				}else{
 					//collision
+					System.exit(9);
 					roundJSON = modificationJsonObstacles();
 				}
 			} catch (Exception e) {

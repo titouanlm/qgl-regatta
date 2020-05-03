@@ -196,16 +196,17 @@ public class Calculator {
     }
 
     public void creationPointsProjetesCercle(Circle shape, List<Point> liste, VecteurCartesien vecteur){  // pas sur de la fonction
-        calculCoordonneePointProjeteCercle(liste, vecteur,1,1,shape.getCoordonneesCentre().getX() , shape.getCoordonneesCentre().getY(), shape);
+        calculCoordonneePointProjeteCercle(liste, vecteur,0,0,shape.getCoordonneesCentre().getX() , shape.getCoordonneesCentre().getY(), shape);
     }
 
     private void creationPointsProjetesPolygone(Polygone shape2, List<Point> liste, VecteurCartesien vecteur) { // PAS ENCORE GÉRÉ LA ROTATION DES POLYGONES + pas sur de la fonction
-        double xb = 1;
-        double yb = 1;
+        double xb = 0;
+        double yb = 0;
         for (int i = 0; i< shape2.getVertices().size(); i++){
             //Point point = new Point(shape2.getVertices().get(i).getX(),shape2.getVertices().get(i).getY());
             Point point = rotationPointPolygone(shape2,i);
-            calculCoordonneePointProjete(liste, vecteur, xb, yb, point.getX()+shape2.getPositionRelative().getX(), point.getY()+shape2.getPositionRelative().getY());
+            //System.out.println("X : " + point.getX()+shape2.getPositionRelative().getX() + " Y : " + point.getY()+shape2.getPositionRelative().getY());
+            calculCoordonneePointProjete(liste, vecteur, xb, yb, point.getX(), point.getY());
         }
     }
 
@@ -213,12 +214,14 @@ public class Calculator {
         Point point = shape2.getVertices().get(i);
         VecteurPolaire vecteurPolaire = new VecteurPolaire(Math.sqrt(Math.pow(point.getX(),2)+Math.pow(point.getY(),2)),Math.atan2(point.getY(),point.getX()));
         vecteurPolaire.setAngle(vecteurPolaire.getAngle()+shape2.getPositionRelative().getOrientation());
-        return new Point(vecteurPolaire.getLongeur()*Math.cos(vecteurPolaire.getAngle())+shape2.getPositionRelative().getX(),vecteurPolaire.getLongeur()*Math.sin(vecteurPolaire.getAngle())+shape2.getPositionRelative().getY());
+
+        Point pointRotate = new Point(vecteurPolaire.getLongeur()*Math.cos(vecteurPolaire.getAngle())+shape2.getPositionRelative().getX(),vecteurPolaire.getLongeur()*Math.sin(vecteurPolaire.getAngle())+shape2.getPositionRelative().getY());
+        return pointRotate;
     }
 
     private void creationPointsProjetesRectangle(Rectangle shape2, List<Point> liste, VecteurCartesien vecteur){ // Pas sur de la fonction
-        double xb = 1;
-        double yb = 1;
+        double xb = 0;
+        double yb = 0;
         Point basGauche = pointBasGauche(shape2);
         Point basDroit = pointBasDroit(shape2);
         Point hautGauche = pointHautGauche(shape2);
@@ -332,25 +335,46 @@ public class Calculator {
         else throw new Exception("Can't divide by zero");
     }
 
+    public VecteurPolaire convertionVecteurCartesienPolaire (VecteurCartesien vecteurCartesien){
+        return new VecteurPolaire(Math.sqrt(Math.pow(vecteurCartesien.getX(),2)+Math.pow(vecteurCartesien.getY(),2)),Math.atan2(vecteurCartesien.getY(),vecteurCartesien.getX()));
+    }
+
+    public VecteurCartesien convertionVecteurPolaireCartesien (VecteurPolaire vecteurPolaire){
+        return new VecteurCartesien(vecteurPolaire.getLongeur()*Math.cos(vecteurPolaire.getAngle()),vecteurPolaire.getLongeur()*Math.sin(vecteurPolaire.getAngle()));
+    }
+
     public List<VecteurCartesien> vecteurDirecteurPourProjectionAxe(Shape shape, List<VecteurCartesien> myList) throws Exception { // MODIFIER POLYGONE
         if (shape instanceof Rectangle) {
             VecteurCartesien vecteur = new VecteurCartesien(Math.cos(((Rectangle) shape).getOrientationRectangle()+shape.getCoordonneesCentre().getOrientation()),Math.sin(((Rectangle) shape).getOrientationRectangle()+shape.getCoordonneesCentre().getOrientation()));
             vecteur=vecteurUnitaireVecteur(vecteur);
+            /*double a=vecteur.getX();
+            vecteur.setX(vecteur.getY());
+            vecteur.setY(a);*/
+
             VecteurCartesien vecteur2 = new VecteurCartesien(Math.cos(((Rectangle) shape).getOrientationRectangle()+Math.PI/2+shape.getCoordonneesCentre().getOrientation()),Math.sin(((Rectangle) shape).getOrientationRectangle()+Math.PI/2+shape.getCoordonneesCentre().getOrientation()));
             vecteur2=vecteurUnitaireVecteur(vecteur2);
+
             myList.add(vecteur);
             myList.add(vecteur2);
         }
         if (shape instanceof Polygone) {
             for (int i = 0; i < ((Polygone) shape).getVertices().size(); i++) {
                 if (i != (((Polygone) shape).getVertices().size()-1) ){
-                    VecteurCartesien vecteur = new VecteurCartesien(((Polygone) shape).getVertices().get(i + 1).getX() - ((Polygone) shape).getVertices().get(i).getX(),((Polygone) shape).getVertices().get(i + 1).getY() - ((Polygone) shape).getVertices().get(i).getY());
+                    //VecteurCartesien vecteur = new VecteurCartesien(((Polygone) shape).getVertices().get(i + 1).getX() - ((Polygone) shape).getVertices().get(i).getX(),((Polygone) shape).getVertices().get(i + 1).getY() - ((Polygone) shape).getVertices().get(i).getY());
+                    VecteurCartesien vecteur = new VecteurCartesien(rotationPointPolygone((Polygone) shape,i+1).getX() - rotationPointPolygone((Polygone) shape,i).getX(),(rotationPointPolygone((Polygone) shape,i+1).getY() - rotationPointPolygone((Polygone) shape,i).getY()));
                     vecteur=vecteurUnitaireVecteur(vecteur);
+                    VecteurPolaire vecteurbis=convertionVecteurCartesienPolaire(vecteur);
+                    vecteurbis.setAngle(vecteurbis.getAngle()+Math.PI/2);
+                    vecteur=convertionVecteurPolaireCartesien(vecteurbis);
                     myList.add(vecteur);
                 }
                 else{
-                    VecteurCartesien vecteur = new VecteurCartesien(((Polygone) shape).getVertices().get(0).getX() - ((Polygone) shape).getVertices().get(i).getX(),((Polygone) shape).getVertices().get(0).getY() - ((Polygone) shape).getVertices().get(i).getY());
+                    //VecteurCartesien vecteur = new VecteurCartesien(((Polygone) shape).getVertices().get(0).getX() - ((Polygone) shape).getVertices().get(i).getX(),((Polygone) shape).getVertices().get(0).getY() - ((Polygone) shape).getVertices().get(i).getY());
+                    VecteurCartesien vecteur = new VecteurCartesien(rotationPointPolygone((Polygone) shape,i).getX() - rotationPointPolygone((Polygone) shape,0).getX(),rotationPointPolygone((Polygone) shape,i).getY() - rotationPointPolygone((Polygone) shape,0).getY());
                     vecteur=vecteurUnitaireVecteur(vecteur);
+                    VecteurPolaire vecteurbis=convertionVecteurCartesienPolaire(vecteur);
+                    vecteurbis.setAngle(vecteurbis.getAngle()+Math.PI/2);
+                    vecteur=convertionVecteurPolaireCartesien(vecteurbis);
                     myList.add(vecteur);
                 }
             }
